@@ -1,1 +1,0 @@
-let isWelcome = true;

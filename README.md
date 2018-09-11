@@ -1,2 +1,2 @@
-# Vertex 1.0
-Casino Management System
+# Back-office 1.0
+OGW Back-office application
