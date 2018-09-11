@@ -1,0 +1,1 @@
+node transpile.js && node build.js

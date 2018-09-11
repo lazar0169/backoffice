@@ -1,0 +1,12 @@
+{
+    "index": {
+        "scripts": [
+            "index.js",
+            "welcome.js"
+        ],
+        "styles": [
+            "index.css",
+            "welcome.css"
+        ]
+    }
+}
