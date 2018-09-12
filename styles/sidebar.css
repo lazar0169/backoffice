@@ -11,9 +11,11 @@
     color: #ffffff;
     background: #425269;
     margin-bottom: 0.2em;
+    transition: all 0.3s ease;
 }
 
-.nav-item:hover {
+.nav-item:hover,
+.nav-item.active {
     background: #ffffff;
     color: #434a5c;
 }
@@ -23,7 +25,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    height: 2.4em;
+    height: 2.95em;
     margin: 1.5em 0;
 }
 

@@ -1,12 +1,12 @@
 .navbar {
     border-bottom: 2px solid #00000021;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.2em;
 }
 
 .navbar a {
     text-decoration: none !important;
     color: #d2d2d2;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.2em;
     margin: 0 0.6em;
     cursor: pointer;
 }
