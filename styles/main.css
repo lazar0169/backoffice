@@ -37,3 +37,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.mobile #main-content {
+    padding: 1em;
+}

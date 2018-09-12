@@ -40,52 +40,74 @@
     transition: all 0.2s ease;
 }
 
+.logo {
+    display: none;
+}
+
+.mobile .logo {
+    background-image: url("../images/logo2.png");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    margin: 0.2em 1.5em 0 0;
+    width: 1.8em;
+    float: left;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logo:hover {
+    filter: brightness(1.3);
+}
+
 .mobile-select {
     display: none;
     cursor: pointer;
 }
 
-.navbar.mobile {
+.mobile .navbar {
     border: none;
     height: 2.8em;
 }
 
-.navbar.mobile .mobile-select {
+.mobile .navbar .mobile-select {
     display: block;
     padding: 0.7em;
     background: #3d4552;
     color: #ffffff;
 }
 
-.navbar.mobile>a {
+.mobile .navbar>a {
     float: left;
     padding: 0.7em;
     background: #3d4552;
 }
 
-.navbar.mobile .currency-label {
+.mobile .navbar .currency-label {
     display: none;
 }
 
-.navbar.mobile .tabs-wrapper.hidden {
+.mobile .navbar .tabs-wrapper.hidden {
     opacity: 0;
     pointer-events: none;
     transform: translate3d(0, -1.5em, 0);
 }
 
-.navbar.mobile .tabs-wrapper {
+.mobile .navbar .tabs-wrapper {
     display: inline-flex;
     flex-direction: column;
     background: #425269;
     box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.15);
 }
 
-.navbar.mobile .tabs-wrapper>a {
+.mobile .navbar .tabs-wrapper>a {
     padding: 0.7em;
     margin: 0;
     border: none;
 }
 
-.navbar.mobile .tabs-wrapper>a:hover {
+.mobile .navbar .tabs-wrapper>a:hover {
     background: #637288;
 }

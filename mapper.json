@@ -8,8 +8,7 @@
             "index.css",
             "sidebar.css",
             "main.css",
-            "navbar.css",
-            "responsive.css"
+            "navbar.css"
         ]
     }
 }

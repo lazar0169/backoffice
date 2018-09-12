@@ -11,7 +11,7 @@
     color: #ffffff;
     background: #425269;
     margin-bottom: 0.2em;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease;
 }
 
 .nav-item:hover,
@@ -21,7 +21,7 @@
 }
 
 #logo {
-    background-image: url('../images/logo.png');
+    background-image: url("../images/logo.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -31,4 +31,21 @@
 
 [class*='icon-'] {
     margin-right: 0.5em;
+}
+
+.mobile #sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 0.5s;
+}
+
+.mobile #sidebar #logo {
+    height: 5em;
+}
+
+.mobile #sidebar.active {
+    transform: translate3d(0, 0, 0);
 }
