@@ -1,10 +1,11 @@
 {
     "index": {
-        "scripts": [
-        ],
+        "scripts": [],
         "styles": [
             "index.css",
-            "sidebar.css"
+            "sidebar.css",
+            "main.css",
+            "navbar.css"
         ]
     }
 }

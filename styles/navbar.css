@@ -1,0 +1,31 @@
+.navbar {
+    border-bottom: 2px solid #00000021;
+    padding-bottom: 0.5em;
+}
+
+.navbar a {
+    text-decoration: none !important;
+    color: #d2d2d2;
+    padding-bottom: 0.5em;
+    margin: 0 0.6em;
+    cursor: pointer;
+}
+
+.navbar a.active {
+    color: #ffffff;
+    border-bottom: solid 2px #feb940;
+}
+
+.navbar a:nth-last-child(1) {
+    float: right;
+    cursor: default;
+}
+
+.navbar a:nth-child(1) {
+    margin-left: 0;
+}
+
+.money-icon {
+    display: inline-block;
+    color: #3ab54a;
+}

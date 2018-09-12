@@ -1,0 +1,8 @@
+#main-content {
+    background-color: #434a5c;
+    height: 100%;
+    flex: 1;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 1.2em;
+}

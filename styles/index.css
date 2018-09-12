@@ -1,7 +1,16 @@
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto.ttf') format('truetype');
+}
+
 body {
     background: black;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+    flex-direction: row-reverse;
+    font-family: 'roboto';
+    user-select: none;
+    font-size: 14px;
 }

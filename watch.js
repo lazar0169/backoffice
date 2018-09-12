@@ -105,23 +105,28 @@ function transpile() {
         let js = '"use strict"; \r' + merge(coreScripts) + merge(scripts, mapper[viewShort].scripts.map(path => `scripts/${path}`)),
             css = merge(coreStyles) + merge(styles, mapper[viewShort].styles.map(path => `styles/${path}`));
 
-        let document = new JSDOM(views[view]).window.document;
-        let head = document.head;
-        let body = document.body;
-        for (let object of document.querySelectorAll('object')) {
-            let objectName = object.dataset.object;
-            object.insertAdjacentHTML('beforebegin', objects[objectName]);
-            object.remove();
+        let document = parseObjects(views[view]);
+
+        function parseObjects(html) {
+            let document = new JSDOM(html).window.document;
+            while (document.querySelectorAll('object').length !== 0) {
+                for (let object of document.querySelectorAll('object')) {
+                    let objectName = object.dataset.object;
+                    object.insertAdjacentHTML('beforebegin', objects[objectName]);
+                    object.remove();
+                }
+            }
+            return document;
         }
 
         let viewContent =
             `<html>
                 <head>
-                    ${head.innerHTML}
+                    ${document.head.innerHTML}
                     <link rel="stylesheet" href="css/${viewShort}.css">
                 </head>
                 <body>
-                    ${body.innerHTML}
+                    ${document.body.innerHTML}
                     <script src="js/${viewShort}.js" ${vendorSafe ? 'async' : 'defer'}></script>
                 </body>
             </html>`;

@@ -1,6 +1,6 @@
 'use strict';
 process.stdout.write('\u001B[2J\u001B[0;0f');
-console.log('Transpiling... ');
+console.log('Loading transpiler data... ');
 
 const fs = require('fs');
 const path = require('path');
@@ -24,6 +24,7 @@ if (!fs.existsSync(buildFolder)) {
     fs.mkdirSync(`./${buildFolder}/css`);
 }
 
+console.log('Transpiling... ');
 for (let view of views) {
     if (view.split('.')[1] !== 'html') continue;
     view = view.split('.')[0];
@@ -32,26 +33,19 @@ for (let view of views) {
         styles = mapper[view].styles.map(path => `./styles/${path}`),
         scripts = mapper[view].scripts.map(path => `./scripts/${path}`);
 
-    let document = new JSDOM(fs.readFileSync(`./views/${view}.html`, 'utf8')).window.document;
-    let head = document.head;
-    let body = document.body;
-    for (let object of document.querySelectorAll('object')) {
-        let objectName = object.dataset.object;
-        object.insertAdjacentHTML('beforebegin', objects[objectName]);
-        object.remove();
-    }
+    let document = parseObjects(fs.readFileSync(`./views/${view}.html`, 'utf8'));
+    let viewContent = `<html>
+                            <head>
+                                ${document.head.innerHTML}
+                                <link rel="stylesheet" href="css/${view}.css">
+                            </head>
+                            <body>
+                                ${document.body.innerHTML}
+                                <script src="js/${view}.js" ${vendorSafe ? 'async' : 'defer'}></script>
+                            </body>
+                        </html>`
 
-    let viewContent = pretty(
-        `<html>
-            <head>
-                ${head.innerHTML}
-                <link rel="stylesheet" href="css/${view}.css">
-            </head>
-            <body>
-                ${body.innerHTML}
-                <script src="js/${view}.js" ${vendorSafe ? 'async' : 'defer'}></script>
-            </body>
-        </html>`);
+    viewContent = pretty(viewContent);
 
     fs.writeFileSync(`./${buildFolder}/${view}.html`, viewContent);
 
@@ -69,6 +63,18 @@ for (let view of views) {
         return;
     }
     console.log(`> ${view}`);
+
+    function parseObjects(html) {
+        let document = new JSDOM(html).window.document;
+        while (document.querySelectorAll('object').length !== 0) {
+            for (let object of document.querySelectorAll('object')) {
+                let objectName = object.dataset.object;
+                object.insertAdjacentHTML('beforebegin', objects[objectName]);
+                object.remove();
+            }
+        }
+        return document;
+    }
 }
 
 try {

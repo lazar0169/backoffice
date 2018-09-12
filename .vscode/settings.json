@@ -1,0 +1,10 @@
+{
+    "eslint.enable": true,
+    "editor.renderIndentGuides": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100,
+    "editor.formatOnSave": true,
+    "editor.trimAutoWhitespace": true,
+    "css.lint.zeroUnits": "warning",
+    "css.lint.universalSelector": "warning"
+}
