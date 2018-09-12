@@ -1,7 +1,14 @@
 <div id="accounting-navbar" class="navbar">
-    <a id="accounting-navbar-main" class="tab" data-page="accounting" data-tab="main">ACCOUNTING</a>
-    <a id="accounting-navbar-operators" class="tab" data-page="accounting" data-tab="operators">OPERATORS</a>
+    <div class="navigation-wrapper">
+        <div id="accounting-mobile-select" class="mobile-select" data-page="accounting">ACCOUNTING</div>
+        <div class="tabs-wrapper hidden">
+            <a id="accounting-navbar-main" class="tab" data-page="accounting" data-tab="main">ACCOUNTING</a>
+            <a id="accounting-navbar-operators" class="tab" data-page="accounting" data-tab="operators">OPERATORS</a>
+        </div>
+    </div>
     <a>
-        <div class="money-icon icon-8"></div>Currency - <span class="currency">EUR</span>
+        <div class="money-icon icon-8"></div>
+        <span class="currency-label">Currency -</span>
+        <span class="currency">EUR</span>
     </a>
 </div>

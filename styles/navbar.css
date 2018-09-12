@@ -16,16 +16,76 @@
     border-bottom: solid 2px #feb940;
 }
 
-.navbar a:nth-last-child(1) {
+.navbar>a:nth-last-child(1) {
     float: right;
     cursor: default;
 }
 
-.navbar a:nth-child(1) {
+.navbar>.tabs-wrapper>a:nth-child(1) {
     margin-left: 0;
 }
 
 .money-icon {
     display: inline-block;
     color: #3ab54a;
+}
+
+.navigation-wrapper {
+    display: inline-block;
+}
+
+.tabs-wrapper {
+    display: inline-block;
+    float: left;
+    transition: all 0.2s ease;
+}
+
+.mobile-select {
+    display: none;
+    cursor: pointer;
+}
+
+.navbar.mobile {
+    border: none;
+    height: 2.8em;
+}
+
+.navbar.mobile .mobile-select {
+    display: block;
+    padding: 0.7em;
+    background: #3d4552;
+    color: #ffffff;
+}
+
+.navbar.mobile>a {
+    float: left;
+    padding: 0.7em;
+    background: #3d4552;
+}
+
+.navbar.mobile .currency-label {
+    display: none;
+}
+
+.navbar.mobile .tabs-wrapper.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, -1.5em, 0);
+}
+
+.navbar.mobile .tabs-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    background: #425269;
+    box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.15);
+}
+
+.navbar.mobile .tabs-wrapper>a {
+    padding: 0.7em;
+    margin: 0;
+    border: none;
+}
+
+.navbar.mobile .tabs-wrapper>a:hover {
+    background: #637288;
 }

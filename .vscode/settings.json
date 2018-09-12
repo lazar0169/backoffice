@@ -6,5 +6,6 @@
     "editor.formatOnSave": true,
     "editor.trimAutoWhitespace": true,
     "css.lint.zeroUnits": "warning",
-    "css.lint.universalSelector": "warning"
+    "css.lint.universalSelector": "warning",
+    "html.format.wrapLineLength": 0
 }

@@ -9,6 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
+    min-width: 420px;
     flex-direction: row-reverse;
     font-family: 'roboto';
     user-select: none;

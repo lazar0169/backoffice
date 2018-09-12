@@ -2,7 +2,7 @@
     background-color: #434a5c;
     height: 100%;
     display: inline-block;
-    box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.75);
+    box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.4);
 }
 
 .nav-item {

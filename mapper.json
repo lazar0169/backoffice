@@ -1,13 +1,15 @@
 {
     "index": {
         "scripts": [
-            "navigation.js"
+            "navigation.js",
+            "responsive.js"
         ],
         "styles": [
             "index.css",
             "sidebar.css",
             "main.css",
-            "navbar.css"
+            "navbar.css",
+            "responsive.css"
         ]
     }
 }

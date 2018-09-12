@@ -1,9 +1,15 @@
 <div id="dashboard-navbar" class="navbar">
-    <a id="dashboard-navbar-main" class="tab active" data-page="dashboard" data-tab="main">DASHBOARD</a>
-    <a id="dashboard-navbar-jackpots" class="tab" data-page="dashboard" data-tab="jackpots">JACKPOTS WINS (Last 10)</a>
-    <a id="dashboard-navbar-new-players" class="tab" data-page="dashboard" data-tab="new-players">NEW PLAYERS (Latest
-        24h)</a>
+    <div class="navigation-wrapper">
+        <div id="dashboard-mobile-select" class="mobile-select" data-page="dashboard">DASHBOARD</div>
+        <div class="tabs-wrapper hidden">
+            <a id="dashboard-navbar-main" class="tab active" data-page="dashboard" data-tab="main">DASHBOARD</a>
+            <a id="dashboard-navbar-jackpots" class="tab" data-page="dashboard" data-tab="jackpots">JACKPOTS WINS</a>
+            <a id="dashboard-navbar-new-players" class="tab" data-page="dashboard" data-tab="new-players">NEW PLAYERS</a>
+        </div>
+    </div>
     <a>
-        <div class="money-icon icon-8"></div>Currency - <span class="currency">EUR</span>
+        <div class="money-icon icon-8"></div>
+        <span class="currency-label">Currency -</span>
+        <span class="currency">EUR</span>
     </a>
 </div>
