@@ -42,3 +42,23 @@ function getQueryParams(qs) {
     }
     return params;
 }
+
+function generateTable(json) {
+    let rows = '',
+        head = '<tr>';
+
+    for (let prop in json[0]) {
+        head += `<th>${prop}</th>`;
+    }
+    head += '</tr>'
+
+    for (let row of json) {
+        let cells = '';
+        for (let cell in row) {
+            cells += `<td>${row[cell]}</td>`;
+        }
+        rows += `<tr>${cells}</tr>`;
+    }
+
+    return `<table>${head}${rows}</table>`;
+}

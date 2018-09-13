@@ -2,7 +2,8 @@
     "index": {
         "scripts": [
             "navigation.js",
-            "responsive.js"
+            "responsive.js",
+            "test-data.js"
         ],
         "styles": [
             "index.css",
