@@ -37,7 +37,6 @@
 .tabs-wrapper {
     display: inline-block;
     float: left;
-    transition: all 0.2s ease;
 }
 
 .logo {
@@ -70,6 +69,7 @@
 .mobile .navbar {
     border: none;
     height: 2.8em;
+    display: inline-block;
 }
 
 .mobile .navbar .mobile-select {
@@ -100,6 +100,7 @@
     flex-direction: column;
     background: #425269;
     box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
 }
 
 .mobile .navbar .tabs-wrapper>a {

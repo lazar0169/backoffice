@@ -13,9 +13,15 @@ body {
     flex-direction: row-reverse;
     font-family: 'roboto';
     user-select: none;
-    font-size: 12px;
+    font-size: 0.3cm;
 }
 
 .mobile {
-    font-size: 18px;
+    font-size: 4vw;
 }
+
+/* @media (max-width:730px) and (min-width:580px) {
+    body {
+        font-size: 14px;
+    }
+} */
