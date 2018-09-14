@@ -94,6 +94,7 @@
     opacity: 0;
     pointer-events: none;
     transform: translate3d(0, -1.5em, 0);
+    height: 0;
 }
 
 .mobile .navbar .tabs-wrapper {

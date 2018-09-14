@@ -72,3 +72,74 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
     background: #ffffff;
 }
+
+/* Dropdown */
+
+select {
+    background-image: url("../images/dropdown-arrow.png");
+    background-repeat: no-repeat;
+    color: white;
+    background-position: right;
+    background-size: auto 100%;
+    background-color: #f99d1c;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+option {
+    color: black;
+    background-color: #ffffff;
+}
+
+option:nth-child(1) {
+    display: none;
+}
+
+/* Date picker */
+
+.datepicker {
+    background-image: url("../images/dropdown-arrow.png");
+    background-repeat: no-repeat;
+    color: white;
+    background-position: right;
+    background-size: auto 100%;
+    background-color: #f99d1c;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+select,
+input {
+    font-family: 'roboto' !important;
+    font-size: inherit !important;
+    height: 2em;
+    padding-right: 3em;
+    padding-left: 0.5em;
+    border: none;
+    box-sizing: border-box;
+}
+
+.mobile .pika-single.is-bound {
+    width: auto !important;
+    left: 1em !important;
+    right: 1em !important;
+}
+
+.mobile .pika-lendar {
+    width: 97% !important;
+}
+
+.pika-table th {
+    color: #ffffff !important;
+}
+
+.mobile select,
+.mobile input {
+    width: 100%;
+    margin: 0.1em 0;
+}

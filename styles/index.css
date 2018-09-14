@@ -10,6 +10,8 @@ body {
     align-items: center;
     margin: 0;
     min-width: 400px;
+    height: 100%;
+    width: 100%;
     flex-direction: row-reverse;
     font-family: 'roboto';
     user-select: none;
@@ -18,11 +20,5 @@ body {
 }
 
 .mobile {
-    font-size: 4vw;
+    font-size: 4vw !important;
 }
-
-/* @media (max-width:730px) and (min-width:580px) {
-    body {
-        font-size: 14px;
-    }
-} */
