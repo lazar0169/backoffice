@@ -1,6 +1,7 @@
 .navbar {
     border-bottom: 2px solid #00000021;
     padding-bottom: 0.2em;
+    position: relative;
 }
 
 .navbar a {
