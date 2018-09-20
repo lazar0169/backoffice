@@ -43,12 +43,12 @@ function getQueryParams(qs) {
     return params;
 }
 
-function generateTable(json) {
+function generateTable(json, properties = { class: "", id: "" }, dynamic = false) {
     let rows = '',
         head = '<tr>';
 
     for (let prop in json[0]) {
-        head += `<th>${prop}</th>`;
+        head += `<th><div class="table-head"><span class="table-head-title">${prop}</span>${dynamic ? '<span class="remove-btn">x</span>' : ''}<div></th>`;
     }
     head += '</tr>'
 
@@ -60,5 +60,18 @@ function generateTable(json) {
         rows += `<tr>${cells}</tr>`;
     }
 
-    return `<table>${head}${rows}</table>`;
+
+    if (!properties.class) properties.class = "";
+    if (!properties.id) properties.id = "";
+
+    return `<table id="${properties.id}" class="${properties.class}">${head}${rows}</table>`;
 }
+
+function removeCol(table, index) {
+    let rows = table.children[0].children;
+
+    for (let row of rows) {
+        row.deleteCell(index);
+    }
+}
+

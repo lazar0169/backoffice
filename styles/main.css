@@ -48,6 +48,8 @@
     height: 100%;
 }
 
+/* Tables */
+
 table {
     width: 100%;
     border-spacing: 0;
@@ -71,6 +73,31 @@ tr:nth-child(odd) {
 
 tr:nth-child(even) {
     background: #ffffff;
+}
+
+.table-head {
+    display: flex;
+}
+
+.table-head-title {
+    flex: 1;
+}
+
+.remove-btn {
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.12);
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.remove-btn:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.remove-btn:active {
+    transform: scale3d(0.9, 0.9, 0.9);
 }
 
 /* Dropdown */
