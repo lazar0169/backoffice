@@ -22,3 +22,34 @@ body {
 .mobile {
     font-size: 4vw !important;
 }
+
+input {
+    font-family: 'roboto' !important;
+    font-size: inherit !important;
+    height: 2em;
+    padding: 0.8rem;
+    margin: 0.1rem 0;
+    border: none;
+}
+
+label {
+    cursor: pointer;
+}
+
+button {
+    color: white;
+    background: #419ad4;
+    border: none;
+    padding: 0.5rem 1rem;
+    transition: background 0.3s;
+    cursor: pointer;
+    font-size: inherit;
+}
+
+button:active {
+    transform: scale3d(0.95, 0.95, 0.95);
+}
+
+button:hover {
+    background: #63b0e2;
+}

@@ -1,6 +1,16 @@
 {
     "index": {
         "scripts": [
+            "responsive.js",
+            "login.js"
+        ],
+        "styles": [
+            "index.css",
+            "login.css"
+        ]
+    },
+    "main": {
+        "scripts": [
             "navigation.js",
             "responsive.js",
             "test-data.js"
