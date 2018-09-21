@@ -34,6 +34,8 @@ input {
 
 label {
     cursor: pointer;
+    position: relative;
+    padding-left: 1.5rem;
 }
 
 button {
@@ -47,9 +49,50 @@ button {
 }
 
 button:active {
-    transform: scale3d(0.95, 0.95, 0.95);
+    transform: scale3d(0.99, 0.99, 0.99);
 }
 
 button:hover {
-    background: #63b0e2;
+    background: #57a5d8;
+}
+
+input[type=checkbox] {
+    visibility: hidden;
+    pointer-events: none;
+    position: absolute;
+}
+
+label:before {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    background: white;
+    top: 0;
+    left: 0;
+    border-top: none;
+    border-right: none;
+}
+
+label:after {
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 0.5rem;
+    height: 0.25rem;
+    background: transparent;
+    top: 25%;
+    left: 4%;
+    border: 1px solid black;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+}
+
+label:hover::after {
+    opacity: 0.2;
+}
+
+input[type=checkbox]:checked+label:after {
+    opacity: 1;
 }

@@ -17,18 +17,17 @@
     align-items: center;
     flex-direction: column;
     background: #425269;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
     box-shadow: 0.4rem 0.4rem #353e4f;
 }
 
-/* #login-form input {
-    font-family: 'roboto' !important;
-    font-size: inherit !important;
-    height: 2em;
-    padding: 0.8rem;
-    margin: 0.1rem 0;
-    border: none;
-} */
+#login-form input {
+    min-width: 15rem;
+}
+
+#login-form button {
+    width: 100%;
+}
 
 #form-logo-wrapper {
     height: 3rem;
@@ -56,9 +55,9 @@
 
 #login-remember-wrapper {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    justify-content: center;
     flex-direction: row;
     width: 100%;
-    margin: 0.5rem 0;
+    margin: 2rem 0;
 }
