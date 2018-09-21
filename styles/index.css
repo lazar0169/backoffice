@@ -14,9 +14,17 @@ body {
     width: 100%;
     flex-direction: row-reverse;
     font-family: 'roboto';
-    user-select: none;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
     font-size: 0.3cm;
     outline: none !important;
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 .mobile {
@@ -65,11 +73,13 @@ input[type=checkbox] {
 label:before {
     content: '';
     position: absolute;
-    width: 1rem;
-    height: 1rem;
+    width: 1.2em;
+    height: 1.2em;
     background: white;
     top: 0;
     left: 0;
+    bottom: 0;
+    margin: auto;
     border-top: none;
     border-right: none;
 }
@@ -78,20 +88,23 @@ label:after {
     opacity: 0;
     content: '';
     position: absolute;
-    width: 0.5rem;
-    height: 0.25rem;
+    width: 0.6em;
+    height: 0.3em;
     background: transparent;
-    top: 25%;
-    left: 4%;
+    top: 0;
+    left: 0.3em;
+    bottom: 0;
+    margin: auto;
     border: 1px solid black;
     border-top: none;
     border-right: none;
+    transition: all 0.2s;
     transform: rotate(-45deg);
 }
 
-label:hover::after {
+/* label:hover::after {
     opacity: 0.2;
-}
+} */
 
 input[type=checkbox]:checked+label:after {
     opacity: 1;

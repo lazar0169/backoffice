@@ -61,3 +61,31 @@
     width: 100%;
     margin: 2rem 0;
 }
+
+.mobile #login-form {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+}
+
+.mobile .form-logo:nth-child(2) {
+    display: none;
+}
+
+.mobile .form-logo:nth-child(1) {
+    background-image: url("../images/logo2.png");
+}
+
+.mobile #form-logo-wrapper {
+    height: 45%;
+    margin-bottom: 3rem;
+}
+
+.mobile #login-form input {
+    width: 100%;
+}
+
+.mobile label {
+    padding-left: 2.5rem;
+}
