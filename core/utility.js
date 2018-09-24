@@ -43,35 +43,66 @@ function getQueryParams(qs) {
     return params;
 }
 
-function generateTable(json, properties = { class: "", id: "" }, dynamic = false) {
-    let rows = '',
-        head = '<tr>';
+// function generateTable(json, properties = { class: "", id: "" }, dynamic = false) {
+//     let rows = '',
+//         head = '<tr>';
 
-    for (let prop in json[0]) {
-        head += `<th><div class="table-head"><span class="table-head-title">${prop}</span>${dynamic ? '<span class="remove-btn">x</span>' : ''}<div></th>`;
+//     for (let prop in json[0]) {
+//         head += `<th><div class="table-head"><span class="table-head-title">${prop}</span>${dynamic ? '<span class="remove-btn">x</span>' : ''}<div></th>`;
+//     }
+//     head += '</tr>'
+
+//     for (let row of json) {
+//         let cells = '';
+//         for (let cell in row) {
+//             cells += `<td>${row[cell]}</td>`;
+//         }
+//         rows += `<tr>${cells}</tr>`;
+//     }
+
+
+//     if (!properties.class) properties.class = "";
+//     if (!properties.id) properties.id = "";
+
+//     return `<table id="${properties.id}" class="${properties.class}">${head}${rows}</table>`;
+// }
+
+// function removeCol(table, index) {
+//     let rows = table.children[0].children;
+
+//     for (let row of rows) {
+//         row.deleteCell(index);
+//     }
+// }
+
+function removeCol(buttonElement) {
+    buttonElement.parentNode.parentNode.parentNode.style.gridTemplateColumns = buttonElement.parentNode.parentNode.parentNode.style.gridTemplateColumns.split(" ").splice(1).join(' ');
+    buttonElement.parentNode.parentNode.remove();
+}
+
+function hoverRow(element, index, highlight = false) {
+    let table = element.parentNode.parentNode;
+    for (let col of table.children) {
+        col.children[index + 1].classList[highlight ? "add" : "remove"]('hover');
     }
-    head += '</tr>'
+}
 
-    for (let row of json) {
-        let cells = '';
-        for (let cell in row) {
-            cells += `<td>${row[cell]}</td>`;
+function generateTable(json, id = '', dynamic = false) {
+    let numberOfCols = Object.keys(json[0]).length;
+
+    let col = '';
+    for (let i = 0; i < numberOfCols; i++) {
+        let rows = '';
+        let rowIndex = 0;
+        for (let row of json) {
+            if (rowIndex === 0) {
+                rows += `<div class="table-head"><div class="table-head-title">${Object.keys(row)[i]}</div>${dynamic ? '<div class="remove-btn" onclick="removeCol(this)">x</div>' : ''}</div>`;
+            }
+            rows += `<div onmouseover="hoverRow(this, ${rowIndex}, true)" onmouseout="hoverRow(this, ${rowIndex}, false)">${row[Object.keys(row)[i]]}</div>`;
+            rowIndex++;
         }
-        rows += `<tr>${cells}</tr>`;
+        col += `<div class="table-col">${rows}</div>`;
     }
 
-
-    if (!properties.class) properties.class = "";
-    if (!properties.id) properties.id = "";
-
-    return `<table id="${properties.id}" class="${properties.class}">${head}${rows}</table>`;
+    return `<div style="grid-template-columns: repeat(${numberOfCols}, 1fr)" id="${id}" class="table">${col}</div>`;
 }
-
-function removeCol(table, index) {
-    let rows = table.children[0].children;
-
-    for (let row of rows) {
-        row.deleteCell(index);
-    }
-}
-
