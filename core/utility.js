@@ -104,5 +104,5 @@ function generateTable(json, id = '', dynamic = false) {
         col += `<div class="table-col">${rows}</div>`;
     }
 
-    return `<div style="grid-template-columns: repeat(${numberOfCols}, 1fr)" id="${id}" class="table">${col}</div>`;
+    return `<div class="table"><div style="grid-template-columns: repeat(${numberOfCols}, 1fr)" id="${id}" class="tbody">${col}</div></div>`;
 }

@@ -76,13 +76,21 @@ tr:nth-child(even) {
 }*/
 
 .table {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
     overflow: auto;
+    position: relative;
     height: 100%;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #ffffff12;
+}
+
+.tbody {
+    display: grid;
+    position: absolute;
+    min-width: 100%;
+    top: 0;
+    left: 0;
+    grid-template-columns: repeat(10, 1fr);
 }
 
 .table-col:nth-child(1) {
