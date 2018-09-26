@@ -1,4 +1,4 @@
-document.addEventListener('load', function () {
+window.addEventListener('load', function () {
     for (let datepicker of $$('.datepicker')) {
         let picker = new Pikaday(
             {

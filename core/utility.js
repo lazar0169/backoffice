@@ -43,38 +43,6 @@ function getQueryParams(qs) {
     return params;
 }
 
-// function generateTable(json, properties = { class: "", id: "" }, dynamic = false) {
-//     let rows = '',
-//         head = '<tr>';
-
-//     for (let prop in json[0]) {
-//         head += `<th><div class="table-head"><span class="table-head-title">${prop}</span>${dynamic ? '<span class="remove-btn">x</span>' : ''}<div></th>`;
-//     }
-//     head += '</tr>'
-
-//     for (let row of json) {
-//         let cells = '';
-//         for (let cell in row) {
-//             cells += `<td>${row[cell]}</td>`;
-//         }
-//         rows += `<tr>${cells}</tr>`;
-//     }
-
-
-//     if (!properties.class) properties.class = "";
-//     if (!properties.id) properties.id = "";
-
-//     return `<table id="${properties.id}" class="${properties.class}">${head}${rows}</table>`;
-// }
-
-// function removeCol(table, index) {
-//     let rows = table.children[0].children;
-
-//     for (let row of rows) {
-//         row.deleteCell(index);
-//     }
-// }
-
 function removeCol(buttonElement) {
     buttonElement.parentNode.parentNode.parentNode.style.gridTemplateColumns = buttonElement.parentNode.parentNode.parentNode.style.gridTemplateColumns.split(" ").splice(1).join(' ');
     buttonElement.parentNode.parentNode.remove();
@@ -87,7 +55,7 @@ function hoverRow(element, index, highlight = false) {
     }
 }
 
-function generateTable(json, id = '', dynamic = false) {
+function generateTable(json, id = '', dynamic = false, sticky = false) {
     let numberOfCols = Object.keys(json[0]).length;
 
     let col = '';
@@ -104,5 +72,5 @@ function generateTable(json, id = '', dynamic = false) {
         col += `<div class="table-col">${rows}</div>`;
     }
 
-    return `<div class="table"><div style="grid-template-columns: repeat(${numberOfCols}, 1fr)" id="${id}" class="tbody">${col}</div></div>`;
+    return `<div class="table ${sticky ? 'sticky' : ''}"><div style="grid-template-columns: repeat(${numberOfCols}, 1fr)" id="${id}" class="tbody">${col}</div></div>`;
 }
