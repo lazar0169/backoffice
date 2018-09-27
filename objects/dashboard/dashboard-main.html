@@ -1,12 +1,15 @@
 <div id="dashboard-main" class="page-content active">
     <div class="page-content-wrapper">
-        <select>
-            <option value="" disabled selected>Select option</option>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-        </select>
+        
+        <div class="select">
+            <div class="selected" data-value="">Select option</div>
+            <div class="options-wrapper hidden">
+                <div class="option" data-value="volvo">Volvo</div>
+                <div class="option" data-value="saab">Saab</div>
+                <div class="option" data-value="mercedes">Mercedes</div>
+                <div class="option" data-value="audi">Audi</div>
+            </div>
+        </div>
 
         <input type="text" class="datepicker" readonly>
     </div>

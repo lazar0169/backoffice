@@ -76,14 +76,14 @@
 .mobile .navbar .mobile-select {
     display: block;
     padding: 0.7em;
-    background: #3d4552;
+    background-color: #3d4552;
     color: #ffffff;
 }
 
 .mobile .navbar>a {
     float: left;
     padding: 0.7em;
-    background: #3d4552;
+    background-color: #3d4552;
 }
 
 .mobile .navbar .currency-label {
@@ -100,7 +100,7 @@
 .mobile .navbar .tabs-wrapper {
     display: inline-flex;
     flex-direction: column;
-    background: #425269;
+    background-color: #425269;
     box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.15);
     transition: all 0.2s ease;
 }
@@ -112,5 +112,5 @@
 }
 
 .mobile .navbar .tabs-wrapper>a:hover {
-    background: #637288;
+    background-color: #637288;
 }

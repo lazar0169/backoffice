@@ -19,7 +19,7 @@ const navigate = function () {
 
     for (let selector of $$('.mobile-select')) {
         selector.addEventListener('click', function () {
-            selector.parentNode.getElementsByClassName('tabs-wrapper')[0].classList.remove('hidden');
+            selector.parentNode.getElementsByClassName('tabs-wrapper')[0].classList.toggle('hidden');
         });
     }
 
