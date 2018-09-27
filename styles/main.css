@@ -51,7 +51,7 @@
 .table {
     overflow: auto;
     position: relative;
-    height: 100%;
+    height: 400px;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #ffffff12;
@@ -76,11 +76,16 @@
 
 .table-col>div:nth-child(1) {
     border: 1px solid rgba(0, 0, 0, 0.12);
-    background: #dd9853;
+    background-color: #dd9853;
     color: #ffffff;
     position: sticky;
     position: -webkit-sticky;
     top: 0;
+    transition: 0.2s background-color;
+}
+
+.table-col>div:nth-child(1):hover {
+    background-color: #feb940;
 }
 
 .table-col>div:nth-child(1):nth-child(1) {
@@ -91,12 +96,12 @@
     padding: 0.5em;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     border-right: 1px solid rgba(0, 0, 0, 0.12);
-    background: #ffffff;
+    background-color: #ffffff;
     color: black;
 }
 
 .table-col>div.hover {
-    background: #efefef;
+    background-color: #efefef;
 }
 
 .table-head {
@@ -111,7 +116,7 @@
 
 .remove-btn {
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
     width: 1.5em;
     height: 1.5em;
     cursor: pointer;
@@ -121,7 +126,7 @@
 }
 
 .remove-btn:hover {
-    background: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .remove-btn:active {
@@ -136,9 +141,15 @@ select {
     color: white;
     background-position: right;
     background-size: auto 100%;
-    background-color: #f99d1c;
+    background-color: #dd9853;
     -moz-appearance: none;
     -webkit-appearance: none;
+    cursor: pointer;
+    transition: 0.2s background-color;
+}
+
+select:hover {
+    background-color: #feb940;
 }
 
 select::-ms-expand {
@@ -146,8 +157,12 @@ select::-ms-expand {
 }
 
 option {
-    color: black;
-    background-color: #ffffff;
+    background-color: #434a5c;
+    color: #ffffff;
+}
+
+option:hover {
+    background-color: #feb940;
 }
 
 option:nth-child(1) {
@@ -162,12 +177,16 @@ option:nth-child(1) {
     color: white;
     background-position: right;
     background-size: auto 100%;
-    background-color: #f99d1c;
+    background-color: #dd9853;
     padding-top: 0;
     padding-bottom: 0;
     -moz-appearance: none;
     -webkit-appearance: none;
     cursor: pointer;
+}
+
+.datepicker:hover {
+    background-color: #feb940;
 }
 
 .pika-label {
@@ -178,12 +197,12 @@ option:nth-child(1) {
 
 .is-disabled .pika-button,
 .is-inrange .pika-button {
-    background: #ffffff;
+    background-color: #ffffff;
 }
 
 .is-disabled .pika-button {
     color: #cccccc;
-    background: #efefef;
+    background-color: #efefef;
     opacity: 1;
 }
 
@@ -200,7 +219,7 @@ input {
 
 .pika-table th {
     color: #ffffff !important;
-    background: #f99d1c;
+    background-color: #f99d1c;
 }
 
 .is-today .pika-button {
@@ -212,7 +231,7 @@ input {
 }
 
 .is-selected .pika-button {
-    background: #f99d1c;
+    background-color: #f99d1c;
     color: #fff;
 }
 
@@ -220,11 +239,23 @@ input {
     border-radius: 0 !important;
     box-shadow: none !important;
     color: #353535;
-    background: #efefef;
+    background-color: #efefef;
 }
 
 .pika-table abbr {
     text-decoration: none;
+}
+
+.mobile select:hover {
+    background-color: #dd9853;
+}
+
+.mobile .datepicker:hover {
+    background-color: #dd9853;
+}
+
+.mobile .table-col>div:nth-child(1):hover {
+    background-color: #dd9853;
 }
 
 .mobile .pika-single.is-bound {
@@ -244,5 +275,5 @@ input {
 }
 
 .mobile .remove-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }

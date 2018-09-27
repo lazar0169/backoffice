@@ -940,4 +940,4 @@ let table = {
     "message": "Action is succesfuly executed!"
 }
 
-$$('#dashboard-table-wrapper').innerHTML = generateTable(table.result.gameStatisticsPerDate, 'dashboard-table', true, true);
+$$('#dashboard-main').children[0].innerHTML += generateTable(table.result.gameStatisticsPerDate, 'dashboard-table', true, true);
