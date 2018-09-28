@@ -40,7 +40,7 @@ let table = {
                 "totalWin": 1.5,
                 "rounds": 46,
                 "jackpotValue": 0,
-                "result": 10.1,
+                "result": 1018923.124451,
                 "payout": 12.93,
                 "currency": "eur"
             },
