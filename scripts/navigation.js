@@ -1,4 +1,4 @@
-const navigate = function () {
+const navigation = function () {
     let active = {
         page: 'dashboard',
         tab: 'main'

@@ -42,35 +42,3 @@ function getQueryParams(qs) {
     }
     return params;
 }
-
-function removeCol(buttonElement) {
-    buttonElement.parentNode.parentNode.parentNode.style.gridTemplateColumns = buttonElement.parentNode.parentNode.parentNode.style.gridTemplateColumns.split(" ").splice(1).join(' ');
-    buttonElement.parentNode.parentNode.remove();
-}
-
-function hoverRow(element, index, highlight = false) {
-    let table = element.parentNode.parentNode;
-    for (let col of table.children) {
-        col.children[index + 1].classList[highlight ? "add" : "remove"]('hover');
-    }
-}
-
-function generateTable(json, id = '', dynamic = false, sticky = false) {
-    let numberOfCols = Object.keys(json[0]).length;
-
-    let col = '';
-    for (let i = 0; i < numberOfCols; i++) {
-        let rows = '';
-        let rowIndex = 0;
-        for (let row of json) {
-            if (rowIndex === 0) {
-                rows += `<div class="table-head"><div class="table-head-title">${Object.keys(row)[i]}</div>${dynamic ? '<div class="remove-btn" onclick="removeCol(this)">x</div>' : ''}</div>`;
-            }
-            rows += `<div onmouseover="hoverRow(this, ${rowIndex}, true)" onmouseout="hoverRow(this, ${rowIndex}, false)">${row[Object.keys(row)[i]]}</div>`;
-            rowIndex++;
-        }
-        col += `<div class="table-col">${rows}</div>`;
-    }
-
-    return `<div class="table ${sticky ? 'sticky' : ''}"><div style="grid-template-columns: repeat(${numberOfCols}, 1fr)" id="${id}" class="tbody">${col}</div></div>`;
-}

@@ -1,0 +1,138 @@
+/* Date picker */
+
+table {
+    font-size: inherit;
+}
+
+.datepicker {
+    background-image: url("../images/dropdown-arrow.png");
+    background-repeat: no-repeat;
+    color: white;
+    background-position: right;
+    background-size: auto 100%;
+    background-color: #dd9853;
+    padding-top: 0;
+    padding-bottom: 0;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.datepicker:hover {
+    background-color: #feb940;
+}
+
+.pika-label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #434a5c;
+    color: #ffffff;
+    font-size: inherit;
+    line-height: 2em;
+}
+
+.pika-single {
+    transition: transform 0.2s;
+    background-color: #434a5c;
+    color: #ffffff;
+}
+
+.is-disabled .pika-button,
+.is-inrange .pika-button {
+    background-color: #ffffff;
+}
+
+.is-disabled .pika-button {
+    color: #cccccc;
+    background-color: #434a5c;
+    color: #757575;
+    opacity: 1;
+}
+
+input {
+    font-family: 'roboto' !important;
+    font-size: inherit !important;
+    height: 2em;
+    padding-right: 3em;
+    padding-left: 0.5em;
+    border: none;
+    box-sizing: border-box;
+}
+
+.pika-table th {
+    color: #ffffff !important;
+    background-color: #f99d1c;
+    font-size: inherit;
+    line-height: 2em;
+}
+
+.is-today .pika-button {
+    color: #d8a864;
+}
+
+.is-today .pika-button:hover {
+    color: #ffffff;
+}
+
+.is-selected .pika-button {
+    background-color: #f99d1c;
+    color: #fff;
+}
+
+.pika-button {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-color: #425269;
+    color: #ffffff;
+    font-size: inherit;
+    line-height: 2em;
+    text-align: center;
+}
+
+.pika-prev,
+.pika-next {
+    filter: invert(1);
+}
+
+.pika-prev:hover,
+.pika-next:hover {
+    background-color: transparent;
+}
+
+.pika-table abbr {
+    text-decoration: none;
+}
+
+/* ================== MOBILE  ================== */
+
+.mobile .datepicker:hover {
+    background-color: #dd9853;
+}
+
+.mobile .pika-single.is-bound {
+    width: auto;
+    left: 1em !important;
+    right: 1em !important;
+}
+
+.pika-single.is-hidden {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, -1.5em, 0);
+    height: 0;
+    position: absolute !important;
+    width: 0 !important;
+}
+
+.mobile .pika-lendar {
+    width: 97% !important;
+}
+
+.mobile .selected,
+.mobile .option {
+    height: 2.5em;
+    line-height: 2.5em;
+}

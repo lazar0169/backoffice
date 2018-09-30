@@ -44,6 +44,8 @@
     display: none;
 }
 
+/* ================== MOBILE  ================== */
+
 .mobile .logo {
     background-image: url("../images/logo2.png");
     background-position: top;

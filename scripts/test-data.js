@@ -1,4 +1,11 @@
-let table = {
+// FOR TESTING PURPOSES ----------------------
+
+
+on('load', function () {
+    $$('#dashboard-main').children[0].appendChild(table.generate(testTable.result.gameStatisticsPerDate, 'dashboard-table', true, true));
+});
+
+let testTable = {
     "result": {
         "operater": "Synot Integration",
         "period": "4/1/2018 - 7/1/2018",
@@ -939,5 +946,3 @@ let table = {
     "errorOccured": false,
     "message": "Action is succesfuly executed!"
 }
-
-$$('#dashboard-main').children[0].innerHTML += generateTable(table.result.gameStatisticsPerDate, 'dashboard-table', true, true);

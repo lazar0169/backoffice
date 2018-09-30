@@ -5,19 +5,23 @@
             "login.js"
         ],
         "styles": [
-            "index.css",
             "login.css"
         ]
     },
     "main": {
         "scripts": [
+            "components/datepicker.js",
+            "components/dropdown.js",
+            "components/table.js",
             "navigation.js",
             "responsive.js",
             "test-data.js"
         ],
         "styles": [
-            "index.css",
             "sidebar.css",
+            "components/datepicker.css",
+            "components/dropdown.css",
+            "components/table.css",
             "main.css",
             "navbar.css"
         ]

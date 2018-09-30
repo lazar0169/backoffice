@@ -1,0 +1,95 @@
+.table {
+    overflow: auto;
+    position: relative;
+    height: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.1em 0;
+}
+
+.tbody {
+    display: grid;
+    position: absolute;
+    min-width: 100%;
+    top: 0;
+    left: 0;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.sticky .table-col:nth-child(1) {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.table-col>div:nth-child(1) {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: #dd9853;
+    color: #ffffff;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    transition: 0.2s background-color;
+}
+
+.table-col>div:nth-child(1):hover {
+    background-color: #feb940;
+}
+
+.table-col>div:nth-child(1):nth-child(1) {
+    left: 0;
+}
+
+.table-col>div {
+    padding: 0.5em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    color: black;
+    white-space: nowrap;
+}
+
+.table-col>div.hover {
+    background-color: #efefef;
+}
+
+.table-head {
+    display: flex;
+}
+
+.table-head-title {
+    flex: 1;
+    box-sizing: border-box;
+    padding-right: 1em;
+}
+
+.remove-btn {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.remove-btn:active {
+    transform: scale3d(0.9, 0.9, 0.9);
+}
+
+/* ================== MOBILE  ================== */
+
+.mobile .table-col>div:nth-child(1):hover {
+    background-color: #dd9853;
+}
+
+.mobile .remove-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
