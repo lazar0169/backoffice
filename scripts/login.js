@@ -8,4 +8,11 @@ const login = function () {
             loginBtn.click();
         }
     });
+
+    loginBtn.addEventListener('click', function () {
+        trigger('comm/login', {
+            username: $$('#login-username').value,
+            password: $$('#login-password').value
+        });
+    });
 }();

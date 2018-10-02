@@ -53,8 +53,8 @@ function log(msg, code = 1) {
     let alertCodes = [3];
 
     if (alertCodes.includes(code)) {
-        alert(`${codes[code]}: \n\n ${typeof k === "object" ? JSON.stringify(msg) : msg}`);
+        alert(`${codes[code]}: \n\n ${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
     }
 
-    console.log(`[${new Date().toLocaleTimeString()}] ${codes[code]}:\t${typeof k === "object" ? JSON.stringify(msg) : msg}`);
+    console.log(`[${new Date().toLocaleTimeString()}] ${codes[code]}:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
 }
