@@ -42,3 +42,19 @@ function getQueryParams(qs) {
     }
     return params;
 }
+
+function log(msg, code = 1) {
+    let codes = {
+        1: '',
+        2: 'COMMUNICATION ERROR',
+        3: 'USER ERROR',
+    };
+
+    let alertCodes = [3];
+
+    if (alertCodes.includes(code)) {
+        alert(`${codes[code]}: \n\n ${typeof k === "object" ? JSON.stringify(msg) : msg}`);
+    }
+
+    console.log(`[${new Date().toLocaleTimeString()}] ${codes[code]}:\t${typeof k === "object" ? JSON.stringify(msg) : msg}`);
+}
