@@ -1,0 +1,31 @@
+.toast {
+    position: fixed;
+    bottom: 0;
+    width: 40em;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 0.2em 0.2em #353e4f;
+    color: white;
+    transform: translate3d(0, 100%, 0);
+    transition: transform 0.5s;
+}
+
+.toast.show {
+    transform: translate3d(0, -100%, 0);
+}
+
+.toast.info {
+    background: #425269;
+}
+
+.toast.warrning {
+    background: #636942;
+}
+
+.toast.error {
+    background: #694242;
+}

@@ -50,10 +50,10 @@ function log(msg, code = 1) {
         3: 'USER ERROR',
     };
 
-    let alertCodes = [3];
+    let alertCodes = [2, 3];
 
     if (alertCodes.includes(code)) {
-        alert(`${codes[code]}: \n\n ${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
+        trigger('notify', { message: `${codes[code]}: ${typeof msg === "object" ? JSON.stringify(msg) : msg}`, type: 3 });
     }
 
     console.log(`[${new Date().toLocaleTimeString()}] ${codes[code]}:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}`);

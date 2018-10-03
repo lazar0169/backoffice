@@ -36,6 +36,16 @@
     margin-bottom: 1rem;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form.hidden {
+    display: none;
+}
+
 .form-logo {
     background-position: center;
     background-repeat: no-repeat;
@@ -59,7 +69,11 @@
     justify-content: center;
     flex-direction: row;
     width: 100%;
-    margin: 2rem 0;
+    margin: 2em 0 1.5em 0;
+}
+
+#pin-btn {
+    margin-top: 2em;
 }
 
 /* ================== MOBILE  ================== */

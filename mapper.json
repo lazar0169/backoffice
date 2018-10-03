@@ -2,16 +2,19 @@
     "index": {
         "scripts": [
             "communication.js",
+            "components/notify.js",
             "responsive.js",
             "login.js"
         ],
         "styles": [
-            "login.css"
+            "login.css",
+            "components/notify.css"
         ]
     },
     "main": {
         "scripts": [
             "communication.js",
+            "components/notify.js",
             "components/datepicker.js",
             "components/dropdown.js",
             "components/table.js",
@@ -21,6 +24,7 @@
         ],
         "styles": [
             "sidebar.css",
+            "components/notify.css",
             "components/datepicker.css",
             "components/dropdown.css",
             "components/table.css",

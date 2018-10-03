@@ -1,9 +1,9 @@
 let comm = (function () {
-    const apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
+    const apiUrl = 'http://backofficewebapitest.com';
 
-    function get(callback, params = {}) {
+    function get(action, callback, body = {}) {
         /* PARAMS:
-
+ 
         - method:         The request method, e.g., GET, POST.
         - headers:        Any headers you want to add to your request, contained within a Headers object or an object literal with ByteString values.
         - body:           Any body that you want to add to your request: this can be a Blob, BufferSource, FormData, URLSearchParams, or USVString object. Note that a request using the GET or HEAD method cannot have a body.
@@ -17,9 +17,17 @@ let comm = (function () {
         - keepalive:      The keepalive option can be used to allow the request to outlive the page. Fetch with the keepalive flag is a replacement for the Navigator.sendBeacon() API. 
         - signal:         An AbortSignal object instance; allows you to communicate with a fetch request and abort it if desired via an AbortController.
         */
-        fetch(apiUrl, params).then(response => response.json()).then(function (json) {
-            callback(json);
+        fetch(apiUrl + action, {
+            method: 'POST',
+            // mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }).then(response => response.json()).then(function (json) {
+            callback.success(json);
         }).catch((err) => {
+            callback.fail(err);
             log(err, 2);
         });
     }
@@ -31,102 +39,210 @@ let comm = (function () {
 
     /*************** LOGIN ***************/
 
-    on('comm/login', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
+    on('comm/login/credentials', function (data) {
+        let action = '/Account/LogIn'
+        get(action, {
+            success: function (response) {
+                data.success(response);
+            },
+            fail: function (err) {
+                data.fail(err);
+            }
+        }, data.body);
+    });
+
+    on('comm/login/pin', function (data) {
+        let action = '/Account/EnterPin'
+        get(action, {
+            success: function (response) {
+                data.success(response);
+            },
+            fail: function (err) {
+                data.fail(err);
+            }
+        }, data.body);
+    });
+
+    on('comm/login/logout', function (data) {
+        let action = '/Account/LogOut'
+        get(action, {
+            success: function (response) {
+                data.success(response);
+            },
+            fail: function (err) {
+                data.fail(err);
+            }
+        }, data.body);
     });
 
     /*************** DASHBOARD ***************/
 
-    on('comm/dashboard/dashboard', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/dashboard/dashboard', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
-    on('comm/dashboard/jackpot', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/dashboard/jackpot', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
-    on('comm/dashboard/players', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/dashboard/players', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
     /*************** STATISTIC ***************/
 
-    on('comm/statistic/summary', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/statistic/summary', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
-    on('comm/statistic/games', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/statistic/games', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
-    on('comm/statistic/compared', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/statistic/compared', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
-    on('comm/statistic/selection', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/statistic/selection', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
     /*************** REPORTS ***************/
 
-    on('comm/reports', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/reports', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
     /*************** ACCOUNTING ***************/
 
-    on('comm/accounting/accounting', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/accounting/accounting', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
-    on('comm/accounting/operators', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/accounting/operators', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
     /*************** TRACKING ***************/
 
-    on('comm/tracking', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/tracking', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
     /*************** BONUSES ***************/
 
-    on('comm/bonuses', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/bonuses', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
     /*************** CONFIGURATION ***************/
 
-    on('comm/configuration', function (data) {
-        get(function (response) {
-            // TODO
-        }, data);
-    });
+    // on('comm/configuration', function (data) {
+    //     let action = '/Account/LogIn';
+    //     get(action, {
+    //         success: function (response) {
+    //             data.success(response);
+    //         },
+    //         fail: function (err) {
+    //             data.fail(err);
+    //         }
+    //     }, data.body);
+    // });
 
 })();
