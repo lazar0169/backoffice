@@ -10,12 +10,13 @@ let dropdown = function () {
                 option.addEventListener('click', function () {
                     dropdown.children[0].innerHTML = option.innerHTML;
                     dropdown.children[0].dataset.value = option.dataset.value;
+                    dropdown.children[1].classList.add("hidden");
                 });
             }
 
 
             window.addEventListener('click', function (e) {
-                if (!e.target.classList.contains('selected')) {
+                if (e.target.parentNode && e.target.parentNode.id !== dropdown.id) {
                     dropdown.children[1].classList.add("hidden");
                 }
             });

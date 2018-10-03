@@ -20,11 +20,17 @@ let comm = (function () {
         fetch(apiUrl + action, {
             method: 'POST',
             // mode: "no-cors",
+            credentials: 'include',
             headers: {
-                "Content-Type": "application/json"
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'credentials': 'include'
             },
             body: JSON.stringify(body)
-        }).then(response => response.json()).then(function (json) {
+        }).then(function (response) {
+            // console.log(response.headers.get("content-type"));
+            return response.json();
+        }).then(function (json) {
             callback.success(json);
         }).catch((err) => {
             callback.fail(err);
