@@ -1,6 +1,11 @@
 const login = function () {
     let loginBtn = $$('#login-btn');
     let pinBtn = $$('#pin-btn');
+
+    if (localStorage.getItem('rememberLogin')) {
+        $$('#login-username').value = localStorage.getItem('loginName');
+    }
+
     on('resize', function () {
         document.body.classList[isMobile ? 'add' : 'remove']('mobile');
     });
@@ -20,8 +25,14 @@ const login = function () {
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
-                let success = new Boolean(response);
-                if (success) {
+                let isError = Boolean(response.errorOccured);
+                if (isError) {
+                    trigger('notify', { message: 'WRONG CREDENTIALS! PLEASE TRY AGAIN.', type: 3 });
+                } else {
+                    if ($$("#login-remember").checked) {
+                        localStorage.setItem('rememberLogin', $$("#login-remember").checked);
+                        localStorage.setItem('loginName', $$("#login-username").value);
+                    }
                     trigger('notify', { message: 'PLEASE ENTER THE PIN THAT YOU RECEIVED IN THE EMAIL', type: 1 });
                     $$('#login-wrapper').classList.add('hidden');
                     $$('#pin-wrapper').classList.remove('hidden');
@@ -44,9 +55,11 @@ const login = function () {
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
-                let success = new Boolean(response);
-                if (success) {
-                    console.log(response);
+                let isError = Boolean(response.errorOccured);
+                if (isError) {
+                    trigger('notify', { message: 'WRONG PIN! PLEASE TRY AGAIN.', type: 3 });
+                } else {
+                    location.href = location.origin + '/main.html';
                 }
             },
             fail: function () {

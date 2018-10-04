@@ -64,6 +64,22 @@ button:hover {
     background-color: #57a5d8;
 }
 
+button.cancel {
+    background-color: #a53825;
+}
+
+button.cancel:hover {
+    background-color: #bd4631;
+}
+
+button.save {
+    background-color: #1b801b;
+}
+
+button.save:hover {
+    background-color: #32a732;
+}
+
 input[type=checkbox] {
     visibility: hidden;
     pointer-events: none;
@@ -113,6 +129,10 @@ input[type=checkbox]:checked+label:after {
 }
 
 /* ================== MOBILE  ================== */
+
+.mobile label {
+    padding-left: 2.5rem;
+}
 
 .mobile input {
     width: 100%;

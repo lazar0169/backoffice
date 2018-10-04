@@ -1,5 +1,157 @@
 <div id="configuration-main" class="page-content">
     <div class="page-content-wrapper">
-        CONFIGURATION MAIN
+
+        <div id="configuration-users" class="configuration-section">
+            <h2>Users</h2>
+            <table>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'users', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 1</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'users', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 2</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'users', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 3</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'users', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 4</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="configuration-actions" class="configuration-section">
+            <h2>Actions</h2>
+            <table>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'actions', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 1</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'actions', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 2</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'actions', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 3</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'actions', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 4</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="configuration-roles" class="configuration-section">
+            <h2>Roles</h2>
+            <table>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'roles', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 1</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'roles', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 2</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'roles', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 3</td>
+                </tr>
+                <tr data-id="213" onclick="trigger('configuration/show/modal', { section: 'roles', id: this.dataset.id})">
+                    <td>Action Name: Action</td>
+                    <td>Number: 4</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="configuration-black-overlay"></div>
+
+        <div id="configuration-form">
+            <!-- Actions -->
+            <div class="configuration-form-wrapper" id="configuration-form-actions">
+                <h2>Action details</h2>
+                <input type="text" placeholder="Action name">
+                <div class="configuration-form-table">
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="action-chck-1">
+                                <label for="action-chck-1">Action 1</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="action-chck-2">
+                                <label for="action-chck-2">Action 2</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="action-chck-3">
+                                <label for="action-chck-3">Action 3</label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="configuration-form-button-wrapper">
+                    <button id="configuration-form-actions-save" class="save">SAVE</button>
+                    <button class="cancel configuration-form-cancel">CANCEL</button>
+                </div>
+            </div>
+
+            <!-- Roles -->
+            <div class="configuration-form-wrapper" id="configuration-form-roles">
+                <h2>Role details</h2>
+                <input type="text" placeholder="Role name">
+                <div class="configuration-form-table">
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="role-chck-1">
+                                <label for="role-chck-1">Role 1</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="role-chck-2">
+                                <label for="role-chck-2">Role 2</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="role-chck-3">
+                                <label for="role-chck-3">Role 3</label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="configuration-form-button-wrapper">
+                    <button class="cancel configuration-form-cancel">CANCEL</button>
+                    <button id="configuration-form-roles-save" class="save">SAVE</button>
+                </div>
+            </div>
+
+            <!-- Users -->
+            <div class="configuration-form-wrapper" id="configuration-form-users">
+                <h2>User details</h2>
+                <div class="configuration-form-inputs">
+                    <input type="text" placeholder="Name">
+                    <input type="text" placeholder="User name">
+                    <input type="password" placeholder="Password">
+                    <input type="password" placeholder="Repeat password">
+                    <input type="text" placeholder="Email">
+                    <input type="text" placeholder="Phone number">
+                    <input type="text" placeholder="Role">
+                </div>
+                <div class="configuration-form-button-wrapper">
+                    <button class="cancel configuration-form-cancel">CANCEL</button>
+                    <button id="configuration-form-roles-save" class="save">SAVE</button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </div>

@@ -1,6 +1,25 @@
 let comm = (function () {
     const apiUrl = 'http://backofficewebapitest.com';
 
+    const actions = {
+        // Login
+        'comm/login/credentials': '/Account/LogIn',
+        'comm/login/pin': '/Account/EnterPin',
+        'comm/login/logout': '/Account/LogOut',
+        // Configuration
+        'comm/configuration/actions/create': '/Action/CreateAction',
+        'comm/configuration/roles/create': '/Role/CreateRoles',
+        'comm/configuration/users/create': '/User/CreateUsers',
+        'comm/configuration/actions/get': '/Action/GetActions',
+        'comm/configuration/roles/get': '/Role/GetRoles',
+        'comm/configuration/users/get': '/User/GetUsers',
+        'comm/configuration/actions/remove': '/Action/RemoveAction',
+        'comm/configuration/roles/remove': '/Role/RemoveRoles',
+        'comm/configuration/users/remove': '/User/RemoveUsers',
+    };
+
+    Object.freeze(actions);
+
     function get(action, callback, body = {}) {
         /* PARAMS:
  
@@ -38,15 +57,7 @@ let comm = (function () {
         });
     }
 
-
-    /* ----------------------------------------- EVENTS ----------------------------------------- */
-
-
-
-    /*************** LOGIN ***************/
-
-    on('comm/login/credentials', function (data) {
-        let action = '/Account/LogIn'
+    function connect(action, data) {
         get(action, {
             success: function (response) {
                 data.success(response);
@@ -55,200 +66,12 @@ let comm = (function () {
                 data.fail(err);
             }
         }, data.body);
-    });
+    }
 
-    on('comm/login/pin', function (data) {
-        let action = '/Account/EnterPin'
-        get(action, {
-            success: function (response) {
-                data.success(response);
-            },
-            fail: function (err) {
-                data.fail(err);
-            }
-        }, data.body);
-    });
-
-    on('comm/login/logout', function (data) {
-        let action = '/Account/LogOut'
-        get(action, {
-            success: function (response) {
-                data.success(response);
-            },
-            fail: function (err) {
-                data.fail(err);
-            }
-        }, data.body);
-    });
-
-    /*************** DASHBOARD ***************/
-
-    // on('comm/dashboard/dashboard', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    // on('comm/dashboard/jackpot', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    // on('comm/dashboard/players', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    /*************** STATISTIC ***************/
-
-    // on('comm/statistic/summary', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    // on('comm/statistic/games', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    // on('comm/statistic/compared', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    // on('comm/statistic/selection', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    /*************** REPORTS ***************/
-
-    // on('comm/reports', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    /*************** ACCOUNTING ***************/
-
-    // on('comm/accounting/accounting', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    // on('comm/accounting/operators', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    /*************** TRACKING ***************/
-
-    // on('comm/tracking', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    /*************** BONUSES ***************/
-
-    // on('comm/bonuses', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
-
-    /*************** CONFIGURATION ***************/
-
-    // on('comm/configuration', function (data) {
-    //     let action = '/Account/LogIn';
-    //     get(action, {
-    //         success: function (response) {
-    //             data.success(response);
-    //         },
-    //         fail: function (err) {
-    //             data.fail(err);
-    //         }
-    //     }, data.body);
-    // });
+    for (let action in actions) {
+        on(action, function (data) {
+            connect(actions[action], data);
+        });
+    }
 
 })();

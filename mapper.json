@@ -20,7 +20,8 @@
             "components/table.js",
             "navigation.js",
             "responsive.js",
-            "test-data.js"
+            "test-data.js",
+            "configuration.js"
         ],
         "styles": [
             "sidebar.css",
@@ -29,7 +30,8 @@
             "components/dropdown.css",
             "components/table.css",
             "main.css",
-            "navbar.css"
+            "navbar.css",
+            "configuration.css"
         ]
     }
 }

@@ -1,0 +1,130 @@
+#configuration-main>.page-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.blur .configuration-section {
+    filter: blur(0.5em);
+}
+
+.configuration-section {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 0 1em;
+}
+
+.configuration-section table {
+    width: 100%;
+}
+
+#configuration-black-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    display: none;
+}
+
+/* FORM */
+
+#configuration-form {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 35em;
+    height: 35em;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+#configuration-form.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.configuration-form-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    box-sizing: border-box;
+    display: none;
+}
+
+.configuration-form-wrapper.active {
+    display: flex;
+}
+
+#configuration-form input[type='text'] {
+    width: 100%;
+}
+
+.configuration-form-table,
+.configuration-form-inputs {
+    width: 100%;
+    overflow: auto;
+    flex: 1;
+    margin: 1em 0;
+}
+
+.configuration-form-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.configuration-form-inputs input {
+    margin: 0.3em 0;
+}
+
+#configuration-form table {
+    width: 100%;
+}
+
+#configuration-form table td label {
+    width: 100%;
+}
+
+#configuration-form table td {
+    display: flex;
+}
+
+.configuration-form-button-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.3em;
+}
+
+#configuration-form-button-wrapper button {
+    margin: 0.3em 0;
+    width: 100%;
+}
+
+.configuration-form-button-wrapper button:nth-child(2) {
+    float: right;
+}
+
+/* MOBILE */
+
+.mobile #configuration-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+}
+
+.mobile .configuration-section {
+    flex: auto;
+}
