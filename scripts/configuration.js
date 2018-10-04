@@ -8,6 +8,14 @@ let configuration = (function () {
         $$('#configuration-form-' + activeSection).classList.remove('active');
         $$('#configuration-form-' + section).classList.add('active');
         activeSection = section;
+
+        for (let td of $$('#configuration-form-' + activeSection).getElementsByTagName('td')) {
+            td.onclick = function (e) {
+                e.stopPropagation();
+                td.children[0].checked = !td.children[0].checked;
+            };
+        }
+
         $$('#configuration-black-overlay').style.display = 'block';
         $$('#configuration-form').classList.add('show');
         $$('#configuration-main').children[0].classList.add('blur');
@@ -20,6 +28,9 @@ let configuration = (function () {
         $$('#configuration-form').classList.remove('show');
         $$('#configuration-main').children[0].classList.remove('blur');
         $$('#configuration-main').children[0].style.overflow = 'auto';
+        for (let checkbox of $$('#configuration-form-' + activeSection).getElementsByTagName('input')) {
+            checkbox.checked = false;
+        }
     }
 
     function createList(section, data) {
@@ -59,17 +70,17 @@ let configuration = (function () {
     // ]);
 
     on('configuration/show/modal', function (data) {
-        trigger(`comm/configuration/${data.section}/get`, {
-            body: {
-                id: data.id
-            },
-            success: function (response) {
-                console.log(response);
-            },
-            fail: function () {
-                // TODO
-            }
-        });
+        // trigger(`comm/configuration/${data.section}/get`, {
+        //     body: {
+        //         id: data.id
+        //     },
+        //     success: function (response) {
+        //         log(response);
+        //     },
+        //     fail: function () {
+        //         // TODO
+        //     }
+        // });
         showModal(data.section);
     });
 })();

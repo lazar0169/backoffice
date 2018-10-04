@@ -38,6 +38,7 @@ input {
     padding: 0.8rem;
     margin: 0.1rem 0;
     border: none;
+    border-radius: 0 !important;
 }
 
 label {
@@ -89,8 +90,8 @@ input[type=checkbox] {
 label:before {
     content: '';
     position: absolute;
-    width: 1.2em;
-    height: 1.2em;
+    width: 15px;
+    height: 15px;
     background-color: white;
     top: 0;
     left: 0;
@@ -104,18 +105,15 @@ label:after {
     opacity: 0;
     content: '';
     position: absolute;
-    width: 0.6em;
-    height: 0.3em;
-    background-color: transparent;
+    width: 7px;
+    height: 7px;
+    background-color: #434a5c;
     top: 0;
-    left: 0.3em;
+    left: 3px;
     bottom: 0;
     margin: auto;
-    border: 1px solid black;
-    border-top: none;
-    border-right: none;
-    transition: all 0.2s;
-    transform: rotate(-45deg);
+    border: 1px solid #434a5c;
+    transition: all 0.1s;
 }
 
 input[type=checkbox]:checked+label:after {
@@ -132,6 +130,17 @@ input[type=checkbox]:checked+label:after {
 
 .mobile label {
     padding-left: 2.5rem;
+}
+
+.mobile label:before {
+    width: 25px;
+    height: 25px;
+}
+
+.mobile label:after {
+    width: 15px;
+    height: 15px;
+    left: 4px;
 }
 
 .mobile input {

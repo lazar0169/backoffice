@@ -28,7 +28,7 @@
 /* FORM */
 
 #configuration-form {
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
@@ -118,6 +118,10 @@
 }
 
 /* MOBILE */
+
+.mobile #configuration-form-users .configuration-form-inputs {
+    margin-top: 0;
+}
 
 .mobile #configuration-form {
     position: absolute;

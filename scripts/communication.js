@@ -47,7 +47,7 @@ let comm = (function () {
             },
             body: JSON.stringify(body)
         }).then(function (response) {
-            // console.log(response.headers.get("content-type"));
+            // log(response.headers.get("content-type"));
             return response.json();
         }).then(function (json) {
             callback.success(json);

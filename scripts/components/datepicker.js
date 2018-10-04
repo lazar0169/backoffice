@@ -19,7 +19,7 @@ let datepicker = function () {
                 setDefaultDate: true,
                 defaultDate: new Date(),
                 onSelect: function () {
-                    console.log(this.toString());
+                    log(this.toString());
                 }
             });
         }
