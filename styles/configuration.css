@@ -61,6 +61,10 @@
     display: none;
 }
 
+.configuration-form-wrapper h2 {
+    margin: 0.5em 0;
+}
+
 .configuration-form-wrapper.active {
     display: flex;
 }

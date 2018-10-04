@@ -105,6 +105,11 @@ td {
 
 /* ================== MOBILE  ================== */
 
+.mobile tr:hover {
+    background-color: transparent;
+    cursor: pointer;
+}
+
 .mobile .table-col>div:nth-child(1):hover {
     background-color: #dd9853;
 }

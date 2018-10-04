@@ -29,3 +29,9 @@
 .toast.error {
     background: #694242;
 }
+
+/* MOBILE */
+
+.mobile .toast {
+    width: 80%;
+}
