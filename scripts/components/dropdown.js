@@ -14,7 +14,6 @@ let dropdown = function () {
                 });
             }
 
-
             window.addEventListener('click', function (e) {
                 if (e.target.parentNode && e.target.parentNode.id !== dropdown.id) {
                     dropdown.children[1].classList.add("hidden");
