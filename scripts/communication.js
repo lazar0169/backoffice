@@ -1,4 +1,4 @@
-let comm = (function () {
+let comm = function () {
     const apiUrl = 'http://backofficewebapitest.com';
 
     const actions = {
@@ -18,8 +18,6 @@ let comm = (function () {
         'comm/configuration/users/remove': '/User/RemoveUsers',
     };
 
-    Object.freeze(actions);
-
     function get(action, callback, body = {}) {
         fetch(apiUrl + action, {
             method: 'POST',
@@ -34,7 +32,9 @@ let comm = (function () {
             // log(response.headers.get("content-type"));
             return response.json();
         }).then(function (json) {
-            callback.success(json);
+            json.responseCode === message.codes.loggedOut ?
+                location.href = location.origin :
+                callback.success(json);
         }).catch((err) => {
             callback.fail(err);
             log(err, 2);
@@ -58,4 +58,4 @@ let comm = (function () {
         });
     }
 
-})();
+}();

@@ -1,4 +1,4 @@
-let configuration = (function () {
+let configuration = function () {
     let activeSection = 'roles';
     let sections = ['users', 'actions', 'roles'];
 
@@ -83,4 +83,4 @@ let configuration = (function () {
         // });
         showModal(data.section);
     });
-})();
+}();

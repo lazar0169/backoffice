@@ -4,6 +4,7 @@
             "communication.js",
             "components/notify.js",
             "app/responsive.js",
+            "message.js",
             "login.js"
         ],
         "styles": [
@@ -21,7 +22,8 @@
             "components/table.js",
             "app/navigation.js",
             "app/responsive.js",
-            "app/configuration.js"
+            "app/configuration.js",
+            "message.js"
         ],
         "styles": [
             "sidebar.css",

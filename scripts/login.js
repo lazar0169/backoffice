@@ -15,25 +15,30 @@ const login = function () {
         }
     });
 
+    // LOGIN --------------------------
     loginBtn.addEventListener('click', function () {
-        trigger('notify', { message: 'WAITING FOR RESPONSE...', type: 0 });
+        let username = $$('#login-username').value;
+        let password = $$('#login-password').value;
+        if (username === '' || password === '') {
+            trigger('message', message.codes.badParameter);
+            return;
+        }
+        trigger('message', message.codes.waitingResponse);
         $$('#login-form').classList.add('disabled');
         trigger('comm/login/credentials', {
             body: {
-                userName: $$('#login-username').value,
-                password: $$('#login-password').value
+                userName: username,
+                password: password
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
-                let isError = Boolean(response.errorOccured);
-                if (isError) {
-                    trigger('notify', { message: 'WRONG CREDENTIALS! PLEASE TRY AGAIN.', type: 3 });
-                } else {
+                trigger('message', response.responseCode);
+                if (response.responseCode === message.codes.success) {
                     if ($$("#login-remember").checked) {
                         localStorage.setItem('rememberLogin', $$("#login-remember").checked);
                         localStorage.setItem('loginName', $$("#login-username").value);
                     }
-                    trigger('notify', { message: 'PLEASE ENTER THE PIN THAT YOU RECEIVED IN THE EMAIL', type: 1 });
+                    trigger('message', message.codes.enterPin);
                     $$('#login-wrapper').classList.add('hidden');
                     $$('#pin-wrapper').classList.remove('hidden');
                     $$('#login-password').value = '';
@@ -42,12 +47,19 @@ const login = function () {
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
                 $$('#login-password').value = '';
+                trigger('message', message.codes.communicationError);
             }
         });
     });
 
+    // PIN --------------------------
     pinBtn.addEventListener('click', function () {
-        trigger('notify', { message: 'WAITING FOR RESPONSE...', type: 0 });
+        let pin = $$('#login-pin').value;
+        if (pin === '') {
+            trigger('message', message.codes.badParameter);
+            return;
+        }
+        trigger('message', message.codes.waitingResponse);
         $$('#login-form').classList.add('disabled');
         trigger('comm/login/pin', {
             body: {
@@ -55,15 +67,14 @@ const login = function () {
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
-                let isError = Boolean(response.errorOccured);
-                if (isError) {
-                    trigger('notify', { message: 'WRONG PIN! PLEASE TRY AGAIN.', type: 3 });
-                } else {
+                trigger('message', response.responseCode);
+                if (response.responseCode === message.codes.success) {
                     location.href = location.origin + '/main.html';
                 }
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
+                trigger('message', message.codes.communicationError);
             }
         });
     });

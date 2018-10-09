@@ -30,6 +30,10 @@
     background: #694242;
 }
 
+.toast.success {
+    background: #247528;
+}
+
 /* MOBILE */
 
 .mobile .toast {

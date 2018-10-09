@@ -44,17 +44,18 @@ function getQueryParams(qs) {
 }
 
 function log(msg, code = 1) {
-    let codes = {
-        1: '',
-        2: 'COMMUNICATION ERROR',
-        3: 'USER ERROR',
-    };
+    // let codes = {
+    //     1: '',
+    //     2: 'COMMUNICATION ERROR',
+    //     3: 'USER ERROR',
+    // };
 
-    let alertCodes = [2, 3];
+    // let alertCodes = [2, 3];
 
-    if (alertCodes.includes(code)) {
-        trigger('notify', { message: `${codes[code]}: ${typeof msg === "object" ? JSON.stringify(msg) : msg}`, type: 3 });
-    }
+    // if (alertCodes.includes(code)) {
+    //     trigger('notify', { message: `${codes[code]}: ${typeof msg === "object" ? JSON.stringify(msg) : msg}`, type: 3 });
+    // }
 
-    console.log(`[${new Date().toLocaleTimeString()}] ${codes[code]}:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
+    // console.log(`[${new Date().toLocaleTimeString()}] ${codes[code]}:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
+    console.log(`[${new Date().toLocaleTimeString()}]:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
 }
