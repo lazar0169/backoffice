@@ -3,7 +3,7 @@
         "scripts": [
             "communication.js",
             "components/notify.js",
-            "responsive.js",
+            "app/responsive.js",
             "login.js"
         ],
         "styles": [
@@ -13,15 +13,15 @@
     },
     "main": {
         "scripts": [
+            "test-data.js",
             "communication.js",
             "components/notify.js",
             "components/datepicker.js",
             "components/dropdown.js",
             "components/table.js",
-            "navigation.js",
-            "responsive.js",
-            "test-data.js",
-            "configuration.js"
+            "app/navigation.js",
+            "app/responsive.js",
+            "app/configuration.js"
         ],
         "styles": [
             "sidebar.css",
