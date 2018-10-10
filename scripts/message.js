@@ -73,7 +73,7 @@ const message = function () {
     Object.freeze(CODE);
 
     on('message', function (code) {
-        trigger('notify', { message: `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;${CODE[code].description}`, type: CODE[code].type });
+        trigger('notify', { message: `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''}${CODE[code].description}`, type: CODE[code].type });
     });
 
     return {

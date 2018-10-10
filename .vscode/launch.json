@@ -2,39 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "stream-server",
+            "name": "transpile",
             "type": "node",
             "request": "launch",
-            "cwd": "${workspaceRoot}/stream",
-            "program": "${workspaceRoot}/stream/stream-server.js"
-        },
-        {
-            "name": "streamer-multiple",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceRoot}/streamer",
-            "program": "${workspaceRoot}/streamer/streamer-multiple.js",
-        },
-        {
-            "name": "streamer",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceRoot}/streamer",
-            "program": "${workspaceRoot}/streamer/streamer.js",
-        },
-        {
-            "name": "muxer",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceRoot}/muxer",
-            "program": "${workspaceRoot}/muxer/muxer.js"
-        },
-        {
-            "name": "slot-test",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceRoot}/slot-test",
-            "program": "${workspaceRoot}/slot-test/server.js"
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/transpile.js"
         }
     ]
 }

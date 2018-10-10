@@ -9,6 +9,10 @@ const pretty = require('pretty');
 const babel = require('babel-core');
 
 let mapper = JSON.parse(fs.readFileSync('mapper.json', 'utf8'));
+let config = '{}';
+try {
+    config = fs.readFileSync('config.json', 'utf8');
+} catch (error) { }
 let objects = merge(getFiles('objects'), true);
 let views = fs.readdirSync('views');
 let core = getFiles('core');
@@ -49,7 +53,7 @@ for (let view of views) {
 
     fs.writeFileSync(`./${buildFolder}/${view}.html`, viewContent);
 
-    js = '"use strict"; \r' + js;
+    js = '"use strict"; \r' + `const _config = ${config};\n` + js;
     js += merge(scripts);
     css += merge(styles);
 

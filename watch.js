@@ -5,12 +5,15 @@ const { JSDOM } = require("jsdom");
 var watch = require('node-watch');
 
 let mapper = {};
-
 try {
     mapper = JSON.parse(fs.readFileSync('mapper.json', 'utf8'));
 } catch (error) {
     console.log('ERROR: Parsing mapper failed!');
 }
+let config = '{}';
+try {
+    config = fs.readFileSync('config.json', 'utf8');
+} catch (error) { }
 let objectsArray = getFiles('objects');
 let viewsArray = getFiles('views');
 let coreScriptsArray = getFiles('core').filter(file => file.split('.')[file.split('.').length - 1] === 'js');
@@ -95,6 +98,14 @@ watch('mapper.json', function (evt, filename) {
 
 });
 
+watch('config.json', function (evt, filename) {
+    try {
+        config = fs.readFileSync('config.json', 'utf8');
+        console.log(`> ${filename}`);
+        transpile();
+    } catch (error) { }
+});
+
 function transpile() {
     for (let view in views) {
         if (view.split('.')[1] !== 'html') continue;
@@ -102,7 +113,7 @@ function transpile() {
 
         if (!mapper[viewShort]) return;
 
-        let js = '"use strict"; \r' + merge(coreScripts) + merge(scripts, mapper[viewShort].scripts.map(path => `scripts/${path}`)),
+        let js = '"use strict"; \r' + `const _config = ${config};\n` + merge(coreScripts) + merge(scripts, mapper[viewShort].scripts.map(path => `scripts/${path}`)),
             css = merge(coreStyles) + merge(styles, mapper[viewShort].styles.map(path => `styles/${path}`));
 
         let document = parseObjects(views[view]);
