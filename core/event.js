@@ -8,12 +8,13 @@ function on(event, callback, count = Number.MAX_SAFE_INTEGER) {
     });
 }
 
-function trigger(event, data) {
+function trigger(event, ...data) {
+    let params = data.length === 1 ? data[0] : data;
     if (!events[event]) { return; }
     let garbageCollector = [];
     for (let eventData of events[event]) {
         if (eventData.count > 0) {
-            eventData.callback(data);
+            eventData.callback(params);
             if (eventData.count > 1) {
                 eventData.count--;
             } else {

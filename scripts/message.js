@@ -45,11 +45,11 @@ const message = function () {
             type: 3
         },
         2002: {
-            description: 'Wrong password. There are 3 login attempts available. If you have forgot password, please contact administrator for password reset.',
+            description: 'Wrong password. Attempts left: %s. If you have forgot password, please contact administrator for password reset.',
             type: 3
         },
         2003: {
-            description: 'You have entered wrong PIN! Contact administrator if you didn\'t recived mail with PIN.',
+            description: 'You have entered wrong PIN! Attempts left: %s. Contact administrator if you didn\'t recived mail with PIN.',
             type: 3
         },
         2004: {
@@ -72,8 +72,22 @@ const message = function () {
 
     Object.freeze(CODE);
 
-    on('message', function (code) {
-        trigger('notify', { message: `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''}${CODE[code].description}`, type: CODE[code].type });
+    on('message', function (data) {
+        let code = data[0];
+        let message;
+        if (code === undefined) {
+            code = data;
+            message = `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''} ${CODE[code].description}`;
+        } else {
+            message = `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''} ${CODE[code].description}`;
+            for (let param of data.slice(1)) {
+                message = message.replace('%s', param);
+            }
+        }
+        if (_config.development) {
+            log('MESSAGE: ' + JSON.stringify(data));
+        }
+        trigger('notify', { message: message, type: CODE[code].type });
     });
 
     return {

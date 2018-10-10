@@ -1,9 +1,11 @@
 const login = function () {
     let loginBtn = $$('#login-btn');
     let pinBtn = $$('#pin-btn');
+    let activeForm = 'login';
 
     if (localStorage.getItem('rememberLogin')) {
         $$('#login-username').value = localStorage.getItem('loginName');
+        $$("#login-remember").checked = !!localStorage.getItem('rememberLogin');
     }
 
     on('resize', function () {
@@ -11,7 +13,13 @@ const login = function () {
     });
     window.addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
-            loginBtn.click();
+            if (activeForm === 'login') {
+                loginBtn.click();
+            } else if (activeForm === 'pin') {
+                pinBtn.click();
+            } else {
+                return;
+            }
         }
     });
 
@@ -42,6 +50,8 @@ const login = function () {
                     $$('#login-wrapper').classList.add('hidden');
                     $$('#pin-wrapper').classList.remove('hidden');
                     $$('#login-password').value = '';
+                    activeForm = 'pin';
+                    $$('#login-pin').focus();
                 }
             },
             fail: function () {
@@ -67,9 +77,16 @@ const login = function () {
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
-                trigger('message', response.responseCode);
+                trigger('message', response.result ? response.responseCode : response.responseCode, response.result);
                 if (response.responseCode === message.codes.success) {
                     location.href = location.origin + '/main.html';
+                } else if (response.responseCode === message.codes.thirdTimeBadPin) {
+                    $$('#login-form').classList.add('disabled');
+                    $$('#login-pin').blur();
+                    activeForm = 'blocked';
+                    setTimeout(function () {
+                        location.href = location.origin;
+                    }, notify.getIdleTime);
                 }
             },
             fail: function () {

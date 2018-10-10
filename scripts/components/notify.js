@@ -41,4 +41,10 @@ let notify = function () {
             }, data.duration * 1000);
         }, isBusy ? 400 : 0);
     });
+
+    return {
+        getIdleTime: function () {
+            return idleTime * 1000;
+        }()
+    }
 }();
