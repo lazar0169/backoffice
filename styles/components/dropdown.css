@@ -16,12 +16,8 @@
 
 .option:hover,
 .selected:hover {
-    background-color: #feb940;
+    background-color: #ce853c;
     cursor: pointer;
-}
-
-.option:hover {
-    color: black;
 }
 
 .options-wrapper {

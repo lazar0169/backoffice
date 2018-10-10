@@ -1,6 +1,7 @@
 #sidebar {
     background-color: #434a5c;
     height: 100%;
+    overflow: auto;
     display: inline-block;
     box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.4);
     z-index: 1;

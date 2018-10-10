@@ -13,14 +13,21 @@ table {
     background-color: #dd9853;
     padding-top: 0;
     padding-bottom: 0;
+    padding-right: 3em;
+    padding-left: 0.5em;
     -moz-appearance: none;
     -webkit-appearance: none;
     cursor: pointer;
     border-radius: 0;
+    font-family: 'roboto' !important;
+    font-size: inherit !important;
+    height: 2em;
+    border: none;
+    box-sizing: border-box;
 }
 
 .datepicker:hover {
-    background-color: #feb940;
+    background-color: #ce853c;
 }
 
 .pika-label {
@@ -37,6 +44,9 @@ table {
     transition: transform 0.2s;
     background-color: #434a5c;
     color: #ffffff;
+    border: 1px solid #434a5c;
+    border-bottom-color: #434a5c;
+    box-shadow: 0 0 0.5em 0.2em rgba(0, 0, 0, 0.15) !important;
 }
 
 .is-disabled .pika-button,
@@ -49,16 +59,6 @@ table {
     background-color: #434a5c;
     color: #757575;
     opacity: 1;
-}
-
-input {
-    font-family: 'roboto' !important;
-    font-size: inherit !important;
-    height: 2em;
-    padding-right: 3em;
-    padding-left: 0.5em;
-    border: none;
-    box-sizing: border-box;
 }
 
 .pika-table th {

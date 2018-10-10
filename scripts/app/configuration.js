@@ -35,16 +35,20 @@ let configuration = function () {
 
     function createList(section, data) {
         let actions = $$(`#configuration-${section}`);
-        if (actions.getElementsByTagName('table').length !== 0) {
-            actions.getElementsByTagName('table')[0].remove();
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
-        let tempTable = document.createElement('table');
-        let tableBody = '';
+        let body = document.createElement('tbody');
         for (let row of data) {
-            tableBody += `<tr data-id="${row.id}" onclick="trigger('configuration/show/modal', { section: '${section}', id: this.dataset.id})"><td>${row.name}</td></tr>`;
+            let tr = document.createElement('tr');
+            tr.dataset.id = row.id;
+            tr.onclick = function () { trigger('configuration/show/modal', { section: section, id: this.dataset.id }) };
+            let td = document.createElement('td');
+            td.innerHTML = row.name;
+            tr.appendChild(td);
+            body.appendChild(tr);
         }
-        tempTable.innerHTML = tableBody;
-        actions.appendChild(tempTable);
+        actions.getElementsByTagName('table')[0].appendChild(body);
     }
 
     for (let cancelBtn of $$('.configuration-form-cancel')) {
