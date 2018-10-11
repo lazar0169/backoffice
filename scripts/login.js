@@ -32,6 +32,7 @@ const login = function () {
             return;
         }
         trigger('message', message.codes.waitingResponse);
+        loginBtn.innerHTML = '<div class="loading"></div>';
         $$('#login-form').classList.add('disabled');
         trigger('comm/login/credentials', {
             body: {
@@ -70,6 +71,7 @@ const login = function () {
             return;
         }
         trigger('message', message.codes.waitingResponse);
+        pinBtn.innerHTML = '<div class="loading"></div>';
         $$('#login-form').classList.add('disabled');
         trigger('comm/login/pin', {
             body: {
@@ -79,7 +81,11 @@ const login = function () {
                 $$('#login-form').classList.remove('disabled');
                 trigger('message', response.result ? response.responseCode : response.responseCode, response.result);
                 if (response.responseCode === message.codes.success) {
-                    location.href = location.origin + '/main.html';
+                    $$('#login-form').classList.add('disabled');
+                    $$('#login-pin').blur();
+                    setTimeout(function () {
+                        location.href = location.origin + '/main.html';
+                    }, notify.getIdleTime);
                 } else if (response.responseCode === message.codes.thirdTimeBadPin) {
                     $$('#login-form').classList.add('disabled');
                     $$('#login-pin').blur();

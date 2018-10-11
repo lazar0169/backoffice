@@ -97,6 +97,9 @@ button {
     transition: background-color 0.3s;
     cursor: pointer;
     font-size: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: filter 0.2s;
 }
 
@@ -164,8 +167,6 @@ input[type=checkbox]:checked+label:after {
 }
 
 .disabled {
-    filter: grayscale(1);
-    opacity: 0.6;
     pointer-events: none;
 }
 

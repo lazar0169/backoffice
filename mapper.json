@@ -9,7 +9,8 @@
         ],
         "styles": [
             "login.css",
-            "components/notify.css"
+            "components/notify.css",
+            "loading.css"
         ]
     },
     "main": {
@@ -26,6 +27,7 @@
             "message.js"
         ],
         "styles": [
+            "loading.css",
             "sidebar.css",
             "components/notify.css",
             "components/datepicker.css",
