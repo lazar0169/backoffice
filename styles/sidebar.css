@@ -22,6 +22,11 @@
     color: #434a5c;
 }
 
+.nav-item.active .loading {
+    border: 0.2em solid rgba(0, 0, 0, 0.2);
+    border-top-color: #000000;
+}
+
 #logo {
     background-image: url("../images/logo.png");
     background-position: center;

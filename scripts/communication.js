@@ -7,18 +7,24 @@ let comm = function () {
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
         // Configuration
-        'comm/configuration/actions/create': '/Action/CreateAction',
-        'comm/configuration/roles/create': '/Role/CreateRoles',
-        'comm/configuration/users/create': '/User/CreateUsers',
-        'comm/configuration/actions/get': '/Action/GetActions',
-        'comm/configuration/roles/get': '/Role/GetRoles',
-        'comm/configuration/users/get': '/User/GetUsers',
-        'comm/configuration/actions/remove': '/Action/RemoveAction',
-        'comm/configuration/roles/remove': '/Role/RemoveRoles',
-        'comm/configuration/users/remove': '/User/RemoveUsers',
+        'comm/configuration/actions/create': '/Settings/CreateAction',
+        'comm/configuration/roles/create': '/Settings/CreateRole',
+        'comm/configuration/users/create': '/Settings/CreateUser',
+
+        'comm/configuration/actions/get': '/Settings/GetActions',
+        'comm/configuration/roles/get': '/Settings/GetRoles',
+        'comm/configuration/users/get': '/Settings/GetUsers',
+
+        'comm/configuration/actions/get/single': '/Settings/GetAction',
+        'comm/configuration/roles/get/single': '/Settings/GetRole',
+        'comm/configuration/users/get/single': '/Settings/GetUser',
+
+        'comm/configuration/action/remove': '/Settings/RemoveAction',
+        'comm/configuration/role/remove': '/Settings/RemoveRole',
+        'comm/configuration/user/remove': '/Settings/RemoveUser',
     };
 
-    function get(action, callback, body = {}) {
+    function get(action, callback, body) {
         fetch(apiUrl + action, {
             method: 'POST',
             credentials: 'include',
@@ -27,26 +33,30 @@ let comm = function () {
                 'Content-Type': 'application/json',
                 'credentials': 'include'
             },
+            // mode: "no-cors",
             body: JSON.stringify(body)
         }).then(function (response) {
             // log(response.headers.get("content-type"));
             return response.json();
         }).then(function (json) {
+            log(json);
             json.responseCode === message.codes.loggedOut ?
                 location.href = location.origin :
                 callback.success(json);
         }).catch((err) => {
             callback.fail(err);
-            log(err, 2);
+            log(err);
         });
     }
 
-    function connect(action, data) {
+    function connect(action, data = {}) {
         get(action, {
             success: function (response) {
+                data.success = data.success || function () { }
                 data.success(response);
             },
             fail: function (err) {
+                data.fail = data.fail || function () { }
                 data.fail(err);
             }
         }, data.body);

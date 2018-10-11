@@ -57,7 +57,7 @@ for (let view of views) {
     js += merge(scripts);
     css += merge(styles);
 
-    js = babel.transform(js, { presets: ['es2015'], plugins: ['transform-for-of-as-array'], comments: false }).code;
+    if (!JSON.parse(config).development) js = babel.transform(js, { presets: ['es2015'], plugins: ['transform-for-of-as-array'], comments: false }).code;
 
     try {
         fs.writeFileSync(`./${buildFolder}/js/${view}.js`, js);

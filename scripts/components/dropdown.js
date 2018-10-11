@@ -1,7 +1,17 @@
 let dropdown = function () {
-    // Initialize all dropdowns
-    on('load', function () {
-        for (let dropdown of $$('.select')) {
+
+    function init(element) {
+        let select = element || $$('.select');
+
+        if (element) {
+            initializeDropdown(element);
+        } else {
+            for (let dropdown of select) {
+                initializeDropdown(dropdown);
+            }
+        }
+
+        function initializeDropdown(dropdown) {
             dropdown.children[0].addEventListener('click', function () {
                 dropdown.children[1].classList.toggle("hidden");
             });
@@ -20,5 +30,38 @@ let dropdown = function () {
                 }
             });
         }
-    });
+    }
+
+    // Initialize all dropdowns
+    on('load', function () { init(); });
+
+    function generate(data = {}, id = '') {
+        let select = document.createElement('div');
+        let selected = document.createElement('div');
+        let wrapper = document.createElement('div');
+
+        select.id = id;
+        select.className = 'select';
+        selected.className = 'selected';
+        selected.innerHTML = 'Select option';
+        wrapper.className = 'options-wrapper hidden';
+
+        for (let option of data) {
+            let optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.dataset.value = option.id;
+            optionElement.innerHTML = option.name;
+            wrapper.appendChild(optionElement);
+        }
+
+        select.appendChild(selected);
+        select.appendChild(wrapper);
+
+        init(select);
+        return select;
+    }
+
+    return {
+        generate
+    }
 }();

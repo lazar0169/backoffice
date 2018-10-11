@@ -46,3 +46,18 @@ function getQueryParams(qs) {
 function log(msg) {
     if (_config.development) console.log(`[${new Date().toLocaleTimeString()}]:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}`);
 }
+
+let loadElements = [];
+
+function addLoader(element) {
+    if (element.getElementsByClassName('loading').length > 0) return;
+    let loader = document.createElement('span');
+    loader.className = 'loading';
+    loader.style.marginLeft = '1em';
+    element.appendChild(loader);
+}
+
+function removeLoader(element) {
+    if (!element.getElementsByClassName('loading')) return;
+    element.getElementsByClassName('loading')[0].remove();
+}

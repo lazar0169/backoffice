@@ -1,7 +1,7 @@
 <div id="configuration-main" class="page-content">
     <div class="page-content-wrapper">
 
-        <div id="configuration-users" class="configuration-section">
+        <div id="configuration-users" class="configuration-section hidden">
             <table>
                 <caption>
                     <div>Users</div>
@@ -27,7 +27,7 @@
             </table>
         </div>
 
-        <div id="configuration-actions" class="configuration-section">
+        <div id="configuration-actions" class="configuration-section hidden">
             <table>
                 <caption>
                     <div>Actions</div>
@@ -53,7 +53,7 @@
             </table>
         </div>
 
-        <div id="configuration-roles" class="configuration-section">
+        <div id="configuration-roles" class="configuration-section hidden">
             <table>
                 <caption>
                     <div>Roles</div>
@@ -85,7 +85,7 @@
             <!-- Actions -->
             <div class="configuration-form-wrapper" id="configuration-form-actions">
                 <h2>Action details</h2>
-                <input type="text" placeholder="Action name">
+                <input type="text" id="configuration-action-name" placeholder="Action name">
                 <div class="configuration-form-table">
                     <table>
                         <tr>
@@ -117,7 +117,7 @@
             <!-- Roles -->
             <div class="configuration-form-wrapper" id="configuration-form-roles">
                 <h2>Role details</h2>
-                <input type="text" placeholder="Role name">
+                <input type="text" id="configuration-role-name" placeholder="Role name">
                 <div class="configuration-form-table">
                     <table>
                         <tr>
@@ -150,13 +150,12 @@
             <div class="configuration-form-wrapper" id="configuration-form-users">
                 <h2>User details</h2>
                 <div class="configuration-form-inputs">
-                    <input type="text" placeholder="Name">
-                    <input type="text" placeholder="User name">
-                    <input type="password" placeholder="Password">
-                    <input type="password" placeholder="Repeat password">
-                    <input type="text" placeholder="Email">
-                    <input type="text" placeholder="Phone number">
-                    <input type="text" placeholder="Role">
+                    <input type="text" placeholder="Name" id="configuration-user-name">
+                    <input type="text" placeholder="User name" id="configuration-user-username">
+                    <input type="password" placeholder="Password [unchanged]" id="configuration-user-password">
+                    <input type="password" placeholder="Repeat password [unchanged]" id="configuration-user-repeat-password">
+                    <input type="text" placeholder="Email" id="configuration-user-email">
+                    <input type="text" placeholder="Phone number" id="configuration-user-phone">
                 </div>
                 <div class="configuration-form-button-wrapper">
                     <button class="cancel configuration-form-cancel">CANCEL</button>

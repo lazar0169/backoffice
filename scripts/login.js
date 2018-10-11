@@ -42,6 +42,7 @@ const login = function () {
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
                 trigger('message', response.responseCode);
+                loginBtn.innerHTML = 'REQUEST PIN';
                 if (response.responseCode === message.codes.success) {
                     if ($$("#login-remember").checked) {
                         localStorage.setItem('rememberLogin', $$("#login-remember").checked);
@@ -57,6 +58,7 @@ const login = function () {
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
+                loginBtn.innerHTML = 'REQUEST PIN';
                 $$('#login-password').value = '';
                 trigger('message', message.codes.communicationError);
             }
@@ -85,7 +87,7 @@ const login = function () {
                     $$('#login-pin').blur();
                     setTimeout(function () {
                         location.href = location.origin + '/main.html';
-                    }, notify.getIdleTime);
+                    }, notify.getIdleTime / 2);
                 } else if (response.responseCode === message.codes.thirdTimeBadPin) {
                     $$('#login-form').classList.add('disabled');
                     $$('#login-pin').blur();
@@ -93,10 +95,13 @@ const login = function () {
                     setTimeout(function () {
                         location.href = location.origin;
                     }, notify.getIdleTime);
+                } else {
+                    pinBtn.innerHTML = 'REQUEST PIN';
                 }
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
+                pinBtn.innerHTML = 'LOGIN';
                 trigger('message', message.codes.communicationError);
             }
         });

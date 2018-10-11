@@ -62,6 +62,7 @@ const navigation = function () {
 
         active.page = data.page;
         active.tab = data.tab;
+        trigger(`${data.page}/${data.tab}/loaded`);
     }
 
     on('navigation/change', to);
