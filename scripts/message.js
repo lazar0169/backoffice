@@ -4,6 +4,7 @@ const message = function () {
         waitingResponse: 900,
         communicationError: 901,
         enterPin: 902,
+        passwordsDontMatch: 903,
         success: 1000,
         badParameter: 1001,
         nonExistingUserName: 2001,
@@ -31,6 +32,10 @@ const message = function () {
         902: {
             description: 'Please enter PIN that you received in mail.',
             type: 1
+        },
+        903: {
+            description: 'Passwords don\'t match. Please try again',
+            type: 3
         },
         1000: {
             description: 'Successful!',

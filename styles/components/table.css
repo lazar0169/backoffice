@@ -111,13 +111,17 @@ td {
     border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-caption>div {
+caption {
+    display: flex;
     color: white;
-    padding: 0.5em 0.8em;
-    width: calc(100% - 1px);
-    box-sizing: border-box;
-    border-bottom: none;
     background-color: #dd9853;
+    border-bottom: none;
+}
+
+.caption-title {
+    padding: 0.5em 0.8em;
+    box-sizing: border-box;
+    width: calc(100% - 1px);
 }
 
 tbody>tr:nth-child(1)>td {

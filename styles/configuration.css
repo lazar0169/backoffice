@@ -28,6 +28,60 @@
     display: none;
 }
 
+.configuration-form-title {
+    display: flex;
+}
+
+.configuration-form-title>h2 {
+    flex: 1;
+}
+
+.configuration-add-new,
+.configuration-form-cancel {
+    width: 3em;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 0;
+    margin: 2px 2px 3px 0;
+    border-radius: 0.2em;
+}
+
+.configuration-form-cancel {
+    margin: 0.6em 0;
+    border-radius: 0;
+}
+
+.configuration-add-new::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 0.7rem;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.configuration-add-new::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 0.7rem;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.configuration-add-new:hover {
+    background-color: rgba(0, 0, 0, 0.43);
+}
+
 /* FORM */
 
 #configuration-form {

@@ -23,9 +23,9 @@
 .loading {
     border-radius: 50%;
     box-sizing: border-box;
-    width: 1em;
-    height: 1em;
-    border: 0.2em solid rgba(255, 255, 255, 0.17);
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.17);
     border-top-color: white;
     -webkit-animation: spin 1s infinite linear;
     animation: spin 1s infinite linear;

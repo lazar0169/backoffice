@@ -3,9 +3,14 @@ let configuration = function () {
     let sections = ['users', 'actions', 'roles'];
     let rolesJson = {};
     let roles = {};
+    let actions = {};
+    let users = {};
+    let editMode = false;
+    let openedId;
 
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
 
+    // Shows modal with details for individual selection
     function showModal(section, data) {
         $$('#configuration-form-' + activeSection).classList.remove('active');
 
@@ -53,11 +58,12 @@ let configuration = function () {
         $$('#configuration-main').children[0].style.overflow = 'hidden';
     }
 
+    // Generates modal checkbox list
     function generateModalData(data) {
         let table = ''
         for (let element of data) {
             let checked = element.checked ? 'checked' : '';
-            element = element.role || element.action;
+            element = element.role || element.action || element;
             table += `<tr><td><input type="checkbox" ${checked} id="${element.id}"><label for="${element.id}">${element.name}</label></td></tr>`;
         }
         return `<table>${table}</table>`;
@@ -71,8 +77,10 @@ let configuration = function () {
         for (let checkbox of $$('#configuration-form-' + activeSection).getElementsByTagName('input')) {
             checkbox.checked = false;
         }
+        editMode = false;
     }
 
+    // Creates users, action and roles list
     function createList(section, data) {
         let actions = $$(`#configuration-${section}`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
@@ -102,6 +110,127 @@ let configuration = function () {
         });
     }
 
+    for (let button of $$('.configuration-form-save')) {
+        let data = {};
+        let list = [];
+        button.addEventListener('click', function () {
+            if (editMode) {
+                switch (button.dataset.section) {
+                    case 'actions':
+                        list = [];
+                        for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
+                            list.push({
+                                checked: td.children[0].checked,
+                                role: {
+                                    id: td.children[0].id,
+                                    name: td.children[1].innerHTML
+                                }
+                            });
+                        }
+                        data = {
+                            action: {
+                                id: openedId,
+                                name: $$('#configuration-action-name').value
+                            },
+                            rolesList: list
+                        };
+                        break;
+                    case 'roles':
+                        list = [];
+                        for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
+                            list.push({
+                                checked: td.children[0].checked,
+                                action: {
+                                    id: td.children[0].id,
+                                    name: td.children[1].innerHTML
+                                }
+                            });
+                        }
+                        data = {
+                            role: {
+                                id: openedId,
+                                name: $$('#configuration-action-name').value
+                            },
+                            actionsList: list
+                        };
+                        break;
+                    case 'users':
+                        if (passwordsMatch()) {
+                            data = {
+                                userId: openedId,
+                                name: $$('#configuration-user-name').value,
+                                userName: $$('#configuration-user-username').value,
+                                password: $$('#configuration-user-password').value,
+                                email: $$('#configuration-user-email').value,
+                                phoneNumber: $$('#configuration-user-phone').value,
+                                enabled: true,
+                                roleId: $$('#configuration-user-role').children[0].dataset.value
+                            };
+                        } else {
+                            trigger('message', message.codes.passwordsDontMatch);
+                        }
+                        break;
+                }
+            } else {
+                switch (button.dataset.section) {
+                    case 'actions':
+                        break;
+                    case 'roles':
+                        break;
+                    case 'users':
+                        break;
+                }
+            }
+        });
+
+        function passwordsMatch() {
+            let password = $$('#configuration-user-password').value;
+            let password2 = $$('#configuration-user-repeat-password').value;
+            return !password && !password2 || password === password2;
+        }
+    }
+
+    for (let button of $$('.configuration-add-new')) {
+        button.addEventListener('click', function () {
+            let data = {};
+            switch (button.dataset.section) {
+                case 'actions':
+                    data.action = {};
+                    data.action.name = '';
+                    data.rolesList = getData('roles');
+                    break;
+                case 'roles':
+                    data.role = {};
+                    data.role.name = '';
+                    data.actionsList = getData('actions');
+                    break;
+                case 'users':
+                    data.email = "";
+                    data.name = "";
+                    data.password = null;
+                    data.phoneNumber = "";
+                    let rolesList = getData('roles');
+                    data.roleId = rolesList[0] ? rolesList[0].id : '';
+                    data.userName = "";
+                    break;
+            }
+            showModal(button.dataset.section, data)
+        });
+    }
+
+    function getData(section) {
+        switch (section) {
+            case 'actions':
+                return actions;
+            case 'roles':
+                return roles;
+            case 'users':
+                return users;
+        }
+    }
+
+
+    // When configuration page is loaded
     on('configuration/main/loaded', function () {
         addLoader($$('#sidebar-configuration'));
         let responses = 0;
@@ -113,6 +242,7 @@ let configuration = function () {
                 }
                 log(response);
                 if (response.responseCode === message.codes.success) {
+                    actions = response.result;
                     createList('actions', response.result);
                 } else {
                     trigger('message', response.responseCode);
@@ -145,6 +275,7 @@ let configuration = function () {
                     removeLoader($$('#sidebar-configuration'));
                 }
                 if (response.responseCode === message.codes.success) {
+                    users = response.result;
                     createList('users', response.result);
                 } else {
                     trigger('message', response.responseCode);
@@ -160,6 +291,10 @@ let configuration = function () {
                 id: data.id
             },
             success: function (response) {
+                editMode = true;
+                openedId = response.result.action ? response.result.action.id :
+                    response.result.role ? response.result.role.id :
+                        response.result.userId;
                 removeLoader(data.caller);
                 showModal(data.section, response.result);
             }

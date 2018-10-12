@@ -13,6 +13,9 @@
     color: #ffffff;
     background-color: #425269;
     margin-bottom: 0.2em;
+    display: flex;
+    justify-content: left;
+    align-items: center;
     transition: background-color 0.3s ease;
 }
 
@@ -23,7 +26,7 @@
 }
 
 .nav-item.active .loading {
-    border: 0.2em solid rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.2);
     border-top-color: #000000;
 }
 
@@ -41,6 +44,12 @@
 }
 
 /* ================== MOBILE  ================== */
+
+.mobile .loading {
+    border-width: 2px;
+    width: 24px;
+    height: 24px;
+}
 
 .mobile #sidebar {
     position: absolute;
