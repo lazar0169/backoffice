@@ -39,6 +39,8 @@ let configuration = function () {
                 $$('#configuration-user-role').getElementsByClassName('selected')[0].dataset.value = data.roleId;
                 $$('#configuration-user-name').value = data.name;
                 $$('#configuration-user-username').value = data.userName;
+                $$('#configuration-user-password').value = '';
+                $$('#configuration-user-repeat-password').value = '';
                 $$('#configuration-user-email').value = data.email;
                 $$('#configuration-user-phone').value = data.phoneNumber;
                 break;
