@@ -205,7 +205,6 @@ let configuration = function () {
                     }
                 },
                 fail: function (response) {
-                    trigger('message', message.codes.communicationError);
                     reset();
                 }
             });
@@ -250,7 +249,6 @@ let configuration = function () {
                     }
                 },
                 fail: function (response) {
-                    trigger('message', message.codes.communicationError);
                     reset();
                 }
             });
@@ -316,6 +314,9 @@ let configuration = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-configuration'));
             }
         });
 
@@ -334,6 +335,9 @@ let configuration = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-configuration'));
             }
         });
 
@@ -349,6 +353,9 @@ let configuration = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-configuration'));
             }
         });
     });

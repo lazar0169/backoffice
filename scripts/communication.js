@@ -49,6 +49,7 @@ let comm = function () {
                 callback.success(json);
         }).catch((err) => {
             callback.fail(err);
+            trigger('message', message.codes.communicationError);
             log(err);
         });
     }

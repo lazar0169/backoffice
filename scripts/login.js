@@ -60,7 +60,6 @@ const login = function () {
                 $$('#login-form').classList.remove('disabled');
                 loginBtn.innerHTML = 'REQUEST PIN';
                 $$('#login-password').value = '';
-                trigger('message', message.codes.communicationError);
             }
         });
     });
@@ -102,7 +101,6 @@ const login = function () {
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
                 pinBtn.innerHTML = 'LOGIN';
-                trigger('message', message.codes.communicationError);
             }
         });
     });

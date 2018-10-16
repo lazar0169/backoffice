@@ -2,6 +2,7 @@ let notify = function () {
     // For how long toast will be visible
     let idleTime = 5;
     let timeout;
+    let animationTimeout;
     let isBusy = false;
 
     let types = {
@@ -24,9 +25,10 @@ let notify = function () {
 
     on('notify', function (data) {
         clearTimeout(timeout);
+        clearTimeout(animationTimeout);
         toast.classList.remove('show');
 
-        setTimeout(() => {
+        animationTimeout = setTimeout(() => {
             data = typeof data === 'object' ? data || {} : { message: data };
             data.type = data.type !== undefined ? data.type : 1;
             data.message = data.message || 'Simple toast banner';
