@@ -19,7 +19,7 @@
 
 .navbar>a:nth-last-child(1) {
     float: right;
-    cursor: default;
+    cursor: pointer;
 }
 
 .navbar>.tabs-wrapper>a:nth-child(1) {
@@ -29,6 +29,14 @@
 .money-icon {
     display: inline-block;
     color: #3ab54a;
+    height: 0.85em;
+    width: 0.8em;
+    position: relative;
+}
+
+.money-icon:before {
+    position: absolute;
+    top: 0;
 }
 
 .navigation-wrapper {
