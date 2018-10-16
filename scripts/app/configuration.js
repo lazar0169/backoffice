@@ -51,6 +51,12 @@ let configuration = function () {
             };
         }
 
+        if (!editMode) {
+            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.add('edit');
+        } else {
+            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.remove('edit');
+        }
+
         $$('#configuration-black-overlay').style.display = 'block';
         $$('#configuration-form').classList.add('show');
         $$('#configuration-main').children[0].classList.add('blur');
@@ -110,77 +116,97 @@ let configuration = function () {
         });
     }
 
+    // SAVE BUTTON
     for (let button of $$('.configuration-form-save')) {
         let data = {};
         let list = [];
-        button.addEventListener('click', function () {
-            if (editMode) {
-                switch (button.dataset.section) {
-                    case 'actions':
-                        list = [];
-                        for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
-                            list.push({
-                                checked: td.children[0].checked,
-                                role: {
-                                    id: td.children[0].id,
-                                    name: td.children[1].innerHTML
-                                }
-                            });
-                        }
-                        data = {
-                            action: {
-                                id: openedId,
-                                name: $$('#configuration-action-name').value
-                            },
-                            rolesList: list
-                        };
-                        break;
-                    case 'roles':
-                        list = [];
-                        for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
-                            list.push({
-                                checked: td.children[0].checked,
-                                action: {
-                                    id: td.children[0].id,
-                                    name: td.children[1].innerHTML
-                                }
-                            });
-                        }
-                        data = {
+        let section;
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            switch (button.dataset.section) {
+                case 'actions':
+                    list = [];
+                    for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
+                        list.push({
+                            checked: td.children[0].checked,
                             role: {
-                                id: openedId,
-                                name: $$('#configuration-action-name').value
-                            },
-                            actionsList: list
+                                id: td.children[0].id,
+                                name: td.children[1].innerHTML
+                            }
+                        });
+                    }
+                    data = editMode ?
+                        { action: { id: openedId, name: $$('#configuration-action-name').value }, rolesList: list } :
+                        { actionName: $$('#configuration-action-name').value, rolesList: list };
+                    section = 'actions';
+                    break;
+                case 'roles':
+                    list = [];
+                    for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
+                        list.push({
+                            checked: td.children[0].checked,
+                            action: {
+                                id: td.children[0].id,
+                                name: td.children[1].innerHTML
+                            }
+                        });
+                    }
+                    data = editMode ?
+                        { role: { id: openedId, name: $$('#configuration-role-name').value }, actionList: list } :
+                        { roleName: $$('#configuration-role-name').value, actionList: list };
+                    section = 'roles';
+                    break;
+                case 'users':
+                    if (passwordsMatch()) {
+                        data = {
+                            userId: openedId,
+                            name: $$('#configuration-user-name').value,
+                            userName: $$('#configuration-user-username').value,
+                            password: $$('#configuration-user-password').value,
+                            email: $$('#configuration-user-email').value,
+                            phoneNumber: $$('#configuration-user-phone').value,
+                            enabled: true,
+                            roleId: $$('#configuration-user-role').children[0].dataset.value
                         };
-                        break;
-                    case 'users':
-                        if (passwordsMatch()) {
-                            data = {
-                                userId: openedId,
-                                name: $$('#configuration-user-name').value,
-                                userName: $$('#configuration-user-username').value,
-                                password: $$('#configuration-user-password').value,
-                                email: $$('#configuration-user-email').value,
-                                phoneNumber: $$('#configuration-user-phone').value,
-                                enabled: true,
-                                roleId: $$('#configuration-user-role').children[0].dataset.value
-                            };
-                        } else {
-                            trigger('message', message.codes.passwordsDontMatch);
-                        }
-                        break;
-                }
-            } else {
-                switch (button.dataset.section) {
-                    case 'actions':
-                        break;
-                    case 'roles':
-                        break;
-                    case 'users':
-                        break;
-                }
+                    } else {
+                        trigger('message', message.codes.passwordsDontMatch);
+                    }
+                    section = 'users';
+                    break;
             }
+
+            function wait() {
+                $$(`#configuration-form-${section}`).classList.add('disabled');
+                $$('#configuration-black-overlay').classList.add('disabled');
+                addLoader(button);
+            }
+
+            function reset() {
+                $$(`#configuration-form-${section}`).classList.remove('disabled');
+                $$('#configuration-black-overlay').classList.remove('disabled');
+                removeLoader(button);
+            }
+
+            wait();
+            log(`editMode: ${editMode}`);
+            log(data);
+
+            trigger(`comm/configuration/${section}/${editMode ? 'edit' : 'create'}`, {
+                body: data,
+                success: function (response) {
+                    reset();
+                    trigger('message', response.responseCode);
+                    removeLoader($$('#sidebar-configuration'));
+                    if (response.responseCode === message.codes.success) {
+                        trigger('configuration/main/loaded');
+                        hideModal();
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', message.codes.communicationError);
+                    reset();
+                }
+            });
         });
 
         function passwordsMatch() {
@@ -190,8 +216,49 @@ let configuration = function () {
         }
     }
 
+    // REMOVE BUTTON
+    for (let button of $$('.configuration-remove')) {
+        button.addEventListener('click', function () {
+            let section = button.dataset.section;
+
+            function wait() {
+                $$(`#configuration-form-${section}`).classList.add('disabled');
+                $$('#configuration-black-overlay').classList.add('disabled');
+                addLoader(button);
+            }
+
+            function reset() {
+                $$(`#configuration-form-${section}`).classList.remove('disabled');
+                $$('#configuration-black-overlay').classList.remove('disabled');
+                removeLoader(button);
+            }
+
+            wait();
+            trigger(`comm/configuration/${section}/remove/single`, {
+                body: {
+                    id: openedId
+                },
+                success: function (response) {
+                    reset();
+                    trigger('message', response.responseCode);
+                    removeLoader($$('#sidebar-configuration'));
+                    if (response.responseCode === message.codes.success) {
+                        trigger('configuration/main/loaded');
+                        hideModal();
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', message.codes.communicationError);
+                    reset();
+                }
+            });
+        });
+    }
+
+    // ADD NEW BUTTON
     for (let button of $$('.configuration-add-new')) {
         button.addEventListener('click', function () {
+            openedId = '';
             let data = {};
             switch (button.dataset.section) {
                 case 'actions':

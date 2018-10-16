@@ -11,6 +11,10 @@ let comm = function () {
         'comm/configuration/roles/create': '/Settings/CreateRole',
         'comm/configuration/users/create': '/Settings/CreateUser',
 
+        'comm/configuration/actions/edit': '/Settings/EditAction',
+        'comm/configuration/roles/edit': '/Settings/EditRole',
+        'comm/configuration/users/edit': '/Settings/EditUser',
+
         'comm/configuration/actions/get': '/Settings/GetActions',
         'comm/configuration/roles/get': '/Settings/GetRoles',
         'comm/configuration/users/get': '/Settings/GetUsers',
@@ -19,9 +23,9 @@ let comm = function () {
         'comm/configuration/roles/get/single': '/Settings/GetRole',
         'comm/configuration/users/get/single': '/Settings/GetUser',
 
-        'comm/configuration/action/remove': '/Settings/RemoveAction',
-        'comm/configuration/role/remove': '/Settings/RemoveRole',
-        'comm/configuration/user/remove': '/Settings/RemoveUser',
+        'comm/configuration/actions/remove/single': '/Settings/RemoveAction',
+        'comm/configuration/roles/remove/single': '/Settings/RemoveRole',
+        'comm/configuration/users/remove/single': '/Settings/RemoveUser',
     };
 
     function get(action, callback, body) {

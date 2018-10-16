@@ -50,7 +50,7 @@ let dropdown = function () {
             let optionElement = document.createElement('div');
             optionElement.className = 'option';
             optionElement.dataset.value = option.id;
-            optionElement.innerHTML = option.name;
+            optionElement.innerHTML = option[Object.keys(this)[1]];
             wrapper.appendChild(optionElement);
         }
 

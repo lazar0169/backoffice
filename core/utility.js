@@ -58,6 +58,6 @@ function addLoader(element) {
 }
 
 function removeLoader(element) {
-    if (!element.getElementsByClassName('loading')) return;
+    if (!element.getElementsByClassName('loading')[0]) return;
     element.getElementsByClassName('loading')[0].remove();
 }
