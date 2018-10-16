@@ -200,4 +200,5 @@
 
 .mobile .configuration-section {
     flex: auto;
+    margin-bottom: 1em;
 }
