@@ -16,75 +16,56 @@ const message = function () {
         loggedOut: 2007
     };
 
-    const CODE = {
-        9999: {
-            description: 'Unknown error! Please contact administrator for more information.',
-            type: 3
-        },
-        900: {
-            description: 'Waiting for response from server...',
-            type: 0
-        },
-        901: {
-            description: 'Communication error. Please check your connection.',
-            type: 3
-        },
-        902: {
-            description: 'Please enter PIN that you received in mail.',
-            type: 1
-        },
-        903: {
-            description: 'Passwords don\'t match. Please try again',
-            type: 3
-        },
-        1000: {
-            description: 'Successful!',
-            type: 4
-        },
-        1001: {
-            description: 'Please check you parameters.',
-            type: 3
-        },
-        2001: {
-            description: 'User name does not exist! Please contact your administrator.',
-            type: 3
-        },
-        2002: {
-            description: 'Wrong password. Attempts left: %s. If you have forgot password, please contact administrator for password reset.',
-            type: 3
-        },
-        2003: {
-            description: 'You have entered wrong PIN! Attempts left: %s. Contact administrator if you didn\'t recived mail with PIN.',
-            type: 3
-        },
-        2004: {
-            description: 'No login attempts available, please contact your administrator for password reset.',
-            type: 2
-        },
-        2005: {
-            description: 'Something went wrong with login. Try again, or contact administrator for more information.',
-            type: 2
-        },
-        2006: {
-            description: 'Server problem during logout! Please try again',
-            type: 4
-        },
-        2007: {
-            description: 'Welcome: Use your credentials to log in',
-            type: 1
-        }
+    const description = {
+        9999: 'Unknown error! Please contact administrator for more information.',
+        900: 'Waiting for response from server...',
+        901: 'Communication error. Please check your connection.',
+        902: 'Please enter PIN that you received in mail.',
+        903: 'Passwords don\'t match. Please try again',
+        1000: 'Successful!',
+        1001: 'Please check you parameters.',
+        2001: 'User name does not exist! Please contact your administrator.',
+        2002: 'Wrong password. Attempts left: %s. If you have forgot password, please contact administrator for password reset.',
+        2003: 'You have entered wrong PIN! Attempts left: %s. Contact administrator if you didn\'t recived mail with PIN.',
+        2004: 'No login attempts available, please contact your administrator for password reset.',
+        2005: 'Something went wrong with login. Try again, or contact administrator for more information.',
+        2006: 'Server problem during logout! Please try again',
+        2007: 'Welcome: Use your credentials to log in',
+        3001: 'Invalid user name. It can only contains uppercase and lowercase letters, special characters "_" and ".", and numbers. ',
+        3002: 'User name already exist. Please choose another one',
+        3003: 'User name is already in use. Please choose another one',
+        3004: 'Weak password. Password must contain at least single uppercase letter, single number and special character (!@#$%^&*;?), and to be minimum 8 character long.',
     };
 
-    Object.freeze(CODE);
+    const type = {
+        9999: 3,
+        900: 0,
+        901: 3,
+        902: 1,
+        903: 3,
+        1000: 4,
+        1001: 3,
+        2001: 3,
+        2002: 3,
+        2003: 3,
+        2004: 2,
+        2005: 2,
+        2006: 4,
+        2007: 1,
+        3001: 3,
+        3002: 3,
+        3003: 3,
+        3004: 3,
+    };
 
     on('message', function (data) {
         let code = data[0];
         let message;
         if (code === undefined) {
             code = data;
-            message = `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''} ${CODE[code].description}`;
+            message = `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''} ${description[code]}`;
         } else {
-            message = `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''} ${CODE[code].description}`;
+            message = `${_config.development ? `[CODE: ${code}]&nbsp;&nbsp;&nbsp;&nbsp;` : ''} ${description[code]}`;
             for (let param of data.slice(1)) {
                 message = message.replace('%s', param);
             }
@@ -92,7 +73,7 @@ const message = function () {
         if (_config.development) {
             log('MESSAGE: ' + JSON.stringify(data));
         }
-        trigger('notify', { message: message, type: CODE[code].type });
+        trigger('notify', { message: message, type: type[code] });
     });
 
     return {

@@ -182,6 +182,32 @@
     display: none;
 }
 
+/* PROFILE */
+
+#configuration-profile .page-content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+    height: auto;
+}
+
+.configuration-profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.configuration-profile-wrapper input,
+.configuration-profile-wrapper button {
+    width: 100%;
+    max-width: 20em;
+}
+
+.configuration-profile-wrapper button {
+    margin-top: 1em;
+}
+
 /* MOBILE */
 
 .mobile #configuration-form-users .configuration-form-inputs {
@@ -201,4 +227,13 @@
 .mobile .configuration-section {
     flex: auto;
     margin-bottom: 1em;
+}
+
+.mobile #configuration-profile .page-content-wrapper {
+    grid-template-columns: 1fr;
+}
+
+.mobile .configuration-profile-wrapper input,
+.mobile .configuration-profile-wrapper button {
+    width: 100%;
 }

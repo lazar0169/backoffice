@@ -129,33 +129,17 @@ let configuration = function () {
                 case 'actions':
                     list = [];
                     for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
-                        list.push({
-                            checked: td.children[0].checked,
-                            role: {
-                                id: td.children[0].id,
-                                name: td.children[1].innerHTML
-                            }
-                        });
+                        list.push({ checked: td.children[0].checked, role: { id: td.children[0].id, name: td.children[1].innerHTML } });
                     }
-                    data = editMode ?
-                        { action: { id: openedId, name: $$('#configuration-action-name').value }, rolesList: list } :
-                        { actionName: $$('#configuration-action-name').value, rolesList: list };
+                    data = { action: { id: openedId === '' ? 0 : openedId, name: $$('#configuration-action-name').value }, rolesList: list };
                     section = 'actions';
                     break;
                 case 'roles':
                     list = [];
                     for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
-                        list.push({
-                            checked: td.children[0].checked,
-                            action: {
-                                id: td.children[0].id,
-                                name: td.children[1].innerHTML
-                            }
-                        });
+                        list.push({ checked: td.children[0].checked, action: { id: td.children[0].id, name: td.children[1].innerHTML } });
                     }
-                    data = editMode ?
-                        { role: { id: openedId, name: $$('#configuration-role-name').value }, actionList: list } :
-                        { roleName: $$('#configuration-role-name').value, actionList: list };
+                    data = { role: { id: openedId, name: $$('#configuration-role-name').value }, actionsList: list };
                     section = 'roles';
                     break;
                 case 'users':
@@ -296,6 +280,9 @@ let configuration = function () {
         }
     }
 
+    on('configuration/profile/loaded', function () {
+        // TODO
+    });
 
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
