@@ -61,7 +61,6 @@ let configuration = function () {
 
         $$('#configuration-black-overlay').style.display = 'block';
         $$('#configuration-form').classList.add('show');
-        $$('#configuration-main').children[0].classList.add('blur');
         $$('#configuration-main').children[0].scrollTop = 0;
         $$('#configuration-main').children[0].style.overflow = 'hidden';
     }
@@ -80,7 +79,6 @@ let configuration = function () {
     function hideModal() {
         $$('#configuration-black-overlay').style.display = 'none';
         $$('#configuration-form').classList.remove('show');
-        $$('#configuration-main').children[0].classList.remove('blur');
         $$('#configuration-main').children[0].style.overflow = 'auto';
         for (let checkbox of $$('#configuration-form-' + activeSection).getElementsByTagName('input')) {
             checkbox.checked = false;

@@ -1,4 +1,4 @@
-const currency = (function () {
+const currency = function () {
     let list = $$('.currency');
     let currencies = ['EUR', 'USD', 'RSD',];
     let selected = 0;
@@ -8,4 +8,4 @@ const currency = (function () {
             cur.innerHTML = currencies[++selected && (selected %= currencies.length)];
         });
     }
-})();
+}();

@@ -1,5 +1,43 @@
 <div id="operators-main" class="page-content active">
     <div class="page-content-wrapper">
+        <div id="operators-table" class="">
+            <table>
+                <caption>
+                    <div class="caption-title">Operators</div>
+                    <button id="operators-add-new" class="save"></button>
+                </caption>
+            </table>
+        </div>
 
+        <div id="operators-black-overlay"></div>
+
+        <div id="operators-form">
+            <div class="operators-form-wrapper" id="operators-form-main">
+                <div class="operators-form-title">
+                    <h2>Operator details</h2>
+                    <button class="cancel" id="operators-form-cancel">&#10005;</button>
+                </div>
+
+                <div id="operators-form-inputs">
+                    <input type="text" id="operator-name" placeholder="Operator Name">
+                    <input type="text" id="operator-currency-code" placeholder="Currency Code">
+                    <input type="text" id="operator-timezone-code" placeholder="Timezone Code">
+                    <div id="operators-games"></div>
+                    <div id="operators-portals"></div>
+                </div>
+
+                <div id="operators-form-button-wrapper">
+                    <button class="cancel" id="operators-form-remove">REMOVE</button>
+                    <button id="operators-form-save" class="save">SAVE</button>
+                </div>
+            </div>
+
+            <div class="operators-form-wrapper" id="operators-form-portal">
+                <div class="operators-form-title">
+                    <button class="" id="operators-form-back">&#9668;</button>
+                    <h2>Portal details</h2>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

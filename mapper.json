@@ -24,6 +24,7 @@
             "app/navigation.js",
             "app/responsive.js",
             "app/configuration.js",
+            "app/operators.js",
             "message.js",
             "currency.js"
         ],
@@ -36,7 +37,8 @@
             "components/table.css",
             "main.css",
             "navbar.css",
-            "configuration.css"
+            "app/configuration.css",
+            "app/operators.css"
         ]
     }
 }

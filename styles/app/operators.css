@@ -1,0 +1,222 @@
+#operators-main>.page-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#operators-table {
+    flex: 1;
+    box-sizing: border-box;
+}
+
+#operators-table table {
+    width: 100%;
+}
+
+#operators-table.hidden {
+    display: none;
+}
+
+#operators-black-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* FORM */
+
+.operators-form-title {
+    display: flex;
+}
+
+.operators-form-title>h2 {
+    flex: 1;
+}
+
+/* Buttons */
+
+#operators-add-new {
+    width: 3em;
+    position: relative;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 0;
+    margin: 2px 2px 3px 0;
+    border-radius: 0.2em;
+}
+
+#operators-form-cancel,
+#operators-form-back {
+    border-radius: 50%;
+    width: 20px;
+    height: 32px;
+    align-self: center;
+    background-color: transparent;
+    transition: all 0.3s;
+}
+
+#operators-form-cancel:hover,
+#operators-form-back:hover {
+    background-color: rgba(0, 0, 0, 0.34);
+}
+
+#operators-add-new::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 0.7rem;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#operators-add-new::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 0.7rem;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+/* Buttons end */
+
+#operators-form {
+    position: absolute;
+    width: 35em;
+    height: 50em;
+    max-height: 100%;
+    align-self: center;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+#operators-form.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.operators-form-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.operators-form-wrapper h2 {
+    margin: 0.5em 0;
+}
+
+#operators-form input[type='text'] {
+    width: 100%;
+}
+
+#operators-form-inputs {
+    width: 100%;
+    overflow: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#operators-form-inputs>* {
+    margin: 0.3em 0;
+}
+
+#operators-form table {
+    width: 100%;
+}
+
+#operators-form table td label {
+    width: 100%;
+}
+
+#operators-form table td {
+    display: flex;
+}
+
+#operators-games,
+#operators-portals {
+    overflow: auto;
+    flex: 1;
+}
+
+#operators-form-button-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.3em;
+}
+
+#operators-form-button-wrapper button {
+    margin: 0.3em 0;
+    width: 100%;
+}
+
+#operators-form-button-wrapper button:nth-child(2) {
+    float: right;
+}
+
+#operators-form-button-wrapper.edit {
+    grid-template-columns: 1fr;
+}
+
+#operators-form-button-wrapper.edit #operators-form-remove {
+    display: none;
+}
+
+/* Portal edit */
+
+#operators-form-portal {
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#operators-form-back {
+    margin-right: 2em;
+}
+
+#operators-form-portal.show {
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+/* MOBILE */
+
+.mobile .operators-form-wrapper {
+    padding: 0;
+}
+
+.mobile #operators-form-inputs {
+    margin-top: 0;
+}
+
+.mobile #operators-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+}

@@ -3,15 +3,11 @@
     flex-wrap: wrap;
 }
 
-.blur .configuration-section {
-    filter: blur(0.5em);
-}
-
 .configuration-section {
     flex: 1;
     box-sizing: border-box;
     padding: 0 1em;
-}
+}   
 
 .configuration-section.hidden {
     display: none;
@@ -27,6 +23,8 @@
     height: 100%;
     display: none;
 }
+
+/* FORM */
 
 .configuration-form-title {
     display: flex;
@@ -78,11 +76,9 @@
     bottom: 0;
 }
 
-.configuration-add-new:hover {
+/* .configuration-add-new:hover {
     background-color: rgba(0, 0, 0, 0.43);
-}
-
-/* FORM */
+} */
 
 #configuration-form {
     position: absolute;
