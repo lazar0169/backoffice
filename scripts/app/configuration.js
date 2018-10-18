@@ -53,11 +53,7 @@ let configuration = function () {
             };
         }
 
-        if (!editMode) {
-            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.add('edit');
-        } else {
-            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.remove('edit');
-        }
+        form.getElementsByClassName('configuration-form-button-wrapper')[0].classList[!editMode ? 'add' : 'remove']('edit');
 
         $$('#configuration-black-overlay').style.display = 'block';
         $$('#configuration-form').classList.add('show');

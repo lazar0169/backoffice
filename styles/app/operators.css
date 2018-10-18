@@ -46,18 +46,10 @@
 }
 
 #operators-form-cancel,
-#operators-form-back {
-    border-radius: 50%;
-    width: 20px;
-    height: 32px;
+#operators-form-portal-back,
+#operators-form-jackpot-back {
     align-self: center;
-    background-color: transparent;
     transition: all 0.3s;
-}
-
-#operators-form-cancel:hover,
-#operators-form-back:hover {
-    background-color: rgba(0, 0, 0, 0.34);
 }
 
 #operators-add-new::after {
@@ -129,7 +121,7 @@
     width: 100%;
 }
 
-#operators-form-inputs {
+.operators-form-inputs {
     width: 100%;
     overflow: auto;
     flex: 1;
@@ -137,7 +129,7 @@
     flex-direction: column;
 }
 
-#operators-form-inputs>* {
+.operators-form-inputs>* {
     margin: 0.3em 0;
 }
 
@@ -159,32 +151,38 @@
     flex: 1;
 }
 
-#operators-form-button-wrapper {
+#operators-form-button-wrapper,
+#operators-form-portal-button-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0.3em;
 }
 
-#operators-form-button-wrapper button {
+#operators-form-button-wrapper button,
+#operators-form-portal-button-wrapper button {
     margin: 0.3em 0;
     width: 100%;
 }
 
-#operators-form-button-wrapper button:nth-child(2) {
+#operators-form-button-wrapper button:nth-child(2),
+#operators-form-portal-button-wrapper button:nth-child(2) {
     float: right;
 }
 
-#operators-form-button-wrapper.edit {
+#operators-form-button-wrapper.edit,
+#operators-form-portal-button-wrapper.edit {
     grid-template-columns: 1fr;
 }
 
-#operators-form-button-wrapper.edit #operators-form-remove {
+#operators-form-button-wrapper.edit #operators-form-remove,
+#operators-form-portal-button-wrapper.edit #operators-form-portal-remove {
     display: none;
 }
 
 /* Portal edit */
 
-#operators-form-portal {
+#operators-form-portal,
+#operators-form-jackpot {
     position: absolute;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background-color: #434a5c;
@@ -192,13 +190,19 @@
     transform: translate3d(100%, 0, 0);
 }
 
-#operators-form-back {
+#operators-form-portal-back,
+#operators-form-jackpot-back {
     margin-right: 2em;
 }
 
-#operators-form-portal.show {
+#operators-form-portal.show,
+#operators-form-jackpot.show {
     box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
+}
+
+.operators-form-jackpot-button {
+    text-transform: uppercase;
 }
 
 /* MOBILE */
@@ -207,7 +211,12 @@
     padding: 0;
 }
 
-.mobile #operators-form-inputs {
+.mobile #operators-form-cancel,
+.mobile #operators-form-back {
+    background-color: #313c4a !important;
+}
+
+.mobile .operators-form-inputs {
     margin-top: 0;
 }
 

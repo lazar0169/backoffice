@@ -1,52 +1,44 @@
 let operators = function () {
-    let openedId;
+    let openedOperatorId;
     let editMode = false;
+    let editModePortal = false;
+    let operatorData = {};
+    let openedOperatorData = {};
 
     $$('#operators-black-overlay').addEventListener('click', hideModal);
 
     $$('#operators-form-cancel').addEventListener('click', hideModal);
 
-    $$('#operators-form-back').addEventListener('click', function () { portalModal.hide(); });
+    $$('#operators-form-portal-back').addEventListener('click', function () { portalModal.hide(); });
+    $$('#operators-form-jackpot-back').addEventListener('click', function () { jackpotModal.hide(); });
 
     $$('#operators-add-new').addEventListener('click', function () {
-        openedId = '';
+        openedOperatorId = '';
         let data = {
             portalsList: [
                 {
-                    id: 123,
-                    name: 'operator1'
-                },
-                {
-                    id: 125,
-                    name: 'operator2'
-                },
-                {
-                    id: 12235,
-                    name: 'operator3'
-                },
-                {
-                    id: 142125,
-                    name: 'operator4'
-                },
-                {
-                    id: 1265,
-                    name: 'operator5'
-                },
-                {
-                    id: 1225,
-                    name: 'operator6'
-                },
-                {
-                    id: 1265,
-                    name: 'operator7'
-                },
-                {
-                    id: 1725,
-                    name: 'operator8'
-                },
-                {
-                    id: 1825,
-                    name: 'operator9'
+                    "portalId": '',
+                    "currencyId": '',
+                    "gameLaunchURL": "http://test.com",
+                    "integrationType": "type1",
+                    "userName": "portal1",
+                    "password": "098213",
+                    "warrningActiveCredit": '',
+                    "blockingActiveCredit": '',
+                    "platinum": {
+                        "betContribution": '1',
+                        "minBet": '1',
+                        "baseJackpotValue": '1',
+                        "minJackpotValue": '1',
+                        "maxJackpotValue": '1'
+                    },
+                    "diamond": {
+                        "betContribution": '2',
+                        "minBet": '2',
+                        "baseJackpotValue": '2',
+                        "minJackpotValue": '2',
+                        "maxJackpotValue": '2'
+                    }
                 }
             ],
             gamesList: [
@@ -115,11 +107,12 @@ let operators = function () {
                 }
             ]
         };
-        showModal(data);
+        operatorData = data;
+        showModal();
     });
 
     // Shows modal with details for individual selection
-    function showModal(data) {
+    function showModal() {
         let form = $$('#operators-form');
         let mainPage = $$('#operators-form-main');
         let gamesWrapper = $$('#operators-games');
@@ -127,8 +120,8 @@ let operators = function () {
 
         gamesWrapper.innerHTML = '';
         portalsWrapper.innerHTML = '';
-        gamesWrapper.appendChild(generateModalData(data.gamesList));
-        portalsWrapper.appendChild(generateModalData(data.portalsList));
+        gamesWrapper.appendChild(generateModalData(operatorData.gamesList, 'game'));
+        portalsWrapper.appendChild(generateModalData(operatorData.portalsList, 'portal'));
 
         $$('#operator-name').value = '';
         $$('#operator-currency-code').value = '';
@@ -141,11 +134,12 @@ let operators = function () {
             };
         }
 
-        if (!editMode) {
-            $$('#operators-form-button-wrapper').classList.add('edit');
-        } else {
-            $$('#operators-form-button-wrapper').classList.remove('edit');
-        }
+        $$('#operators-form-save').onclick = function () {
+            console.log(operatorData.portalsList);
+            hideModal();
+        };
+
+        $$('#operators-form-button-wrapper').classList[editMode ? 'remove' : 'add']('edit');
 
         $$('#operators-black-overlay').style.display = 'block';
         form.classList.add('show');
@@ -161,17 +155,89 @@ let operators = function () {
             checkbox.checked = false;
         }
         portalModal.hide();
+        jackpotModal.hide();
         editMode = false;
     }
 
     let portalModal = function () {
-        let portal = $$('#operators-form-portal');
+        let modal = $$('#operators-form-portal');
+        let gameLaunchURL = $$('#operator-game-launch-url');
+        let integrationType = $$('#operator-integration-type');
+        let userName = $$('#operator-user-name');
+        let password = $$('#operator-password');
+        let warrningActiveCredit = $$('#operator-warrning-active-credit');
+        let blockingActiveCredit = $$('#operator-blocking-active-credit');
+        $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'add' : 'remove']('edit');
         return {
-            show: function () {
-                portal.classList.add('show');
+            show: function (element, index) {
+                openedOperatorData = element;
+                gameLaunchURL.value = element.gameLaunchURL;
+                integrationType.value = element.integrationType;
+                userName.value = element.userName;
+                password.value = element.password;
+                warrningActiveCredit.value = element.warrningActiveCredit;
+                blockingActiveCredit.value = element.blockingActiveCredit;
+                for (let button of $$('.operators-form-jackpot-button')) {
+                    button.onclick = function () {
+                        jackpotModal.show(openedOperatorData[button.dataset.jackpot], button.dataset.jackpot);
+                    };
+                }
+                $$('#operators-form-portal-save').onclick = function () {
+                    openedOperatorData.gameLaunchURL = gameLaunchURL.value;
+                    openedOperatorData.integrationType = integrationType.value;
+                    openedOperatorData.userName = userName.value;
+                    openedOperatorData.password = password.value;
+                    openedOperatorData.warrningActiveCredit = warrningActiveCredit.value;
+                    openedOperatorData.blockingActiveCredit = blockingActiveCredit.value;
+                    operatorData[index] = openedOperatorData;
+                    portalModal.hide();
+                }
+                modal.classList.add('show');
             },
             hide: function () {
-                portal.classList.remove('show');
+                gameLaunchURL.value = '';
+                integrationType.value = '';
+                userName.value = '';
+                password.value = '';
+                warrningActiveCredit.value = '';
+                blockingActiveCredit.value = '';
+                modal.classList.remove('show');
+            }
+        }
+    }();
+
+    let jackpotModal = function () {
+        let modal = $$('#operators-form-jackpot');
+        let betContribution = $$('#operator-bet-contribution');
+        let minBet = $$('#operator-min-bet');
+        let baseJackpotValue = $$('#operator-base-jackpot-value');
+        let minJackpotValue = $$('#operator-min-jackpot-value');
+        let maxJackpotValue = $$('#operator-max-jackpot-value');
+        return {
+            show: function (element, jackpot) {
+                betContribution.value = element.betContribution;
+                minBet.value = element.minBet;
+                baseJackpotValue.value = element.baseJackpotValue;
+                minJackpotValue.value = element.minJackpotValue;
+                maxJackpotValue.value = element.maxJackpotValue;
+
+                $$('#operators-form-jackpots-save').onclick = function () {
+                    openedOperatorData[jackpot].betContribution = betContribution.value;
+                    openedOperatorData[jackpot].minBet = minBet.value;
+                    openedOperatorData[jackpot].baseJackpotValue = baseJackpotValue.value;
+                    openedOperatorData[jackpot].minJackpotValue = minJackpotValue.value;
+                    openedOperatorData[jackpot].maxJackpotValue = maxJackpotValue.value;
+                    jackpotModal.hide();
+                };
+                modal.classList.add('show');
+            },
+            hide: function () {
+                betContribution.value = '';
+                minBet.value = '';
+                baseJackpotValue.value = '';
+                minJackpotValue.value = '';
+                maxJackpotValue.value = '';
+                modal.classList.remove('show');
             }
         }
     }();
@@ -196,29 +262,37 @@ let operators = function () {
         actions.classList.remove('hidden');
     }
 
-    function generateModalData(data) {
+    function generateModalData(data, type) {
         let table = document.createElement('table');
+        let i = 0;
         for (let element of data) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
-            if (element.game) {
-                element = element.game;
-                let input = document.createElement('input');
-                let label = document.createElement('label');
-                input.type = 'checkbox';
-                input.checked = !!element.checked;
-                input.id = element.id;
-                label.for = element.id;
-                label.innerHTML = element.name;
-                td.appendChild(input);
-                td.appendChild(label);
-            } else {
-                td.innerHTML = element.name;
-                td.onclick = function () { portalModal.show(); };
-                tr.dataset.id = element.id;
+            switch (type) {
+                case 'game':
+                    element = element.game;
+                    let input = document.createElement('input');
+                    let label = document.createElement('label');
+                    input.type = 'checkbox';
+                    input.checked = !!element.checked;
+                    input.id = element.id;
+                    label.for = element.id;
+                    label.innerHTML = element.name;
+                    td.appendChild(input);
+                    td.appendChild(label);
+                    break;
+                case 'portal':
+                    td.innerHTML = element.userName;
+                    td.onclick = function () {
+                        editModePortal = true;
+                        portalModal.show(element, i);
+                    };
+                    tr.dataset.id = element.id;
+                    break;
             }
             tr.appendChild(td);
             table.appendChild(tr);
+            i++;
         }
         return table;
     }
@@ -231,7 +305,7 @@ let operators = function () {
             },
             success: function (response) {
                 editMode = true;
-                openedId = response.result.id; // CHECK IT! 
+                openedOperatorId = response.result.id; // CHECK IT! 
                 removeLoader(data.caller);
                 showModal(response.result);
             }

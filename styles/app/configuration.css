@@ -7,7 +7,7 @@
     flex: 1;
     box-sizing: border-box;
     padding: 0 1em;
-}   
+}
 
 .configuration-section.hidden {
     display: none;
@@ -40,14 +40,13 @@
     position: relative;
     box-sizing: border-box;
     cursor: pointer;
-    padding: 0;
     margin: 2px 2px 3px 0;
     border-radius: 0.2em;
 }
 
 .configuration-form-cancel {
-    margin: 0.6em 0;
-    border-radius: 0;
+    align-self: center;
+    transition: all 0.3s;
 }
 
 .configuration-add-new::after {
@@ -180,7 +179,7 @@
 
 /* PROFILE */
 
-#configuration-profile .page-content-wrapper {
+#configuration-profile-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
@@ -210,6 +209,10 @@
     margin-top: 0;
 }
 
+.mobile .configuration-form-cancel:hover {
+    background-color: #313c4a !important;
+}
+
 .mobile #configuration-form {
     position: absolute;
     width: 100%;
@@ -225,7 +228,7 @@
     margin-bottom: 1em;
 }
 
-.mobile #configuration-profile .page-content-wrapper {
+.mobile #configuration-profile-form {
     grid-template-columns: 1fr;
 }
 

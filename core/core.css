@@ -119,6 +119,14 @@ button.cancel:hover {
     background-color: #bd4631;
 }
 
+button.config {
+    background-color: #313c4a;
+}
+
+button.config:hover {
+    background-color: #2d3844;
+}
+
 button.save {
     background-color: #1b801b;
 }
@@ -191,4 +199,24 @@ input[type=checkbox]:checked+label:after {
     width: 100%;
     margin: 0.1em 0;
     height: 2.5em;
+}
+
+.mobile button:active {
+    filter: brightness(1);
+}
+
+.mobile button:hover {
+    background-color: #419ad4;
+}
+
+.mobile button.cancel:hover {
+    background-color: #a53825;
+}
+
+.mobile button.config:hover {
+    background-color: #313c4a;
+}
+
+.mobile button.save:hover {
+    background-color: #1b801b;
 }
