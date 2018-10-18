@@ -128,11 +128,11 @@ button.config:hover {
 }
 
 button.save {
-    background-color: #1b801b;
+    background-color: #259063;
 }
 
 button.save:hover {
-    background-color: #32a732;
+    background-color: #33a174;
 }
 
 input[type=checkbox] {

@@ -9,6 +9,91 @@ let configuration = function () {
     let openedId;
 
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
+    $$('#configuration-profile-save-password').addEventListener('click', function () {
+        let oldPassword = $$('#configuration-profile-old-password').value;
+        let newPassword = $$('#configuration-profile-new-password').value;
+        let repeatedPassword = $$('#configuration-profile-repeat-password').value;
+
+        let button = this;
+
+        if (!newPassword && !repeatedPassword || newPassword === repeatedPassword) {
+            addLoader(button);
+            trigger('comm/configuration/profile/password/edit', {
+                body: {
+                    "oldPassword": oldPassword,
+                    "newPassword": newPassword,
+                    "newPasswordRepeated": repeatedPassword
+                },
+                success: function (response) {
+                    removeLoader(button);
+                    if (response.responseCode === message.codes.success) {
+                        oldPassword = '';
+                        newPassword = '';
+                        repeatedPassword = '';
+                    } else {
+                        repeatedPassword = '';
+                    }
+                },
+                fail: function (err) {
+                    removeLoader(button);
+                }
+            });
+        }
+    });
+
+    $$('#configuration-profile-save-profile').addEventListener('click', function () {
+        let name = $$('#configuration-profile-name').value;
+        let userName = $$('#configuration-profile-user-name').value;
+        let email = $$('#configuration-profile-email').value;
+        let phoneNumber = $$('#configuration-profile-phone').value;
+
+        let button = this;
+
+        if (name !== '' && userName !== '' && email !== '' && phoneNumber !== '') {
+            addLoader(button);
+            trigger('comm/configuration/profile/edit', {
+                body: {
+                    "name": name,
+                    "userName": userName,
+                    "email": email,
+                    "phoneNumber": phoneNumber
+                },
+                success: function (response) {
+                    removeLoader(button);
+                },
+                fail: function (err) {
+                    removeLoader(button);
+                }
+            });
+        }
+    });
+
+    on('configuration/profile/loaded', function () {
+        $$('#configuration-profile-old-password').value = '';
+        $$('#configuration-profile-new-password').value = '';
+        $$('#configuration-profile-repeat-password').value = '';
+
+        addLoader($$('#configuration-navbar-profile'));
+        trigger('comm/configuration/profile/get', {
+            success: function (response) {
+                removeLoader($$('#configuration-navbar-profile'));
+                if (response.responseCode === message.codes.success) {
+                    $$('#configuration-profile-name').value = response.result.name
+                    $$('#configuration-profile-user-name').value = response.result.userName
+                    $$('#configuration-profile-email').value = response.result.email
+                    $$('#configuration-profile-phone').value = response.result.phoneNumber
+                } else {
+                    $$('#configuration-profile-name').value = '';
+                    $$('#configuration-profile-user-name').value = '';
+                    $$('#configuration-profile-email').value = '';
+                    $$('#configuration-profile-phone').value = '';
+                }
+            },
+            fail: function (err) {
+                removeLoader($$('#configuration-navbar-profile'));
+            }
+        });
+    });
 
     // Shows modal with details for individual selection
     function showModal(section, data) {
@@ -354,6 +439,9 @@ let configuration = function () {
                         response.result.userId;
                 removeLoader(data.caller);
                 showModal(data.section, response.result);
+            },
+            fail: function () {
+                removeLoader(data.caller);
             }
         });
     });

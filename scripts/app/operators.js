@@ -6,16 +6,14 @@ let operators = function () {
     let openedOperatorData = {};
 
     $$('#operators-black-overlay').addEventListener('click', hideModal);
-
     $$('#operators-form-cancel').addEventListener('click', hideModal);
-
     $$('#operators-form-portal-back').addEventListener('click', function () { portalModal.hide(); });
     $$('#operators-form-jackpot-back').addEventListener('click', function () { jackpotModal.hide(); });
 
     $$('#operators-add-new').addEventListener('click', function () {
         openedOperatorId = '';
         let data = {
-            portalsList: [
+            portalSettingsList: [
                 {
                     "portalId": '',
                     "currencyId": '',
@@ -41,7 +39,7 @@ let operators = function () {
                     }
                 }
             ],
-            gamesList: [
+            games: [
                 {
                     checked: false,
                     game: {
@@ -111,8 +109,22 @@ let operators = function () {
         showModal();
     });
 
+    on('operators/main/loaded', function () {
+        addLoader($$('#sidebar-operators'));
+        trigger('comm/operators/get', {
+            success: function (response) {
+                removeLoader($$('#sidebar-operators'));
+                createList(response.result);
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-operators'));
+            }
+        });
+    });
+
     // Shows modal with details for individual selection
-    function showModal() {
+    function showModal(data) {
+        operatorData = data;
         let form = $$('#operators-form');
         let mainPage = $$('#operators-form-main');
         let gamesWrapper = $$('#operators-games');
@@ -120,8 +132,8 @@ let operators = function () {
 
         gamesWrapper.innerHTML = '';
         portalsWrapper.innerHTML = '';
-        gamesWrapper.appendChild(generateModalData(operatorData.gamesList, 'game'));
-        portalsWrapper.appendChild(generateModalData(operatorData.portalsList, 'portal'));
+        gamesWrapper.appendChild(generateModalData(operatorData.games, 'game'));
+        portalsWrapper.appendChild(generateModalData(operatorData.portalSettingsList, 'portal'));
 
         $$('#operator-name').value = '';
         $$('#operator-currency-code').value = '';
@@ -135,7 +147,7 @@ let operators = function () {
         }
 
         $$('#operators-form-save').onclick = function () {
-            console.log(operatorData.portalsList);
+            console.log(operatorData.portalSettingsList);
             hideModal();
         };
 
@@ -299,15 +311,18 @@ let operators = function () {
 
     on('operators/show/modal', function (data) {
         addLoader(data.caller);
-        trigger(`comm/operators/${data.section}/get/single`, {
+        trigger('comm/operators/get/single', {
             body: {
                 id: data.id
             },
             success: function (response) {
                 editMode = true;
-                openedOperatorId = response.result.id; // CHECK IT! 
+                openedOperatorId = data.id;
                 removeLoader(data.caller);
                 showModal(response.result);
+            },
+            fail: function () {
+                removeLoader(data.caller);
             }
         });
     });

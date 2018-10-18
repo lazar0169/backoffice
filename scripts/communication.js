@@ -6,6 +6,14 @@ let comm = function () {
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
+
+        // Operators
+        'comm/operators/get': '/Operator/GetOperators',
+        'comm/operators/create': '/Operator/CreateOperator',
+        'comm/operators/remove': '/Operator/RemoveOperator',
+        'comm/operators/edit': '/Operator/EditOperator',
+        'comm/operators/get/single': '/Operator/GetOperator',
+
         // Configuration
         'comm/configuration/actions/create': '/Settings/CreateAction',
         'comm/configuration/roles/create': '/Settings/CreateRole',
@@ -26,6 +34,10 @@ let comm = function () {
         'comm/configuration/actions/remove/single': '/Settings/RemoveAction',
         'comm/configuration/roles/remove/single': '/Settings/RemoveRole',
         'comm/configuration/users/remove/single': '/Settings/RemoveUser',
+
+        'comm/configuration/profile/get': '/Settings/GetProfile',
+        'comm/configuration/profile/edit': '/Settings/UpdateProfile',
+        'comm/configuration/profile/password/edit': '/Settings/ForgottenPassword',
     };
 
     function get(action, callback, body) {
@@ -44,13 +56,17 @@ let comm = function () {
             return response.json();
         }).then(function (json) {
             log(json);
-            json.responseCode === message.codes.loggedOut ?
-                location.href = location.origin :
-                callback.success(json);
+            if (json.responseCode === message.codes.loggedOut) {
+                location.href = location.origin;
+            }
+            callback.success(json);
         }).catch((err) => {
             callback.fail(err);
             trigger('message', message.codes.communicationError);
             log(err);
+            // setTimeout(() => {
+            //     location.href = location.origin;
+            // }, 1000);
         });
     }
 
