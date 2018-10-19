@@ -1,5 +1,22 @@
 <div id="accounting-reports" class="page-content">
     <div class="page-content-wrapper">
-        ACCOUNTING REPORTS
+        <div class="select" id="accounting-time-span">
+            <div class="selected" data-value="">Time Span</div>
+            <div class="options-wrapper hidden">
+                <div class="option" data-value="cusom">Custom</div>
+                <div class="option" data-value="today">Today</div>
+                <div class="option" data-value="yesterday">Yesterday</div>
+                <div class="option" data-value="lastThreeDays">Last Three Days</div>
+                <div class="option" data-value="lastWeek">Last Week</div>
+                <div class="option" data-value="lastMonth">Last Month</div>
+                <div class="option" data-value="lastQuarter">Last Quarter</div>
+                <div class="option" data-value="lastYear">Last Year</div>
+            </div>
+        </div>
+        <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
+        <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
+        <span id="accounting-operators-wrapper">
+
+        </span>
     </div>
 </div>

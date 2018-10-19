@@ -25,6 +25,7 @@
             "app/responsive.js",
             "app/configuration.js",
             "app/operators.js",
+            "app/accounting.js",
             "message.js",
             "currency.js"
         ],

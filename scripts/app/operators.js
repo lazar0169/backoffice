@@ -286,7 +286,7 @@ let operators = function () {
                     let label = document.createElement('label');
                     input.type = 'checkbox';
                     input.checked = !!element.checked;
-                    input.id = element.id;
+                    input.dataset.id = element.id;
                     label.for = element.id;
                     label.innerHTML = element.name;
                     td.appendChild(input);

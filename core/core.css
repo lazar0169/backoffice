@@ -139,6 +139,7 @@ input[type=checkbox] {
     visibility: hidden;
     pointer-events: none;
     position: absolute;
+    display: none;
 }
 
 label:before {

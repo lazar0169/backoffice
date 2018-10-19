@@ -28,7 +28,7 @@
     z-index: 9;
     width: 100%;
     max-height: 20em;
-    min-width: fit-content;
+    /* min-width: fit-content; */
     overflow: auto;
 }
 
@@ -56,7 +56,7 @@
     -webkit-appearance: none;
     cursor: pointer;
     transition: 0.2s background-color;
-    min-width: 12em;
+    width: 12em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,4 +72,8 @@
 .mobile .option:hover,
 .mobile .selected:hover {
     background-color: #dd9853;
+}
+
+.mobile .select.multiple .option:hover {
+    background-color: #434a5c !important;
 }

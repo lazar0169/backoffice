@@ -7,6 +7,12 @@ let comm = function () {
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
 
+        // Accounting
+        'comm/accounting/operators/get': '/Accounting/GetOperators',
+        'comm/accounting/portals/get': '/Accounting/GetPortalsByOperatorId',
+        'comm/accounting/get': '/Accounting/GetAccounting',
+
+
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
         'comm/operators/create': '/Operator/CreateOperator',

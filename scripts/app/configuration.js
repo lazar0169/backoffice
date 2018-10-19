@@ -151,8 +151,9 @@ let configuration = function () {
         let table = ''
         for (let element of data) {
             let checked = element.checked ? 'checked' : '';
+            let id = generateGuid();
             element = element.role || element.action || element;
-            table += `<tr><td><input type="checkbox" ${checked} id="${element.id}"><label for="${element.id}">${element.name}</label></td></tr>`;
+            table += `<tr><td><input type="checkbox" ${checked} id=${id} data-id="${element.id}"><label for="${id}">${element.name}</label></td></tr>`;
         }
         return `<table>${table}</table>`;
     }
@@ -208,7 +209,7 @@ let configuration = function () {
                 case 'actions':
                     list = [];
                     for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
-                        list.push({ checked: td.children[0].checked, role: { id: td.children[0].id, name: td.children[1].innerHTML } });
+                        list.push({ checked: td.children[0].checked, role: { id: td.children[0].dataset.id, name: td.children[1].innerHTML } });
                     }
                     data = { action: { id: openedId === '' ? 0 : openedId, name: $$('#configuration-action-name').value }, rolesList: list };
                     section = 'actions';
@@ -216,7 +217,7 @@ let configuration = function () {
                 case 'roles':
                     list = [];
                     for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
-                        list.push({ checked: td.children[0].checked, action: { id: td.children[0].id, name: td.children[1].innerHTML } });
+                        list.push({ checked: td.children[0].checked, action: { id: td.children[0].dataset.id, name: td.children[1].innerHTML } });
                     }
                     data = { role: { id: openedId, name: $$('#configuration-role-name').value }, actionsList: list };
                     section = 'roles';
