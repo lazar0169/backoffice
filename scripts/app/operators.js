@@ -105,8 +105,7 @@ let operators = function () {
                 }
             ]
         };
-        operatorData = data;
-        showModal();
+        showModal(data);
     });
 
     on('operators/main/loaded', function () {
