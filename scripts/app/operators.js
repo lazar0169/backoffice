@@ -64,6 +64,10 @@ let operators = function () {
 
     // Shows modal with details for individual selection
     function showModal(data) {
+        if (!data) {
+            trigger('message', message.codes.badParameter);
+            return;
+        }
         operatorData = data;
         let form = $$('#operators-form');
         let currencyTimezoneWrapper = $$('#operator-currency-timezone');
@@ -368,10 +372,14 @@ let operators = function () {
                 id: data.id
             },
             success: function (response) {
-                editMode = true;
-                openedOperatorId = data.id;
-                removeLoader(data.caller);
-                showModal(response.result);
+                if (response.responseCode === message.codes.success) {
+                    editMode = true;
+                    openedOperatorId = data.id;
+                    removeLoader(data.caller);
+                    showModal(response.result);
+                } else {
+                    trigger('message', response.responseCode)
+                }
             },
             fail: function () {
                 removeLoader(data.caller);

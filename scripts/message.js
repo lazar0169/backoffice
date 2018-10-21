@@ -1,6 +1,7 @@
 const message = function () {
     const codes = {
         unknown: 9999,
+        clientError: 999,
         waitingResponse: 900,
         communicationError: 901,
         enterPin: 902,
@@ -25,7 +26,8 @@ const message = function () {
     };
 
     const description = {
-        9999: 'Unknown error! Please contact administrator for more information.',
+        9999: 'Unknown server error! Please contact administrator for more information.',
+        999: 'Client error! Please contact administrator for more information.',
         900: 'Waiting for response from server...',
         901: 'Communication error. Please check your connection.',
         902: 'Please enter PIN that you received in mail.',
@@ -51,6 +53,7 @@ const message = function () {
 
     const type = {
         9999: 3,
+        999: 3,
         900: 0,
         901: 3,
         902: 1,

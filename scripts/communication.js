@@ -71,7 +71,7 @@ let comm = function () {
             callback.success(json);
         }).catch((err) => {
             callback.fail(err);
-            trigger('message', message.codes.communicationError);
+            trigger('message', message.codes.clientError);
             log(err);
             // setTimeout(() => {
             //     location.href = location.origin;
