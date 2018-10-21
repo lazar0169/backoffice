@@ -20,10 +20,10 @@
 
                 <div class="operators-form-inputs">
                     <input type="text" id="operator-name" placeholder="Operator Name">
-                    <input type="text" id="operator-currency-code" placeholder="Currency Code">
-                    <input type="text" id="operator-timezone-code" placeholder="Timezone Code">
+                    <div id="operator-currency-timezone"></div>
                     <div id="operators-games"></div>
                     <div id="operators-portals"></div>
+                    <button class="save" id="operators-form-create">CREATE NEW PORTAL</button>
                 </div>
 
                 <div id="operators-form-button-wrapper">
@@ -42,6 +42,7 @@
                     <input type="text" id="operator-integration-type" placeholder="Integration Type">
                     <input type="text" id="operator-user-name" placeholder="User Name">
                     <input type="password" id="operator-password" placeholder="Password">
+                    <div id="operators-portal-currency"></div>
                     <input type="number" id="operator-warrning-active-credit" placeholder="Warrning Active Credit">
                     <input type="number" id="operator-blocking-active-credit" placeholder="Blocking Active Credit">
                     <button data-jackpot="platinum" class="config operators-form-jackpot-button"><span class="icon-7"></span><span>Platinum jackpot settings</span></button>

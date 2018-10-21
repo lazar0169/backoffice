@@ -5,6 +5,9 @@ const message = function () {
         communicationError: 901,
         enterPin: 902,
         passwordsDontMatch: 903,
+        notValidUserName: 904,
+        passwordWillAriveShortly: 905,
+        invalidCurrencyAndTimeZone: 906,
         success: 1000,
         badParameter: 1001,
         nonExistingUserName: 2001,
@@ -13,7 +16,12 @@ const message = function () {
         thirdTimeBadPin: 2004,
         logInWentWrong: 2005,
         logedOutFailed: 2006,
-        loggedOut: 2007
+        loggedOut: 2007,
+        invalidUserName: 3001,
+        userNameExists: 3002,
+        userNameInUse: 3003,
+        weakPassword: 3004,
+        passwordContainsUserName: 3005,
     };
 
     const description = {
@@ -22,6 +30,9 @@ const message = function () {
         901: 'Communication error. Please check your connection.',
         902: 'Please enter PIN that you received in mail.',
         903: 'Passwords don\'t match. Please try again',
+        904: 'You must enter valid user name in order to reset password',
+        905: 'You will recive an email shortly with new password. When you do, use it to log in and go to: "configuration -> profile" to change it',
+        906: 'Please check currency and time zone',
         1000: 'Successful!',
         1001: 'Please check you parameters.',
         2001: 'User name does not exist! Please contact your administrator.',
@@ -29,12 +40,13 @@ const message = function () {
         2003: 'You have entered wrong PIN! Attempts left: %s. Contact administrator if you didn\'t recived mail with PIN.',
         2004: 'No login attempts available, please contact your administrator for password reset.',
         2005: 'Something went wrong with login. Try again, or contact administrator for more information.',
-        2006: 'Server problem during logout! Please try again',
-        2007: 'Welcome: Use your credentials to log in',
+        2006: 'Server problem during logout! Please try again.',
+        2007: 'Welcome: Use your credentials to log in.',
         3001: 'Invalid user name. It can only contains uppercase and lowercase letters, special characters "_" and ".", and numbers. ',
-        3002: 'User name already exist. Please choose another one',
-        3003: 'User name is already in use. Please choose another one',
+        3002: 'User name already exist. Please choose another one.',
+        3003: 'User name is already in use. Please choose another one.',
         3004: 'Weak password. Password must contain at least single uppercase letter, single number and special character (!@#$%^&*;?), and to be minimum 8 character long.',
+        3005: 'Password must not contain user name as its substring.',
     };
 
     const type = {
@@ -43,6 +55,9 @@ const message = function () {
         901: 3,
         902: 1,
         903: 3,
+        904: 3,
+        905: 4,
+        906: 2,
         1000: 4,
         1001: 3,
         2001: 3,

@@ -9,7 +9,8 @@ let configuration = function () {
     let openedId;
 
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
-    $$('#configuration-profile-save-password').addEventListener('click', function () {
+    $$('#configuration-profile-save-password').addEventListener('click', function (e) {
+        e.preventDefault();
         let oldPassword = $$('#configuration-profile-old-password').value;
         let newPassword = $$('#configuration-profile-new-password').value;
         let repeatedPassword = $$('#configuration-profile-repeat-password').value;
@@ -27,22 +28,24 @@ let configuration = function () {
                 success: function (response) {
                     removeLoader(button);
                     if (response.responseCode === message.codes.success) {
-                        oldPassword = '';
-                        newPassword = '';
-                        repeatedPassword = '';
+                        location.href = location.origin;
                     } else {
+                        oldPassword = '';
                         repeatedPassword = '';
                     }
                 },
                 fail: function (err) {
                     removeLoader(button);
+                    oldPassword = '';
+                    newPassword = '';
+                    repeatedPassword = '';
                 }
             });
         }
     });
 
-    $$('#configuration-profile-save-profile').addEventListener('click', function () {
-        let name = $$('#configuration-profile-name').value;
+    $$('#configuration-profile-save-profile').addEventListener('click', function (e) {
+        e.preventDefault();
         let userName = $$('#configuration-profile-user-name').value;
         let email = $$('#configuration-profile-email').value;
         let phoneNumber = $$('#configuration-profile-phone').value;
@@ -128,6 +131,7 @@ let configuration = function () {
                 $$('#configuration-user-repeat-password').value = '';
                 $$('#configuration-user-email').value = data.email;
                 $$('#configuration-user-phone').value = data.phoneNumber;
+                $$('#configuration-user-enabled').checked = data.enabled;
                 break;
         }
 

@@ -24,7 +24,8 @@ const login = function () {
     });
 
     // LOGIN --------------------------
-    loginBtn.addEventListener('click', function () {
+    loginBtn.addEventListener('click', function (e) {
+        e.preventDefault();
         let username = $$('#login-username').value;
         let password = $$('#login-password').value;
         if (username === '' || password === '') {
@@ -32,7 +33,7 @@ const login = function () {
             return;
         }
         trigger('message', message.codes.waitingResponse);
-        loginBtn.innerHTML = '<div class="loading"></div>';
+        addLoader(loginBtn);
         $$('#login-form').classList.add('disabled');
         trigger('comm/login/credentials', {
             body: {
@@ -42,6 +43,7 @@ const login = function () {
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
                 trigger('message', response.responseCode);
+                removeLoader(loginBtn);
                 loginBtn.innerHTML = 'REQUEST PIN';
                 if (response.responseCode === message.codes.success) {
                     if ($$("#login-remember").checked) {
@@ -58,6 +60,7 @@ const login = function () {
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
+                removeLoader(loginBtn);
                 loginBtn.innerHTML = 'REQUEST PIN';
                 $$('#login-password').value = '';
             }
@@ -65,14 +68,15 @@ const login = function () {
     });
 
     // PIN --------------------------
-    pinBtn.addEventListener('click', function () {
+    pinBtn.addEventListener('click', function (e) {
+        e.preventDefault();
         let pin = $$('#login-pin').value;
         if (pin === '') {
             trigger('message', message.codes.badParameter);
             return;
         }
         trigger('message', message.codes.waitingResponse);
-        pinBtn.innerHTML = '<div class="loading"></div>';
+        addLoader(pinBtn);
         $$('#login-form').classList.add('disabled');
         trigger('comm/login/pin', {
             body: {
@@ -95,14 +99,45 @@ const login = function () {
                         location.href = location.origin;
                     }, notify.getIdleTime);
                 } else {
-                    pinBtn.innerHTML = 'REQUEST PIN';
+                    removeLoader(pinBtn);
                 }
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
+                addLoader(pinBtn);
                 pinBtn.innerHTML = 'LOGIN';
             }
         });
+    });
+
+    $$('#login-forgot-password').addEventListener('click', function (e) {
+        e.preventDefault();
+        let hyperlink = this;
+        if (!$$('#login-username').value) {
+            trigger('message', message.codes.notValidUserName);
+        } else {
+            let reset = confirm('Are you sure that you want to reset password?');
+            if (reset) {
+                addLoader(hyperlink);
+                trigger('com/login/password/reset', {
+                    body: {
+                        userName: $$('#login-username').value
+                    },
+                    success: function (response) {
+                        removeLoader(hyperlink);
+                        if (response.responseCode === message.codes.success) {
+                            trigger('message', response.passwordWillAriveShortly);
+                        } else {
+                            trigger('message', response.responseCode);
+                        }
+                    },
+                    fail: function () {
+                        $$('#login-form').classList.remove('disabled');
+                        pinBtn.innerHTML = 'LOGIN';
+                    }
+                });
+            }
+        }
     });
 
 }();

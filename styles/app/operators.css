@@ -205,6 +205,13 @@
     text-transform: uppercase;
 }
 
+#operator-currency-timezone .select,
+#operator-currency-timezone .select .selected,
+#operator-portal-currency-code,
+#operator-portal-currency-code .selected {
+    width: 100%;
+}
+
 /* MOBILE */
 
 .mobile .operators-form-wrapper {

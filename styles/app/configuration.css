@@ -121,6 +121,10 @@
     display: flex;
 }
 
+.configuration-form-wrapper .selected {
+    width: 100%;
+}
+
 #configuration-form input[type='text'] {
     width: 100%;
 }

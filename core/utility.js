@@ -50,17 +50,23 @@ function log(msg) {
 
 let loadElements = [];
 
+let blockUi = function () { return; };
+
 function addLoader(element) {
     if (element.getElementsByClassName('loading').length > 0) return;
     let loader = document.createElement('span');
     loader.className = 'loading';
     loader.style.marginLeft = '1em';
     element.appendChild(loader);
+    let blocker = document.createElement('div');
+    blocker.id = 'block-ui';
+    document.body.appendChild(blocker);
 }
 
 function removeLoader(element) {
     if (!element.getElementsByClassName('loading')[0]) return;
     element.getElementsByClassName('loading')[0].remove();
+    $$('#block-ui').remove();
 }
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };

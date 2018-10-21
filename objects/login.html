@@ -7,20 +7,24 @@
         </div>
 
         <!-- Login Form -->
-        <div class="form" id="login-wrapper">
+        <form class="form" id="login-wrapper">
             <input id="login-username" placeholder="Username" tabindex="1" type="text" value="">
             <input id="login-password" placeholder="Password" tabindex="2" type="password" value="">
+
+            <a id="login-forgot-password" href="#">Forgot password? Reset here!</a>
+
             <div id="login-remember-wrapper">
                 <input id="login-remember" type="checkbox">
                 <label for="login-remember">Remember me</label>
             </div>
 
-            <button id="login-btn" tabindex="3">REQUEST PIN</button>
-        </div>
 
-        <div class="form hidden" id="pin-wrapper">
+            <button type="submit" id="login-btn" tabindex="3">REQUEST PIN</button>
+        </form>
+
+        <form class="form hidden" id="pin-wrapper">
             <input id="login-pin" placeholder="PIN" tabindex="1" type="text" value="">
-            <button id="pin-btn" tabindex="3">LOGIN</button>
-        </div>
+            <button type="submit" id="pin-btn" tabindex="3">LOGIN</button>
+        </form>
     </div>
 </div>

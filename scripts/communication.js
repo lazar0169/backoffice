@@ -1,11 +1,13 @@
 let comm = function () {
-    const apiUrl = 'http://backoffice.com';
+    // const apiUrl = 'http://backoffice.com';
+    const apiUrl = 'http://backofficewebapi.com';
 
     const actions = {
         // Login
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
+        'com/login/password/reset': '/Account/ForgottenPassword',
 
         // Accounting
         'comm/accounting/operators/get': '/Accounting/GetOperators',
@@ -18,6 +20,7 @@ let comm = function () {
         'comm/operators/create': '/Operator/CreateOperator',
         'comm/operators/remove': '/Operator/RemoveOperator',
         'comm/operators/edit': '/Operator/EditOperator',
+        'comm/operators/parameters/get': '/Operator/GetParameters',
         'comm/operators/get/single': '/Operator/GetOperator',
 
         // Configuration
@@ -43,7 +46,7 @@ let comm = function () {
 
         'comm/configuration/profile/get': '/Settings/GetProfile',
         'comm/configuration/profile/edit': '/Settings/UpdateProfile',
-        'comm/configuration/profile/password/edit': '/Settings/ForgottenPassword',
+        'comm/configuration/profile/password/edit': '/Settings/ChangePassword',
     };
 
     function get(action, callback, body) {
