@@ -39,7 +39,8 @@
             "main.css",
             "navbar.css",
             "app/configuration.css",
-            "app/operators.css"
+            "app/operators.css",
+            "app/accounting.css"
         ]
     }
 }

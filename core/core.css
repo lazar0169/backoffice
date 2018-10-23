@@ -61,6 +61,7 @@ input {
     background-color: #313c4a;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.12);
+    box-sizing: border-box;
 }
 
 input::-webkit-input-placeholder {
@@ -93,7 +94,7 @@ button {
     color: white;
     background-color: #419ad4;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 1rem;
     transition: background-color 0.3s;
     cursor: pointer;
     font-size: inherit;

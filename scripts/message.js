@@ -18,11 +18,15 @@ const message = function () {
         logInWentWrong: 2005,
         logedOutFailed: 2006,
         loggedOut: 2007,
-        invalidUserName: 3001,
-        userNameExists: 3002,
-        userNameInUse: 3003,
-        weakPassword: 3004,
-        passwordContainsUserName: 3005,
+        badResetPasswordRequest: 2008,
+        disabledUser: 2009,
+        invalidName: 3001,
+        invalidUserName: 3002,
+        invalidEmail: 3003,
+        passwordContainsUserName: 3004,
+        weakPassword: 3005,
+        userNameExists: 3006,
+        emailExists: 3007,
     };
 
     const description = {
@@ -44,11 +48,15 @@ const message = function () {
         2005: 'Something went wrong with login. Try again, or contact administrator for more information.',
         2006: 'Server problem during logout! Please try again.',
         2007: 'Welcome: Use your credentials to log in.',
-        3001: 'Invalid user name. It can only contains uppercase and lowercase letters, special characters "_" and ".", and numbers. ',
-        3002: 'User name already exist. Please choose another one.',
-        3003: 'User name is already in use. Please choose another one.',
-        3004: 'Weak password. Password must contain at least single uppercase letter, single number and special character (!@#$%^&*;?), and to be minimum 8 character long.',
-        3005: 'Password must not contain user name as its substring.',
+        2008: 'Invalid PIN. Please try to reset password again, or contact your administrator.',
+        2009: 'User disabled! Please contact your supervisor in order to enable this login.',
+        3001: 'Invalid name. It can only contains uppercase and lowercase letters and space (white space)',
+        3002: 'Invalid user name. It can only contains uppercase and lowercase letters, special characters "_" and ".", and numbers.',
+        3003: 'Invalid email. Email address is in correct form.',
+        3004: 'Password must not contain user name as its substring.',
+        3005: 'Weak password. Password must contain at least single uppercase letter, single number and special character (!@#$%^&*;?), and to be minimum 8 character long.',
+        3006: 'User name already exist. Please choose another one.',
+        3007: 'Email is already in use. Please choose another one.',
     };
 
     const type = {
@@ -70,10 +78,15 @@ const message = function () {
         2005: 2,
         2006: 4,
         2007: 1,
+        2008: 3,
+        2009: 3,
         3001: 3,
         3002: 3,
         3003: 3,
         3004: 3,
+        3005: 3,
+        3006: 3,
+        3007: 3,
     };
 
     on('message', function (data) {

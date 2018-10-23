@@ -1,7 +1,7 @@
 .table {
     overflow: auto;
     position: relative;
-    height: 400px;
+    max-height: 400px;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -9,7 +9,7 @@
 
 .tbody {
     display: grid;
-    position: absolute;
+    position: relative;
     min-width: 100%;
     top: 0;
     left: 0;

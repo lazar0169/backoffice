@@ -1,0 +1,61 @@
+#accounting-bonus-rate {
+    width: 12em;
+}
+
+#accounting-get-reports.hidden {
+    display: none;
+}
+
+#accounting-get-reports {
+    display: inline;
+}
+
+#accounting-reports-filter {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#accounting-reports-filter>* {
+    margin: 0.5em 0.1em;
+}
+
+#accounting-reports .tbody .table-col>div:nth-last-child(1) {
+    background-color: #3e4a58;
+}
+
+#accounting-reports-footer,
+#accounting-reports-header {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    padding: 0.3em 0;
+    font-size: 1.5em;
+    background-color: #313c4a;
+}
+
+#accounting-reports-footer.hidden,
+#accounting-reports-header.hidden {
+    display: none;
+}
+
+#accounting-reports-footer>div,
+#accounting-reports-header>div {
+    margin: 0 1em;
+}
+
+#accounting-reports-footer>div>span:nth-child(2),
+#accounting-reports-header>div>span:nth-child(2) {
+    margin-left: 0.5em;
+    font-weight: bold;
+}
+
+/* MOBILE */
+
+.mobile #accounting-reports-footer>div,
+.mobile #accounting-reports-header>div {
+    margin: 0;
+    width: 100%;
+}

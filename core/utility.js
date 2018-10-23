@@ -106,3 +106,24 @@ function enableScroll() {
 function generateGuid() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function transformCamelToRegular(string) {
+    let exceptions = [
+        'ggr',
+        'ngr',
+        'vat'
+    ];
+    if (exceptions.includes(string)) {
+        return string.toUpperCase();
+    } else {
+        return string
+            // insert a space before all caps
+            .replace(/([A-Z])/g, ' $1')
+            // uppercase the first character
+            .replace(/^./, function (str) { return str.toUpperCase(); })
+    }
+}

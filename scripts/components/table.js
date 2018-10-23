@@ -13,7 +13,7 @@ let table = function () {
                     let headElem = document.createElement('div');
                     headElem.className = 'table-head table-cell';
                     let headTitle = document.createElement('div');
-                    headTitle.innerHTML = Object.keys(json[row])[col];
+                    headTitle.innerHTML = transformCamelToRegular(Object.keys(json[row])[col]);
                     headTitle.className = 'table-head-title';
                     headElem.appendChild(headTitle);
                     if (dynamic) {
