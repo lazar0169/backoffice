@@ -74,8 +74,10 @@
                     <input type="password" placeholder="Repeat password [unchanged]" id="configuration-user-repeat-password">
                     <input type="email" placeholder="Email" id="configuration-user-email">
                     <input type="tel" placeholder="Phone number" id="configuration-user-phone">
-                    <input type="checkbox" id="configuration-user-enabled">
-                    <label for="configuration-user-enabled">Enabled</label>
+                    <div style="display: none">
+                        <input type="checkbox" id="configuration-user-enabled">
+                        <label for="configuration-user-enabled">Enabled</label>
+                    </div>
                 </div>
                 <div class="configuration-form-button-wrapper">
                     <button data-section="users" class="cancel configuration-remove">REMOVE</button>

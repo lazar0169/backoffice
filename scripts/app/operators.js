@@ -4,6 +4,7 @@ let operators = function () {
     let editModePortal = false;
     let timeZones = [];
     let currencies = [];
+    let currenciesModel = {};
     let defaultJackpotSettings = {};
     let operatorData = {};
     let openedPortalData = {};
@@ -45,6 +46,10 @@ let operators = function () {
                             templateOperatorData.games = response.result.games;
                             timeZones = response.result.timeZones;
                             currencies = response.result.currencies;
+                            currenciesModel = {};
+                            for (let currency of currencies) {
+                                currenciesModel[currency.id] = currency.name;
+                            }
                             defaultJackpotSettings = response.result.defaultJackpotSettings;
                             createList(operatorsList);
                         } else {
@@ -89,12 +94,35 @@ let operators = function () {
         currencyTimezoneWrapper.appendChild(dropdown.generate(timeZones, 'operator-timezone-code', 'Select timezone'));
 
         if (editMode) {
-            $$('#operator-currency-code').children[0].innerHTML = operatorData.currencyId;
-            $$('#operator-timezone-code').children[0].innerHTML = operatorData.timeZoneId;
+            $$('#operator-currency-code').children[0].innerHTML = operatorData.currencyCode;
+            $$('#operator-timezone-code').children[0].innerHTML = operatorData.timeZoneCode;
             $$('#operator-currency-code').classList.add('disabled');
             $$('#operator-timezone-code').classList.add('disabled');
+            $$('#operators-form-save').classList.remove('disabled');
 
             $$('#operator-name').value = operatorData.operator.name;
+
+            $$('#operators-form-remove').onclick = function () {
+                let button = this;
+                addLoader(button);
+                trigger('comm/operators/remove', {
+                    body: {
+                        id: openedOperatorId
+                    },
+                    success: function (response) {
+                        removeLoader(button);
+                        if (response.responseCode === message.codes.success) {
+                            hideModal();
+                            trigger('operators/main/loaded');
+                        } else {
+                            trigger('message', response.responseCode);
+                        }
+                    },
+                    fail: function () {
+                        removeLoader(button);
+                    }
+                });
+            };
 
             for (let td of gamesWrapper.getElementsByTagName('td')) {
                 td.onclick = function (e) {
@@ -107,6 +135,7 @@ let operators = function () {
 
         } else {
             openedOperatorId = '';
+            $$('#operators-form-save').classList.add('disabled');
 
             $$('#operator-currency-code').classList.remove('disabled');
             $$('#operator-timezone-code').classList.remove('disabled');
@@ -115,7 +144,6 @@ let operators = function () {
             $$('#operators-form-button-wrapper').classList.add('edit');
         }
 
-        $$('#operators-form-save').classList.add('disabled');
 
         $$('#operators-form-save').onclick = function () {
             let button = this;
@@ -147,6 +175,7 @@ let operators = function () {
                     removeLoader(button);
                     if (response.responseCode === message.codes.success) {
                         hideModal();
+                        trigger('operators/main/loaded');
                     } else {
                         trigger('message', response.responseCode);
                     }
@@ -201,7 +230,7 @@ let operators = function () {
                     password.value = element.password;
                     warrningActiveCredit.value = element.warrningActiveCredit;
                     blockingActiveCredit.value = element.blockingActiveCredit;
-                    operatorsCurrencyWrapper.children[0].children[0].innerHTML = element.currencyId;
+                    operatorsCurrencyWrapper.children[0].children[0].innerHTML = currenciesModel[element.currencyId];
                     operatorsCurrencyWrapper.children[0].classList.add('disabled');
                 } else {
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;

@@ -1,6 +1,6 @@
 let comm = function () {
     // const apiUrl = 'http://backoffice.com';
-    const apiUrl = 'http://backofficewebapi.com';
+    const apiUrl = 'http://backofficewebapitest.com';
 
     const actions = {
         // Login
@@ -13,7 +13,6 @@ let comm = function () {
         'comm/accounting/operators/get': '/Accounting/GetOperators',
         'comm/accounting/portals/get': '/Accounting/GetPortalsByOperatorId',
         'comm/accounting/get': '/Accounting/GetAccounting',
-
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
