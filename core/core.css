@@ -55,7 +55,7 @@ input {
     font-family: 'roboto' !important;
     font-size: inherit !important;
     height: 2em;
-    padding: 0.8rem;
+    padding: 0 0.8rem;
     margin: 0.1rem 0;
     border-radius: 0 !important;
     background-color: #313c4a;
@@ -194,6 +194,84 @@ input[type=checkbox]:checked+label:after {
     z-index: 10000;
 }
 
+/* Slider */
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 160px;
+    height: 20px;
+    margin: 10px 50px;
+    background: #313c4a;
+    background: linear-gradient(to right, #313c4a 0%, #313c4a 100%);
+    background-size: 100% 0.5em;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+    overflow: visible;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+input[type="range"]:first-of-type {
+    margin-top: 30px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 1.3em;
+    height: 1.3em;
+    background: #dd9853;
+    position: relative;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:after {
+    content: " ";
+    width: 160px;
+    height: 10px;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    background: #dd9853;
+    background: linear-gradient(to right, #f088fc 1%, #AC6CFF 70%);
+}
+
+.slider {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0 0 0 0.5em;
+    box-sizing: border-box;
+}
+
+.slider span {
+    margin: 0 0.5em 0 0;
+    white-space: nowrap;
+}
+
+.slider input[type="range"] {
+    margin: 0 0.5em;
+}
+
+.slider input[type="text"] {
+    margin: 0;
+    width: 5em;
+    padding: 0 0.6em;
+    text-align: center;
+}
+
+/* Slider end */
+
+p {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', Roboto, Arial, Sans-serif;
+    font-size: 32px;
+    margin-top: 30px;
+}
+
 /* ================== MOBILE  ================== */
 
 .mobile label {
@@ -209,6 +287,14 @@ input[type=checkbox]:checked+label:after {
     width: 15px;
     height: 15px;
     left: 4px;
+}
+
+.mobile .slider {
+    width: 100%;
+}
+
+.mobile input[type="range"] {
+    flex: 1;
 }
 
 .mobile input {

@@ -3,14 +3,8 @@ let accounting = function () {
     let header = $$('#accounting-reports-header');
     let footer = $$('#accounting-reports-footer');
 
-    let template = {
-        timeSpan: "",
-        fromDate: "2018-10-21T17:40:43.392Z",
-        toDate: "2018-10-21T17:40:43.392Z",
-        operaterId: 0,
-        portalIds: [0],
-        bonusRate: 0
-    };
+    let reportsFromDate = new Date().toISOString().split('T')[0] + '00:00:00.000Z';
+    let reportsToDate = new Date().toISOString().split('T')[0] + '00:00:00.000Z';
 
     function generateReport(data, sum) {
         let array = data;
@@ -63,24 +57,30 @@ let accounting = function () {
         insertAfter(portalsDropown, $$('#accounting-operators-list'));
         $$('#accounting-get-reports').classList.remove('hidden');
         $$('#accounting-get-reports').addEventListener('click', function () {
+            pageReports.innerHTML = '';
             let button = this;
             let data = {
-                timeSpan: "LastMonth",
-                fromDate: "2018-10-21T17:40:43.392Z",
-                toDate: "2018-10-21T17:40:43.392Z",
+                timeSpan: '',
+                fromDate: '',
+                toDate: '',
                 operaterId: 0,
                 portalIds: [],
-                bonusRate: 0
+                bonusRate: 0,
+                deduction: 0,
+                reduction: 0
             }
-            // data.timeSpan = $$('#accounting-time-span').children[0].dataset.value;
-            // data.fromDate = $$('#accounting-time-span').children[0].dataset.value;
+            data.timeSpan = $$('#accounting-time-span').children[0].dataset.value;
+            data.fromDate = reportsFromDate;
+            data.toDate = reportsToDate;
             data.operaterId = $$('#accounting-operators-list').children[0].dataset.value;
             for (let option of $$('#accounting-portals-list').children[1].children) {
                 if (option.children[0].checked) {
                     data.portalIds.push(option.children[0].dataset.id)
                 }
             }
-            data.bonusRate = $$('#accounting-bonus-rate').value;
+            data.bonusRate = $$('#accounting-reports-bonus-rate').children[1].value;
+            data.deduction = $$('#accounting-reports-deduction').children[1].value;
+            data.reduction = $$('#accounting-reports-reduction').value || 0;
             addLoader(button);
             trigger('comm/accounting/get', {
                 body: data,
@@ -120,6 +120,13 @@ let accounting = function () {
             });
         });
     }
+
+    on('date/accounting-time-span-from', function (data) {
+        reportsFromDate = data;
+    });
+    on('date/accounting-time-span-to', function (data) {
+        reportsToDate = data;
+    });
 
     on('accounting/reports/loaded', function () {
         pageReports.innerHTML = '';

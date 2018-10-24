@@ -1,7 +1,3 @@
-#accounting-bonus-rate {
-    width: 12em;
-}
-
 #accounting-get-reports.hidden {
     display: none;
 }
@@ -12,13 +8,12 @@
 
 #accounting-reports-filter {
     display: flex;
-    /* justify-content: space-between; */
     align-items: center;
     flex-wrap: wrap;
 }
 
 #accounting-reports-filter>* {
-    margin: 0.5em 0.1em;
+    margin: 0.5em 0.5em;
 }
 
 #accounting-reports .tbody .table-col>div:nth-last-child(1) {
@@ -50,6 +45,10 @@
 #accounting-reports-header>div>span:nth-child(2) {
     margin-left: 0.5em;
     font-weight: bold;
+}
+
+#accounting-reports-reduction {
+    width: 10em;
 }
 
 /* MOBILE */

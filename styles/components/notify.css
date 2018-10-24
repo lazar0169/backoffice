@@ -12,6 +12,7 @@
     color: white;
     transform: translate3d(0, 100%, 0);
     transition: transform 0.5s;
+    z-index: 4;
 }
 
 .toast.show {

@@ -16,7 +16,17 @@
             </div>
             <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
             <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
-            <input type="number" id="accounting-bonus-rate" min="0" max="100" placeholder="Bonus rate (%)">
+            <div class="slider" data-sufix=" %" id="accounting-reports-bonus-rate">
+                <span>Bonus Rate: </span>
+                <input type="range" value="0" min="0" max="100" step="0.01">
+                <input type="text" value="0%" disabled>
+            </div>
+            <div class="slider" data-sufix=" %" id="accounting-reports-deduction">
+                <span>Deduction: </span>
+                <input type="range" value="0" min="0" max="100" step="0.01">
+                <input type="text" value="0%" disabled>
+            </div>
+            <input type="number" id="accounting-reports-reduction" placeholder="Reduction">
             <button id="accounting-get-reports" class="hidden">GET REPORTS</button>
         </div>
 

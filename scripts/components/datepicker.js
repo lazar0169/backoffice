@@ -19,7 +19,10 @@ let datepicker = function () {
                 setDefaultDate: true,
                 defaultDate: new Date(),
                 onSelect: function () {
-                    log(this.toString());
+                    let dateArray = this.toString().split('.');
+                    let apiString = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}T00:00:00:000Z`;
+                    trigger(`date/${picker.id}`, apiString);
+                    log(apiString);
                 }
             });
         }
