@@ -1,6 +1,7 @@
 let comm = function () {
     // const apiUrl = 'http://backoffice.com';
-    const apiUrl = 'http://backofficewebapitest.com';
+    // const apiUrl = 'http://backofficewebapitest.com';
+    const apiUrl = 'http://backofficewebapi.com';
 
     const actions = {
         // Login

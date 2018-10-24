@@ -3,8 +3,8 @@ let accounting = function () {
     let header = $$('#accounting-reports-header');
     let footer = $$('#accounting-reports-footer');
 
-    let reportsFromDate = new Date().toISOString().split('T')[0] + '00:00:00.000Z';
-    let reportsToDate = new Date().toISOString().split('T')[0] + '00:00:00.000Z';
+    let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
 
     function generateReport(data, sum) {
         let array = data;
@@ -53,10 +53,12 @@ let accounting = function () {
 
     function populateFilter(response) {
         if ($$('#accounting-portals-list')) $$('#accounting-portals-list').remove();
-        let portalsDropown = dropdown.generate(response.result, 'accounting-portals-list', 'Select operator', true);
+        let portalsDropown = dropdown.generate(response.result, 'accounting-portals-list', 'Select portal', true);
         insertAfter(portalsDropown, $$('#accounting-operators-list'));
         $$('#accounting-get-reports').classList.remove('hidden');
         $$('#accounting-get-reports').addEventListener('click', function () {
+            $$('#accounting-reports-header').classList.add('hidden');
+            $$('#accounting-reports-footer').classList.add('hidden');
             pageReports.innerHTML = '';
             let button = this;
             let data = {
@@ -69,7 +71,7 @@ let accounting = function () {
                 deduction: 0,
                 reduction: 0
             }
-            data.timeSpan = $$('#accounting-time-span').children[0].dataset.value;
+            data.timeSpan = $$('#accounting-time-span').children[0].dataset.value || 'custom';
             data.fromDate = reportsFromDate;
             data.toDate = reportsToDate;
             data.operaterId = $$('#accounting-operators-list').children[0].dataset.value;
