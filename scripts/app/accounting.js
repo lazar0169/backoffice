@@ -25,7 +25,7 @@ let accounting = function () {
         let array = data;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
-        return table.generate(array);
+        return table.generate(array, '', false, true);
     }
 
     function generateHeadline(string) {
@@ -116,6 +116,22 @@ let accounting = function () {
                         pageReports.appendChild(generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum));
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
                         pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
+
+                        for (let table of pageReports.getElementsByClassName('table')) {
+                            let height = table.children[0].offsetHeight;
+                            if (height < 400) {
+                                table.style.height = height + 20 + 'px';
+                            }
+                        }
+
+                        on('resize', function () {
+                            for (let table of pageReports.getElementsByClassName('table')) {
+                                let height = table.children[0].offsetHeight;
+                                if (height < 400) {
+                                    table.style.height = height + 20 + 'px';
+                                }
+                            }
+                        })
 
                         header.classList.remove('hidden');
                         footer.classList.remove('hidden');
