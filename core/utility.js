@@ -107,8 +107,19 @@ function generateGuid() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
+let sortByProperty = function (property) {
+    return function (x, y) {
+        return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+    };
+}
+
 function insertAfter(newNode, referenceNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function validateNumber(value) {
+    let number = Number(value);
+    return number > Number.MAX_SAFE_INTEGER ? Number.MAX_SAFE_INTEGER : number;
 }
 
 function transformCamelToRegular(string) {

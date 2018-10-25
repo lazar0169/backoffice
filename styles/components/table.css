@@ -103,12 +103,21 @@ tr:hover {
     cursor: pointer;
 }
 
-td {
+td,
+th {
     color: white;
     padding: 0.5em 0.8em;
     box-sizing: border-box;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     border-left: 1px solid rgba(255, 255, 255, 0.12);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+th {
+    background-color: #313c4a;
+    cursor: default;
 }
 
 caption {

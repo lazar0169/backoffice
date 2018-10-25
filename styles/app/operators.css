@@ -52,6 +52,40 @@
     transition: all 0.3s;
 }
 
+#operators-form-cancel {
+    position: relative;
+    width: 3em;
+    height: 3em;
+}
+
+#operators-form-cancel::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+#operators-form-cancel::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
 #operators-add-new::after {
     content: " ";
     position: absolute;

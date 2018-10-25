@@ -1,5 +1,109 @@
 <div id="accounting-setup" class="page-content">
     <div class="page-content-wrapper">
-        ACCOUNTING SETUP
+        <div id="accounting-operators-table" class="">
+            <table>
+                <caption>
+                    <div class="caption-title">Operators</div>
+                </caption>
+            </table>
+        </div>
+
+        <div id="accounting-setup-black-overlay"></div>
+
+        <div id="accounting-setup-form">
+            <div class="accounting-setup-form-wrapper" id="accounting-setup-form-main">
+                <div class="accounting-setup-form-title">
+                    <h2>Operator setup</h2>
+                    <button class="config" id="accounting-setup-form-cancel"></button>
+                </div>
+
+                <div class="accounting-setup-form-inputs">
+                    <form>
+                        <input id="accounting-setup-checkbox" type="checkbox">
+                        <label for="accounting-setup-checkbox">Scaled operator</label>
+                    </form>
+
+                    <div id="accounting-setup-form-inputs-fixed" class="">
+                        <div class="slider" data-sufix=" %" id="accounting-setup-gaming-tax">
+                            <span>Gaming Tax: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-live-european-roulette-fee">
+                            <span>Live European Roulette Fee: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-max-bonus-rate">
+                            <span>Max Bonus Rate: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-poker-fee">
+                            <span>Poker Fee: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-roulette-fee">
+                            <span>Roulette Fee: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-slot-fee">
+                            <span>Slot Fee: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-triple-crown-roulette-fee">
+                            <span>Triple Crown Roulette Fee: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                        <div class="slider" data-sufix=" %" id="accounting-setup-vat">
+                            <span>VAT: </span>
+                            <input type="range" value="0" min="0" max="100" step="0.01">
+                            <input type="text" value="0%" disabled>
+                        </div>
+                    </div>
+
+                    <div id="accounting-setup-form-inputs-scaled" class="hidden">
+                        <div id="accounting-setup-scaled-table">
+                            <table>
+                                <caption>
+                                    <div class="caption-title">Scaled Tax</div>
+                                </caption>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="accounting-setup-form-button-wrapper">
+                    <button id="accounting-setup-form-create-tax" class="save">CREATE TAX</button>
+                    <button id="accounting-setup-form-save" class="save">SAVE</button>
+                </div>
+            </div>
+
+            <div class="accounting-setup-form-wrapper" id="accounting-setup-form-tax">
+                <div class="accounting-setup-form-title">
+                    <button class="config" id="accounting-setup-form-tax-back">&#9668; BACK</button>
+                    <h2>Tax details</h2>
+                </div>
+                <div class="accounting-setup-form-inputs">
+                    <input type="number" id="accounting-setup-tax-from" placeholder="Step From" disabled>
+                    <input type="number" id="accounting-setup-tax-to" placeholder="Step To">
+                    <form class="slider" data-sufix=" %" id="accounting-setup-tax-fee">
+                        <span>Tax Fee: </span>
+                        <input type="range" value="0" min="0" max="100" step="0.01">
+                        <input type="text" value="0%" disabled>
+                    </form>
+                </div>
+                <div id="accounting-setup-form-tax-button-wrapper">
+                    <button id="accounting-setup-form-tax-remove" class="cancel">REMOVE</button>
+                    <button id="accounting-setup-form-tax-save" class="save">SAVE</button>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>

@@ -1,3 +1,5 @@
+/* ACCOUNTING */
+
 #accounting-get-reports.hidden {
     display: none;
 }
@@ -51,10 +53,268 @@
     width: 10em;
 }
 
+/* SETUP */
+
+#accounting-setup>.page-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#accounting-operators-table {
+    flex: 1;
+    box-sizing: border-box;
+}
+
+#accounting-operators-table table {
+    width: 100%;
+}
+
+#accounting-operators-table.hidden {
+    display: none;
+}
+
+#accounting-setup-black-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* Form */
+
+.accounting-setup-form-title {
+    display: flex;
+}
+
+.accounting-setup-form-title>h2 {
+    flex: 1;
+}
+
+/* Buttons */
+
+#accounting-setup-form-cancel {
+    align-self: center;
+    transition: all 0.3s;
+    position: relative;
+    width: 3em;
+    height: 3em;
+}
+
+#accounting-setup-form-cancel::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+#accounting-setup-form-cancel::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+#accounting-setup-form-create-tax {
+    display: none;
+}
+
+#accounting-setup-form-button-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 0.3em;
+}
+
+#accounting-setup-form-button-wrapper.scaled {
+    grid-template-columns: 1fr 1fr;
+}
+
+#accounting-setup-form-button-wrapper.scaled #accounting-setup-form-create-tax {
+    display: block;
+}
+
+#accounting-setup-form-button-wrapper button,
+#accounting-setup-form-tax-button-wrapper button {
+    margin: 0.3em 0;
+    width: 100%;
+}
+
+/* Tax */
+
+#accounting-setup-form-tax-button-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 0.3em;
+}
+
+#accounting-setup-form-tax-button-wrapper.edit {
+    grid-template-columns: 1fr 1fr;
+}
+
+#accounting-setup-form-tax-button-wrapper #accounting-setup-form-tax-remove {
+    display: none;
+}
+
+#accounting-setup-form-tax-button-wrapper.edit #accounting-setup-form-tax-remove {
+    display: block;
+}
+
+#accounting-setup-form-tax {
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#accounting-setup-form-tax-back {
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
+#accounting-setup-form-tax.show {
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+/* Buttons end */
+
+#accounting-setup-form {
+    position: absolute;
+    width: 35em;
+    height: 35em;
+    max-height: 100%;
+    align-self: center;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+#accounting-setup-form.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.accounting-setup-form-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+.accounting-setup-form-wrapper h2 {
+    margin: 0.5em 0;
+}
+
+.accounting-setup-form-inputs,
+.accounting-setup-form-inputs>div {
+    width: 100%;
+    overflow: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#accounting-setup-form-inputs-fixed>* {
+    align-self: center;
+    width: 100%;
+}
+
+.accounting-setup-form-inputs>form {
+    justify-content: center;
+    display: flex;
+    margin: 0.8em 0;
+}
+
+.accounting-setup-form-inputs>div>* {
+    margin: 0.3em 0;
+}
+
+.accounting-setup-form-inputs>div.hidden {
+    display: none !important;
+}
+
+#accounting-setup-form table {
+    width: 100%;
+}
+
+#accounting-setup-form table td label {
+    width: 100%;
+}
+
+#accounting-setup-form table td {
+    display: flex;
+}
+
+#accounting-setup-scaled-table caption {
+    display: table-caption;
+}
+
+#accounting-setup-scaled-table table td {
+    display: table-cell;
+    text-align: center;
+}
+
+#accounting-setup-scaled-table table {
+    table-layout: fixed;
+}
+
+#accounting-setup-form-tax .accounting-setup-form-inputs {
+    padding: 0.8em 0;
+}
+
 /* MOBILE */
 
 .mobile #accounting-reports-footer>div,
 .mobile #accounting-reports-header>div {
     margin: 0;
     width: 100%;
+}
+
+.mobile .accounting-setup-form-wrapper {
+    padding: 0;
+}
+
+.mobile #accounting-setup-form-cancel,
+.mobile #accounting-setup-form-back {
+    background-color: #313c4a !important;
+}
+
+.mobile #accounting-setup-form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+}
+
+.mobile .accounting-setup-form-inputs,
+.mobile .accounting-setup-form-inputs>div {
+    display: block;
 }
