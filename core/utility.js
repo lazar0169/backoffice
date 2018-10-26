@@ -107,6 +107,10 @@ function generateGuid() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
+function generateColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
 let sortByProperty = function (property) {
     return function (x, y) {
         return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
@@ -139,4 +143,24 @@ function transformCamelToRegular(string) {
             // uppercase the first character
             .replace(/^./, function (str) { return str.toUpperCase(); })
     }
+}
+
+function preserveTableWidth(perent) {
+    for (let table of perent.getElementsByClassName('table')) {
+        let height = table.children[0].offsetHeight;
+        if (height < 400) {
+            table.style.height = height + 20 + 'px';
+        }
+    }
+
+    on('resize', function () {
+        for (let table of perent.getElementsByClassName('table')) {
+            let height = table.children[0].offsetHeight;
+            if (height < 400) {
+                table.style.height = height + 20 + 'px';
+            } else {
+                table.style.height = '400px';
+            }
+        }
+    })
 }

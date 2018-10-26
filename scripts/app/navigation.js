@@ -46,7 +46,7 @@ const navigation = function () {
     });
 
     on('load', function () {
-        $$('#sidebar-dashboard').click();
+        trigger(`dashboard/loaded`);
     });
 
     function to(data) {
@@ -64,10 +64,14 @@ const navigation = function () {
         $$(`#${data.page}`).getElementsByClassName('tabs-wrapper')[0].classList.add('hidden');
         $$(`#${data.page}`).getElementsByClassName('mobile-select')[0].innerHTML = $$(`#${data.page}-navbar-${data.tab}`).innerHTML;
 
+        if (active.page !== data.page) {
+            trigger(`${data.page}/loaded`);
+            log(`${data.page}/loaded`);
+        }
         active.page = data.page;
         active.tab = data.tab;
+        log(`${data.page}/${data.tab}/loaded`);
         trigger(`${data.page}/${data.tab}/loaded`);
-        trigger(`${data.page}/loaded`);
     }
 
     on('navigation/change', to);

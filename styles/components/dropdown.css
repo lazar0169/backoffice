@@ -3,6 +3,7 @@
     position: relative;
     margin: 0.1rem 0;
     vertical-align: top;
+    width: 12em;
 }
 
 .selected,
@@ -43,6 +44,9 @@
 .option {
     background-color: #434a5c;
     color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .selected {
@@ -56,7 +60,7 @@
     -webkit-appearance: none;
     cursor: pointer;
     transition: 0.2s background-color;
-    width: 12em;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

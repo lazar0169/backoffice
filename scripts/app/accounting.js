@@ -117,21 +117,7 @@ let accounting = function () {
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
                         pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
 
-                        for (let table of pageReports.getElementsByClassName('table')) {
-                            let height = table.children[0].offsetHeight;
-                            if (height < 400) {
-                                table.style.height = height + 20 + 'px';
-                            }
-                        }
-
-                        on('resize', function () {
-                            for (let table of pageReports.getElementsByClassName('table')) {
-                                let height = table.children[0].offsetHeight;
-                                if (height < 400) {
-                                    table.style.height = height + 20 + 'px';
-                                }
-                            }
-                        })
+                        preserveTableWidth(pageReports);
 
                         header.classList.remove('hidden');
                         footer.classList.remove('hidden');

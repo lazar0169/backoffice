@@ -80,7 +80,7 @@ let comm = function () {
         }).catch((err) => {
             callback.fail(err);
             trigger('message', message.codes.clientError);
-            log(err);
+            log(`Error action: ${action}`);
             // setTimeout(() => {
             //     location.href = location.origin;
             // }, 1000);
