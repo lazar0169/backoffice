@@ -126,7 +126,9 @@ function transformCamelToRegular(string) {
     let exceptions = [
         'ggr',
         'ngr',
-        'vat'
+        'vat',
+        'MTD',
+        'SPLM'
     ];
     if (exceptions.includes(string)) {
         return string.toUpperCase();

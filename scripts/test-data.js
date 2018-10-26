@@ -1,9 +1,9 @@
 // FOR TESTING PURPOSES ----------------------
 
 
-on('load', function () {
-    $$('#dashboard-main').children[0].appendChild(table.generate(testTable.result.gameStatisticsPerDate, 'dashboard-table', true, true));
-});
+// on('load', function () {
+//     $$('#dashboard-main').children[0].appendChild(table.generate(testTable.result.gameStatisticsPerDate, 'dashboard-table', true, true));
+// });
 
 let testTable = {
     "result": {

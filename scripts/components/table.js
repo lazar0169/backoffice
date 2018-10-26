@@ -15,7 +15,7 @@ let table = function () {
         for (let col = 0; col < colsCount; col++) {
             let colId = generateGuid();
             let head = document.createElement('div');
-            head.innerHTML = Object.keys(json[0])[col];
+            head.innerHTML = transformCamelToRegular(Object.keys(json[0])[col]);
             head.className = 'head cell';
             head.classList.add(`col-${colId}`);
             colIds.push(colId);

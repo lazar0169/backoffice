@@ -10,11 +10,14 @@ let comm = function () {
         'comm/login/logout': '/Account/LogOut',
         'com/login/password/reset': '/Account/ForgottenPassword',
 
+        // Dashboard
+        'comm/dashboard/get': '/Dashboard/GetDashboard',
+
         // Accounting
         'comm/accounting/operators/get': '/Accounting/GetOperators',
         'comm/accounting/portals/get': '/Accounting/GetPortalsByOperatorId',
         'comm/accounting/get': '/Accounting/GetAccounting',
-        
+
         'comm/accounting/setup/get': '/AccountingOperators/GetOperators',
         'comm/accounting/setup/operator/get': '/AccountingOperators/ChooseOperatorsAccounting',
         'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',

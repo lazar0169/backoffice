@@ -27,6 +27,7 @@
             "app/configuration.js",
             "app/operators.js",
             "app/accounting.js",
+            "app/dashboard.js",
             "message.js",
             "currency.js"
         ],

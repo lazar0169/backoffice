@@ -45,6 +45,10 @@ const navigation = function () {
         document.body.classList[isMobile ? 'add' : 'remove']('mobile');
     });
 
+    on('load', function () {
+        $$('#sidebar-dashboard').click();
+    });
+
     function to(data) {
         $$(`#sidebar-${active.page}`).classList.remove('active');
         $$(`#sidebar-${data.page}`).classList.add('active');
@@ -63,6 +67,7 @@ const navigation = function () {
         active.page = data.page;
         active.tab = data.tab;
         trigger(`${data.page}/${data.tab}/loaded`);
+        trigger(`${data.page}/loaded`);
     }
 
     on('navigation/change', to);
