@@ -27,8 +27,9 @@ let dashboard = function () {
             },
             title: {
                 display: false,
-                text: 'Doughnut Chart',
-                fontColor: 'white'
+                text: 'Number of new players',
+                fontColor: 'white',
+                fontSize: 24
             },
             animation: {
                 animateScale: true,

@@ -26,10 +26,17 @@
     margin-left: 0.5em;
 }
 
-/* #dashboard-pie-chart {
-    width: 400px;
-    height: 400px;
-} */
+#dashboard-chart-wrapper {
+    width: 420px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: relative;
+}
+
+#dashboard-chart-wrapper h2 {
+    text-align: center;
+}
 
 /* MOBILE */
 
@@ -45,5 +52,9 @@
 .mobile #dashboard-players-wrapper>div:nth-last-child(1)>div:nth-child(1)>.select {
     margin-bottom: 0.5em;
     margin-left: 0;
+    width: 100%;
+}
+
+.mobile #dashboard-chart-wrapper {
     width: 100%;
 }
