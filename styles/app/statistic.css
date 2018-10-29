@@ -1,0 +1,21 @@
+#statistic-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#statistic-filter>* {
+    margin: 0.5em 0.5em;
+}
+
+#statistic-get-statistic.hidden {
+    display: none;
+}
+
+#statistic-get-statistic {
+    display: inline;
+}
+
+#summary-graphs.hidden {
+    display: none;
+}

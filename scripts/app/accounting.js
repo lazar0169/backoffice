@@ -36,38 +36,36 @@ let accounting = function () {
 
     function afterLoad(response) {
         if (response.responseCode === message.codes.success) {
-            if ($$('#accounting-operators-list')) $$('#accounting-operators-list').remove();
+            clearElement($$('#accounting-operators-list'));
             let operatorsDropdown = dropdown.generate(response.result, 'accounting-operators-list', 'Select operator');
             insertAfter(operatorsDropdown, $$('#accounting-time-span-to'));
 
-            for (let operator of $$('#accounting-operators-list').children[1].children) {
-                operator.addEventListener('click', function () {
-                    addLoader($$('#accounting-reports-filter'));
-                    trigger('comm/accounting/portals/get', {
-                        body: {
-                            id: operator.dataset.value
-                        },
-                        success: function (response) {
-                            if (response.responseCode === message.codes.success) {
-                                populateFilter(response);
-                                removeLoader($$('#accounting-reports-filter'));
-                            } else {
-                                trigger('message', response.responseCode);
-                            }
-                        },
-                        fail: function () {
+            on('accounting-operators-list/selected', function (value) {
+                addLoader($$('#accounting-reports-filter'));
+                trigger('comm/accounting/portals/get', {
+                    body: {
+                        id: value
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            populateFilter(response);
                             removeLoader($$('#accounting-reports-filter'));
+                        } else {
+                            trigger('message', response.responseCode);
                         }
-                    });
+                    },
+                    fail: function () {
+                        removeLoader($$('#accounting-reports-filter'));
+                    }
                 });
-            }
+            });
         } else {
             trigger('message', response.responseCode);
         }
     }
 
     function populateFilter(response) {
-        if ($$('#accounting-portals-list')) $$('#accounting-portals-list').remove();
+        clearElement($$('#accounting-portals-list'));
         let portalsDropown = dropdown.generate(response.result, 'accounting-portals-list', 'Select portal', true);
         insertAfter(portalsDropown, $$('#accounting-operators-list'));
         $$('#accounting-get-reports').classList.remove('hidden');
@@ -86,17 +84,13 @@ let accounting = function () {
                 deduction: 0,
                 reduction: 0
             }
-            data.timeSpan = $$('#accounting-time-span').children[0].dataset.value || 'custom';
+            data.timeSpan = $$('#accounting-time-span').getSelected() || 'custom';
             data.fromDate = reportsFromDate;
             data.toDate = reportsToDate;
-            data.operaterId = $$('#accounting-operators-list').children[0].dataset.value;
-            for (let option of $$('#accounting-portals-list').children[1].children) {
-                if (option.children[0].checked) {
-                    data.portalIds.push(option.children[0].dataset.id)
-                }
-            }
-            data.bonusRate = $$('#accounting-reports-bonus-rate').children[1].value;
-            data.deduction = $$('#accounting-reports-deduction').children[1].value;
+            data.operaterId = $$('#accounting-operators-list').getSelected();
+            data.portalIds = $$('#accounting-portals-list').getSelected();
+            data.bonusRate = $$('#accounting-reports-bonus-rate').get();
+            data.deduction = $$('#accounting-reports-deduction').get();
             data.reduction = $$('#accounting-reports-reduction').value || 0;
             addLoader(button);
             trigger('comm/accounting/get', {
@@ -117,7 +111,7 @@ let accounting = function () {
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
                         pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
 
-                        preserveTableWidth(pageReports);
+                        table.preserveHeight(pageReports);
 
                         header.classList.remove('hidden');
                         footer.classList.remove('hidden');
@@ -446,6 +440,9 @@ let accounting = function () {
         pageReports.innerHTML = '';
         header.classList.add('hidden');
         footer.classList.add('hidden');
+        clearElement($$('#accounting-operators-list'));
+        clearElement($$('#accounting-portals-list'));
+        $$('#accounting-get-reports').classList.add('hidden');
         addLoader($$('#sidebar-accounting'));
         trigger('comm/accounting/operators/get', {
             success: function (response) {

@@ -4,6 +4,8 @@ let comm = function () {
     const apiUrl = 'http://backofficewebapi.com';
 
     const actions = {
+        'comm/currency/get': '/Statistics/GetDefaultCurrencies',
+
         // Login
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',
@@ -12,6 +14,16 @@ let comm = function () {
 
         // Dashboard
         'comm/dashboard/get': '/Dashboard/GetDashboard',
+
+        // Statistics
+        'comm/statistic/game/categories/get': '/Statistics/GetGameCategories',
+        'comm/statistic/operators/get': '/Statistics/GetOperators',
+        'comm/statistic/portals/get': '/Statistics/GetPortalsByOperatorId',
+        'comm/statistic/games/get': '/Statistics/GetGames',
+        'comm/statistic/summary/get': '/Statistics/GetSummary',
+        'comm/statistic/games/summary/get': '/Statistics/GetGamesSummary',
+        'comm/statistic/games/compered/get': '/Statistics/GetCompared',
+        'comm/statistic/per/game/get': '/Statistics/GetPerGameSelection',
 
         // Accounting
         'comm/accounting/operators/get': '/Accounting/GetOperators',
@@ -80,7 +92,7 @@ let comm = function () {
         }).catch((err) => {
             callback.fail(err);
             trigger('message', message.codes.clientError);
-            log(`Error action: ${action}`);
+            console.error(err.stack);
             // setTimeout(() => {
             //     location.href = location.origin;
             // }, 1000);

@@ -22,12 +22,14 @@
             "components/dropdown.js",
             "components/table.js",
             "components/slider.js",
+            "components/graph.js",
             "app/navigation.js",
             "app/responsive.js",
             "app/configuration.js",
             "app/operators.js",
             "app/accounting.js",
             "app/dashboard.js",
+            "app/statistic/summary.js",
             "message.js",
             "currency.js"
         ],
@@ -43,7 +45,8 @@
             "app/configuration.css",
             "app/operators.css",
             "app/accounting.css",
-            "app/dashboard.css"
+            "app/dashboard.css",
+            "app/statistic.css"
         ]
     }
 }

@@ -25,6 +25,10 @@ let dropdown = function () {
                         dropdown.children[0].innerHTML = option.innerHTML;
                         dropdown.children[0].dataset.value = option.dataset.value;
                         dropdown.children[1].classList.add("hidden");
+                        dropdown.getSelected = function () {
+                            return option.dataset.value;
+                        };
+                        trigger(`${dropdown.id}/selected`, option.dataset.value);
                     }
                 });
             }
@@ -41,11 +45,16 @@ let dropdown = function () {
 
         function readCheck(dropdown, placeholder) {
             let selected = [];
+            let ids = [];
             for (let option of dropdown.children[1].children) {
                 if (option.children[0].checked) {
                     selected.push(option.children[1].innerHTML);
+                    ids.push(option.children[0].dataset.id);
                 }
             }
+            dropdown.getSelected = function () {
+                return ids;
+            };
             return selected.length !== 0 ? selected.join(', ') : placeholder;
         }
     }
@@ -75,12 +84,12 @@ let dropdown = function () {
                 input.type = 'checkbox';
                 input.checked = false;
                 input.dataset.id = option.id;
-                label.innerHTML = option.name;
+                label.innerHTML = option.name || option.category;
                 optionElement.appendChild(input);
                 optionElement.appendChild(label);
             } else {
                 optionElement.dataset.value = option.id;
-                optionElement.innerHTML = option[Object.keys(option)[1]];
+                optionElement.innerHTML = option.name || option.category;
             }
             wrapper.appendChild(optionElement);
         }

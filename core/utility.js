@@ -126,6 +126,15 @@ function validateNumber(value) {
     return number > Number.MAX_SAFE_INTEGER ? Number.MAX_SAFE_INTEGER : number;
 }
 
+function clearElement(element) {
+    if (element) {
+        element.parentNode.removeChild(element);
+        if (events[`${element.id}/selected`]) {
+            delete events[`${element.id}/selected`];
+        };
+    }
+}
+
 function transformCamelToRegular(string) {
     let exceptions = [
         'ggr',
@@ -143,24 +152,4 @@ function transformCamelToRegular(string) {
             // uppercase the first character
             .replace(/^./, function (str) { return str.toUpperCase(); })
     }
-}
-
-function preserveTableWidth(perent) {
-    for (let table of perent.getElementsByClassName('table')) {
-        let height = table.children[0].offsetHeight;
-        if (height < 400) {
-            table.style.height = height + 20 + 'px';
-        }
-    }
-
-    on('resize', function () {
-        for (let table of perent.getElementsByClassName('table')) {
-            let height = table.children[0].offsetHeight;
-            if (height < 400) {
-                table.style.height = height + 20 + 'px';
-            } else {
-                table.style.height = '400px';
-            }
-        }
-    })
 }

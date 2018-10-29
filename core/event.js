@@ -1,33 +1,39 @@
 let events = {};
 
 function on(event, callback, count = Number.MAX_SAFE_INTEGER) {
-    if (!events[event]) { events[event] = []; }
-    events[event].push({
+    if (!events[event]) { events[event] = {}; }
+    let id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    events[event][id] = {
         callback: callback,
         count: count
-    });
+    };
+    return id;
+}
+
+function off(id) {
+    for (let event in events) {
+        if (events[event][id]) {
+            delete events[event][id];
+            return true;
+        }
+    }
+    return false;
 }
 
 function trigger(event, ...data) {
     let params = data.length === 1 ? data[0] : data;
     if (!events[event]) { return; }
-    let garbageCollector = [];
-    for (let eventData of events[event]) {
-        if (eventData.count > 0) {
-            eventData.callback(params);
-            if (eventData.count > 1) {
-                eventData.count--;
-            } else {
-                garbageCollector.push(eventData);
+    for (let id in events[event]) {
+        if (events[event][id].count > 0) {
+            events[event][id].callback(params);
+            if (events[event][id].count > 1) {
+                events[event][id].count--;
             }
         } else {
-            garbageCollector.push(eventData);
+            delete events[event][id];
         }
     }
-    for (let eventData of garbageCollector) {
-        events[event].splice(events[event].indexOf(eventData), 1);
-    }
-    if (events[event].length === 0) {
+    if (Object.keys(events[event]).length === 0) {
         delete events[event];
     }
 }

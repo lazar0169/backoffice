@@ -67,7 +67,7 @@ let dashboard = function () {
             jackpots.appendChild(header);
             jackpots.appendChild(table.generate(dashboardData.jackpots[jackpot].dashboardJackpots, `jackpot-${jackpot}-table`, false, true));
         }
-        preserveTableWidth(jackpots);
+        table.preserveHeight(jackpots);
     });
 
     on('dashboard/players/loaded', function () {
@@ -101,7 +101,7 @@ let dashboard = function () {
             portal.addEventListener('click', function () {
                 if (latestPlayers.children[1]) latestPlayers.children[1].remove();
                 latestPlayers.appendChild(table.generate(dashboardData.latestNewPlayers[portal.dataset.value].latestPlayers, '', false, true));
-                preserveTableWidth(playersWrapper);
+                table.preserveHeight(playersWrapper);
             });
         }
 
@@ -121,7 +121,7 @@ let dashboard = function () {
         chart.data.labels = labels;
         chart.update(1000);
 
-        preserveTableWidth(playersWrapper);
+        table.preserveHeight(playersWrapper);
     });
 
     on('dashboard/portals/loaded', function () {
@@ -130,7 +130,7 @@ let dashboard = function () {
         for (let portal of dashboardData.portalsActivities) {
             portals.appendChild(table.generate(parseData(portal.activities), '', false, true));
         }
-        preserveTableWidth(portals);
+        table.preserveHeight(portals);
     });
 
     function parseData(data) {

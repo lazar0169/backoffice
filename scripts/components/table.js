@@ -1,7 +1,36 @@
 let table = function () {
-    let rows = [];
+    let preserveTableEvents = {};
+
+    function preserveHeight(element) {
+        if (preserveTableEvents[element.id]) {
+            off(preserveTableEvents[element.id]);
+            delete preserveTableEvents[element.id];
+        }
+
+        fixHeight(element);
+        let preserveEvent = on('resize', function () {
+            fixHeight(element);
+        });
+
+        preserveTableEvents[element.id] = preserveEvent;
+
+        function fixHeight(element) {
+            for (let table of element.getElementsByClassName('table')) {
+                let height = table.children[0].offsetHeight;
+                if (height < 400) {
+                    table.style.height = height + 20 + 'px';
+                } else {
+                    table.style.height = '400px';
+                }
+            }
+        }
+    }
 
     function generate(json, id = '', dynamic = false, sticky = false) {
+        if (!json || json.length === 0) {
+            console.error('Failed to generate table! Invalid object passed!');
+            return;
+        }
         let colsCount = Object.keys(json[0]).length;
         let tbody = document.createElement('div');
         tbody.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
@@ -73,6 +102,7 @@ let table = function () {
     }
 
     return {
-        generate
+        generate,
+        preserveHeight
     };
 }();
