@@ -113,25 +113,103 @@ let statisticCompared = function () {
                 if (response.responseCode === message.codes.success) {
                     let tables = parseData(response.result);
 
-                    let headerBet = document.createElement('h2');
-                    let headerWin = document.createElement('h2');
-                    let headerRounds = document.createElement('h2');
-                    let headerPayout = document.createElement('h2');
-                    headerBet.innerHTML = 'Games Bet:';
-                    headerWin.innerHTML = 'Games Win:';
-                    headerRounds.innerHTML = 'Table Rounds:';
-                    headerPayout.innerHTML = 'Table Payout:';
+                    let headerBet = document.createElement('div');
+                    let headerWin = document.createElement('div');
+                    let headerRounds = document.createElement('div');
+                    let headerPayout = document.createElement('div');
+
+                    let hiddenBet = {};
+                    let hiddenWin = {};
+                    let hiddenRounds = {};
+                    let hiddenPayout = {};
+
+                    headerBet.className = 'compared-header';
+                    headerWin.className = 'compared-header';
+                    headerRounds.className = 'compared-header';
+                    headerPayout.className = 'compared-header';
+
+                    headerBet.innerHTML = '<h2>Games Bet:</h2> <div id="compared-disabled-games-bet" class="header-games-list"></div>';
+                    headerWin.innerHTML = '<h2>Games Win:</h2> <div id="compared-disabled-games-win" class="header-games-list"></div>';
+                    headerRounds.innerHTML = '<h2>Table Rounds:</h2> <div id="compared-disabled-games-rounds" class="header-games-list"></div>';
+                    headerPayout.innerHTML = '<h2>Table Payout:</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
                     comparedTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}</h2?`;
 
+                    let tableBet = table.generate(tables.gamesBet, 'statistic-compared-table-bet', true, true);
+                    let tableWin = table.generate(tables.gamesWin, 'statistic-compared-table-win', true, true);
+                    let tableRounds = table.generate(tables.gamesRounds, 'statistic-compared-table-rounds', true, true);
+                    let tablePayout = table.generate(tables.gamesPayout, 'statistic-compared-table-payout', true, true);
+
                     comparedTableWrapper.appendChild(headerBet);
-                    comparedTableWrapper.appendChild(table.generate(tables.gamesBet, 'statistic-compared-table-bet', true, true));
+                    comparedTableWrapper.appendChild(tableBet);
                     comparedTableWrapper.appendChild(headerWin);
-                    comparedTableWrapper.appendChild(table.generate(tables.gamesWin, 'statistic-compared-table-win', true, true));
+                    comparedTableWrapper.appendChild(tableWin);
                     comparedTableWrapper.appendChild(headerRounds);
-                    comparedTableWrapper.appendChild(table.generate(tables.gamesRounds, 'statistic-compared-table-rounds', true, true));
+                    comparedTableWrapper.appendChild(tableRounds);
                     comparedTableWrapper.appendChild(headerPayout);
-                    comparedTableWrapper.appendChild(table.generate(tables.gamesPayout, 'statistic-compared-table-payout', true, true));
+                    comparedTableWrapper.appendChild(tablePayout);
+
+                    tableBet.onChange = function () {
+                        hiddenBet = tableBet.getHiddenCols();
+                        $$('#compared-disabled-games-bet').innerHTML = '';
+                        for (let col in hiddenBet) {
+                            let button = document.createElement('button');
+                            button.className = 'config';
+                            button.innerHTML = col;
+                            button.onclick = function () {
+                                tableBet.showCol(col);
+                            }
+                            $$('#compared-disabled-games-bet').appendChild(button);
+                        }
+                    };
+                    tableWin.onChange = function () {
+                        hiddenWin = tableWin.getHiddenCols();
+                        $$('#compared-disabled-games-win').innerHTML = '';
+                        for (let col in hiddenWin) {
+                            let button = document.createElement('button');
+                            button.className = 'config';
+                            button.innerHTML = col;
+                            button.onclick = function () {
+                                tableWin.showCol(col);
+                            }
+                            $$('#compared-disabled-games-win').appendChild(button);
+                        }
+                    };
+                    tableRounds.onChange = function () {
+                        hiddenRounds = tableRounds.getHiddenCols();
+                        $$('#compared-disabled-games-rounds').innerHTML = '';
+                        for (let col in hiddenRounds) {
+                            let button = document.createElement('button');
+                            button.className = 'config';
+                            button.innerHTML = col;
+                            button.onclick = function () {
+                                tableRounds.showCol(col);
+                            }
+                            $$('#compared-disabled-games-rounds').appendChild(button);
+                        }
+                    };
+                    tablePayout.onChange = function () {
+                        hiddenPayout = tablePayout.getHiddenCols();
+                        $$('#compared-disabled-games-payout').innerHTML = '';
+                        for (let col in hiddenPayout) {
+                            let button = document.createElement('button');
+                            button.className = 'config';
+                            button.innerHTML = col;
+                            button.onclick = function () {
+                                tablePayout.showCol(col);
+                            }
+                            $$('#compared-disabled-games-payout').appendChild(button);
+                        }
+                    };
+
+                    for (let i = 4; i < tableBet.getElementsByClassName('remove-btn').length; i++) {
+                        tableBet.getElementsByClassName('remove-btn')[i].click();
+                        tableWin.getElementsByClassName('remove-btn')[i].click();
+                        tableRounds.getElementsByClassName('remove-btn')[i].click();
+                        tablePayout.getElementsByClassName('remove-btn')[i].click();
+                    }
+
+
                 } else {
                     trigger('message', response.responseCode);
                 }

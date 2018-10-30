@@ -41,8 +41,8 @@ let dropdown = function () {
 
             window.addEventListener('click', function (e) {
                 if (
-                    !isMultiple && e.target.parentNode.id !== dropdown.id ||
-                    isMultiple && e.target.parentNode.id !== dropdown.id && !e.target.parentNode.classList.contains('option') && !e.target.parentNode.classList.contains('options-wrapper')
+                    !isMultiple && e.target.parentNode && e.target.parentNode.id !== dropdown.id ||
+                    isMultiple && e.target.parentNode && e.target.parentNode.id !== dropdown.id && !e.target.parentNode.classList.contains('option') && !e.target.parentNode.classList.contains('options-wrapper')
                 ) {
                     dropdown.children[1].classList.add("hidden");
                     if (!dropdown.prevCollapsed) trigger(`${dropdown.id}/collapsed`);

@@ -41,9 +41,26 @@
     background-color: #3e4a58;
 }
 
-#statistic-compared-table h2:nth-child(1) {
-    border-top: solid 1px rgba(255, 255, 255, 0.5);
-    padding-top: 1em;
+#statistic-compared-table>h2 {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.5);
+    padding-bottom: 1em;
+    margin-bottom: 0;
+}
+
+#statistic-compared-table>.compared-header {
+    display: flex;
+}
+
+#statistic-compared-table>.compared-header>.header-games-list {
+    flex: 1;
+    margin-left: 1em;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#statistic-compared-table>.compared-header>.header-games-list button {
+    margin: 0 0.2em;
 }
 
 #statistic-compared-table .table .tbody .head.cell:nth-child(1)>.remove-btn {
@@ -71,4 +88,16 @@
 .mobile #statistic-get-games-summary {
     padding: 0.85rem 1rem;
     width: 100%;
+}
+
+.mobile #statistic-compared-table>.compared-header {
+    flex-direction: column;
+}
+
+.mobile #statistic-compared-table>.compared-header>.header-games-list {
+    flex: none;
+}
+
+.mobile #statistic-compared-table>.compared-header>.header-games-list button {
+    margin: 0.2em 0.2em;
 }

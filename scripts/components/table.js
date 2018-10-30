@@ -31,6 +31,7 @@ let table = function () {
             console.error('Failed to generate table! Invalid object passed!');
             return;
         }
+
         let colsCount = Object.keys(json[0]).length;
         let tbody = document.createElement('div');
         tbody.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
@@ -40,6 +41,28 @@ let table = function () {
 
         let hiddenColls = {};
         let colIds = [];
+
+        let t = document.createElement('div');
+        t.className = sticky ? 'table sticky' : 'table';
+        t.appendChild(tbody);
+
+        t.getHiddenCols = function () {
+            return hiddenColls;
+        };
+
+        t.onChange = function () {
+            return;
+        };
+
+        t.showCol = function (id) {
+            if (!hiddenColls[id]) return;
+            for (let element of $$(`.col-${hiddenColls[id]}`)) {
+                element.style.display = 'flex';
+            }
+            tbody.style.gridTemplateColumns += ' 1fr';
+            delete hiddenColls[id];
+            t.onChange(hiddenColls[id]);
+        };
 
         for (let col = 0; col < colsCount; col++) {
             let colId = generateGuid();
@@ -57,6 +80,7 @@ let table = function () {
                     }
                     hiddenColls[Object.keys(json[0])[col]] = colId;
                     tbody.style.gridTemplateColumns = tbody.style.gridTemplateColumns.split(' ').splice(1).join(' ');
+                    t.onChange(colId);
                 };
                 head.appendChild(removeElem);
             }
@@ -81,23 +105,6 @@ let table = function () {
         function hoverRow(elements, highlight = false) {
             for (let element of document.getElementsByClassName(elements)) { element.classList[highlight ? "add" : "remove"]('hover'); }
         }
-
-        let t = document.createElement('div');
-        t.className = sticky ? 'table sticky' : 'table';
-        t.appendChild(tbody);
-
-        t.getHiddenCols = function () {
-            return hiddenColls;
-        };
-
-        t.showCol = function (id) {
-            if (!hiddenColls[id]) return;
-            for (let element of $$(`.col-${hiddenColls[id]}`)) {
-                element.style.display = 'flex';
-            }
-            tbody.style.gridTemplateColumns += ' 1fr';
-            delete hiddenColls[id];
-        };
 
         return t;
     }
