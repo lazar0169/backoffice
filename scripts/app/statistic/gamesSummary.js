@@ -138,61 +138,70 @@ let statisticGamesSummary = function () {
                     gamesSummaryChartRounds.options.legend.position = 'right';
                     gamesSummaryChartPayout.options.legend.position = 'right';
 
-                    for (let row of response.result.operaterGamesStatistics[Object.keys(response.result.operaterGamesStatistics)[0]]) {
-                        labels.push(row.period);
-                    }
+                    gamesSummaryChartTotalBet.options.title = { display: true, text: 'Total Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+                    gamesSummaryChartTotalWin.options.title = { display: true, text: 'Total Win', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+                    gamesSummaryChartRounds.options.title = { display: true, text: 'Rounds', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+                    gamesSummaryChartPayout.options.title = { display: true, text: 'Payout', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
 
-                    for (let game in response.result.operaterGamesStatistics) {
-                        games.push(game);
-                        totalBetData[game] = [];
-                        totalWinData[game] = [];
-                        roundsData[game] = [];
-                        payoutData[game] = [];
-                        for (let row of response.result.operaterGamesStatistics[game]) {
-                            totalBetData[game].push(row.totalBet);
-                            totalWinData[game].push(row.totalWin);
-                            roundsData[game].push(row.rounds);
-                            payoutData[game].push(row.payout);
+                    if (response.result.gameStatisticsPerGame.length !== 0) {
+
+                        for (let row of response.result.operaterGamesStatistics[Object.keys(response.result.operaterGamesStatistics)[0]]) {
+                            labels.push(row.period);
                         }
-                    }
 
-                    for (let i = 0; i < games.length; i++) {
-                        gamesSummaryChartTotalBet.data.datasets.push({
-                            data: totalBetData[games[i]],
-                            label: games[i],
-                            backgroundColor: generateColor(),
-                            fontColor: 'rgba(255, 255, 255, 1)',
-                            borderWidth: 2,
-                            borderColor: "rgba(255, 255, 255, 0.5)",
-                            fill: false,
-                        });
-                        gamesSummaryChartTotalWin.data.datasets.push({
-                            data: totalWinData[games[i]],
-                            label: games[i],
-                            backgroundColor: generateColor(),
-                            fontColor: 'rgba(255, 255, 255, 1)',
-                            borderWidth: 2,
-                            borderColor: "rgba(255, 255, 255, 0.5)",
-                            fill: false,
-                        });
-                        gamesSummaryChartRounds.data.datasets.push({
-                            data: roundsData[games[i]],
-                            label: games[i],
-                            backgroundColor: generateColor(),
-                            fontColor: 'rgba(255, 255, 255, 1)',
-                            borderWidth: 2,
-                            borderColor: "rgba(255, 255, 255, 0.5)",
-                            fill: false,
-                        });
-                        gamesSummaryChartPayout.data.datasets.push({
-                            data: payoutData[games[i]],
-                            label: games[i],
-                            backgroundColor: generateColor(),
-                            fontColor: 'rgba(255, 255, 255, 1)',
-                            borderWidth: 2,
-                            borderColor: "rgba(255, 255, 255, 0.5)",
-                            fill: false,
-                        });
+                        for (let game in response.result.operaterGamesStatistics) {
+                            games.push(game);
+                            totalBetData[game] = [];
+                            totalWinData[game] = [];
+                            roundsData[game] = [];
+                            payoutData[game] = [];
+                            for (let row of response.result.operaterGamesStatistics[game]) {
+                                totalBetData[game].push(row.totalBet);
+                                totalWinData[game].push(row.totalWin);
+                                roundsData[game].push(row.rounds);
+                                payoutData[game].push(row.payout);
+                            }
+                        }
+
+                        for (let i = 0; i < games.length; i++) {
+                            let color = generateColor();
+                            gamesSummaryChartTotalBet.data.datasets.push({
+                                data: totalBetData[games[i]],
+                                label: games[i],
+                                backgroundColor: color,
+                                fontColor: 'rgba(255, 255, 255, 1)',
+                                borderWidth: 2,
+                                borderColor: color,
+                                fill: false,
+                            });
+                            gamesSummaryChartTotalWin.data.datasets.push({
+                                data: totalWinData[games[i]],
+                                label: games[i],
+                                backgroundColor: color,
+                                fontColor: 'rgba(255, 255, 255, 1)',
+                                borderWidth: 2,
+                                borderColor: color,
+                                fill: false,
+                            });
+                            gamesSummaryChartRounds.data.datasets.push({
+                                data: roundsData[games[i]],
+                                label: games[i],
+                                backgroundColor: color,
+                                fontColor: 'rgba(255, 255, 255, 1)',
+                                borderWidth: 2,
+                                borderColor: color,
+                                fill: false,
+                            });
+                            gamesSummaryChartPayout.data.datasets.push({
+                                data: payoutData[games[i]],
+                                label: games[i],
+                                backgroundColor: color,
+                                fontColor: 'rgba(255, 255, 255, 1)',
+                                borderWidth: 2,
+                                borderColor: color,
+                                fill: false,
+                            });
+                        }
                     }
 
                     gamesSummaryChartTotalBet.data.labels = labels;

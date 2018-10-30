@@ -25,10 +25,18 @@ let graph = function () {
                         ticks: {
                             fontColor: "rgba(255, 255, 255, 1)",
                         },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255, 255, 255, 0.1)"
+                        },
                     }],
                     yAxes: [{
                         ticks: {
                             fontColor: "rgba(255, 255, 255, 1)",
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255, 255, 255, 0.1)"
                         },
                     }],
                 }
@@ -36,13 +44,14 @@ let graph = function () {
         });
 
         for (let i = 0; i < count; i++) {
+            let color = generateColor();
             chart.data.datasets.push({
                 data: [],
                 label: '',
-                backgroundColor: [],
+                backgroundColor: color,
                 fontColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 1,
-                borderColor: "rgba(255, 255, 255, 0.5)",
+                borderColor: color,
                 fill: false,
             });
         }

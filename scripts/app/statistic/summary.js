@@ -136,10 +136,8 @@ let statisticSummary = function () {
 
                     summaryChartTotalBetWin.data.datasets[0].data = totalBetData;
                     summaryChartTotalBetWin.data.datasets[0].label = 'Total Bet';
-                    summaryChartTotalBetWin.data.datasets[0].backgroundColor = generateColor();
                     summaryChartTotalBetWin.data.datasets[1].data = totalWinData;
                     summaryChartTotalBetWin.data.datasets[1].label = 'Total Win';
-                    summaryChartTotalBetWin.data.datasets[1].backgroundColor = generateColor();
                     summaryChartTotalBetWin.data.labels = labels;
                     summaryChartTotalBetWin.update();
 
@@ -148,12 +146,10 @@ let statisticSummary = function () {
                     summaryChartRounds.data.datasets[0].data = roundsData;
                     summaryChartRounds.data.datasets[0].label = 'Rounds';
                     summaryChartRounds.data.labels = labels;
-                    summaryChartRounds.data.datasets[0].backgroundColor = generateColor();
 
                     summaryChartPayout.data.datasets[0].data = payoutData;
                     summaryChartPayout.data.datasets[0].label = 'Payout';
                     summaryChartPayout.data.labels = labels;
-                    summaryChartPayout.data.datasets[0].backgroundColor = generateColor();
 
                     $$('#statistic-summary-graphs').classList.remove('hidden');
 

@@ -144,9 +144,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
                     summary.push(response.result.sum);
-                    let title = document.createElement('h2');
-                    title.innerHTML = response.result.period;
-                    perGameTableWrapper.appendChild(title);
+                    perGameTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}</h2?`;
                     perGameTableWrapper.appendChild(table.generate(summary, '', false, true));
                     table.preserveHeight(perGameTableWrapper);
 
