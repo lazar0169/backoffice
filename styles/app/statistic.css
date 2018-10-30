@@ -1,31 +1,38 @@
-#statistic-summary-filter {
+#statistic-summary-filter,
+#statistic-games-summary-filter {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
 
-#statistic-summary-filter>* {
+#statistic-summary-filter>*,
+#statistic-games-summary-filter>* {
     margin: 0.5em 0.5em;
 }
 
-#statistic-get-statistic.hidden {
+#statistic-get-summary.hidden,
+#statistic-get-games-summary.hidden {
     display: none;
 }
 
-#statistic-get-statistic {
+#statistic-get-summary,
+#statistic-get-games-summary {
     display: inline;
 }
 
-#statistic-summary-graphs.hidden {
+#statistic-summary-graphs.hidden,
+#statistic-games-summary-graphs.hidden {
     display: none;
 }
 
-#statistic-summary-table .last {
+#statistic-summary-table .last,
+#statistic-games-summary-table .last {
     background-color: #3e4a58;
 }
 
 /* MOBILE */
 
-.mobile #statistic-summary-table .last {
+.mobile #statistic-summary-table .last,
+.mobile #statistic-games-summary-table .last {
     background-color: #3e4a58;
 }

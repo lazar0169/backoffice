@@ -2,7 +2,7 @@ let statisticSummary = function () {
     let selectedOperator;
     let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let summaryButton = $$('#statistic-get-statistic');
+    let summaryButton = $$('#statistic-get-summary');
     let summaryTableWrapper = $$('#statistic-summary-table');
     let summaryChartTotalBetWin = graph.generate($$('#statistic-summary-graphs').children[0], 'bar', 2);
     let summaryChartRounds = graph.generate($$('#statistic-summary-graphs').children[1], 'bar');
@@ -16,9 +16,9 @@ let statisticSummary = function () {
     });
 
     on('statistic/summary/loaded', function () {
-        clearElement($$('#statistic-categories'));
-        clearElement($$('#statistic-operators'));
-        clearElement($$('#statistic-portals'));
+        clearElement($$('#statistic-summary-categories'));
+        clearElement($$('#statistic-summary-operators'));
+        clearElement($$('#statistic-summary-portals'));
         summaryTableWrapper.innerHTML = '';
         summaryButton.classList.add('hidden');
         $$('#statistic-summary-graphs').classList.add('hidden');
@@ -28,7 +28,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-categories', 'Select category', true), $$('#statistic-summary-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select category', true), $$('#statistic-summary-time-span-to'));
                     getOperators();
                 } else {
                     trigger('message', response.responseCode);
@@ -42,14 +42,14 @@ let statisticSummary = function () {
 
 
     function getOperators() {
-        clearElement($$('#statistic-operators'));
+        clearElement($$('#statistic-summary-operators'));
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/operators/get', {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-operators', 'Select category'), $$('#statistic-categories'));
-                    on('statistic-operators/selected', function (value) {
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-operators', 'Select category'), $$('#statistic-summary-categories'));
+                    on('statistic-summary-operators/selected', function (value) {
                         selectedOperator = value;
                         getPortals(value);
                         log(value);
@@ -65,7 +65,7 @@ let statisticSummary = function () {
     }
 
     function getPortals(id) {
-        clearElement($$('#statistic-portals'));
+        clearElement($$('#statistic-summary-portals'));
         addLoader($$('#statistic-summary-filter'));
         trigger('comm/statistic/portals/get', {
             body: {
@@ -74,7 +74,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#statistic-summary-filter'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-portals', 'Select category', true), $$('#statistic-operators'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-portals', 'Select category', true), $$('#statistic-summary-operators'));
                     summaryButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
@@ -98,7 +98,7 @@ let statisticSummary = function () {
             toDate: "2018-10-29T11:44:24.538Z"
         };
 
-        data.gameCategoryIds = $$('#statistic-categories').getSelected();
+        data.gameCategoryIds = $$('#statistic-summary-categories').getSelected();
         data.operatorId = selectedOperator;
         data.portalIds = $$('#statistic-portals').getSelected();
         data.currencyId = currency.get().id;

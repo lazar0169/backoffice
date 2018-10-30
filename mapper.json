@@ -30,6 +30,7 @@
             "app/accounting.js",
             "app/dashboard.js",
             "app/statistic/summary.js",
+            "app/statistic/gamesSummary.js",
             "message.js",
             "currency.js"
         ],

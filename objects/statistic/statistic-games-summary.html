@@ -1,5 +1,37 @@
 <div id="statistic-games-summary" class="page-content">
     <div class="page-content-wrapper">
-        STATISTIC GAMES SUMMARY
+        <div id="statistic-games-summary-filter">
+            <div class="select" id="statistic-games-summary-time-span">
+                <div class="selected" data-value="">Time Span</div>
+                <div class="options-wrapper hidden">
+                    <div class="option" data-value="custom">Custom</div>
+                    <div class="option" data-value="Today">Today</div>
+                    <div class="option" data-value="Yesterday">Yesterday</div>
+                    <div class="option" data-value="LastThreeDays">Last Three Days</div>
+                    <div class="option" data-value="LastWeek">Last Week</div>
+                    <div class="option" data-value="LastMonth">Last Month</div>
+                    <div class="option" data-value="LastQuarter">Last Quarter</div>
+                    <div class="option" data-value="LastYear">Last Year</div>
+                </div>
+            </div>
+            <div class="select" id="statistic-games-summary-time-interval">
+                <div class="selected" data-value="">Time Interval</div>
+                <div class="options-wrapper hidden">
+                    <div class="option" data-value="0">Hourly</div>
+                    <div class="option" data-value="1">Daily</div>
+                    <div class="option" data-value="2">Weekly</div>
+                    <div class="option" data-value="3">Monthly</div>
+                </div>
+            </div><input type="text" id="statistic-games-summary-time-span-from" class="datepicker" readonly>
+            <input type="text" id="statistic-games-summary-time-span-to" class="datepicker" readonly>
+            <button id="statistic-get-games-summary" class="hidden">GET STATISTIC</button>
+        </div>
+        <div id="statistic-games-summary-table"></div>
+        <div id="statistic-games-summary-graphs" class="hidden">
+            <canvas></canvas>
+            <canvas></canvas>
+            <canvas></canvas>
+            <canvas></canvas>
+        </div>
     </div>
 </div>
