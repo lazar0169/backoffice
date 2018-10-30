@@ -142,8 +142,11 @@ let statisticPerGame = function () {
             success: function (response) {
                 removeLoader(perGameButton);
                 if (response.responseCode === message.codes.success) {
-                    let summary = JSON.parse(JSON.stringify(response.result.statisticsPerDate));
+                    let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
                     summary.push(response.result.sum);
+                    let title = document.createElement('h2');
+                    title.innerHTML = response.result.period;
+                    perGameTableWrapper.appendChild(title);
                     perGameTableWrapper.appendChild(table.generate(summary, '', false, true));
                     table.preserveHeight(perGameTableWrapper);
 
