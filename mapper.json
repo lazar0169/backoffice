@@ -32,6 +32,7 @@
             "app/statistic/summary.js",
             "app/statistic/gamesSummary.js",
             "app/statistic/perGame.js",
+            "app/statistic/compared.js",
             "message.js",
             "currency.js"
         ],

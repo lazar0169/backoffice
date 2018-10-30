@@ -134,6 +134,14 @@ let statisticSummary = function () {
                         payoutData.push(row.payout);
                     }
 
+                    summaryChartTotalBetWin.options.legend.dispay = !isMobile;
+                    summaryChartRounds.options.legend.dispay = !isMobile;
+                    summaryChartPayout.options.legend.dispay = !isMobile;
+
+                    summaryChartTotalBetWin.options.legend.position = 'right';
+                    summaryChartRounds.options.legend.position = 'right';
+                    summaryChartPayout.options.legend.position = 'right';
+
                     summaryChartTotalBetWin.data.datasets[0].data = totalBetData;
                     summaryChartTotalBetWin.data.datasets[0].label = 'Total Bet';
                     summaryChartTotalBetWin.data.datasets[1].data = totalWinData;
