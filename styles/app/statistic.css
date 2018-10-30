@@ -1,10 +1,10 @@
-#statistic-filter {
+#statistic-summary-filter {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
 
-#statistic-filter>* {
+#statistic-summary-filter>* {
     margin: 0.5em 0.5em;
 }
 
@@ -16,6 +16,16 @@
     display: inline;
 }
 
-#summary-graphs.hidden {
+#statistic-summary-graphs.hidden {
     display: none;
+}
+
+#statistic-summary-table .last {
+    background-color: #3e4a58;
+}
+
+/* MOBILE */
+
+.mobile #statistic-summary-table .last {
+    background-color: #3e4a58;
 }

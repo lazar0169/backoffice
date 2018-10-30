@@ -70,6 +70,7 @@ let table = function () {
                 cell.innerHTML = json[row][Object.keys(json[row])[col]];
                 cell.className = col === 0 ? 'first cell' : 'cell';
                 cell.classList.add(`row-${rowId}`);
+                if (row === json.length - 1) cell.classList.add('last');
                 cell.classList.add(`col-${colIds[col]}`);
                 cell.onmouseover = function () { hoverRow(`row-${rowId}`, true); };
                 cell.onmouseout = function () { hoverRow(`row-${rowId}`, false); };

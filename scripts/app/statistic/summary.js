@@ -4,14 +4,14 @@ let statisticSummary = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let summaryButton = $$('#statistic-get-statistic');
     let summaryTableWrapper = $$('#statistic-summary-table');
-    let summaryChartTotalBetWin = graph.generate($$('#summary-graphs').children[0], 'bar', 2);
-    let summaryChartRounds = graph.generate($$('#summary-graphs').children[1], 'bar');
-    let summaryChartPayout = graph.generate($$('#summary-graphs').children[2], 'bar');
+    let summaryChartTotalBetWin = graph.generate($$('#statistic-summary-graphs').children[0], 'bar', 2);
+    let summaryChartRounds = graph.generate($$('#statistic-summary-graphs').children[1], 'bar');
+    let summaryChartPayout = graph.generate($$('#statistic-summary-graphs').children[2], 'bar');
 
-    on('date/statistic-time-span-from', function (data) {
+    on('date/statistic-summary-time-span-from', function (data) {
         statisticFromDate = data;
     });
-    on('date/statistic-time-span-to', function (data) {
+    on('date/statistic-summary-time-span-to', function (data) {
         statisticToDate = data;
     });
 
@@ -21,14 +21,14 @@ let statisticSummary = function () {
         clearElement($$('#statistic-portals'));
         summaryTableWrapper.innerHTML = '';
         summaryButton.classList.add('hidden');
-        $$('#summary-graphs').classList.add('hidden');
+        $$('#statistic-summary-graphs').classList.add('hidden');
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-categories', 'Select category', true), $$('#statistic-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-categories', 'Select category', true), $$('#statistic-summary-time-span-to'));
                     getOperators();
                 } else {
                     trigger('message', response.responseCode);
@@ -66,13 +66,13 @@ let statisticSummary = function () {
 
     function getPortals(id) {
         clearElement($$('#statistic-portals'));
-        addLoader($$('#statistic-filter'));
+        addLoader($$('#statistic-summary-filter'));
         trigger('comm/statistic/portals/get', {
             body: {
                 id: id
             },
             success: function (response) {
-                removeLoader($$('#statistic-filter'));
+                removeLoader($$('#statistic-summary-filter'));
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-portals', 'Select category', true), $$('#statistic-operators'));
                     summaryButton.classList.remove('hidden');
@@ -81,7 +81,7 @@ let statisticSummary = function () {
                 }
             },
             fail: function () {
-                removeLoader($$('#statistic-filter'));
+                removeLoader($$('#statistic-summary-filter'));
             }
         });
     }
@@ -102,8 +102,8 @@ let statisticSummary = function () {
         data.operatorId = selectedOperator;
         data.portalIds = $$('#statistic-portals').getSelected();
         data.currencyId = currency.get().id;
-        data.viewInterval = $$('#statistic-time-interval').getSelected();
-        data.searchInterval = $$('#statistic-time-span').getSelected() || 'custom';
+        data.viewInterval = $$('#statistic-summary-time-interval').getSelected();
+        data.searchInterval = $$('#statistic-summary-time-span').getSelected() || 'custom';
         data.fromDate = statisticFromDate;
         data.toDate = statisticToDate;
 
@@ -115,7 +115,8 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader(summaryButton);
                 if (response.responseCode === message.codes.success) {
-                    let summary = response.result.statisticsPerDate;
+                    let summary = JSON.parse(JSON.stringify(response.result.statisticsPerDate));
+                    summary.push(response.result.sum);
                     summaryTableWrapper.appendChild(table.generate(summary, '', false, true));
                     table.preserveHeight(summaryTableWrapper);
 
@@ -154,7 +155,7 @@ let statisticSummary = function () {
                     summaryChartPayout.data.labels = labels;
                     summaryChartPayout.data.datasets[0].backgroundColor = generateColor();
 
-                    $$('#summary-graphs').classList.remove('hidden');
+                    $$('#statistic-summary-graphs').classList.remove('hidden');
 
                 } else {
                     trigger('message', response.responseCode);

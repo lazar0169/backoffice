@@ -1,7 +1,7 @@
 <div id="statistic-summary" class="page-content">
     <div class="page-content-wrapper">
-        <div id="statistic-filter">
-            <div class="select" id="statistic-time-span">
+        <div id="statistic-summary-filter">
+            <div class="select" id="statistic-summary-time-span">
                 <div class="selected" data-value="">Time Span</div>
                 <div class="options-wrapper hidden">
                     <div class="option" data-value="custom">Custom</div>
@@ -14,7 +14,7 @@
                     <div class="option" data-value="LastYear">Last Year</div>
                 </div>
             </div>
-            <div class="select" id="statistic-time-interval">
+            <div class="select" id="statistic-summary-time-interval">
                 <div class="selected" data-value="">Time Interval</div>
                 <div class="options-wrapper hidden">
                     <div class="option" data-value="0">Hourly</div>
@@ -23,14 +23,12 @@
                     <div class="option" data-value="3">Monthly</div>
                 </div>
             </div>
-            <input type="text" id="statistic-time-span-from" class="datepicker" readonly>
-            <input type="text" id="statistic-time-span-to" class="datepicker" readonly>
+            <input type="text" id="statistic-summary-time-span-from" class="datepicker" readonly>
+            <input type="text" id="statistic-summary-time-span-to" class="datepicker" readonly>
             <button id="statistic-get-statistic" class="hidden">GET STATISTIC</button>
         </div>
-
         <div id="statistic-summary-table"></div>
-
-        <div id="summary-graphs" class="hidden">
+        <div id="statistic-summary-graphs" class="hidden">
             <canvas></canvas>
             <canvas></canvas>
             <canvas></canvas>
