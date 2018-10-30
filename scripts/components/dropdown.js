@@ -12,14 +12,20 @@ let dropdown = function () {
         }
 
         function initializeDropdown(dropdown, placeholder, isMultiple) {
+            dropdown.getSelected = function () { return false; };
+            dropdown.prevCollapsed = true;
+
             dropdown.children[0].addEventListener('click', function () {
-                dropdown.children[1].classList.toggle("hidden");
+                dropdown.prevCollapsed = dropdown.children[1].classList.contains('hidden');
+                dropdown.children[1].classList.toggle('hidden');
             });
 
             for (let option of dropdown.children[1].children) {
-                option.addEventListener('click', function () {
+                option.addEventListener('click', function (e) {
+                    event.preventDefault();
+                    e.stopPropagation();
                     if (isMultiple) {
-                        option.children[0].click();
+                        option.children[0].checked = !option.children[0].checked;
                         dropdown.children[0].innerHTML = readCheck(dropdown, placeholder);
                     } else {
                         dropdown.children[0].innerHTML = option.innerHTML;
@@ -28,8 +34,8 @@ let dropdown = function () {
                         dropdown.getSelected = function () {
                             return option.dataset.value;
                         };
-                        trigger(`${dropdown.id}/selected`, option.dataset.value);
                     }
+                    trigger(`${dropdown.id}/selected`, dropdown.getSelected());
                 });
             }
 
@@ -39,6 +45,7 @@ let dropdown = function () {
                     isMultiple && e.target.parentNode.id !== dropdown.id && !e.target.parentNode.classList.contains('option') && !e.target.parentNode.classList.contains('options-wrapper')
                 ) {
                     dropdown.children[1].classList.add("hidden");
+                    if (!dropdown.prevCollapsed) trigger(`${dropdown.id}/collapsed`);
                 }
             });
         }

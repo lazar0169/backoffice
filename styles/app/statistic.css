@@ -1,4 +1,5 @@
 #statistic-summary-filter,
+#statistic-per-game-filter,
 #statistic-games-summary-filter {
     display: flex;
     align-items: center;
@@ -6,26 +7,31 @@
 }
 
 #statistic-summary-filter>*,
+#statistic-per-game-filter>*,
 #statistic-games-summary-filter>* {
     margin: 0.5em 0.5em;
 }
 
 #statistic-get-summary.hidden,
+#statistic-get-per-game.hidden,
 #statistic-get-games-summary.hidden {
     display: none;
 }
 
 #statistic-get-summary,
+#statistic-get-per-game,
 #statistic-get-games-summary {
     display: inline;
 }
 
 #statistic-summary-graphs.hidden,
+#statistic-per-game-graphs.hidden,
 #statistic-games-summary-graphs.hidden {
     display: none;
 }
 
 #statistic-summary-table .last,
+#statistic-per-game-table .last,
 #statistic-games-summary-table .last {
     background-color: #3e4a58;
 }
@@ -33,6 +39,7 @@
 /* MOBILE */
 
 .mobile #statistic-summary-table .last,
+.mobile #statistic-per-game-table .last,
 .mobile #statistic-games-summary-table .last {
     background-color: #3e4a58;
 }

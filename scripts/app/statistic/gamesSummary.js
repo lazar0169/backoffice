@@ -29,7 +29,7 @@ let statisticGamesSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-categories', 'Select category', true), $$('#statistic-games-summary-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-categories', 'Select categories', true), $$('#statistic-games-summary-time-span-to'));
                     getOperators();
                 } else {
                     trigger('message', response.responseCode);
@@ -49,7 +49,7 @@ let statisticGamesSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-operators', 'Select category'), $$('#statistic-games-summary-categories'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-operators', 'Select operator'), $$('#statistic-games-summary-categories'));
                     on('statistic-games-summary-operators/selected', function (value) {
                         selectedOperator = value;
                         getPortals(value);
@@ -75,7 +75,7 @@ let statisticGamesSummary = function () {
             success: function (response) {
                 removeLoader($$('#statistic-games-summary-filter'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-portals', 'Select category', true), $$('#statistic-games-summary-operators'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-portals', 'Select portals', true), $$('#statistic-games-summary-operators'));
                     gamesSummaryButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
@@ -101,7 +101,7 @@ let statisticGamesSummary = function () {
 
         data.gameCategoryIds = $$('#statistic-games-summary-categories').getSelected();
         data.operatorId = selectedOperator;
-        data.portalIds = $$('#statistic-portals').getSelected();
+        data.portalIds = $$('#statistic-games-summary-portals').getSelected();
         data.currencyId = currency.get().id;
         data.viewInterval = $$('#statistic-games-summary-time-interval').getSelected();
         data.searchInterval = $$('#statistic-games-summary-time-span').getSelected() || 'custom';

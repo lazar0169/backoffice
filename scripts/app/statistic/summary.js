@@ -28,7 +28,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select category', true), $$('#statistic-summary-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
                     getOperators();
                 } else {
                     trigger('message', response.responseCode);
@@ -48,7 +48,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-summary-operators', 'Select category'), $$('#statistic-summary-categories'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-operators', 'Select operator'), $$('#statistic-summary-categories'));
                     on('statistic-summary-operators/selected', function (value) {
                         selectedOperator = value;
                         getPortals(value);
@@ -74,7 +74,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#statistic-summary-filter'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-portals', 'Select category', true), $$('#statistic-summary-operators'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-portals', 'Select portals', true), $$('#statistic-summary-operators'));
                     summaryButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
@@ -100,7 +100,7 @@ let statisticSummary = function () {
 
         data.gameCategoryIds = $$('#statistic-summary-categories').getSelected();
         data.operatorId = selectedOperator;
-        data.portalIds = $$('#statistic-portals').getSelected();
+        data.portalIds = $$('#statistic-summary-portals').getSelected();
         data.currencyId = currency.get().id;
         data.viewInterval = $$('#statistic-summary-time-interval').getSelected();
         data.searchInterval = $$('#statistic-summary-time-span').getSelected() || 'custom';

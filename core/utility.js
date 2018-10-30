@@ -132,6 +132,9 @@ function clearElement(element) {
         if (events[`${element.id}/selected`]) {
             delete events[`${element.id}/selected`];
         };
+        if (events[`${element.id}/collapsed`]) {
+            delete events[`${element.id}/collapsed`];
+        };
     }
 }
 
