@@ -56,6 +56,10 @@
     position: -webkit-sticky;
 }
 
+.sticky .first.cell {
+    z-index: 1;
+}
+
 .tbody {
     display: grid;
     position: absolute;

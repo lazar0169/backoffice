@@ -135,10 +135,30 @@ let statisticCompared = function () {
 
                     comparedTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}</h2?`;
 
-                    let tableBet = table.generate(tables.gamesBet, 'statistic-compared-table-bet', true, true);
-                    let tableWin = table.generate(tables.gamesWin, 'statistic-compared-table-win', true, true);
-                    let tableRounds = table.generate(tables.gamesRounds, 'statistic-compared-table-rounds', true, true);
-                    let tablePayout = table.generate(tables.gamesPayout, 'statistic-compared-table-payout', true, true);
+                    let tableBet = table.generate({
+                        data: tables.gamesBet,
+                        id: 'statistic-compared-table-bet',
+                        dynamic: true,
+                        sticky: true
+                    });
+                    let tableWin = table.generate({
+                        data: tables.gamesWin,
+                        id: 'statistic-compared-table-win',
+                        dynamic: true,
+                        sticky: true
+                    });
+                    let tableRounds = table.generate({
+                        data: tables.gamesRounds,
+                        id: 'statistic-compared-table-rounds',
+                        dynamic: true,
+                        sticky: true
+                    });
+                    let tablePayout = table.generate({
+                        data: tables.gamesPayout,
+                        id: 'statistic-compared-table-payout',
+                        dynamic: true,
+                        sticky: true
+                    });
 
                     comparedTableWrapper.appendChild(headerBet);
                     comparedTableWrapper.appendChild(tableBet);

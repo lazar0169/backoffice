@@ -47,7 +47,12 @@ let dashboard = function () {
                 removeLoader($$('#sidebar-dashboard'));
                 if (response.responseCode === message.codes.success) {
                     dashboardData = response.result;
-                    main.appendChild(table.generate(parseData(dashboardData.activities.activities), 'dashboard-table', false, true));
+                    main.appendChild(table.generate({
+                        data: parseData(dashboardData.activities.activities),
+                        id: 'dashboard-table',
+                        dynamic: false,
+                        sticky: true
+                    }));
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -65,7 +70,12 @@ let dashboard = function () {
             let header = document.createElement('h2');
             header.innerHTML = `${transformCamelToRegular(jackpot)} Jackpot`;
             jackpots.appendChild(header);
-            jackpots.appendChild(table.generate(dashboardData.jackpots[jackpot].dashboardJackpots, `jackpot-${jackpot}-table`, false, true));
+            jackpots.appendChild(table.generate({
+                data: dashboardData.jackpots[jackpot].dashboardJackpots,
+                id: `jackpot-${jackpot}-table`,
+                dynamic: false,
+                sticky: true
+            }));
         }
         table.preserveHeight(jackpots);
     });
@@ -76,12 +86,22 @@ let dashboard = function () {
         let headerWinners = document.createElement('h2');
         headerWinners.innerHTML = 'Top 10 Winners';
         topWinners.appendChild(headerWinners);
-        topWinners.appendChild(table.generate(dashboardData.topTenWinners, '', false, true));
+        topWinners.appendChild(table.generate({
+            data: dashboardData.topTenWinners,
+            id: '',
+            dynamic: false,
+            sticky: true
+        }));
         let topLosers = document.createElement('div');
         let headerLosers = document.createElement('h2');
         headerLosers.innerHTML = 'Top 10 Winners';
         topLosers.appendChild(headerLosers);
-        topLosers.appendChild(table.generate(dashboardData.topTenLosers, '', false, true));
+        topLosers.appendChild(table.generate({
+            data: dashboardData.topTenLosers,
+            id: '',
+            dynamic: false,
+            sticky: true
+        }));
         playersWrapper.appendChild(topWinners);
         playersWrapper.appendChild(topLosers);
         let portals = [];
@@ -100,7 +120,12 @@ let dashboard = function () {
         for (let portal of $$('#dashboard-players-portals-list').children[1].children) {
             portal.addEventListener('click', function () {
                 if (latestPlayers.children[1]) latestPlayers.children[1].remove();
-                latestPlayers.appendChild(table.generate(dashboardData.latestNewPlayers[portal.dataset.value].latestPlayers, '', false, true));
+                latestPlayers.appendChild(table.generate({
+                    data: dashboardData.latestNewPlayers[portal.dataset.value].latestPlayers,
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
                 table.preserveHeight(playersWrapper);
             });
         }
@@ -128,7 +153,12 @@ let dashboard = function () {
         if (!dashboardData) return;
         portals.innerHTML = '';
         for (let portal of dashboardData.portalsActivities) {
-            portals.appendChild(table.generate(parseData(portal.activities), '', false, true));
+            portals.appendChild(table.generate({
+                data: parseData(portal.activities),
+                id: '',
+                dynamic: false,
+                sticky: true
+            }));
         }
         table.preserveHeight(portals);
     });

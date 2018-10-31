@@ -15,7 +15,6 @@
     },
     "main": {
         "scripts": [
-            "test-data.js",
             "communication.js",
             "components/notify.js",
             "components/datepicker.js",

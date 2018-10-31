@@ -25,7 +25,12 @@ let accounting = function () {
         let array = data;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
-        return table.generate(array, '', false, true);
+        return table.generate({
+            data: array,
+            id: '',
+            dynamic: false,
+            sticky: true
+        });
     }
 
     function generateHeadline(string) {

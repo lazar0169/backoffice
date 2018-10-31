@@ -26,24 +26,29 @@ let table = function () {
         }
     }
 
-    function generate(json, id = '', dynamic = false, sticky = false) {
-        if (!json || json.length === 0) {
+    function generate(params) {
+        params = params || {};
+        params.dynamic = params.dynamic || false;
+        params.sticky = params.sticky || false;
+        params.options = params.options || {};
+
+        if (!params.data || params.data.length === 0) {
             console.error('Failed to generate table! Invalid object passed!');
             return;
         }
 
-        let colsCount = Object.keys(json[0]).length;
+        let colsCount = Object.keys(params.data[0]).length;
         let tbody = document.createElement('div');
         tbody.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
-        tbody.style.gridTemplateRows = `repeat(${json.length}, 1fr)`;
-        tbody.id = id;
+        tbody.style.gridTemplateRows = `repeat(${params.data.length}, 1fr)`;
+        tbody.id = params.id;
         tbody.className = 'tbody';
 
         let hiddenColls = {};
         let colIds = [];
 
         let t = document.createElement('div');
-        t.className = sticky ? 'table sticky' : 'table';
+        t.className = params.sticky ? 'table sticky' : 'table';
         t.appendChild(tbody);
 
         t.getHiddenCols = function () {
@@ -67,18 +72,18 @@ let table = function () {
         for (let col = 0; col < colsCount; col++) {
             let colId = generateGuid();
             let head = document.createElement('div');
-            head.innerHTML = transformCamelToRegular(Object.keys(json[0])[col]);
+            head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
             head.className = 'head cell';
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
-            if (dynamic) {
+            if (params.dynamic) {
                 let removeElem = document.createElement('div');
                 removeElem.className = 'remove-btn';
                 removeElem.onclick = function () {
                     for (let element of $$(`.col-${colId}`)) {
                         element.style.display = 'none';
                     }
-                    hiddenColls[Object.keys(json[0])[col]] = colId;
+                    hiddenColls[Object.keys(params.data[0])[col]] = colId;
                     tbody.style.gridTemplateColumns = tbody.style.gridTemplateColumns.split(' ').splice(1).join(' ');
                     t.onChange(colId);
                 };
@@ -87,14 +92,24 @@ let table = function () {
             tbody.appendChild(head);
         }
 
-        for (let row = 0; row < json.length; row++) {
+        for (let row = 0; row < params.data.length; row++) {
             let rowId = generateGuid();
             for (let col = 0; col < colsCount; col++) {
                 let cell = document.createElement('div');
-                cell.innerHTML = json[row][Object.keys(json[row])[col]];
+                // options
+                let sufix = '';
+                let prefix = '';
+                if (params.options.sufix && params.options.sufix.text && params.options.sufix.col === Object.keys(params.data[row])[col]) {
+                    sufix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.sufix.text : '';
+                }
+                if (params.options.prefix && params.options.prefix.text && params.options.prefix.col === Object.keys(params.data[row])[col]) {
+                    prefix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.prefix.text : '';
+                }
+                // -----
+                cell.innerHTML = prefix + params.data[row][Object.keys(params.data[row])[col]] + sufix;
                 cell.className = col === 0 ? 'first cell' : 'cell';
                 cell.classList.add(`row-${rowId}`);
-                if (row === json.length - 1) cell.classList.add('last');
+                if (row === params.data.length - 1) cell.classList.add('last');
                 cell.classList.add(`col-${colIds[col]}`);
                 cell.onmouseover = function () { hoverRow(`row-${rowId}`, true); };
                 cell.onmouseout = function () { hoverRow(`row-${rowId}`, false); };

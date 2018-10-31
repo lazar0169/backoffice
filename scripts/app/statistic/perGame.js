@@ -145,7 +145,19 @@ let statisticPerGame = function () {
                     let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
                     summary.push(response.result.sum);
                     perGameTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}</h2?`;
-                    perGameTableWrapper.appendChild(table.generate(summary, '', false, true));
+                    perGameTableWrapper.appendChild(table.generate({
+                        data: summary,
+                        id: '',
+                        dynamic: false,
+                        sticky: true,
+                        options: {
+                            sufix: {
+                                col: 'payout',
+                                text: '<span style="color: yellow;float: right;">&#9888;</span>',
+                                condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
+                            }
+                        }
+                    }));
                     table.preserveHeight(perGameTableWrapper);
 
                 } else {
