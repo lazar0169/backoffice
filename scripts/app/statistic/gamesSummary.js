@@ -9,6 +9,16 @@ let statisticGamesSummary = function () {
     let gamesSummaryChartRounds = graph.generate($$('#statistic-games-summary-graphs').children[2], 'line');
     let gamesSummaryChartPayout = graph.generate($$('#statistic-games-summary-graphs').children[3], 'line');
 
+    on('statistic-games-summary-time-span/selected', function (value) {
+        if (value !== 'custom') {
+            $$('#statistic-games-summary-time-span-from').classList.add('disabled');
+            $$('#statistic-games-summary-time-span-to').classList.add('disabled');
+        } else {
+            $$('#statistic-games-summary-time-span-from').classList.remove('disabled');
+            $$('#statistic-games-summary-time-span-to').classList.remove('disabled');
+        }
+    });
+
     on('date/statistic-games-summary-time-span-from', function (data) {
         statisticFromDate = data;
     });

@@ -7,6 +7,16 @@ let statisticPerGame = function () {
     let perGameTableWrapper = $$('#statistic-per-game-table');
     let getGamesEvent;
 
+    on('statistic-per-game-time-span/selected', function (value) {
+        if (value !== 'custom') {
+            $$('#statistic-per-game-time-span-from').classList.add('disabled');
+            $$('#statistic-per-game-time-span-to').classList.add('disabled');
+        } else {
+            $$('#statistic-per-game-time-span-from').classList.remove('disabled');
+            $$('#statistic-per-game-time-span-to').classList.remove('disabled');
+        }
+    });
+
     on('date/statistic-per-game-time-span-from', function (data) {
         statisticFromDate = data;
     });

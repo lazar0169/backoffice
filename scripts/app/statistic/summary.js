@@ -8,6 +8,16 @@ let statisticSummary = function () {
     let summaryChartRounds = graph.generate($$('#statistic-summary-graphs').children[1], 'bar');
     let summaryChartPayout = graph.generate($$('#statistic-summary-graphs').children[2], 'bar');
 
+    on('statistic-summary-time-span/selected', function (value) {
+        if (value !== 'custom') {
+            $$('#statistic-summary-time-span-from').classList.add('disabled');
+            $$('#statistic-summary-time-span-to').classList.add('disabled');
+        } else {
+            $$('#statistic-summary-time-span-from').classList.remove('disabled');
+            $$('#statistic-summary-time-span-to').classList.remove('disabled');
+        }
+    });
+
     on('date/statistic-summary-time-span-from', function (data) {
         statisticFromDate = data;
     });

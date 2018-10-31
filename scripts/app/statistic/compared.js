@@ -5,6 +5,16 @@ let statisticCompared = function () {
     let comparedButton = $$('#statistic-get-compared');
     let comparedTableWrapper = $$('#statistic-compared-table');
 
+    on('statistic-compared-time-span/selected', function (value) {
+        if (value !== 'custom') {
+            $$('#statistic-compared-time-span-from').classList.add('disabled');
+            $$('#statistic-compared-time-span-to').classList.add('disabled');
+        } else {
+            $$('#statistic-compared-time-span-from').classList.remove('disabled');
+            $$('#statistic-compared-time-span-to').classList.remove('disabled');
+        }
+    });
+
     on('date/statistic-compared-time-span-from', function (data) {
         statisticFromDate = data;
     });

@@ -1,3 +1,7 @@
+#statistic .datepicker.disabled {
+    filter: grayscale(1);
+}
+
 #statistic-summary-filter,
 #statistic-compared-filter,
 #statistic-per-game-filter,
