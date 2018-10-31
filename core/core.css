@@ -109,7 +109,7 @@ button:active {
 }
 
 button:hover {
-    background-color: #57a5d8;
+    background-color: #368bc4;
 }
 
 button.cancel {
@@ -117,7 +117,7 @@ button.cancel {
 }
 
 button.cancel:hover {
-    background-color: #bd4631;
+    background-color: #97301d;
 }
 
 button.config {
@@ -133,7 +133,7 @@ button.save {
 }
 
 button.save:hover {
-    background-color: #33a174;
+    background-color: #1e7f56;
 }
 
 button.disabled {
@@ -310,6 +310,10 @@ p {
     height: 2.5em;
 }
 
+.mobile button {
+    padding: 1rem;
+}
+
 .mobile button:active {
     filter: brightness(1);
 }
@@ -327,5 +331,5 @@ p {
 }
 
 .mobile button.save:hover {
-    background-color: #1b801b;
+    background-color: #259063;
 }
