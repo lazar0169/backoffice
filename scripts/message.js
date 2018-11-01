@@ -9,6 +9,7 @@ const message = function () {
         notValidUserName: 904,
         passwordWillAriveShortly: 905,
         invalidCurrencyAndTimeZone: 906,
+        loading: 907,
         success: 1000,
         badParameter: 1001,
         nonExistingUserName: 2001,
@@ -39,6 +40,7 @@ const message = function () {
         904: 'You must enter valid user name in order to reset password',
         905: 'You will recive an email shortly with new password. When you do, use it to log in and go to: "configuration -> profile" to change it',
         906: 'Please check currency and time zone',
+        907: 'Loading...',
         1000: 'Successful!',
         1001: 'Please check you parameters.',
         2001: 'User name does not exist! Please contact your administrator.',
@@ -69,6 +71,7 @@ const message = function () {
         904: 3,
         905: 4,
         906: 2,
+        907: 0,
         1000: 4,
         1001: 3,
         2001: 3,
@@ -105,6 +108,10 @@ const message = function () {
             log('MESSAGE: ' + JSON.stringify(data));
         }
         trigger('notify', { message: message, type: type[code] });
+    });
+
+    on('message/hide', function () {
+        trigger('notify', { message: '', type: 1, duration: 0.001 });
     });
 
     return {

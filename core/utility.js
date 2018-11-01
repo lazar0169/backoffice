@@ -61,12 +61,14 @@ function addLoader(element) {
     let blocker = document.createElement('div');
     blocker.id = 'block-ui';
     document.body.appendChild(blocker);
+    trigger('message', message.codes.loading);
 }
 
 function removeLoader(element) {
     if (!element.getElementsByClassName('loading')[0]) return;
     element.getElementsByClassName('loading')[0].remove();
     $$('#block-ui').remove();
+    trigger('message/hide');
 }
 
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
