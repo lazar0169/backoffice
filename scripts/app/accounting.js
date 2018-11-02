@@ -410,9 +410,9 @@ let accounting = function () {
                 id: data.id
             },
             success: function (response) {
+                removeLoader(data.caller);
                 if (response.responseCode === message.codes.success) {
                     openedId = data.id;
-                    removeLoader(data.caller);
                     showModal(response.result);
                 } else {
                     trigger('message', response.responseCode)

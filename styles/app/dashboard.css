@@ -16,18 +16,17 @@
     text-overflow: ellipsis;
 }
 
-#dashboard-players-wrapper>div:nth-last-child(1)>div:nth-child(1) {
+#dashboard-players-wrapper>div>div:nth-child(1) {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-#dashboard-players-wrapper>div:nth-last-child(1)>div:nth-child(1)>.select {
+#dashboard-players-wrapper>div>div:nth-child(1)>.select {
     margin-left: 0.5em;
 }
 
 #dashboard-chart-wrapper {
-    width: 420px;
     left: 0;
     right: 0;
     margin: auto;

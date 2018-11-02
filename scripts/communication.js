@@ -13,7 +13,7 @@ let comm = function () {
         'com/login/password/reset': '/Account/ForgottenPassword',
 
         // Dashboard
-        'comm/dashboard/get': '/Dashboard/GetDashboard',
+        'comm/dashboard/get': '/Dashboard/GetDashboardResult',
 
         // Statistics
         'comm/statistic/game/categories/get': '/Statistics/GetGameCategories',

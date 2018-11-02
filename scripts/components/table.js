@@ -34,7 +34,8 @@ let table = function () {
 
         if (!params.data || params.data.length === 0) {
             console.error('Failed to generate table! Invalid object passed!');
-            return;
+            let obj = document.createElement('template');
+            return obj;
         }
 
         let colsCount = Object.keys(params.data[0]).length;

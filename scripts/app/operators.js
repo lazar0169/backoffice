@@ -83,7 +83,7 @@ let operators = function () {
         currencyTimezoneWrapper.innerHTML = '';
 
         $$('#operator-name').addEventListener('input', function () {
-            if (this.value === '') {
+            if (this.value === '' || $$('#operators-portals').children[0].children.length === 0) {
                 $$('#operators-form-save').classList.add('disabled');
             } else {
                 $$('#operators-form-save').classList.remove('disabled');
@@ -297,6 +297,11 @@ let operators = function () {
                 blockingActiveCredit.value = '';
                 editModePortal = false;
                 modal.classList.remove('show');
+                if (this.value === '' || $$('#operators-portals').children[0].children.length === 0) {
+                    $$('#operators-form-save').classList.add('disabled');
+                } else {
+                    $$('#operators-form-save').classList.remove('disabled');
+                }
             }
         }
     }();
@@ -401,10 +406,10 @@ let operators = function () {
                 id: data.id
             },
             success: function (response) {
+                removeLoader(data.caller);
                 if (response.responseCode === message.codes.success) {
                     editMode = true;
                     openedOperatorId = data.id;
-                    removeLoader(data.caller);
                     showModal(response.result);
                 } else {
                     trigger('message', response.responseCode)

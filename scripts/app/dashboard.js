@@ -66,12 +66,13 @@ let dashboard = function () {
     on('dashboard/jackpots/loaded', function () {
         if (!dashboardData) return;
         jackpots.innerHTML = '';
-        for (let jackpot in dashboardData.jackpots) {
+        for (let jackpot in dashboardData.jackpots.jackpots) {
+            if (dashboardData.jackpots.jackpots[jackpot].dashboardJackpots.length === 0) continue;
             let header = document.createElement('h2');
             header.innerHTML = `${transformCamelToRegular(jackpot)} Jackpot`;
             jackpots.appendChild(header);
             jackpots.appendChild(table.generate({
-                data: dashboardData.jackpots[jackpot].dashboardJackpots,
+                data: dashboardData.jackpots.jackpots[jackpot].dashboardJackpots,
                 id: `jackpot-${jackpot}-table`,
                 dynamic: false,
                 sticky: true
@@ -82,46 +83,44 @@ let dashboard = function () {
 
     on('dashboard/players/loaded', function () {
         playersWrapper.innerHTML = '';
-        let topWinners = document.createElement('div');
-        let headerWinners = document.createElement('h2');
-        headerWinners.innerHTML = 'Top 10 Winners';
-        topWinners.appendChild(headerWinners);
-        topWinners.appendChild(table.generate({
-            data: dashboardData.topTenWinners,
-            id: '',
-            dynamic: false,
-            sticky: true
-        }));
-        let topLosers = document.createElement('div');
-        let headerLosers = document.createElement('h2');
-        headerLosers.innerHTML = 'Top 10 Winners';
-        topLosers.appendChild(headerLosers);
-        topLosers.appendChild(table.generate({
-            data: dashboardData.topTenLosers,
-            id: '',
-            dynamic: false,
-            sticky: true
-        }));
-        playersWrapper.appendChild(topWinners);
-        playersWrapper.appendChild(topLosers);
+
         let portals = [];
         for (let portal in dashboardData.latestNewPlayers) {
             portals.push({ id: portal, name: portal });
         }
+
+        let topWinners = document.createElement('div');
+        let headerWinners = document.createElement('div');
+        let winnersTitle = document.createElement('h2')
+        winnersTitle.innerHTML = 'Top 10 Winners';
+        headerWinners.appendChild(winnersTitle);
+        headerWinners.appendChild(dropdown.generate(portals, 'dashboard-players-winners-portals-list', 'Select portal'));
+        topWinners.appendChild(headerWinners);
+        playersWrapper.appendChild(topWinners);
+
+        let topLosers = document.createElement('div');
+        let headerLosers = document.createElement('div');
+        let losersTitle = document.createElement('h2')
+        losersTitle.innerHTML = 'Top 10 Losers';
+        headerLosers.appendChild(losersTitle);
+        headerLosers.appendChild(dropdown.generate(portals, 'dashboard-players-losers-portals-list', 'Select portal'));
+        topLosers.appendChild(headerLosers);
+        playersWrapper.appendChild(topLosers);
+
         let latestPlayers = document.createElement('div');
         let headerLatest = document.createElement('div');
-        let title = document.createElement('h2')
-        title.innerHTML = 'Latest Players';
-        headerLatest.appendChild(title);
-        headerLatest.appendChild(dropdown.generate(portals, 'dashboard-players-portals-list', 'Select portal'));
+        let latestTitle = document.createElement('h2')
+        latestTitle.innerHTML = 'Latest Players';
+        headerLatest.appendChild(latestTitle);
+        headerLatest.appendChild(dropdown.generate(portals, 'dashboard-players-latest-portals-list', 'Select portal'));
         latestPlayers.appendChild(headerLatest);
         playersWrapper.appendChild(latestPlayers);
 
-        for (let portal of $$('#dashboard-players-portals-list').children[1].children) {
+        for (let portal of $$('#dashboard-players-winners-portals-list').children[1].children) {
             portal.addEventListener('click', function () {
-                if (latestPlayers.children[1]) latestPlayers.children[1].remove();
-                latestPlayers.appendChild(table.generate({
-                    data: dashboardData.latestNewPlayers[portal.dataset.value].latestPlayers,
+                if (topWinners.children[1]) topWinners.children[1].remove();
+                topWinners.appendChild(table.generate({
+                    data: dashboardData.topTenWinners[portal.dataset.value],
                     id: '',
                     dynamic: false,
                     sticky: true
@@ -130,7 +129,35 @@ let dashboard = function () {
             });
         }
 
-        $$('#dashboard-players-portals-list').children[1].children[0].click();
+        for (let portal of $$('#dashboard-players-losers-portals-list').children[1].children) {
+            portal.addEventListener('click', function () {
+                if (topLosers.children[1]) topLosers.children[1].remove();
+                topLosers.appendChild(table.generate({
+                    data: dashboardData.topTenLosers[portal.dataset.value],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
+                table.preserveHeight(playersWrapper);
+            });
+        }
+
+        for (let portal of $$('#dashboard-players-latest-portals-list').children[1].children) {
+            portal.addEventListener('click', function () {
+                if (latestPlayers.children[1]) latestPlayers.children[1].remove();
+                latestPlayers.appendChild(table.generate({
+                    data: dashboardData.latestNewPlayers[portal.dataset.value],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
+                table.preserveHeight(playersWrapper);
+            });
+        }
+
+        $$('#dashboard-players-winners-portals-list').children[1].children[0].click();
+        $$('#dashboard-players-losers-portals-list').children[1].children[0].click();
+        $$('#dashboard-players-latest-portals-list').children[1].children[0].click();
 
         let colors = [];
         let labels = [];
@@ -144,7 +171,8 @@ let dashboard = function () {
         chart.data.datasets[0].data = values;
         chart.data.datasets[0].backgroundColor = colors;
         chart.data.labels = labels;
-        chart.update(1000);
+        chart.options.legend.display = !isMobile
+        chart.update();
 
         table.preserveHeight(playersWrapper);
     });
@@ -152,9 +180,12 @@ let dashboard = function () {
     on('dashboard/portals/loaded', function () {
         if (!dashboardData) return;
         portals.innerHTML = '';
-        for (let portal of dashboardData.portalsActivities) {
+        for (let portal in dashboardData.portalsActivities) {
+            let header = document.createElement('h2');
+            header.innerHTML = portal;
+            portals.appendChild(header);
             portals.appendChild(table.generate({
-                data: parseData(portal.activities),
+                data: parseData(dashboardData.portalsActivities[portal].activities),
                 id: '',
                 dynamic: false,
                 sticky: true

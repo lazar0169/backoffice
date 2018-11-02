@@ -108,6 +108,15 @@ let configuration = function () {
 
         let wrapper;
 
+        let userRole;
+        let userName = $$('#configuration-user-name');
+        let userUsername = $$('#configuration-user-username');
+        let userPassword = $$('#configuration-user-password');
+        let userRepeat = $$('#configuration-user-repeat-password');
+        let userMail = $$('#configuration-user-email');
+        let userPhone = $$('#configuration-user-phone');
+        let userEnabled = $$('#configuration-user-enabled');
+
         switch (section) {
             case 'actions':
                 wrapper = form.getElementsByClassName('configuration-form-table')[0];
@@ -123,16 +132,35 @@ let configuration = function () {
                 wrapper = form.getElementsByClassName('configuration-form-inputs')[0];
                 if (wrapper.getElementsByClassName('select')[0]) wrapper.getElementsByClassName('select')[0].remove();
                 wrapper.prepend(dropdown.generate(roles, 'configuration-user-role'));
-                $$('#configuration-user-role').getElementsByClassName('selected')[0].innerHTML = rolesJson[data.roleId];
-                $$('#configuration-user-role').getElementsByClassName('selected')[0].dataset.value = data.roleId;
-                $$('#configuration-user-name').value = data.name;
-                $$('#configuration-user-username').value = data.userName;
-                $$('#configuration-user-password').value = '';
-                $$('#configuration-user-repeat-password').value = '';
-                $$('#configuration-user-email').value = data.email;
-                $$('#configuration-user-phone').value = data.phoneNumber;
-                $$('#configuration-user-enabled').checked = data.enabled;
+                userRole = $$('#configuration-user-role');
+                userRole.getElementsByClassName('selected')[0].innerHTML = rolesJson[data.roleId];
+                userRole.getElementsByClassName('selected')[0].dataset.value = data.roleId;
+                userName.value = data.name;
+                userUsername.value = data.userName;
+                userPassword.value = '';
+                userRepeat.value = '';
+                userMail.value = data.email;
+                userPhone.value = data.phoneNumber;
+                userEnabled.checked = data.enabled;
                 break;
+        }
+
+        for (let input of $$('#configuration-form-users').children[1].getElementsByTagName('input')) {
+            input.addEventListener('input', function () {
+                if (
+                    !userRole.children[0].dataset.value ||
+                    !userName.value ||
+                    !userUsername.value ||
+                    !userPassword.value ||
+                    !userRepeat.value ||
+                    !userMail.value ||
+                    !userPhone.value
+                ) {
+                    $$('#configuration-form-users-save').classList.add('disabled');
+                } else {
+                    $$('#configuration-form-users-save').classList.remove('disabled');
+                }
+            });
         }
 
         for (let td of form.getElementsByTagName('td')) {
@@ -142,7 +170,13 @@ let configuration = function () {
             };
         }
 
-        form.getElementsByClassName('configuration-form-button-wrapper')[0].classList[!editMode ? 'add' : 'remove']('edit');
+        if (editMode) {
+            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.remove('edit');
+            $$('#configuration-form-users-save').classList.remove('disabled');
+        } else {
+            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.add('edit');
+            $$('#configuration-form-users-save').classList.add('disabled');
+        }
 
         $$('#configuration-black-overlay').style.display = 'block';
         $$('#configuration-form').classList.add('show');
@@ -438,11 +472,11 @@ let configuration = function () {
                 id: data.id
             },
             success: function (response) {
+                removeLoader(data.caller);
                 editMode = true;
                 openedId = response.result.action ? response.result.action.id :
                     response.result.role ? response.result.role.id :
                         response.result.userId;
-                removeLoader(data.caller);
                 showModal(data.section, response.result);
             },
             fail: function () {
