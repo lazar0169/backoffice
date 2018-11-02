@@ -11,6 +11,22 @@ const login = function () {
     on('resize', function () {
         document.body.classList[isMobile ? 'add' : 'remove']('mobile');
     });
+
+    on('load', function () {
+        addLoader($$('#login-form'));
+        trigger('com/login/logged', {
+            success: function (response) {
+                removeLoader($$('#login-form'));
+                if (response.responseCode === message.codes.success && response.result) {
+                    location.href = location.origin + '/main.html';
+                }
+            },
+            fail: function () {
+                removeLoader($$('#login-form'));
+            }
+        });
+    });
+
     window.addEventListener('keyup', function (event) {
         if (event.keyCode === 13) {
             if (activeForm === 'login') {

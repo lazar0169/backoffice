@@ -11,6 +11,7 @@ let comm = function () {
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
         'com/login/password/reset': '/Account/ForgottenPassword',
+        'com/login/logged': '/Account/IsLoggedIn',
 
         // Dashboard
         'comm/dashboard/get': '/Dashboard/GetDashboardResult',
