@@ -35,8 +35,8 @@ const obfuscationOptions = {
     sourceMapFileName: '',
     sourceMapMode: 'separate',
     stringArray: true,
-    stringArrayEncoding: false,
-    stringArrayThreshold: 0.75,
+    stringArrayEncoding: 'rc4',
+    stringArrayThreshold: 1,
     target: 'browser',
     transformObjectKeys: false,
     unicodeEscapeSequence: false
