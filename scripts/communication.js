@@ -1,8 +1,4 @@
 let comm = function () {
-    // const apiUrl = 'http://backoffice.com';
-    // const apiUrl = 'http://backofficewebapitest.com';
-    const apiUrl = 'http://backofficewebapi.com';
-
     const actions = {
         'comm/currency/get': '/Statistics/GetDefaultCurrencies',
 
@@ -71,7 +67,7 @@ let comm = function () {
     };
 
     function get(action, callback, body) {
-        fetch(apiUrl + action, {
+        fetch(_config.api + action, {
             method: 'POST',
             credentials: 'include',
             headers: {

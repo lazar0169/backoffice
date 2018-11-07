@@ -1,3 +1,4 @@
 {
-    "development": true
+    "development": false,
+    "api": "http://backofficewebapi.com"
 }

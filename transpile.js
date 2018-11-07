@@ -20,7 +20,7 @@ let coreScripts = core.filter(file => file.split('.')[file.split('.').length - 1
 let coreStyles = core.filter(file => file.split('.')[file.split('.').length - 1] === 'css');
 let vendorSafe = isVendorSafe(getFiles('vendor'));
 
-let buildFolder = 'bin';
+let buildFolder = 'public';
 
 if (!fs.existsSync(buildFolder)) {
     fs.mkdirSync(`./${buildFolder}`);
@@ -63,7 +63,7 @@ for (let view of views) {
         fs.writeFileSync(`./${buildFolder}/js/${view}.js`, js);
         fs.writeFileSync(`./${buildFolder}/css/${view}.css`, css);
     } catch (error) {
-        console.log('Error: Transpilation failed! Please check mapper.json or js/css folders inside "bin"');
+        console.log(`Error: Transpilation failed! Please check mapper.json or js/css folders inside "${buildFolder}"`);
         return;
     }
     console.log(`> ${view}`);

@@ -7,6 +7,13 @@
             "request": "launch",
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/transpile.js"
+        },
+        {
+            "name": "build",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/build.js"
         }
     ]
 }

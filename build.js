@@ -2,12 +2,46 @@
 
 console.log('Building...');
 
-let buildFolder = 'bin';
+let buildFolder = 'public';
 const fs = require('fs');
-const scripts = getFiles('bin/js');
-const styles = getFiles('bin/css');
+const scripts = getFiles(`${buildFolder}/js`);
+const styles = getFiles(`${buildFolder}/css`);
 const compress = require('node-minify');
 const minCss = require('css-minifiers');
+const javaScriptObfuscator = require('javascript-obfuscator');
+
+const obfuscationOptions = {
+    compact: true,
+    controlFlowFlattening: true,
+    controlFlowFlatteningThreshold: 1,
+    deadCodeInjection: true,
+    deadCodeInjectionThreshold: 1,
+    debugProtection: false,
+    debugProtectionInterval: false,
+    disableConsoleOutput: false,
+    domainLock: [],
+    identifierNamesGenerator: 'hexadecimal',
+    identifiersPrefix: '',
+    inputFileName: '',
+    log: false,
+    renameGlobals: false,
+    reservedNames: [],
+    reservedStrings: [],
+    rotateStringArray: true,
+    seed: 0,
+    selfDefending: false,
+    sourceMap: false,
+    sourceMapBaseUrl: '',
+    sourceMapFileName: '',
+    sourceMapMode: 'separate',
+    stringArray: true,
+    stringArrayEncoding: false,
+    stringArrayThreshold: 0.75,
+    target: 'browser',
+    transformObjectKeys: false,
+    unicodeEscapeSequence: false
+}
+
 
 for (let script of scripts) {
     console.log(`> ${script.split('/')[script.split('/').length - 1]}`);
@@ -16,6 +50,8 @@ for (let script of scripts) {
         input: script,
         output: script
     });
+    let result = javaScriptObfuscator.obfuscate(fs.readFileSync(script, 'utf8'), obfuscationOptions);
+    fs.writeFileSync(script, result.getObfuscatedCode());
 }
 
 for (let style of styles) {
