@@ -23,6 +23,17 @@
     display: none;
 }
 
+#operators-operator-enabled-wrapper {
+    width: 100%;
+    margin: 0.5em 0;
+    text-align: center;
+}
+
+.disabled-portal {
+    color: #ff7373;
+    opacity: 0.5;
+}
+
 /* FORM */
 
 .operators-form-title {
@@ -190,6 +201,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0.3em;
+}
+
+#operators-form-button-wrapper {
+    grid-template-columns: 1fr;
 }
 
 #operators-form-button-wrapper button,

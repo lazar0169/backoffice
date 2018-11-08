@@ -18,6 +18,7 @@ let operators = function () {
         timeZoneId: 0,
         portalSettingsList: [],
         games: [],
+        enabled: false
     };
 
     $$('#operators-black-overlay').addEventListener('click', hideModal);
@@ -99,30 +100,31 @@ let operators = function () {
             $$('#operator-currency-code').classList.add('disabled');
             $$('#operator-timezone-code').classList.add('disabled');
             $$('#operators-form-save').classList.remove('disabled');
+            $$('#operators-operator-enabled').checked = operatorData.operator.enabled;
 
             $$('#operator-name').value = operatorData.operator.name;
 
-            $$('#operators-form-remove').onclick = function () {
-                let button = this;
-                addLoader(button);
-                trigger('comm/operators/remove', {
-                    body: {
-                        id: openedOperatorId
-                    },
-                    success: function (response) {
-                        removeLoader(button);
-                        if (response.responseCode === message.codes.success) {
-                            hideModal();
-                            trigger('operators/main/loaded');
-                        } else {
-                            trigger('message', response.responseCode);
-                        }
-                    },
-                    fail: function () {
-                        removeLoader(button);
-                    }
-                });
-            };
+            // $$('#operators-form-remove').onclick = function () {
+            //     let button = this;
+            //     addLoader(button);
+            //     trigger('comm/operators/remove', {
+            //         body: {
+            //             id: openedOperatorId
+            //         },
+            //         success: function (response) {
+            //             removeLoader(button);
+            //             if (response.responseCode === message.codes.success) {
+            //                 hideModal();
+            //                 trigger('operators/main/loaded');
+            //             } else {
+            //                 trigger('message', response.responseCode);
+            //             }
+            //         },
+            //         fail: function () {
+            //             removeLoader(button);
+            //         }
+            //     });
+            // };
 
             for (let td of gamesWrapper.getElementsByTagName('td')) {
                 td.onclick = function (e) {
@@ -142,6 +144,7 @@ let operators = function () {
 
             $$('#operator-name').value = '';
             $$('#operators-form-button-wrapper').classList.add('edit');
+            $$('#operators-operator-enabled').checked = false;
         }
 
 
@@ -167,6 +170,7 @@ let operators = function () {
                 gamesList.push(game)
             }
             operatorData.games = gamesList;
+            operatorData.operator.enabled = $$('#operators-operator-enabled').checked;
 
             addLoader(button);
             trigger(`comm/operators/${editMode ? 'edit' : 'create'}`, {
@@ -217,6 +221,7 @@ let operators = function () {
         let password = $$('#operator-password');
         let warrningActiveCredit = $$('#operator-warrning-active-credit');
         let blockingActiveCredit = $$('#operator-blocking-active-credit');
+        let enabledPortal = $$('#operators-operator-enabled');
         $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'add' : 'remove']('edit');
         return {
             show: function (element, index) {
@@ -230,6 +235,7 @@ let operators = function () {
                     password.value = element.password;
                     warrningActiveCredit.value = element.warrningActiveCredit;
                     blockingActiveCredit.value = element.blockingActiveCredit;
+                    enabledPortal.checked = element.enabled;
                     operatorsCurrencyWrapper.children[0].children[0].innerHTML = currenciesModel[element.currencyId];
                     operatorsCurrencyWrapper.children[0].classList.add('disabled');
                 } else {
@@ -249,6 +255,7 @@ let operators = function () {
                     password.value = '';
                     warrningActiveCredit.value = '';
                     blockingActiveCredit.value = '';
+                    enabledPortal.checked = false;
                 }
                 for (let button of $$('.operators-form-jackpot-button')) {
                     button.onclick = function () {
@@ -263,7 +270,7 @@ let operators = function () {
                         !warrningActiveCredit.value ||
                         !blockingActiveCredit.value ||
                         !operatorsCurrencyWrapper.children[0].children[0].dataset.value) {
-                        trigger('message', message.codes.badParameter)
+                        trigger('message', message.codes.badParameter);
                         return;
                     }
                     openedPortalData.gameLaunchURL = gameLaunchURL.value;
@@ -355,6 +362,7 @@ let operators = function () {
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
             tr.onclick = function () { trigger('operators/show/modal', { id: row.id, caller: td }) };
+            if (!row.enabled) td.classList.add('disabled-portal');
             tr.appendChild(td);
             body.appendChild(tr);
         }

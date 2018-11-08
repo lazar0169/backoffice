@@ -24,6 +24,11 @@
     display: none;
 }
 
+.disabled-user {
+    color: #ff7373;
+    opacity: 0.5;
+}
+
 /* FORM */
 
 .configuration-form-title {
@@ -189,6 +194,12 @@
     display: flex;
 }
 
+#configuration-user-enabled-wrapper {
+    width: 100%;
+    margin: auto 0;
+    text-align: center;
+}
+
 .configuration-form-button-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -210,6 +221,10 @@
 
 .configuration-form-button-wrapper.edit .configuration-remove {
     display: none;
+}
+
+#configuration-form-users .configuration-form-button-wrapper {
+    grid-template-columns: 1fr;
 }
 
 /* PROFILE */

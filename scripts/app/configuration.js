@@ -151,8 +151,8 @@ let configuration = function () {
                     !userRole.children[0].dataset.value ||
                     !userName.value ||
                     !userUsername.value ||
-                    !userPassword.value ||
-                    !userRepeat.value ||
+                    (!editMode && !userPassword.value) ||
+                    (!editMode && !userRepeat.value) ||
                     !userMail.value ||
                     !userPhone.value
                 ) {
@@ -239,6 +239,7 @@ let configuration = function () {
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
             tr.onclick = function () { trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td }) };
+            if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
             tr.appendChild(td);
             body.appendChild(tr);
         }
@@ -289,7 +290,7 @@ let configuration = function () {
                             password: $$('#configuration-user-password').value,
                             email: $$('#configuration-user-email').value,
                             phoneNumber: $$('#configuration-user-phone').value,
-                            enabled: true,
+                            enabled: $$('#configuration-user-enabled').checked,
                             roleId: $$('#configuration-user-role').children[0].dataset.value
                         };
                     } else {
