@@ -61,10 +61,11 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    padding: 0.2em;
 }
 
 #statistic-compared-table>.compared-header>.header-games-list button {
-    margin: 0 0.2em;
+    margin: 0.2em;
 }
 
 #statistic-compared-table .table .tbody .head.cell:nth-child(1)>.remove-btn {

@@ -21,6 +21,16 @@ let accounting = function () {
         $$('#accounting-setup-form-inputs-scaled').classList[isScaledSelected ? 'remove' : 'add']('hidden');
     });
 
+    on('accounting-time-span/selected', function (value) {
+        if (value !== 'custom') {
+            $$('#accounting-time-span-from').classList.add('disabled');
+            $$('#accounting-time-span-to').classList.add('disabled');
+        } else {
+            $$('#accounting-time-span-from').classList.remove('disabled');
+            $$('#accounting-time-span-to').classList.remove('disabled');
+        }
+    });
+
     function generateReport(data, sum) {
         let array = data;
         sum[Object.keys(sum)[0]] = 'Sum';

@@ -58,8 +58,8 @@ const login = function () {
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
-                trigger('message', response.responseCode);
                 removeLoader(loginBtn);
+                trigger('message', response.responseCode);
                 loginBtn.innerHTML = 'REQUEST PIN';
                 if (response.responseCode === message.codes.success) {
                     if ($$("#login-remember").checked) {

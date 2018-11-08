@@ -1,5 +1,9 @@
 /* ACCOUNTING */
 
+#accounting .datepicker.disabled {
+    filter: grayscale(1);
+}
+
 #accounting-get-reports.hidden {
     display: none;
 }

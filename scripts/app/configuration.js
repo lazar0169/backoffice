@@ -146,7 +146,7 @@ let configuration = function () {
         }
 
         for (let input of $$('#configuration-form-users').children[1].getElementsByTagName('input')) {
-            input.addEventListener('input', function () {
+            input.oninput = function () {
                 if (
                     !userRole.children[0].dataset.value ||
                     !userName.value ||
@@ -160,8 +160,24 @@ let configuration = function () {
                 } else {
                     $$('#configuration-form-users-save').classList.remove('disabled');
                 }
-            });
+            };
         }
+
+        $$('#configuration-action-name').oninput = function () {
+            if (this.value === '') {
+                $$('#configuration-form-actions-save').classList.add('disabled');
+            } else {
+                $$('#configuration-form-actions-save').classList.remove('disabled');
+            }
+        };
+
+        $$('#configuration-role-name').oninput = function () {
+            if (this.value === '') {
+                $$('#configuration-form-roles-save').classList.add('disabled');
+            } else {
+                $$('#configuration-form-roles-save').classList.remove('disabled');
+            }
+        };
 
         for (let td of form.getElementsByTagName('td')) {
             td.onclick = function (e) {
@@ -173,9 +189,13 @@ let configuration = function () {
         if (editMode) {
             form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.remove('edit');
             $$('#configuration-form-users-save').classList.remove('disabled');
+            $$('#configuration-form-actions-save').classList.remove('disabled');
+            $$('#configuration-form-roles-save').classList.remove('disabled');
         } else {
             form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.add('edit');
             $$('#configuration-form-users-save').classList.add('disabled');
+            $$('#configuration-form-actions-save').classList.add('disabled');
+            $$('#configuration-form-roles-save').classList.add('disabled');
         }
 
         $$('#configuration-black-overlay').style.display = 'block';
