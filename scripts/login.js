@@ -153,7 +153,7 @@ const login = function () {
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
-                addLoader(pinBtn);
+                removeLoader(pinBtn);
                 pinBtn.innerHTML = 'LOGIN';
             }
         });
