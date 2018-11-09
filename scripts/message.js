@@ -44,7 +44,7 @@ const message = function () {
         1000: 'Successful!',
         1001: 'Please check you parameters.',
         2001: 'User name does not exist! Please contact your administrator.',
-        2002: 'Wrong password. Attempts left: %s. If you have forgot password, please contact administrator for password reset.',
+        2002: 'Wrong password. If you have forgot password, please contact administrator for password reset.',
         2003: 'You have entered wrong PIN! Attempts left: %s. Contact administrator if you didn\'t recived mail with PIN.',
         2004: 'No login attempts available, please contact your administrator for password reset.',
         2005: 'Something went wrong with login. Try again, or contact administrator for more information.',

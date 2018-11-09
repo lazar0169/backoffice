@@ -27,21 +27,56 @@ const login = function () {
         });
     });
 
-    window.addEventListener('keyup', function (event) {
-        if (event.keyCode === 13) {
-            if (activeForm === 'login') {
-                loginBtn.click();
-            } else if (activeForm === 'pin') {
-                pinBtn.click();
-            } else {
-                return;
+    // window.addEventListener('keyup', function (event) {
+    //     if (event.keyCode === 13) {
+    //         if (activeForm === 'login') {
+    //             loginEvent();
+    //         } else if (activeForm === 'pin') {
+    //             pinEvent();
+    //         } else {
+    //             return;
+    //         }
+    //     }
+    // });
+
+    // LOGIN --------------------------
+    loginBtn.addEventListener('click', loginEvent);
+
+    // PIN --------------------------
+    pinBtn.addEventListener('click', pinEvent);
+
+    $$('#login-forgot-password').addEventListener('click', function (e) {
+        e.preventDefault();
+        let hyperlink = this;
+        if (!$$('#login-username').value) {
+            trigger('message', message.codes.notValidUserName);
+        } else {
+            let reset = confirm('Are you sure that you want to reset password?');
+            if (reset) {
+                addLoader(hyperlink);
+                trigger('com/login/password/reset', {
+                    body: {
+                        userName: $$('#login-username').value
+                    },
+                    success: function (response) {
+                        removeLoader(hyperlink);
+                        if (response.responseCode === message.codes.success) {
+                            trigger('message', response.passwordWillAriveShortly);
+                        } else {
+                            trigger('message', response.responseCode);
+                        }
+                    },
+                    fail: function () {
+                        $$('#login-form').classList.remove('disabled');
+                        pinBtn.innerHTML = 'LOGIN';
+                    }
+                });
             }
         }
     });
 
-    // LOGIN --------------------------
-    loginBtn.addEventListener('click', function (e) {
-        e.preventDefault();
+    function loginEvent(e) {
+        if (e) e.preventDefault();
         let username = $$('#login-username').value;
         let password = $$('#login-password').value;
         if (username === '' || password === '') {
@@ -81,11 +116,10 @@ const login = function () {
                 $$('#login-password').value = '';
             }
         });
-    });
+    }
 
-    // PIN --------------------------
-    pinBtn.addEventListener('click', function (e) {
-        e.preventDefault();
+    function pinEvent(e) {
+        if (e) e.preventDefault();
         let pin = $$('#login-pin').value;
         if (pin === '') {
             trigger('message', message.codes.badParameter);
@@ -100,6 +134,7 @@ const login = function () {
             },
             success: function (response) {
                 $$('#login-form').classList.remove('disabled');
+                removeLoader(pinBtn);
                 trigger('message', response.result ? response.responseCode : response.responseCode, response.result);
                 if (response.responseCode === message.codes.success) {
                     $$('#login-form').classList.add('disabled');
@@ -114,8 +149,6 @@ const login = function () {
                     setTimeout(function () {
                         location.href = location.origin;
                     }, notify.getIdleTime);
-                } else {
-                    removeLoader(pinBtn);
                 }
             },
             fail: function () {
@@ -124,36 +157,6 @@ const login = function () {
                 pinBtn.innerHTML = 'LOGIN';
             }
         });
-    });
-
-    $$('#login-forgot-password').addEventListener('click', function (e) {
-        e.preventDefault();
-        let hyperlink = this;
-        if (!$$('#login-username').value) {
-            trigger('message', message.codes.notValidUserName);
-        } else {
-            let reset = confirm('Are you sure that you want to reset password?');
-            if (reset) {
-                addLoader(hyperlink);
-                trigger('com/login/password/reset', {
-                    body: {
-                        userName: $$('#login-username').value
-                    },
-                    success: function (response) {
-                        removeLoader(hyperlink);
-                        if (response.responseCode === message.codes.success) {
-                            trigger('message', response.passwordWillAriveShortly);
-                        } else {
-                            trigger('message', response.responseCode);
-                        }
-                    },
-                    fail: function () {
-                        $$('#login-form').classList.remove('disabled');
-                        pinBtn.innerHTML = 'LOGIN';
-                    }
-                });
-            }
-        }
-    });
+    }
 
 }();
