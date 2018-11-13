@@ -61,8 +61,9 @@ for (let style of styles) {
     csso(css).then(function (output) {
         fs.writeFileSync(style, output);
     });
-
 }
+
+console.log('DONE!');
 
 function getFiles(folder) {
     let array = fs.readdirSync(folder);

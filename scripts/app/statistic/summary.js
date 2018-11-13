@@ -39,7 +39,9 @@ let statisticSummary = function () {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
-                    getOperators();
+                    setTimeout(() => {
+                        getOperators();
+                    }, 0);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -171,15 +173,15 @@ let statisticSummary = function () {
                     summaryChartTotalBetWin.data.labels = labels;
                     summaryChartTotalBetWin.update();
 
-
-
                     summaryChartRounds.data.datasets[0].data = roundsData;
                     summaryChartRounds.data.datasets[0].label = 'Rounds';
                     summaryChartRounds.data.labels = labels;
+                    summaryChartRounds.update();
 
                     summaryChartPayout.data.datasets[0].data = payoutData;
                     summaryChartPayout.data.datasets[0].label = 'Payout';
                     summaryChartPayout.data.labels = labels;
+                    summaryChartPayout.update();
 
                     $$('#statistic-summary-graphs').classList.remove('hidden');
 

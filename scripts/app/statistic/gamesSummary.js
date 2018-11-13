@@ -40,7 +40,9 @@ let statisticGamesSummary = function () {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-games-summary-categories', 'Select categories', true), $$('#statistic-games-summary-time-span-to'));
-                    getOperators();
+                    setTimeout(() => {
+                        getOperators();
+                    }, 0);
                 } else {
                     trigger('message', response.responseCode);
                 }

@@ -6,6 +6,7 @@ let accounting = function () {
     let openedId;
     let operatorData;
     let isScaledSelected = false;
+    let doc;
 
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -35,6 +36,22 @@ let accounting = function () {
         let array = data;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
+
+        let columns = [];
+        for (let col of array) {
+            let column = { title: '', dataKey: '' };
+            column.title = transformCamelToRegular(Object.keys(array[0])[col]);
+            column.dataKey = Object.keys(array[0])[col];
+            columns.push(column);
+        }
+
+        doc.autoTable(columns, array, {
+            margin: { top: 60 },
+            addPageContent: function (data) {
+                doc.text(sum.gameName, 40, 30);
+            }
+        });
+
         return table.generate({
             data: array,
             id: '',
@@ -113,6 +130,10 @@ let accounting = function () {
                 success: function (response) {
                     removeLoader(button);
                     if (response.responseCode === message.codes.success) {
+                        // Prepare pdf report
+                        doc = new jsPDF('p', 'pt');
+
+
                         pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.slotAccounting, response.result.slotAccountingSum));
                         pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
@@ -138,6 +159,8 @@ let accounting = function () {
                         $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
                         $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
                         $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
+
+                        doc.save('accounting.pdf');
                     } else {
                         trigger('message', response.responseCode);
                     }
