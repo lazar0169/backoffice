@@ -142,7 +142,7 @@ let accounting = function () {
                         // Prepare pdf report
                         doc = new jsPDF('l', 'pt');
                         doc.setFontSize(9);
-                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${$$('#accounting-operators-list').children[0].innerHTML}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}%`);
+                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${$$('#accounting-operators-list').children[0].innerHTML}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
                         doc.setFontSize(16);
                         docPageCount = 0;
 
