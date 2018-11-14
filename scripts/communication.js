@@ -63,7 +63,7 @@ let comm = function () {
 
         'comm/configuration/profile/get': '/Settings/GetProfile',
         'comm/configuration/profile/edit': '/Settings/UpdateProfile',
-        'comm/configuration/profile/password/edit': '/Settings/ChangePassword',
+        'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
     };
 
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`
