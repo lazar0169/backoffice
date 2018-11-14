@@ -66,8 +66,10 @@ let comm = function () {
         'comm/configuration/profile/password/edit': '/Settings/ChangePassword',
     };
 
+    let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`
+
     function get(action, callback, body) {
-        fetch(_config.api + action, {
+        fetch(apiUrl + action, {
             method: 'POST',
             credentials: 'include',
             headers: {

@@ -1,4 +1,6 @@
 {
-    "development": false,
-    "api": "http://backofficewebapi.com"
+    "development": true,
+    "local": false,
+    "api": "http://backofficewebapi.com",
+    "port": 80
 }

@@ -4,11 +4,13 @@
     filter: grayscale(1);
 }
 
-#accounting-get-reports.hidden {
+#accounting-get-reports.hidden,
+#accounting-reports-download.hidden {
     display: none;
 }
 
-#accounting-get-reports {
+#accounting-get-reports,
+#accounting-reports-download {
     display: inline;
 }
 

@@ -7,6 +7,7 @@ let accounting = function () {
     let operatorData;
     let isScaledSelected = false;
     let doc;
+    let docPageCount = 0;
 
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -21,6 +22,9 @@ let accounting = function () {
         $$('#accounting-setup-form-inputs-fixed').classList[isScaledSelected ? 'add' : 'remove']('hidden');
         $$('#accounting-setup-form-inputs-scaled').classList[isScaledSelected ? 'remove' : 'add']('hidden');
     });
+    $$('#accounting-reports-download').addEventListener('click', function () {
+        doc.save(`accounting-${new Date().toISOString().split('T')[0]}.pdf`);
+    });
 
     on('accounting-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -34,21 +38,25 @@ let accounting = function () {
 
     function generateReport(data, sum) {
         let array = data;
+        let title = sum.gameName;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
 
         let columns = [];
-        for (let col of array) {
+        for (let col of Object.keys(array[0])) {
             let column = { title: '', dataKey: '' };
-            column.title = transformCamelToRegular(Object.keys(array[0])[col]);
-            column.dataKey = Object.keys(array[0])[col];
+            column.title = transformCamelToRegular(col);
+            column.dataKey = col;
             columns.push(column);
         }
 
         doc.autoTable(columns, array, {
-            margin: { top: 60 },
+            margin: { top: 60, left: 20, right: 20, bottom: 40 },
             addPageContent: function (data) {
-                doc.text(sum.gameName, 40, 30);
+                doc.text(title, 20, 50);
+                doc.setFontSize(9);
+                doc.text(`Page: ${++docPageCount}`, 20, 580);
+                doc.setFontSize(16);
             }
         });
 
@@ -104,6 +112,7 @@ let accounting = function () {
         $$('#accounting-get-reports').addEventListener('click', function () {
             $$('#accounting-reports-header').classList.add('hidden');
             $$('#accounting-reports-footer').classList.add('hidden');
+            $$('#accounting-reports-download').classList.remove('hidden');
             pageReports.innerHTML = '';
             let button = this;
             let data = {
@@ -131,19 +140,27 @@ let accounting = function () {
                     removeLoader(button);
                     if (response.responseCode === message.codes.success) {
                         // Prepare pdf report
-                        doc = new jsPDF('p', 'pt');
-
+                        doc = new jsPDF('l', 'pt');
+                        doc.setFontSize(9);
+                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${$$('#accounting-operators-list').children[0].innerHTML}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}%`);
+                        doc.setFontSize(16);
+                        docPageCount = 0;
 
                         pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.slotAccounting, response.result.slotAccountingSum));
+                        doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum));
+                        doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum));
+                        doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum));
+                        doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum));
+                        doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
                         pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
 
@@ -159,8 +176,6 @@ let accounting = function () {
                         $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
                         $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
                         $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
-
-                        doc.save('accounting.pdf');
                     } else {
                         trigger('message', response.responseCode);
                     }
@@ -481,6 +496,7 @@ let accounting = function () {
         clearElement($$('#accounting-operators-list'));
         clearElement($$('#accounting-portals-list'));
         $$('#accounting-get-reports').classList.add('hidden');
+        $$('#accounting-reports-download').classList.add('hidden');
         addLoader($$('#sidebar-accounting'));
         trigger('comm/accounting/operators/get', {
             success: function (response) {
