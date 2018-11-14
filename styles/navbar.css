@@ -81,6 +81,7 @@
     border: none;
     height: 2.8em;
     display: inline-block;
+    z-index: 2;
 }
 
 .mobile .navbar .mobile-select {

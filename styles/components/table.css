@@ -47,7 +47,7 @@
 
 .head.cell:nth-child(1) {
     left: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .sticky .first.cell,
