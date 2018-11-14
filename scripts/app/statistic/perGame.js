@@ -38,9 +38,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-time-span-to'));
                     on('statistic-per-game-categories/selected', getGames);
-                    setTimeout(() => {
-                        getOperators();
-                    }, 0);
+                    getOperators();
                 } else {
                     trigger('message', response.responseCode);
                 }

@@ -39,9 +39,7 @@ let statisticSummary = function () {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
-                    setTimeout(() => {
-                        getOperators();
-                    }, 0);
+                    getOperators();
                 } else {
                     trigger('message', response.responseCode);
                 }

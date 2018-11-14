@@ -35,9 +35,7 @@ let statisticCompared = function () {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-compared-categories', 'Select categories', true), $$('#statistic-compared-time-span-to'));
-                    setTimeout(() => {
-                        getOperators();
-                    }, 0);
+                    getOperators();
                 } else {
                     trigger('message', response.responseCode);
                 }
