@@ -7,6 +7,10 @@
     height: 2em;
 }
 
+.select.disabled {
+    filter: grayscale(1) opacity(0.5);
+}
+
 .selected,
 .option {
     height: 2em;

@@ -110,9 +110,9 @@ let accounting = function () {
         insertAfter(portalsDropown, $$('#accounting-operators-list'));
         $$('#accounting-get-reports').classList.remove('hidden');
         $$('#accounting-get-reports').addEventListener('click', function () {
+            $$('#accounting-reports-download').classList.add('hidden');
             $$('#accounting-reports-header').classList.add('hidden');
             $$('#accounting-reports-footer').classList.add('hidden');
-            $$('#accounting-reports-download').classList.remove('hidden');
             pageReports.innerHTML = '';
             let button = this;
             let data = {
@@ -169,6 +169,9 @@ let accounting = function () {
                         $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
                         $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
                         $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
+
+                        // Enable download button
+                        $$('#accounting-reports-download').classList.remove('hidden');
                     } else {
                         trigger('message', response.responseCode);
                     }

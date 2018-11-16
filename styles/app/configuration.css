@@ -227,6 +227,10 @@
     grid-template-columns: 1fr;
 }
 
+#configuration-user-role {
+    width: 100%;
+}
+
 /* PROFILE */
 
 #configuration-profile-form {
