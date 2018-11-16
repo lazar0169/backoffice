@@ -116,23 +116,16 @@ let accounting = function () {
             pageReports.innerHTML = '';
             let button = this;
             let data = {
-                timeSpan: '',
-                fromDate: '',
-                toDate: '',
-                operaterId: 0,
-                portalIds: [],
-                bonusRate: 0,
-                deduction: 0,
-                reduction: 0
+                timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
+                fromDate: reportsFromDate,
+                toDate: reportsToDate,
+                operaterId: $$('#accounting-operators-list').getSelected(),
+                portalIds: $$('#accounting-portals-list').getSelected(),
+                bonusRate: $$('#accounting-reports-bonus-rate').get(),
+                deduction: $$('#accounting-reports-deduction').get(),
+                reduction: $$('#accounting-reports-reduction').value || 0
             }
-            data.timeSpan = $$('#accounting-time-span').getSelected() || 'custom';
-            data.fromDate = reportsFromDate;
-            data.toDate = reportsToDate;
-            data.operaterId = $$('#accounting-operators-list').getSelected();
-            data.portalIds = $$('#accounting-portals-list').getSelected();
-            data.bonusRate = $$('#accounting-reports-bonus-rate').get();
-            data.deduction = $$('#accounting-reports-deduction').get();
-            data.reduction = $$('#accounting-reports-reduction').value || 0;
+
             addLoader(button);
             trigger('comm/accounting/get', {
                 body: data,

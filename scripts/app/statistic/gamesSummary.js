@@ -99,26 +99,18 @@ let statisticGamesSummary = function () {
 
     function getStatistic() {
         let data = {
-            gameCategoryIds: [],
-            operatorId: 0,
-            portalIds: [],
-            currencyId: 0,
-            viewInterval: 0,
-            searchInterval: "string",
-            fromDate: "2018-10-29T11:44:24.538Z",
-            toDate: "2018-10-29T11:44:24.538Z"
+            gameCategoryIds: $$('#statistic-games-summary-categories').getSelected(),
+            operatorId: selectedOperator,
+            portalIds: $$('#statistic-games-summary-portals').getSelected(),
+            currencyId: currency.get().id,
+            viewInterval: $$('#statistic-games-summary-time-interval').getSelected(),
+            searchInterval: $$('#statistic-games-summary-time-span').getSelected() || 'custom',
+            fromDate: statisticFromDate,
+            toDate: statisticToDate
         };
 
-        data.gameCategoryIds = $$('#statistic-games-summary-categories').getSelected();
-        data.operatorId = selectedOperator;
-        data.portalIds = $$('#statistic-games-summary-portals').getSelected();
-        data.currencyId = currency.get().id;
-        data.viewInterval = $$('#statistic-games-summary-time-interval').getSelected();
-        data.searchInterval = $$('#statistic-games-summary-time-span').getSelected() || 'custom';
-        data.fromDate = statisticFromDate;
-        data.toDate = statisticToDate;
-
         gamesSummaryTableWrapper.innerHTML = '';
+        $$('#statistic-games-summary-graphs').classList.add('hidden');
 
         addLoader(gamesSummaryButton);
         trigger('comm/statistic/games/summary/get', {

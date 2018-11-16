@@ -123,26 +123,16 @@ let statisticPerGame = function () {
 
     function getStatistic() {
         let data = {
-            gameCategoryIds: [],
-            operatorId: 0,
-            portalIds: [],
-            currencyId: 0,
-            viewInterval: 0,
-            searchInterval: "string",
-            fromDate: "2018-10-29T11:44:24.538Z",
-            toDate: "2018-10-29T11:44:24.538Z",
-            gameId: 0
+            gameCategoryIds: $$('#statistic-per-game-categories').getSelected(),
+            operatorId: selectedOperator,
+            portalIds: $$('#statistic-per-game-portals').getSelected(),
+            currencyId: currency.get().id,
+            viewInterval: $$('#statistic-per-game-time-interval').getSelected(),
+            searchInterval: $$('#statistic-per-game-time-span').getSelected() || 'custom',
+            fromDate: statisticFromDate,
+            toDate: statisticToDate,
+            gameId: selectedGameId
         };
-
-        data.gameCategoryIds = $$('#statistic-per-game-categories').getSelected();
-        data.operatorId = selectedOperator;
-        data.portalIds = $$('#statistic-per-game-portals').getSelected();
-        data.currencyId = currency.get().id;
-        data.viewInterval = $$('#statistic-per-game-time-interval').getSelected();
-        data.searchInterval = $$('#statistic-per-game-time-span').getSelected() || 'custom';
-        data.fromDate = statisticFromDate;
-        data.toDate = statisticToDate;
-        data.gameId = selectedGameId;
 
         perGameTableWrapper.innerHTML = '';
 

@@ -82,25 +82,27 @@ let dropdown = function () {
         selected.innerHTML = placeholder;
         wrapper.className = 'options-wrapper hidden';
 
-        for (let option of data) {
-            let optionElement = document.createElement('div');
-            optionElement.className = 'option';
-            if (isMultiple) {
-                let input = document.createElement('input');
-                let label = document.createElement('label');
-                input.type = 'checkbox';
-                input.checked = false;
-                input.dataset.id = option.id;
-                label.innerHTML = option.name || option.category;
-                label.title = option.name || option.category;
-                optionElement.appendChild(input);
-                optionElement.appendChild(label);
-            } else {
-                optionElement.dataset.value = option.id;
-                optionElement.innerHTML = option.name || option.category;
-                optionElement.title = option.name || option.category;
+        if (data && data.length > 0) {
+            for (let option of data) {
+                let optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (isMultiple) {
+                    let input = document.createElement('input');
+                    let label = document.createElement('label');
+                    input.type = 'checkbox';
+                    input.checked = false;
+                    input.dataset.id = option.id;
+                    label.innerHTML = option.name || option.category;
+                    label.title = option.name || option.category;
+                    optionElement.appendChild(input);
+                    optionElement.appendChild(label);
+                } else {
+                    optionElement.dataset.value = option.id;
+                    optionElement.innerHTML = option.name || option.category;
+                    optionElement.title = option.name || option.category;
+                }
+                wrapper.appendChild(optionElement);
             }
-            wrapper.appendChild(optionElement);
         }
 
         select.appendChild(selected);
