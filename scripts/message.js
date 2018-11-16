@@ -28,6 +28,7 @@ const message = function () {
         weakPassword: 3005,
         userNameExists: 3006,
         emailExists: 3007,
+        missingTax: 5001,
     };
 
     const description = {
@@ -59,6 +60,7 @@ const message = function () {
         3005: 'Weak password. Password must contain at least single uppercase letter, single number and special character (!@#$%^&*;?), and to be minimum 8 character long.',
         3006: 'User name already exist. Please choose another one.',
         3007: 'Email is already in use. Please choose another one.',
+        5001: 'Tax configuration is missing for selected operator.',
     };
 
     const type = {
@@ -90,6 +92,7 @@ const message = function () {
         3005: 3,
         3006: 3,
         3007: 3,
+        5001: 3,
     };
 
     on('message', function (data) {
