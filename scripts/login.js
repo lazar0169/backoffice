@@ -18,7 +18,7 @@ const login = function () {
             success: function (response) {
                 removeLoader($$('#login-form'));
                 if (response.responseCode === message.codes.success && response.result) {
-                    location.href = location.origin + '/main.html';
+                    location.href = getLocation() + '/main.html';
                 }
             },
             fail: function () {
@@ -140,14 +140,14 @@ const login = function () {
                     $$('#login-form').classList.add('disabled');
                     $$('#login-pin').blur();
                     setTimeout(function () {
-                        location.href = location.origin + '/main.html';
+                        location.href = getLocation() + '/main.html';
                     }, notify.getIdleTime / 2);
                 } else if (response.responseCode === message.codes.thirdTimeBadPin) {
                     $$('#login-form').classList.add('disabled');
                     $$('#login-pin').blur();
                     activeForm = 'blocked';
                     setTimeout(function () {
-                        location.href = location.origin;
+                        location.href = getLocation();
                     }, notify.getIdleTime);
                 }
             },

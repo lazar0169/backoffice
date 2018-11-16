@@ -28,7 +28,7 @@ let configuration = function () {
                 success: function (response) {
                     removeLoader(button);
                     if (response.responseCode === message.codes.success) {
-                        location.href = location.origin;
+                        location.href = getLocation();
                     } else {
                         oldPassword = '';
                         repeatedPassword = '';

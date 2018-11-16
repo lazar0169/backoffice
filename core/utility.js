@@ -158,3 +158,7 @@ function transformCamelToRegular(string) {
             .replace(/^./, function (str) { return str.toUpperCase(); })
     }
 }
+
+function getLocation() {
+    return `${location.protocol}//${location.host}${location.pathname}`;
+}

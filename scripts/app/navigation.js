@@ -41,7 +41,7 @@ const navigation = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-logout'));
                 if (response.responseCode === message.codes.success) {
-                    location.href = location.origin;
+                    location.href = getLocation();
                 } else {
                     trigger('message', response.responseCode);
                 }

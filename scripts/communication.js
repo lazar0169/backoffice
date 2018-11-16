@@ -85,7 +85,7 @@ let comm = function () {
         }).then(function (json) {
             log(json);
             if (json.responseCode === message.codes.loggedOut) {
-                location.href = location.origin;
+                location.href = getLocation();
             }
             callback.success(json);
         }).catch((err) => {
@@ -93,7 +93,7 @@ let comm = function () {
             trigger('message', message.codes.clientError);
             console.error(err.stack);
             // setTimeout(() => {
-            //     location.href = location.origin;
+            //     location.href = getLocation();
             // }, 1000);
         });
     }
