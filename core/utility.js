@@ -160,5 +160,8 @@ function transformCamelToRegular(string) {
 }
 
 function getLocation() {
-    return `${location.protocol}//${location.host}${location.pathname}`;
+    let path = location.pathname.split('/');
+    path.splice(-1, 1);
+    path.join('/');
+    return location.origin + path;
 }
