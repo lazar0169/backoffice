@@ -22,6 +22,9 @@
 
 .loading {
     border-radius: 50%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     width: 12px;
     height: 12px;

@@ -1,15 +1,26 @@
 .navbar {
     border-bottom: 2px solid #00000021;
-    padding-bottom: 0.2em;
+    height: 2.7em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
     position: relative;
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-between;
 }
 
 .navbar a {
     text-decoration: none !important;
     color: #d2d2d2;
     padding-bottom: 0.2em;
-    margin: 0 0.6em;
+    padding: 0 0.6em;
     cursor: pointer;
+    height: 2.5em;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.3s, border-bottom 0.3s;
 }
 
 .navbar a.active {
@@ -17,9 +28,16 @@
     border-bottom: solid 2px #feb940;
 }
 
-.navbar>a:nth-last-child(1) {
-    float: right;
+.navbar a:hover {
+    background: #313c4a;
+}
+
+.navbar>button {
     cursor: pointer;
+    padding: 0 1em;
+    display: inline-flex;
+    align-items: center;
+    height: 2.3em;
 }
 
 .navbar>.tabs-wrapper>a:nth-child(1) {
@@ -30,13 +48,18 @@
     display: inline-block;
     color: #3ab54a;
     height: 0.85em;
-    width: 0.8em;
+    width: 1em;
     position: relative;
+}
+
+.currency {
+    margin-left: 0.3em;
 }
 
 .money-icon:before {
     position: absolute;
     top: 0;
+    left: 0;
 }
 
 .navigation-wrapper {
@@ -80,7 +103,6 @@
 .mobile .navbar {
     border: none;
     height: 2.8em;
-    display: inline-block;
     z-index: 2;
 }
 
@@ -89,12 +111,23 @@
     padding: 0.7em;
     background-color: #3d4552;
     color: #ffffff;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .mobile .navbar>a {
     float: left;
     padding: 0.7em;
     background-color: #3d4552;
+}
+
+.mobile .navbar>button {
+    height: 100%;
+    padding: 0.7em;
+    margin-left: 0.5em;
 }
 
 .mobile .navbar .currency-label {
@@ -108,12 +141,18 @@
     height: 0;
 }
 
+.mobile .navigation-wrapper {
+    height: 100%;
+    flex: 1;
+}
+
 .mobile .navbar .tabs-wrapper {
     display: inline-flex;
     flex-direction: column;
     background-color: #425269;
     box-shadow: 0.3em 0px 1em -0.2em rgba(0, 0, 0, 0.15);
     transition: all 0.2s ease;
+    width: 100%;
 }
 
 .mobile .navbar .tabs-wrapper>a {

@@ -97,6 +97,8 @@ let operators = function () {
         if (editMode) {
             $$('#operator-currency-code').children[0].innerHTML = operatorData.currencyCode;
             $$('#operator-timezone-code').children[0].innerHTML = operatorData.timeZoneCode;
+            $$('#operator-currency-code').children[0].dataset.value = currencies.filter((currency) => currency.name === operatorData.currencyCode)[0].id;
+            $$('#operator-timezone-code').children[0].dataset.value = timeZones.filter((zone) => zone.name === operatorData.timeZoneCode)[0].id;
             $$('#operator-currency-code').classList.add('disabled');
             $$('#operator-timezone-code').classList.add('disabled');
             $$('#operators-form-save').classList.remove('disabled');
@@ -151,13 +153,10 @@ let operators = function () {
         $$('#operators-form-save').onclick = function () {
             let button = this;
             let gamesList = [];
-            if (editMode) {
-                operatorData.currencyId = 0;
-                operatorData.timeZoneId = 0;
-            } else {
-                operatorData.currencyId = Number($$('#operator-currency-code').children[0].dataset.value);
-                operatorData.timeZoneId = Number($$('#operator-timezone-code').children[0].dataset.value);
-            }
+
+            operatorData.currencyId = Number($$('#operator-currency-code').children[0].dataset.value);
+            operatorData.timeZoneId = Number($$('#operator-timezone-code').children[0].dataset.value);
+
             operatorData.operator.name = $$('#operator-name').value;
             for (let tr of gamesWrapper.children[0].children) {
                 let game = {
@@ -221,7 +220,6 @@ let operators = function () {
         let password = $$('#operator-password');
         let warrningActiveCredit = $$('#operator-warrning-active-credit');
         let blockingActiveCredit = $$('#operator-blocking-active-credit');
-        let enabledPortal = $$('#operators-operator-enabled');
         $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'add' : 'remove']('edit');
         return {
             show: function (element, index) {
@@ -235,13 +233,17 @@ let operators = function () {
                     password.value = element.password;
                     warrningActiveCredit.value = element.warrningActiveCredit;
                     blockingActiveCredit.value = element.blockingActiveCredit;
-                    enabledPortal.checked = element.enabled;
                     operatorsCurrencyWrapper.children[0].children[0].innerHTML = currenciesModel[element.currencyId];
+                    operatorsCurrencyWrapper.children[0].children[0].dataset.value = element.currencyId;
                     operatorsCurrencyWrapper.children[0].classList.add('disabled');
                 } else {
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
                     if (currencyId && $$('#operator-timezone-code').children[0].dataset.value) {
                         openedPortalData = {
+                            portal: {
+                                id: 0,
+                                name: ''
+                            },
                             diamond: defaultJackpotSettings[currencyId].defaultDiamond,
                             platinum: defaultJackpotSettings[currencyId].defaultPlatinum
                         };
@@ -255,13 +257,19 @@ let operators = function () {
                     password.value = '';
                     warrningActiveCredit.value = '';
                     blockingActiveCredit.value = '';
-                    enabledPortal.checked = false;
                 }
                 for (let button of $$('.operators-form-jackpot-button')) {
                     button.onclick = function () {
                         jackpotModal.show(openedPortalData[button.dataset.jackpot], button.dataset.jackpot);
                     };
                 }
+
+                function refreshPortalList() {
+                    let portalsWrapper = $$('#operators-portals');
+                    portalsWrapper.innerHTML = '';
+                    portalsWrapper.appendChild(generateModalData(operatorData.portalSettingsList, 'portal'));
+                }
+
                 $$('#operators-form-portal-save').onclick = function () {
                     if (!gameLaunchURL.value ||
                         !integrationType.value ||
@@ -277,22 +285,28 @@ let operators = function () {
                     openedPortalData.integrationType = integrationType.value;
                     openedPortalData.userName = userName.value;
                     openedPortalData.password = password.value;
-                    openedPortalData.warrningActiveCredit = warrningActiveCredit.value;
-                    openedPortalData.blockingActiveCredit = blockingActiveCredit.value;
-                    openedPortalData.currencyId = operatorsCurrencyWrapper.children[0].children[0].dataset.value;
+                    openedPortalData.warrningActiveCredit = Number(warrningActiveCredit.value);
+                    openedPortalData.blockingActiveCredit = Number(blockingActiveCredit.value);
+                    openedPortalData.currencyId = Number(operatorsCurrencyWrapper.children[0].children[0].dataset.value);
                     if (editModePortal) {
-                        operatorData[index] = openedPortalData;
+                        operatorData.portalSettingsList[index] = openedPortalData;
                     } else {
+
                         operatorData.portalSettingsList.push(openedPortalData);
                     }
-                    let portalsWrapper = $$('#operators-portals');
-                    portalsWrapper.innerHTML = '';
-                    portalsWrapper.appendChild(generateModalData(operatorData.portalSettingsList, 'portal'));
+                    refreshPortalList();
                     if (operatorData.portalSettingsList.length > 0 && $$('#operator-name').innerHTML !== '') {
                         $$('#operators-form-save').classList.remove('disabled');
                     }
                     portalModal.hide();
                 }
+
+                $$('#operators-form-portal-remove').addEventListener('click', function () {
+                    operatorData.portalSettingsList.splice(index, 1);
+                    refreshPortalList();
+                    portalModal.hide();
+                });
+
                 modal.classList.add('show');
             },
             hide: function () {
@@ -393,9 +407,10 @@ let operators = function () {
                     break;
                 case 'portal':
                     td.innerHTML = element.userName;
+                    let index = Number(i);
                     td.onclick = function () {
                         editModePortal = true;
-                        portalModal.show(element, i);
+                        portalModal.show(element, index);
                     };
                     tr.dataset.id = element.id;
                     break;

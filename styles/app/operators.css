@@ -5,6 +5,9 @@
 
 #operators-table {
     flex: 1;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -49,6 +52,9 @@
 #operators-add-new {
     width: 3em;
     position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     cursor: pointer;
     padding: 0;
@@ -155,6 +161,9 @@
     display: flex;
     flex-direction: column;
     padding: 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
 }
 

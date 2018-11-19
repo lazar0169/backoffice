@@ -2,12 +2,18 @@
     background-color: #434a5c;
     height: 100%;
     flex: 1;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     height: 100%;
     padding: 1.2em;
 }
 
 .page-content {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     color: #ffffff;
     padding: 1em 0 0 0;
@@ -37,6 +43,9 @@
     height: calc(100% - 1em);
     justify-content: center;
     align-items: start;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
     box-sizing: border-box;
     overflow: auto;
     /* padding-right: 1em; */

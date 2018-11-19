@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 /*!
  * Pikaday
  * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/
@@ -20,13 +19,20 @@
 clear child float (pika-lendar), using the famous micro clearfix hack
 http://nicolasgallagher.com/micro-clearfix-hack/
 */
+
 .pika-single:before,
 .pika-single:after {
     content: " ";
     display: table;
 }
-.pika-single:after { clear: both }
-.pika-single { *zoom: 1 }
+
+.pika-single:after {
+    clear: both
+}
+
+.pika-single {
+    *zoom: 1
+}
 
 .pika-single.is-hidden {
     display: none;
@@ -34,7 +40,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 
 .pika-single.is-bound {
     position: absolute;
-    box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, .5);
 }
 
 .pika-lendar {
@@ -61,6 +67,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     font-weight: bold;
     background-color: #fff;
 }
+
 .pika-title select {
     cursor: pointer;
     position: absolute;
@@ -149,8 +156,10 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 .pika-button {
     cursor: pointer;
     display: block;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
     outline: none;
     border: 0;
     margin: 0;
@@ -232,8 +241,8 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 }
 
 /* styling for abbr */
+
 .pika-table abbr {
     border-bottom: none;
     cursor: help;
 }
-
