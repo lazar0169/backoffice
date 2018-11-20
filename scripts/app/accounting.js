@@ -8,6 +8,10 @@ let accounting = function () {
     let isScaledSelected = false;
     let doc;
     let docPageCount = 0;
+    let excelData = {
+        operatorName: "",
+        operatorAccounting: {}
+    };
 
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -80,7 +84,21 @@ let accounting = function () {
     }
 
     function downloadExcel() {
-        // TODO!!!!
+        addLoader($$('#accounting-reports-download-excel'));
+        trigger('comm/accounting/excel/get', {
+            body: excelData,
+            success: function (response) {
+                removeLoader($$('#accounting-reports-download-excel'));
+                if (response.responseCode === message.codes.success) {
+                    trigger('download', response.result.replace(/\\/g, '/'));
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function () {
+                removeLoader($$('#accounting-reports-download-excel'));
+            }
+        });
     }
 
     function afterLoad(response) {
@@ -179,6 +197,10 @@ let accounting = function () {
                         $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
                         $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
                         $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
+
+                        // Prepare excel data
+                        excelData.operatorName = $$('#accounting-operators-list').children[0].innerHTML;
+                        excelData.operatorAccounting = response.result;
 
                         // Enable download button
                         $$('#accounting-reports-download').classList.remove('hidden');

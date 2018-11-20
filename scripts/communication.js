@@ -27,6 +27,8 @@ let comm = function () {
         'comm/accounting/portals/get': '/Accounting/GetPortalsByOperatorId',
         'comm/accounting/get': '/Accounting/GetAccounting',
 
+        'comm/accounting/excel/get': '/Accounting/ToExcel',
+
         'comm/accounting/setup/get': '/AccountingOperators/GetOperators',
         'comm/accounting/setup/operator/get': '/AccountingOperators/ChooseOperatorsAccounting',
         'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',
@@ -111,10 +113,13 @@ let comm = function () {
         }, data.body);
     }
 
+    on('download', function (url) {
+        fetch(apiUrl + url);
+    });
+
     for (let action in actions) {
         on(action, function (data) {
             connect(actions[action], data);
         });
     }
-
 }();

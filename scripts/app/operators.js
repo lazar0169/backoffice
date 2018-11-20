@@ -288,10 +288,10 @@ let operators = function () {
                     openedPortalData.warrningActiveCredit = Number(warrningActiveCredit.value);
                     openedPortalData.blockingActiveCredit = Number(blockingActiveCredit.value);
                     openedPortalData.currencyId = Number(operatorsCurrencyWrapper.children[0].children[0].dataset.value);
+                    openedPortalData.portal.name = `${$$('#operator-name').value} ${$$('#operator-portal-currency-code').children[0].innerHTML}`;
                     if (editModePortal) {
                         operatorData.portalSettingsList[index] = openedPortalData;
                     } else {
-
                         operatorData.portalSettingsList.push(openedPortalData);
                     }
                     refreshPortalList();
@@ -406,13 +406,13 @@ let operators = function () {
                     });
                     break;
                 case 'portal':
-                    td.innerHTML = element.userName;
+                    td.innerHTML = element.portal.name;
                     let index = Number(i);
                     td.onclick = function () {
                         editModePortal = true;
                         portalModal.show(element, index);
                     };
-                    tr.dataset.id = element.id;
+                    tr.dataset.id = element.portal.id;
                     break;
             }
             tr.appendChild(td);

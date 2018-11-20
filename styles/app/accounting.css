@@ -5,12 +5,14 @@
 }
 
 #accounting-get-reports.hidden,
-#accounting-reports-download.hidden {
+#accounting-reports-download.hidden,
+#accounting-reports-download-excel.hidden {
     display: none;
 }
 
 #accounting-get-reports,
-#accounting-reports-download {
+#accounting-reports-download,
+#accounting-reports-download-excel {
     display: inline;
 }
 
