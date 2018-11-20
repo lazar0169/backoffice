@@ -22,8 +22,13 @@ let accounting = function () {
         $$('#accounting-setup-form-inputs-fixed').classList[isScaledSelected ? 'add' : 'remove']('hidden');
         $$('#accounting-setup-form-inputs-scaled').classList[isScaledSelected ? 'remove' : 'add']('hidden');
     });
+
     $$('#accounting-reports-download').addEventListener('click', function () {
         doc.save(`accounting-${new Date().toISOString().split('T')[0]}.pdf`);
+    });
+
+    $$('#accounting-reports-download-excel').addEventListener('click', function () {
+        downloadExcel();
     });
 
     on('accounting-time-span/selected', function (value) {
@@ -74,6 +79,10 @@ let accounting = function () {
         return headline;
     }
 
+    function downloadExcel() {
+        // TODO!!!!
+    }
+
     function afterLoad(response) {
         if (response.responseCode === message.codes.success) {
             clearElement($$('#accounting-operators-list'));
@@ -111,6 +120,7 @@ let accounting = function () {
         $$('#accounting-get-reports').classList.remove('hidden');
         $$('#accounting-get-reports').addEventListener('click', function () {
             $$('#accounting-reports-download').classList.add('hidden');
+            $$('#accounting-reports-download-excel').classList.add('hidden');
             $$('#accounting-reports-header').classList.add('hidden');
             $$('#accounting-reports-footer').classList.add('hidden');
             pageReports.innerHTML = '';
@@ -172,6 +182,7 @@ let accounting = function () {
 
                         // Enable download button
                         $$('#accounting-reports-download').classList.remove('hidden');
+                        $$('#accounting-reports-download-excel').classList.remove('hidden');
                     } else {
                         trigger('message', response.responseCode);
                     }
@@ -493,6 +504,7 @@ let accounting = function () {
         clearElement($$('#accounting-portals-list'));
         $$('#accounting-get-reports').classList.add('hidden');
         $$('#accounting-reports-download').classList.add('hidden');
+        $$('#accounting-reports-download-excel').classList.add('hidden');
         addLoader($$('#sidebar-accounting'));
         trigger('comm/accounting/operators/get', {
             success: function (response) {

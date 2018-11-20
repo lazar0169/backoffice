@@ -109,8 +109,12 @@ function generateGuid() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-function generateColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+function randomizeNumber(maximum, minimum = 0) {
+    return Math.floor(Math.random() * (maximum - minimum)) + minimum;
+};
+
+function generateColor(max = 192, min = 64) {
+    return 'rgb(' + (randomizeNumber(max, min)) + ',' + (randomizeNumber(max, min)) + ',' + (randomizeNumber(max, min)) + ')';
 }
 
 let sortByProperty = function (property) {

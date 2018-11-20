@@ -165,7 +165,11 @@ let dashboard = function () {
         for (let chart of dashboardData.pieChart) {
             labels.push(chart.portalName);
             values.push(chart.numberOfNewPlayers);
-            colors.push(generateColor());
+            let color = generateColor();
+            while (colors.includes(color)) {
+                color = generateColor();
+            }
+            colors.push(color);
         }
 
         chart.data.datasets[0].data = values;
