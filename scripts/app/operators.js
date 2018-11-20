@@ -301,11 +301,11 @@ let operators = function () {
                     portalModal.hide();
                 }
 
-                $$('#operators-form-portal-remove').addEventListener('click', function () {
+                $$('#operators-form-portal-remove').onclick = function () {
                     operatorData.portalSettingsList.splice(index, 1);
                     refreshPortalList();
                     portalModal.hide();
-                });
+                };
 
                 modal.classList.add('show');
             },
@@ -401,9 +401,9 @@ let operators = function () {
                     label.innerHTML = element.game.name;
                     td.appendChild(input);
                     td.appendChild(label);
-                    td.addEventListener('click', function () {
+                    td.onclick = function () {
                         input.click();
-                    });
+                    };
                     break;
                 case 'portal':
                     td.innerHTML = element.portal.name;
