@@ -46,6 +46,7 @@ let configuration = function () {
 
     $$('#configuration-profile-save-profile').addEventListener('click', function (e) {
         e.preventDefault();
+        let name = $$('#configuration-profile-name').value;
         let userName = $$('#configuration-profile-user-name').value;
         let email = $$('#configuration-profile-email').value;
         let phoneNumber = $$('#configuration-profile-phone').value;
