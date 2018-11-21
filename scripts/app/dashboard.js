@@ -51,7 +51,8 @@ let dashboard = function () {
                         data: parseData(dashboardData.activities.activities),
                         id: 'dashboard-table',
                         dynamic: false,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     }));
                 } else {
                     trigger('message', response.responseCode);
@@ -192,7 +193,8 @@ let dashboard = function () {
                 data: parseData(dashboardData.portalsActivities[portal].activities),
                 id: '',
                 dynamic: false,
-                sticky: true
+                sticky: true,
+                stickyCol: true
             }));
         }
         table.preserveHeight(portals);

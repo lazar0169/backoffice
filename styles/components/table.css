@@ -23,6 +23,8 @@
     color: white;
     white-space: nowrap;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .cell.hover {
@@ -49,17 +51,20 @@
 }
 
 .head.cell:nth-child(1) {
-    left: 0;
     z-index: 2;
 }
 
-.sticky .first.cell,
+.head.sticky-col.cell:nth-child(1) {
+    left: 0;
+}
+
+.sticky .first.sticky.cell,
 .sticky .head.cell {
     position: sticky;
     position: -webkit-sticky;
 }
 
-.sticky .first.cell {
+.sticky .first.sticky.cell {
     z-index: 1;
 }
 

@@ -30,6 +30,7 @@ let table = function () {
         params = params || {};
         params.dynamic = params.dynamic || false;
         params.sticky = params.sticky || false;
+        params.stickyCol = params.stickyCol || false;
         params.options = params.options || {};
 
         if (!params.data || params.data.length === 0) {
@@ -74,7 +75,7 @@ let table = function () {
             let colId = generateGuid();
             let head = document.createElement('div');
             head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
-            head.className = 'head cell';
+            head.className = `head ${params.stickyCol ? 'sticky-col' : ''} cell`;
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
             if (params.dynamic) {
@@ -108,7 +109,7 @@ let table = function () {
                 }
                 // -----
                 cell.innerHTML = prefix + params.data[row][Object.keys(params.data[row])[col]] + sufix;
-                cell.className = col === 0 ? 'first cell' : 'cell';
+                cell.className = col === 0 ? `first ${params.stickyCol ? 'sticky' : ''} cell` : 'cell';
                 cell.classList.add(`row-${rowId}`);
                 if (row === params.data.length - 1) cell.classList.add('last');
                 cell.classList.add(`col-${colIds[col]}`);

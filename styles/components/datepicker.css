@@ -122,6 +122,7 @@ tr.pika-row {
     width: auto;
     left: 1em !important;
     right: 1em !important;
+    top: 5em !important;
 }
 
 .pika-single.is-hidden {
