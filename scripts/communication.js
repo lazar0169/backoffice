@@ -113,10 +113,6 @@ let comm = function () {
         }, data.body);
     }
 
-    on('download', function (url) {
-        fetch(apiUrl + url);
-    });
-
     for (let action in actions) {
         on(action, function (data) {
             connect(actions[action], data);

@@ -83,6 +83,14 @@ let accounting = function () {
         return headline;
     }
 
+    function saveBase64(reportName, byte) {
+        var link = document.createElement('a');
+        link.href = byte;
+        var fileName = reportName;
+        link.download = fileName;
+        link.click();
+    };
+
     function downloadExcel() {
         addLoader($$('#accounting-reports-download-excel'));
         trigger('comm/accounting/excel/get', {
@@ -90,7 +98,7 @@ let accounting = function () {
             success: function (response) {
                 removeLoader($$('#accounting-reports-download-excel'));
                 if (response.responseCode === message.codes.success) {
-                    trigger('download', response.result.replace(/\\/g, '/'));
+                    saveBase64(`${response.result.name}.xlsx`, 'data:application/octet-stream;base64,' + response.result.data);
                 } else {
                     trigger('message', response.responseCode);
                 }
