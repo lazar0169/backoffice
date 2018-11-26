@@ -93,4 +93,13 @@ const navigation = function () {
     }
 
     on('navigation/change', to);
+
+    return {
+        get: function () {
+            return {
+                page: active.page,
+                tab: active.tab
+            }
+        }
+    }
 }();

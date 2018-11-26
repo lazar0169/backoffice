@@ -1,5 +1,5 @@
 #statistic .datepicker.disabled {
-    filter: grayscale(1);
+    display: none;
 }
 
 #statistic-summary-filter,
