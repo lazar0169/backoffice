@@ -6,6 +6,7 @@ let statisticPerGame = function () {
     let perGameButton = $$('#statistic-get-per-game');
     let perGameTableWrapper = $$('#statistic-per-game-table');
     let getGamesEvent;
+    let requested = false;
 
     on('statistic-per-game-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -30,6 +31,7 @@ let statisticPerGame = function () {
         clearElement($$('#statistic-per-game-portals'));
         perGameTableWrapper.innerHTML = '';
         perGameButton.classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -49,6 +51,9 @@ let statisticPerGame = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
 
     function getOperators() {
         clearElement($$('#statistic-per-game-operators'));
@@ -159,7 +164,7 @@ let statisticPerGame = function () {
                         }
                     }));
                     table.preserveHeight(perGameTableWrapper);
-
+                    requested = true;
                 } else {
                     trigger('message', response.responseCode);
                 }

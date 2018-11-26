@@ -2,8 +2,11 @@ let currency = function () {
     let list = $$('.currency');
     let currencies = [];
     let selected = { id: 0, name: '' };
+    let listener;
 
     function initCurrencyDropdown() {
+        if (listener) off(listener);
+
         for (let droppdown of list) {
             droppdown.children[0].onclick = function () {
                 droppdown.children[1].classList.toggle('hidden');
@@ -16,9 +19,20 @@ let currency = function () {
                     }
                     selected.id = option.dataset.id;
                     selected.name = option.innerHTML;
+                    trigger(`currency/${droppdown.dataset.page}`);
                 }
             }
         }
+
+        listener = on('window/click', function (e) {
+            if (
+                e.target.parentNode && !e.target.parentNode.classList.contains('currency-wrapper') && !e.target.parentNode.classList.contains('currency')
+            ) {
+                for (let droppdown of list) {
+                    droppdown.children[1].classList.add('hidden');
+                }
+            }
+        });
     }
 
 

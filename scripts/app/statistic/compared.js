@@ -4,6 +4,7 @@ let statisticCompared = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let comparedButton = $$('#statistic-get-compared');
     let comparedTableWrapper = $$('#statistic-compared-table');
+    let requested = false;
 
     on('statistic-compared-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -28,6 +29,7 @@ let statisticCompared = function () {
         clearElement($$('#statistic-compared-portals'));
         comparedTableWrapper.innerHTML = '';
         comparedButton.classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -46,6 +48,9 @@ let statisticCompared = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
 
     function getOperators() {
         clearElement($$('#statistic-compared-operators'));
@@ -230,6 +235,7 @@ let statisticCompared = function () {
                         tablePayout.getElementsByClassName('remove-btn')[i].click();
                     }
 
+                    requested = true;
 
                 } else {
                     trigger('message', response.responseCode);

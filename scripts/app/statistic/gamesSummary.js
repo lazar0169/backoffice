@@ -8,6 +8,7 @@ let statisticGamesSummary = function () {
     let gamesSummaryChartTotalWin = graph.generate($$('#statistic-games-summary-graphs').children[1], 'line');
     let gamesSummaryChartRounds = graph.generate($$('#statistic-games-summary-graphs').children[2], 'line');
     let gamesSummaryChartPayout = graph.generate($$('#statistic-games-summary-graphs').children[3], 'line');
+    let requested = false;
 
     on('statistic-games-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -33,6 +34,7 @@ let statisticGamesSummary = function () {
         gamesSummaryTableWrapper.innerHTML = '';
         gamesSummaryButton.classList.add('hidden');
         $$('#statistic-games-summary-graphs').classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -51,6 +53,9 @@ let statisticGamesSummary = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
 
     function getOperators() {
         clearElement($$('#statistic-games-summary-operators'));
@@ -234,7 +239,7 @@ let statisticGamesSummary = function () {
                     gamesSummaryChartPayout.update();
 
                     $$('#statistic-games-summary-graphs').classList.remove('hidden');
-
+                    requested = true;
                 } else {
                     trigger('message', response.responseCode);
                 }

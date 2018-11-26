@@ -9,4 +9,8 @@ let responsive = function () {
         trigger('resize');
         trigger('load');
     });
+
+    window.addEventListener('click', function (e) {
+        trigger('window/click', e);
+    });
 }();
