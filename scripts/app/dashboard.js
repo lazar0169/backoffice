@@ -4,6 +4,8 @@ let dashboard = function () {
     let portals = $$('#dashboard-portals').children[0];
     let players = $$('#dashboard-players').children[0];
     let playersWrapper = $$('#dashboard-players-wrapper');
+    let filters = $$('#dashboard-players-filter');
+    let portalListener;
     let chart = new Chart($$('#dashboard-pie-chart').getContext('2d'), {
         type: 'pie',
         data: {
@@ -84,18 +86,22 @@ let dashboard = function () {
 
     on('dashboard/players/loaded', function () {
         playersWrapper.innerHTML = '';
+        filters.innerHTML = '';
 
         let portals = [];
         for (let portal in dashboardData.latestNewPlayers) {
             portals.push({ id: portal, name: portal });
         }
 
+        if (portalListener) off(portalListener)
+
+        filters.appendChild(dropdown.generate(portals, 'dashboard-players-portals-list', 'Select portal'));
+
         let topWinners = document.createElement('div');
         let headerWinners = document.createElement('div');
         let winnersTitle = document.createElement('h2')
         winnersTitle.innerHTML = 'Top 10 Winners';
         headerWinners.appendChild(winnersTitle);
-        headerWinners.appendChild(dropdown.generate(portals, 'dashboard-players-winners-portals-list', 'Select portal'));
         topWinners.appendChild(headerWinners);
         playersWrapper.appendChild(topWinners);
 
@@ -104,7 +110,6 @@ let dashboard = function () {
         let losersTitle = document.createElement('h2')
         losersTitle.innerHTML = 'Top 10 Losers';
         headerLosers.appendChild(losersTitle);
-        headerLosers.appendChild(dropdown.generate(portals, 'dashboard-players-losers-portals-list', 'Select portal'));
         topLosers.appendChild(headerLosers);
         playersWrapper.appendChild(topLosers);
 
@@ -113,52 +118,39 @@ let dashboard = function () {
         let latestTitle = document.createElement('h2')
         latestTitle.innerHTML = 'Latest Players';
         headerLatest.appendChild(latestTitle);
-        headerLatest.appendChild(dropdown.generate(portals, 'dashboard-players-latest-portals-list', 'Select portal'));
         latestPlayers.appendChild(headerLatest);
         playersWrapper.appendChild(latestPlayers);
 
-        for (let portal of $$('#dashboard-players-winners-portals-list').children[1].children) {
-            portal.addEventListener('click', function () {
-                if (topWinners.children[1]) topWinners.children[1].remove();
-                topWinners.appendChild(table.generate({
-                    data: dashboardData.topTenWinners[portal.dataset.value],
-                    id: '',
-                    dynamic: false,
-                    sticky: true
-                }));
-                table.preserveHeight(playersWrapper);
-            });
-        }
+        portalListener = on('dashboard-players-portals-list/selected', function (value) {
+            if (topWinners.children[1]) topWinners.children[1].remove();
+            if (topLosers.children[1]) topLosers.children[1].remove();
+            if (latestPlayers.children[1]) latestPlayers.children[1].remove();
 
-        for (let portal of $$('#dashboard-players-losers-portals-list').children[1].children) {
-            portal.addEventListener('click', function () {
-                if (topLosers.children[1]) topLosers.children[1].remove();
-                topLosers.appendChild(table.generate({
-                    data: dashboardData.topTenLosers[portal.dataset.value],
-                    id: '',
-                    dynamic: false,
-                    sticky: true
-                }));
-                table.preserveHeight(playersWrapper);
-            });
-        }
+            topWinners.appendChild(table.generate({
+                data: dashboardData.topTenWinners[value],
+                id: '',
+                dynamic: false,
+                sticky: true
+            }));
 
-        for (let portal of $$('#dashboard-players-latest-portals-list').children[1].children) {
-            portal.addEventListener('click', function () {
-                if (latestPlayers.children[1]) latestPlayers.children[1].remove();
-                latestPlayers.appendChild(table.generate({
-                    data: dashboardData.latestNewPlayers[portal.dataset.value],
-                    id: '',
-                    dynamic: false,
-                    sticky: true
-                }));
-                table.preserveHeight(playersWrapper);
-            });
-        }
+            topLosers.appendChild(table.generate({
+                data: dashboardData.topTenLosers[value],
+                id: '',
+                dynamic: false,
+                sticky: true
+            }));
 
-        $$('#dashboard-players-winners-portals-list').children[1].children[0].click();
-        $$('#dashboard-players-losers-portals-list').children[1].children[0].click();
-        $$('#dashboard-players-latest-portals-list').children[1].children[0].click();
+            latestPlayers.appendChild(table.generate({
+                data: dashboardData.latestNewPlayers[value],
+                id: '',
+                dynamic: false,
+                sticky: true
+            }));
+
+            table.preserveHeight(playersWrapper);
+        });
+
+        $$('#dashboard-players-portals-list').children[1].children[0].click();
 
         let colors = [];
         let labels = [];
