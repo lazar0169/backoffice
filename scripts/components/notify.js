@@ -33,7 +33,7 @@ let notify = function () {
             data.type = data.type !== undefined ? data.type : 1;
             data.message = data.message || 'Simple toast banner';
             data.duration = data.type === 0 ? 86400 : data.duration || idleTime;
-            toast.innerHTML = data.message;
+            toast.innerHTML = `<span>${data.message}</span>`;
             toast.className = `toast ${types[data.type]} show`;
             isBusy = true;
 

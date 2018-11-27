@@ -157,6 +157,7 @@ let operators = function () {
                 success: function (response) {
                     removeLoader(button);
                     if (response.responseCode === message.codes.success) {
+                        if (editMode) trigger('message', message.codes.newOperator);
                         hideModal();
                         trigger('operators/main/loaded');
                     } else {
