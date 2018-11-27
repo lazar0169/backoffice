@@ -27,18 +27,6 @@ const login = function () {
         });
     });
 
-    // window.addEventListener('keyup', function (event) {
-    //     if (event.keyCode === 13) {
-    //         if (activeForm === 'login') {
-    //             loginEvent();
-    //         } else if (activeForm === 'pin') {
-    //             pinEvent();
-    //         } else {
-    //             return;
-    //         }
-    //     }
-    // });
-
     // LOGIN --------------------------
     loginBtn.addEventListener('click', loginEvent);
 

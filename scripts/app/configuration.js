@@ -409,6 +409,43 @@ let configuration = function () {
         });
     }
 
+    // SEARCH BUTTON
+    for (let button of $$('.configuration-search')) {
+        button.addEventListener('click', function () {
+            button.parentNode.classList.add('search');
+            button.parentNode.children[1].focus();
+        });
+    }
+
+    for (let input of $$('.caption-search')) {
+        let table = $$(`#configuration-${input.dataset.section}`).children[1];
+        input.addEventListener('input', function () {
+            search(table, input.value);
+        });
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                search(table, '');
+                input.parentNode.classList.remove('search');
+            }
+        });
+        input.addEventListener('blur', function () {
+            input.value = '';
+            search(table, '');
+            input.parentNode.classList.remove('search');
+        });
+    }
+
+    function search(element, term) {
+        for (let row of element.getElementsByTagName('td')) {
+            if (row.innerHTML.toLocaleLowerCase().includes(term)) {
+                row.parentNode.style.display = 'table-row';
+            } else {
+                row.parentNode.style.display = 'none';
+            }
+        }
+    }
+
     function getData(section) {
         switch (section) {
             case 'actions':
