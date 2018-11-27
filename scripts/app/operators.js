@@ -101,32 +101,11 @@ let operators = function () {
             $$('#operator-timezone-code').children[0].dataset.value = timeZones.filter((zone) => zone.name === operatorData.timeZoneCode)[0].id;
             $$('#operator-currency-code').classList.add('disabled');
             $$('#operator-timezone-code').classList.add('disabled');
+            $$('#operator-name').classList.add('disabled');
             $$('#operators-form-save').classList.remove('disabled');
             $$('#operators-operator-enabled').checked = operatorData.operator.enabled;
 
             $$('#operator-name').value = operatorData.operator.name;
-
-            // $$('#operators-form-remove').onclick = function () {
-            //     let button = this;
-            //     addLoader(button);
-            //     trigger('comm/operators/remove', {
-            //         body: {
-            //             id: openedOperatorId
-            //         },
-            //         success: function (response) {
-            //             removeLoader(button);
-            //             if (response.responseCode === message.codes.success) {
-            //                 hideModal();
-            //                 trigger('operators/main/loaded');
-            //             } else {
-            //                 trigger('message', response.responseCode);
-            //             }
-            //         },
-            //         fail: function () {
-            //             removeLoader(button);
-            //         }
-            //     });
-            // };
 
             for (let td of gamesWrapper.getElementsByTagName('td')) {
                 td.onclick = function (e) {
@@ -143,6 +122,7 @@ let operators = function () {
 
             $$('#operator-currency-code').classList.remove('disabled');
             $$('#operator-timezone-code').classList.remove('disabled');
+            $$('#operator-name').classList.remove('disabled');
 
             $$('#operator-name').value = '';
             $$('#operators-form-button-wrapper').classList.add('edit');

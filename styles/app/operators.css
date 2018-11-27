@@ -175,6 +175,10 @@
     width: 100%;
 }
 
+#operator-name.disabled {
+    filter: grayscale(1) opacity(0.5);
+}
+
 .operators-form-inputs {
     width: 100%;
     overflow: auto;
