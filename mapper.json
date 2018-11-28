@@ -10,7 +10,8 @@
         "styles": [
             "login.css",
             "components/notify.css",
-            "loading.css"
+            "loading.css",
+            "app/rotation.css"
         ]
     },
     "main": {
@@ -44,6 +45,7 @@
             "components/table.css",
             "main.css",
             "navbar.css",
+            "app/rotation.css",
             "app/configuration.css",
             "app/operators.css",
             "app/accounting.css",

@@ -168,7 +168,8 @@ let dashboard = function () {
         chart.data.datasets[0].data = values;
         chart.data.datasets[0].backgroundColor = colors;
         chart.data.labels = labels;
-        chart.options.legend.display = !isMobile
+        // chart.options.legend.display = !isMobile
+        $$('#dashboard-chart-wrapper').style.display = isMobile ? 'none' : 'block';
         chart.update();
 
         table.preserveHeight(playersWrapper);

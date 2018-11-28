@@ -153,9 +153,11 @@ let statisticSummary = function () {
                         payoutData.push(row.payout);
                     }
 
-                    summaryChartTotalBetWin.options.legend.dispay = !isMobile;
-                    summaryChartRounds.options.legend.dispay = !isMobile;
-                    summaryChartPayout.options.legend.dispay = !isMobile;
+                    // summaryChartTotalBetWin.options.legend.dispay = !isMobile;
+                    // summaryChartRounds.options.legend.dispay = !isMobile;
+                    // summaryChartPayout.options.legend.dispay = !isMobile;
+
+                    $$('#statistic-summary-graphs').style.display = isMobile ? 'none' : 'block';
 
                     summaryChartTotalBetWin.options.legend.position = 'right';
                     summaryChartRounds.options.legend.position = 'right';
