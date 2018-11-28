@@ -169,3 +169,25 @@ function getLocation() {
     path.join('/');
     return location.origin + path;
 }
+
+function filterPeriod(element, period = 'custom') {
+    let map = {
+        'custom': [0, 1, 2, 3],
+        'Today': [0],
+        'Yasterday': [0],
+        'LastThreeDays': [0, 1],
+        'LastWeek': [1],
+        'LastMonth': [1, 2],
+        'LastMonth': [1, 2],
+        'LastQuarter': [2, 3],
+        'LastYear': [2, 3]
+    };
+
+    for (let option of element.getElementsByClassName('option')) {
+        if (map[period].includes(Number(option.dataset.value))) {
+            option.style.display = 'block';
+        } else {
+            option.style.display = 'none';
+        }
+    }
+}

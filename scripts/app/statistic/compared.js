@@ -14,6 +14,7 @@ let statisticCompared = function () {
             $$('#statistic-compared-time-span-from').classList.remove('disabled');
             $$('#statistic-compared-time-span-to').classList.remove('disabled');
         }
+        filterPeriod($$('#statistic-compared-time-interval'), value);
     });
 
     on('date/statistic-compared-time-span-from', function (data) {

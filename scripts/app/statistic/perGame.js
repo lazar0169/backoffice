@@ -16,6 +16,7 @@ let statisticPerGame = function () {
             $$('#statistic-per-game-time-span-from').classList.remove('disabled');
             $$('#statistic-per-game-time-span-to').classList.remove('disabled');
         }
+        filterPeriod($$('#statistic-per-game-time-interval'), value);
     });
 
     on('date/statistic-per-game-time-span-from', function (data) {

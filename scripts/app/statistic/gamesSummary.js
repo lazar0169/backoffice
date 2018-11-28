@@ -18,6 +18,7 @@ let statisticGamesSummary = function () {
             $$('#statistic-games-summary-time-span-from').classList.remove('disabled');
             $$('#statistic-games-summary-time-span-to').classList.remove('disabled');
         }
+        filterPeriod($$('#statistic-games-summary-time-interval'), value);
     });
 
     on('date/statistic-games-summary-time-span-from', function (data) {

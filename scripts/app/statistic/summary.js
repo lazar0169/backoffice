@@ -17,6 +17,7 @@ let statisticSummary = function () {
             $$('#statistic-summary-time-span-from').classList.remove('disabled');
             $$('#statistic-summary-time-span-to').classList.remove('disabled');
         }
+        filterPeriod($$('#statistic-summary-time-interval'), value);
     });
 
     on('date/statistic-summary-time-span-from', function (data) {
