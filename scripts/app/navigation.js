@@ -53,13 +53,9 @@ const navigation = function () {
     });
 
     $$('#logo').addEventListener('click', function () {
-        if (isMobile) {
+        if (isMobile()) {
             $$('#sidebar').classList.remove('active');
         }
-    });
-
-    on('resize', function () {
-        document.body.classList[isMobile ? 'add' : 'remove']('mobile');
     });
 
     on('load', function () {
@@ -76,7 +72,7 @@ const navigation = function () {
         $$(`#${data.page}-${data.tab}`).classList.add('active');
         $$(`#${active.page}-navbar-${active.tab}`).classList.remove('active');
         $$(`#${data.page}-navbar-${data.tab}`).classList.add('active');
-        if (isMobile) {
+        if (isMobile()) {
             $$('#sidebar').classList.remove('active');
         }
         $$(`#${data.page}`).getElementsByClassName('tabs-wrapper')[0].classList.add('hidden');

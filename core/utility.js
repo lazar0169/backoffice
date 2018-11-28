@@ -11,11 +11,16 @@ function $$(selector) {
 }
 
 // Global flags
-let isAndroid = navigator.userAgent.toLowerCase().indexOf('android') > -1;
-let isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-let isIphone = navigator.platform && /iPhone|iPod/.test(navigator.platform);
-let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-// let isMobile = false;
+function isMobile() {
+    return navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)
+        || window.innerWidth < 580;
+};
 let isFirefox = typeof InstallTrigger !== 'undefined';
 let isSafari = navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
 let isEdge = /Edge\/\d./i.test(navigator.userAgent);

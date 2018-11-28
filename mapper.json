@@ -3,9 +3,9 @@
         "scripts": [
             "communication.js",
             "components/notify.js",
-            "app/responsive.js",
             "message.js",
-            "login.js"
+            "login.js",
+            "app/responsive.js"
         ],
         "styles": [
             "login.css",

@@ -153,12 +153,12 @@ let statisticGamesSummary = function () {
                     gamesSummaryChartRounds.data.datasets.length = 0;
                     gamesSummaryChartPayout.data.datasets.length = 0;
 
-                    // gamesSummaryChartTotalBet.options.legend.display = !isMobile;
-                    // gamesSummaryChartTotalWin.options.legend.display = !isMobile;
-                    // gamesSummaryChartRounds.options.legend.display = !isMobile;
-                    // gamesSummaryChartPayout.options.legend.display = !isMobile;
+                    // gamesSummaryChartTotalBet.options.legend.display = !isMobile();
+                    // gamesSummaryChartTotalWin.options.legend.display = !isMobile();
+                    // gamesSummaryChartRounds.options.legend.display = !isMobile();
+                    // gamesSummaryChartPayout.options.legend.display = !isMobile();
 
-                    $$('#statistic-games-summary-graphs').style.display = isMobile ? 'none' : 'block';
+                    $$('#statistic-games-summary-graphs').style.display = isMobile() ? 'none' : 'block';
 
                     gamesSummaryChartTotalBet.options.legend.position = 'right';
                     gamesSummaryChartTotalWin.options.legend.position = 'right';

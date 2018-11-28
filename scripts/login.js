@@ -8,10 +8,6 @@ const login = function () {
         $$("#login-remember").checked = !!localStorage.getItem('rememberLogin');
     }
 
-    on('resize', function () {
-        document.body.classList[isMobile ? 'add' : 'remove']('mobile');
-    });
-
     on('load', function () {
         addLoader($$('#login-form'));
         trigger('com/login/logged', {
