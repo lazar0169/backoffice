@@ -13,12 +13,8 @@
     display: none;
 }
 
-.mobile #rotate-device {
+.mobile .landscape #rotate-device {
     display: flex;
-}
-
-.mobile .portrait #rotate-device {
-    display: none;
 }
 
 #rotate-device #device-image {
