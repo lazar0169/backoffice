@@ -4,6 +4,7 @@ let operators = function () {
     let editModePortal = false;
     let timeZones = [];
     let currencies = [];
+    let availableCurrencies = [];
     let currenciesModel = {};
     let defaultJackpotSettings = {};
     let operatorData = {};
@@ -82,6 +83,8 @@ let operators = function () {
         gamesWrapper.innerHTML = '';
         portalsWrapper.innerHTML = '';
         currencyTimezoneWrapper.innerHTML = '';
+
+        filterCurrencies();
 
         $$('#operator-name').addEventListener('input', function () {
             if (this.value === '' || $$('#operators-portals').children[0].children.length === 0) {
@@ -205,8 +208,8 @@ let operators = function () {
         return {
             show: function (element, index) {
                 operatorsCurrencyWrapper.innerHTML = '';
-                operatorsCurrencyWrapper.appendChild(dropdown.generate(currencies, 'operator-portal-currency-code', 'Select currency'));
                 if (editModePortal) {
+                    operatorsCurrencyWrapper.appendChild(dropdown.generate(currencies, 'operator-portal-currency-code', 'Select currency'));
                     openedPortalData = element;
                     integrationType.value = element.integrationType;
                     gameLaunchURL.value = element.gameLaunchURL;
@@ -218,6 +221,7 @@ let operators = function () {
                     operatorsCurrencyWrapper.children[0].children[0].dataset.value = element.currencyId;
                     operatorsCurrencyWrapper.children[0].classList.add('disabled');
                 } else {
+                    operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
                     if (currencyId && $$('#operator-timezone-code').children[0].dataset.value) {
                         openedPortalData = {
@@ -299,6 +303,7 @@ let operators = function () {
                 blockingActiveCredit.value = '';
                 editModePortal = false;
                 modal.classList.remove('show');
+                filterCurrencies();
                 if (this.value === '' || $$('#operators-portals').children[0].children.length === 0) {
                     $$('#operators-form-save').classList.add('disabled');
                 } else {
@@ -363,6 +368,15 @@ let operators = function () {
         }
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
+    }
+
+    function filterCurrencies() {
+        availableCurrencies = currencies.filter((currency) => {
+            for (let portal of operatorData.portalSettingsList) {
+                if (portal.currencyId === currency.id) return false;
+            }
+            return true;
+        });
     }
 
     function generateModalData(data, type) {
