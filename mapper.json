@@ -14,6 +14,21 @@
             "app/rotation.css"
         ]
     },
+    "reset": {
+        "scripts": [
+            "communication.js",
+            "components/notify.js",
+            "message.js",
+            "reset.js",
+            "app/responsive.js"
+        ],
+        "styles": [
+            "reset.css",
+            "components/notify.css",
+            "loading.css",
+            "app/rotation.css"
+        ]
+    },
     "main": {
         "scripts": [
             "communication.js",

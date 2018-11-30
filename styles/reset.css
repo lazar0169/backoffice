@@ -1,0 +1,97 @@
+#reset {
+    background-image: url("../images/login-bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#reset-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #425269;
+    padding: 1rem 1.5rem;
+    box-shadow: 0.4rem 0.4rem #353e4f;
+}
+
+#reset-form input {
+    min-width: 15rem;
+}
+
+#reset-form button {
+    width: 100%;
+}
+
+#form-logo-wrapper {
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form.hidden {
+    display: none;
+}
+
+.form-logo {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.form-logo:nth-child(1) {
+    background-image: url("../images/logo.png");
+}
+
+.form-logo:nth-child(2) {
+    background-image: url("../images/fazi-logo.png");
+}
+
+/* ================== MOBILE  ================== */
+
+.mobile #reset-form {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+}
+
+.mobile .form-logo:nth-child(2) {
+    display: none;
+}
+
+.mobile .form-logo:nth-child(1) {
+    background-image: url("../images/logo2.png");
+}
+
+.mobile #form-logo-wrapper {
+    height: 45%;
+    margin-bottom: 3rem;
+}
+
+.mobile #reset-form input {
+    width: 100%;
+}
+
+.mobile label {
+    padding-left: 2.5rem;
+}

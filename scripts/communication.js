@@ -2,6 +2,9 @@ let comm = function () {
     const actions = {
         'comm/currency/get': '/Statistics/GetDefaultCurrencies',
 
+        // Reset
+        'comm/reset': '/Account/ChangePassword',
+
         // Login
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',

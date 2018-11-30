@@ -40,7 +40,8 @@ const login = function () {
                 addLoader(hyperlink);
                 trigger('com/login/password/reset', {
                     body: {
-                        userName: $$('#login-username').value
+                        userName: $$('#login-username').value,
+                        link: getLocation() + '/reset.html'
                     },
                     success: function (response) {
                         removeLoader(hyperlink);

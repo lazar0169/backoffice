@@ -20,7 +20,7 @@ let responsive = function () {
     });
 
     function resizeGame() {
-        let gameWindow = $$('#main-content') || $$('#login');
+        let gameWindow = $$('#main-content') || $$('#login') || $$('#reset');
         isLandscape = window.innerWidth > window.innerHeight && document.activeElement.tagName.toLowerCase() !== 'input';
         document.body.classList[isMobile() ? 'add' : 'remove']('mobile');
         isLandscape ? gameWindow.classList.add('landscape') : gameWindow.classList.remove('landscape');
