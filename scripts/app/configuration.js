@@ -438,7 +438,7 @@ let configuration = function () {
 
     function search(element, term) {
         for (let row of element.getElementsByTagName('td')) {
-            if (row.innerHTML.toLocaleLowerCase().includes(term)) {
+            if (row.innerHTML.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
                 row.parentNode.style.display = 'table-row';
             } else {
                 row.parentNode.style.display = 'none';

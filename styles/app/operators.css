@@ -203,10 +203,15 @@
     display: flex;
 }
 
-#operators-games,
 #operators-portals {
     overflow: auto;
     flex: 1;
+}
+
+#operators-games-wrapper,
+#operators-games-wrapper>.select,
+#operators-games-wrapper>.select>.selected {
+    width: 100%;
 }
 
 #operators-form-button-wrapper,

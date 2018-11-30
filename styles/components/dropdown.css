@@ -30,7 +30,7 @@
 }
 
 .options-wrapper {
-    background-color: #425269;
+    background-color: #434a5c;
     box-shadow: 0 0 0.5em 0.2em rgba(0, 0, 0, 0.15);
     transition: opacity 0.2s, transform 0.2s;
     position: absolute;
@@ -87,7 +87,12 @@
 }
 
 .mobile .options-wrapper {
-    top: 2.5em;
+    top: 0;
+    bottom: 0;
+    margin: auto 1em;
+    position: fixed;
+    height: 60%;
+    width: calc(100% - 2em);
 }
 
 .mobile .select {

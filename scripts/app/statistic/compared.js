@@ -146,25 +146,29 @@ let statisticCompared = function () {
                         data: tables.gamesBet,
                         id: 'statistic-compared-table-bet',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
                     let tableWin = table.generate({
                         data: tables.gamesWin,
                         id: 'statistic-compared-table-win',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
                     let tableRounds = table.generate({
                         data: tables.gamesRounds,
                         id: 'statistic-compared-table-rounds',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
                     let tablePayout = table.generate({
                         data: tables.gamesPayout,
                         id: 'statistic-compared-table-payout',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
 
                     comparedTableWrapper.appendChild(headerBet);

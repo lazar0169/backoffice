@@ -136,7 +136,8 @@ let statisticSummary = function () {
                                 text: '<span style="color: yellow;float: right;">&#9888;</span>',
                                 condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
                             }
-                        }
+                        },
+                        stickyCol: true
                     }));
                     table.preserveHeight(summaryTableWrapper);
 

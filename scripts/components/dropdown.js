@@ -34,9 +34,16 @@ let dropdown = function () {
                         dropdown.getSelected = function () {
                             return option.dataset.value;
                         };
+                        dropdown.getSelectedName = function () {
+                            return option.innerHTML;
+                        }
                     }
                     trigger(`${dropdown.id}/selected`, dropdown.getSelected());
                 });
+            }
+
+            if (isMultiple) {
+                dropdown.children[0].innerHTML = readCheck(dropdown, placeholder);
             }
 
             window.addEventListener('click', function (e) {
@@ -53,14 +60,26 @@ let dropdown = function () {
         function readCheck(dropdown, placeholder) {
             let selected = [];
             let ids = [];
+            let objects = [];
             for (let option of dropdown.children[1].children) {
                 if (option.children[0].checked) {
                     selected.push(option.children[1].innerHTML);
                     ids.push(option.children[0].dataset.id);
+                    objects.push({
+                        checked: option.children[0].checked,
+                        id: option.children[0].dataset.id,
+                        name: option.children[1].innerHTML
+                    });
                 }
             }
             dropdown.getSelected = function () {
                 return ids;
+            };
+            dropdown.getSelectedNames = function () {
+                return selected;
+            };
+            dropdown.getSelectedObject = function () {
+                return objects;
             };
             return selected.length !== 0 ? selected.join(', ') : placeholder;
         }
@@ -90,7 +109,7 @@ let dropdown = function () {
                     let input = document.createElement('input');
                     let label = document.createElement('label');
                     input.type = 'checkbox';
-                    input.checked = false;
+                    input.checked = option.checked || false;
                     input.dataset.id = option.id;
                     label.innerHTML = option.name || option.category;
                     label.title = option.name || option.category;
