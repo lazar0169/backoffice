@@ -98,6 +98,7 @@ let table = function () {
             let rowId = generateGuid();
             for (let col = 0; col < colsCount; col++) {
                 let cell = document.createElement('div');
+                let value = params.data[row][Object.keys(params.data[row])[col]];
                 // options
                 let sufix = '';
                 let prefix = '';
@@ -105,10 +106,15 @@ let table = function () {
                     sufix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.sufix.text : '';
                 }
                 if (params.options.prefix && params.options.prefix.text && params.options.prefix.col === Object.keys(params.data[row])[col]) {
-                    prefix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.prefix.text : '';
+                    prefix = params.options.prefix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.prefix.text : '';
                 }
                 // -----
-                cell.innerHTML = prefix + params.data[row][Object.keys(params.data[row])[col]] + sufix;
+                // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="color: limegreen;float: right;">&#9650;</span>"
+                // and value must be extracted
+                if (isNumber(value.split ? value.split('<span')[0] : value)) {
+                    cell.style.justifyContent = 'flex-end';
+                }
+                cell.innerHTML = prefix + value + sufix;
                 cell.className = col === 0 ? `first ${params.stickyCol ? 'sticky' : ''} cell` : 'cell';
                 cell.classList.add(`row-${rowId}`);
                 if (row === params.data.length - 1) cell.classList.add('last');

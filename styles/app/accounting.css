@@ -61,6 +61,10 @@
     width: 10em;
 }
 
+#accounting-reports-tables>.table .last {
+    background-color: #3e4a58;
+}
+
 /* SETUP */
 
 #accounting-setup>.page-content-wrapper {
@@ -368,6 +372,11 @@
 .mobile #accounting-reports-footer>div,
 .mobile #accounting-reports-header>div {
     margin: 0;
+    width: 100%;
+}
+
+.mobile #accounting-reports-filter button,
+.mobile #accounting-reports-filter #accounting-reports-reduction {
     width: 100%;
 }
 

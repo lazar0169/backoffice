@@ -38,6 +38,7 @@
             "components/table.js",
             "components/slider.js",
             "components/graph.js",
+            "message.js",
             "app/navigation.js",
             "app/responsive.js",
             "app/configuration.js",
@@ -48,7 +49,6 @@
             "app/statistic/gamesSummary.js",
             "app/statistic/perGame.js",
             "app/statistic/compared.js",
-            "message.js",
             "currency.js"
         ],
         "styles": [

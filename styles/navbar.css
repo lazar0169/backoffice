@@ -83,7 +83,7 @@
 
 .currency>.currency-wrapper {
     position: absolute;
-    top: 2.8em;
+    top: 2.3em;
     width: 100%;
     max-height: 15em;
     overflow: auto;
@@ -93,7 +93,7 @@
 }
 
 .currency>.currency-wrapper.hidden {
-    top: 0;
+    top: 0 !important;
     opacity: 0;
     pointer-events: none;
 }
@@ -207,6 +207,10 @@
 
 .mobile .navbar>.currency>.currency-select {
     height: 100%;
+}
+
+.mobile .currency .currency-wrapper {
+    top: 2.8em;
 }
 
 .mobile .currency .currency-wrapper a {

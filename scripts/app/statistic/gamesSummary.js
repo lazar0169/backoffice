@@ -184,10 +184,10 @@ let statisticGamesSummary = function () {
                             roundsData[game] = [];
                             payoutData[game] = [];
                             for (let row of response.result.operaterGamesStatistics[game]) {
-                                totalBetData[game].push(row.totalBet);
-                                totalWinData[game].push(row.totalWin);
-                                roundsData[game].push(row.rounds);
-                                payoutData[game].push(row.payout);
+                                totalBetData[game].push(convertToNumber(row.totalBet));
+                                totalWinData[game].push(convertToNumber(row.totalWin));
+                                roundsData[game].push(convertToNumber(row.rounds));
+                                payoutData[game].push(convertToNumber(row.payout));
                             }
                         }
 

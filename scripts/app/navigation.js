@@ -62,6 +62,19 @@ const navigation = function () {
         trigger(`dashboard/loaded`);
     });
 
+    addLoader($$('#sidebar-user'));
+    trigger('comm/configuration/profile/get', {
+        success: function (response) {
+            removeLoader($$('#sidebar-user'));
+            if (response.responseCode === message.codes.success) {
+                $$('#sidebar-user').children[1].innerHTML = response.result.name;
+            }
+        },
+        fail: function (err) {
+            removeLoader($$('#sidebar-user'));
+        }
+    });
+
     function to(data) {
         if (!data.page || !data.tab) return;
         $$(`#sidebar-${active.page}`).classList.remove('active');

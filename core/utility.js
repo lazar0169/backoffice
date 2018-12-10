@@ -197,3 +197,26 @@ function filterPeriod(element, period = 'custom') {
     }
 }
 
+function isFloat(n) {
+    return Number(n) === n && n % 1 !== 0;
+}
+
+function isInt(n) {
+    return Number(n) === n && n % 1 === 0;
+}
+
+function isNumber(value) {
+    if (value.replace) value = value.replace(/\s/g, '');
+    if (value === '') return false;
+    function check(val) {
+        return typeof val === typeof Number() && !isNaN(val);
+    }
+    return check(value)
+        || check(Number(value))
+        || check(Number(value.replace(/,/g, '')));
+}
+
+function convertToNumber(value) {
+    if (value.replace) value = value.replace(/\s/g, '').replace(/,/g, '');
+    return value !== '' && !isNaN(Number(value)) ? Number(value) : value;
+}

@@ -1,7 +1,7 @@
 let accounting = function () {
     let pageReports = $$('#accounting-reports-tables');
     let header = $$('#accounting-reports-header');
-    let footer = $$('#accounting-reports-footer');
+    // let footer = $$('#accounting-reports-footer');
     let taxEditMode = false;
     let openedId;
     let operatorData;
@@ -46,7 +46,7 @@ let accounting = function () {
     });
 
     function generateReport(data, sum) {
-        let array = data;
+        let array = JSON.parse(JSON.stringify(data));
         let title = sum.gameName;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
@@ -79,7 +79,7 @@ let accounting = function () {
 
     function generateHeadline(string) {
         let headline = document.createElement('h2');
-        headline.innerHTML = string;
+        headline.innerHTML = string.replace(' Sum', '');
         return headline;
     }
 
@@ -144,11 +144,12 @@ let accounting = function () {
         let portalsDropown = dropdown.generate(response.result, 'accounting-portals-list', 'Select portal', true);
         insertAfter(portalsDropown, $$('#accounting-operators-list'));
         $$('#accounting-get-reports').classList.remove('hidden');
-        $$('#accounting-get-reports').addEventListener('click', function () {
+
+        $$('#accounting-get-reports').onclick = function () {
             $$('#accounting-reports-download').classList.add('hidden');
             $$('#accounting-reports-download-excel').classList.add('hidden');
             $$('#accounting-reports-header').classList.add('hidden');
-            $$('#accounting-reports-footer').classList.add('hidden');
+            // $$('#accounting-reports-footer').classList.add('hidden');
             pageReports.innerHTML = '';
             let button = this;
             let data = {
@@ -171,7 +172,7 @@ let accounting = function () {
                         // Prepare pdf report
                         doc = new jsPDF('l', 'pt');
                         doc.setFontSize(9);
-                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${$$('#accounting-operators-list').children[0].innerHTML}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
+                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
                         doc.setFontSize(16);
                         docPageCount = 0;
 
@@ -190,21 +191,23 @@ let accounting = function () {
                         pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
                         pageReports.appendChild(generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum));
                         doc.addPage();
+                        pageReports.appendChild(document.createElement('hr'));
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
                         pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
 
                         table.preserveHeight(pageReports);
 
                         header.classList.remove('hidden');
-                        footer.classList.remove('hidden');
+                        // footer.classList.remove('hidden');
 
+                        $$('#accounting-reports-header-operator-value').innerHTML = response.result.operatorName;
                         $$('#accounting-reports-header-currency-value').innerHTML = response.result.casinoCurrency;
                         $$('#accounting-reports-header-period-value').innerHTML = response.result.period;
 
-                        $$('#accounting-reports-footer-tax-value').innerHTML = response.result.scaledTaxFee;
-                        $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
-                        $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
-                        $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
+                        // $$('#accounting-reports-footer-tax-value').innerHTML = response.result.scaledTaxFee;
+                        // $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
+                        // $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
+                        // $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
 
                         // Prepare excel data
                         excelData.operatorName = $$('#accounting-operators-list').children[0].innerHTML;
@@ -221,7 +224,7 @@ let accounting = function () {
                     removeLoader(button);
                 }
             });
-        });
+        };
     }
 
     // Creates operators list
@@ -529,7 +532,7 @@ let accounting = function () {
     on('accounting/reports/loaded', function () {
         pageReports.innerHTML = '';
         header.classList.add('hidden');
-        footer.classList.add('hidden');
+        // footer.classList.add('hidden');
         clearElement($$('#accounting-operators-list'));
         clearElement($$('#accounting-portals-list'));
         $$('#accounting-get-reports').classList.add('hidden');

@@ -30,6 +30,16 @@
     border-top-color: #000000;
 }
 
+.nav-item.static {
+    background-color: #434a5c;
+    color: #ffffff;
+    cursor: default;
+}
+
+.nav-item.static>span:nth-child(1) {
+    color: #feb940;
+}
+
 #logo {
     background-image: url("../images/logo.png");
     background-position: center;

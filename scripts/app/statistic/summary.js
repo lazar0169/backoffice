@@ -148,11 +148,11 @@ let statisticSummary = function () {
                     let payoutData = [];
 
                     for (let row of response.result.statisticsPerDate) {
-                        labels.push(row.period);
-                        totalBetData.push(row.totalBet);
-                        totalWinData.push(row.totalWin);
-                        roundsData.push(row.rounds);
-                        payoutData.push(row.payout);
+                        labels.push(convertToNumber(row.period));
+                        totalBetData.push(convertToNumber(row.totalBet));
+                        totalWinData.push(convertToNumber(row.totalWin));
+                        roundsData.push(convertToNumber(row.rounds));
+                        payoutData.push(convertToNumber(row.payout));
                     }
 
                     // summaryChartTotalBetWin.options.legend.dispay = !isMobile();
