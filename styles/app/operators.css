@@ -272,10 +272,8 @@
     text-transform: uppercase;
 }
 
-#operator-currency-timezone .select,
-#operator-currency-timezone .select .selected,
-#operator-portal-currency-code,
-#operator-portal-currency-code .selected {
+.select,
+.select .selected {
     width: 100%;
 }
 

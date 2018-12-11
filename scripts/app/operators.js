@@ -6,6 +6,7 @@ let operators = function () {
     let currencies = []; // userd for portals
     let defaultCurrencies = []; // userd for operators
     let availableCurrencies = [];
+    let integrationTypes = [];
     let currenciesModel = {};
     let defaultJackpotSettings = {};
     let operatorData = {};
@@ -56,6 +57,12 @@ let operators = function () {
                                 currenciesModel[currency.id] = currency.name;
                             }
                             defaultJackpotSettings = response.result.defaultJackpotSettings;
+                            integrationTypes = response.result.integrationTypes.map(integration => {
+                                return {
+                                    name: integration,
+                                    id: integration
+                                }
+                            });
                             createList(operatorsList);
                         } else {
                             trigger('message', response.responseCode);
@@ -202,19 +209,22 @@ let operators = function () {
         let modal = $$('#operators-form-portal');
         let operatorsCurrencyWrapper = $$('#operators-portal-currency');
         let gameLaunchURL = $$('#operator-game-launch-url');
-        let integrationType = $$('#operator-integration-type');
         let userName = $$('#operator-user-name');
         let password = $$('#operator-password');
+        let integrationTypeWrapper = $$('#operator-integration-type');
         let warrningActiveCredit = $$('#operator-warrning-active-credit');
         let blockingActiveCredit = $$('#operator-blocking-active-credit');
         $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'add' : 'remove']('edit');
         return {
             show: function (element, index) {
                 operatorsCurrencyWrapper.innerHTML = '';
+                integrationTypeWrapper.innerHTML = '';
+                integrationTypeWrapper.appendChild(dropdown.generate(integrationTypes, 'operator-integration-type', 'Integration Type'));
                 if (editModePortal) {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(currencies, 'operator-portal-currency-code', 'Select currency'));
                     openedPortalData = element;
-                    integrationType.value = element.integrationType;
+                    integrationTypeWrapper.children[0].children[0].innerHTML = element.integrationType;
+                    integrationTypeWrapper.children[0].children[0].dataset.value = element.integrationType;
                     gameLaunchURL.value = element.gameLaunchURL;
                     userName.value = element.userName;
                     password.value = element.password;
@@ -223,6 +233,7 @@ let operators = function () {
                     operatorsCurrencyWrapper.children[0].children[0].innerHTML = currenciesModel[element.currencyId];
                     operatorsCurrencyWrapper.children[0].children[0].dataset.value = element.currencyId;
                     operatorsCurrencyWrapper.children[0].classList.add('disabled');
+                    integrationTypeWrapper.children[0].classList.add('disabled');
                 } else {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
@@ -239,7 +250,6 @@ let operators = function () {
                         trigger('message', message.codes.invalidCurrencyAndTimeZone);
                         return;
                     }
-                    integrationType.value = '';
                     gameLaunchURL.value = '';
                     userName.value = '';
                     password.value = '';
@@ -260,7 +270,7 @@ let operators = function () {
 
                 $$('#operators-form-portal-save').onclick = function () {
                     if (!gameLaunchURL.value ||
-                        !integrationType.value ||
+                        !integrationTypeWrapper.children[0].getSelected() ||
                         !userName.value ||
                         !password.value ||
                         !warrningActiveCredit.value ||
@@ -270,7 +280,7 @@ let operators = function () {
                         return;
                     }
                     openedPortalData.gameLaunchURL = gameLaunchURL.value;
-                    openedPortalData.integrationType = integrationType.value;
+                    openedPortalData.integrationType = integrationTypeWrapper.children[0].getSelected();
                     openedPortalData.userName = userName.value;
                     openedPortalData.password = password.value;
                     openedPortalData.warrningActiveCredit = Number(warrningActiveCredit.value);
@@ -299,7 +309,6 @@ let operators = function () {
             },
             hide: function () {
                 gameLaunchURL.value = '';
-                integrationType.value = '';
                 userName.value = '';
                 password.value = '';
                 warrningActiveCredit.value = '';
