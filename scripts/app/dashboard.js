@@ -263,11 +263,11 @@ let dashboard = function () {
             for (let j = 0; j < keys.length; j++) {
                 row['Activity'] = transformCamelToRegular(rows[i]);
                 if (j === keys.length - 1 && data[keys[j]][rows[i]] > 0) {
-                    row[keys[j]] = data[keys[j]][rows[i]] + '<span style="color: limegreen;float: right;">&#9650;</span>'; //If change is positive
+                    row[keys[j]] = data[keys[j]][rows[i]] + '<span style="color: limegreen;float: right; margin-left: 0.8em;">&#9650;</span>'; //If change is positive
                 } else if (j === keys.length - 1 && data[keys[j]][rows[i]] < 0) {
-                    row[keys[j]] = data[keys[j]][rows[i]] + '<span style="color: red;float: right;">&#9660;</span>'; //If change is negative
+                    row[keys[j]] = data[keys[j]][rows[i]] + '<span style="color: red;float: right; margin-left: 0.8em;">&#9660;</span>'; //If change is negative
                 } else if (j === keys.length - 1 && data[keys[j]][rows[i]] == 0) {
-                    row[keys[j]] = data[keys[j]][rows[i]] + '<span style="color: sandybrown;float: right;">&#9644;</span>'; //If no change 
+                    row[keys[j]] = data[keys[j]][rows[i]] + '<span style="color: sandybrown;float: right; margin-left: 0.8em;">&#9644;</span>'; //If no change 
                 } else {
                     row[keys[j]] = data[keys[j]][rows[i]];
                 }

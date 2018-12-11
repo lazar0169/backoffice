@@ -109,7 +109,7 @@ let table = function () {
                     prefix = params.options.prefix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.prefix.text : '';
                 }
                 // -----
-                // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="color: limegreen;float: right;">&#9650;</span>"
+                // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
                 // and value must be extracted
                 if (isNumber(value.split ? value.split('<span')[0] : value)) {
                     cell.style.justifyContent = 'flex-end';
