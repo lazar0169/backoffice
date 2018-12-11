@@ -1,7 +1,7 @@
 let dashboard = function () {
     let main = $$('#dashboard-main').children[0];
     let jackpots = $$('#dashboard-jackpots').children[0];
-    let portals = $$('#dashboard-portals').children[0];
+    let portals = $$('#dashboard-portals-wrapper');
     let players = $$('#dashboard-players').children[0];
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
@@ -207,20 +207,52 @@ let dashboard = function () {
     on('dashboard/portals/loaded', function () {
         if (!dashboardData) return;
         portals.innerHTML = '';
+        let input = $$('#dashboard-portals-search');
+
+        input.addEventListener('input', function () {
+            search(portals, input.value);
+        });
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                search(portals, '');
+            }
+        });
+        input.addEventListener('blur', function () {
+            input.value = '';
+            search(portals, '');
+        });
+
+        input.value = '';
+        search(portals, '');
+
         for (let portal in dashboardData.portalsActivities) {
+            let wrapper = document.createElement('section');
+            wrapper.dataset.value = portal;
             let header = document.createElement('h2');
             header.innerHTML = portal;
-            portals.appendChild(header);
-            portals.appendChild(table.generate({
+            wrapper.appendChild(header);
+            wrapper.appendChild(table.generate({
                 data: parseData(dashboardData.portalsActivities[portal].activities),
                 id: '',
                 dynamic: false,
                 sticky: true,
                 stickyCol: true
             }));
+            portals.appendChild(wrapper);
         }
         table.preserveHeight(portals);
     });
+
+    function search(element, term) {
+        for (let section of element.getElementsByTagName('section')) {
+            if (section.dataset.value.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        }
+    }
 
     function parseData(data) {
         let keys = Object.keys(data);
