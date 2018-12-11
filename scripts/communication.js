@@ -46,6 +46,8 @@ let comm = function () {
         'comm/operators/get/single': '/Operator/GetOperator',
 
         // Configuration
+        'comm/configuration/parameters/get': '/Settings/GetUserParameters',
+
         'comm/configuration/actions/create': '/Settings/CreateAction',
         'comm/configuration/roles/create': '/Settings/CreateRole',
         'comm/configuration/users/create': '/Settings/CreateUser',

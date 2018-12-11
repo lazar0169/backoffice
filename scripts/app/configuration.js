@@ -5,6 +5,7 @@ let configuration = function () {
     let roles = {};
     let actions = {};
     let users = {};
+    let userParameters = {};
     let editMode = false;
     let openedId;
 
@@ -110,6 +111,7 @@ let configuration = function () {
         let wrapper;
 
         let userRole;
+        let userPortals;
         let userName = $$('#configuration-user-name');
         let userUsername = $$('#configuration-user-username');
         let userPassword = $$('#configuration-user-password');
@@ -131,8 +133,11 @@ let configuration = function () {
                 break;
             case 'users':
                 wrapper = form.getElementsByClassName('configuration-form-inputs')[0];
-                if (wrapper.getElementsByClassName('select')[0]) wrapper.getElementsByClassName('select')[0].remove();
-                wrapper.prepend(dropdown.generate(roles, 'configuration-user-role'));
+                if ($$('#configuration-user-role')) $$('#configuration-user-role').remove();
+                if ($$('#configuration-user-portals')) $$('#configuration-user-portals').remove();
+                wrapper.prepend(dropdown.generate(editMode ? data.portals : userParameters.portals, 'configuration-user-portals', 'Select user portals', true));
+                wrapper.prepend(dropdown.generate(userParameters.roles, 'configuration-user-role'));
+                userPortals = $$('#configuration-user-portals');
                 userRole = $$('#configuration-user-role');
                 userRole.getElementsByClassName('selected')[0].innerHTML = rolesJson[data.roleId];
                 userRole.getElementsByClassName('selected')[0].dataset.value = data.roleId;
@@ -149,7 +154,8 @@ let configuration = function () {
         for (let input of $$('#configuration-form-users').children[1].getElementsByTagName('input')) {
             input.oninput = function () {
                 if (
-                    !userRole.children[0].dataset.value ||
+                    !userRole.getSelected() ||
+                    !userPortals.getSelectedObject() ||
                     !userName.value ||
                     !userUsername.value ||
                     (!editMode && !userPassword.value) ||
@@ -292,7 +298,8 @@ let configuration = function () {
                             email: $$('#configuration-user-email').value,
                             phoneNumber: $$('#configuration-user-phone').value,
                             enabled: $$('#configuration-user-enabled').checked,
-                            roleId: $$('#configuration-user-role').children[0].dataset.value
+                            roleId: $$('#configuration-user-role').getSelected(),
+                            portals: $$('#configuration-user-portals').getAll()
                         };
                     } else {
                         trigger('message', message.codes.passwordsDontMatch);
@@ -388,21 +395,20 @@ let configuration = function () {
                 case 'actions':
                     data.action = {};
                     data.action.name = '';
-                    data.rolesList = getData('roles');
+                    data.rolesList = roles;
                     break;
                 case 'roles':
                     data.role = {};
                     data.role.name = '';
-                    data.actionsList = getData('actions');
+                    data.actionsList = actions;
                     break;
                 case 'users':
-                    data.email = "";
-                    data.name = "";
+                    data.email = '';
+                    data.name = '';
                     data.password = null;
-                    data.phoneNumber = "";
-                    let rolesList = getData('roles');
-                    data.roleId = rolesList[0] ? rolesList[0].id : '';
-                    data.userName = "";
+                    data.phoneNumber = '';
+                    data.roleId = userParameters.roles[0] ? userParameters.roles[0].id : '';
+                    data.userName = '';
                     break;
             }
             showModal(button.dataset.section, data)
@@ -446,17 +452,6 @@ let configuration = function () {
         }
     }
 
-    function getData(section) {
-        switch (section) {
-            case 'actions':
-                return actions;
-            case 'roles':
-                return roles;
-            case 'users':
-                return users;
-        }
-    }
-
     on('configuration/profile/loaded', function () {
         // TODO
     });
@@ -465,10 +460,11 @@ let configuration = function () {
     on('configuration/main/loaded', function () {
         addLoader($$('#sidebar-configuration'));
         let responses = 0;
+        let asyncRequests = 4;
         trigger('comm/configuration/actions/get', {
             success: function (response) {
                 responses++;
-                if (responses === 3) {
+                if (responses === asyncRequests) {
                     removeLoader($$('#sidebar-configuration'));
                 }
                 log(response);
@@ -487,13 +483,10 @@ let configuration = function () {
         trigger('comm/configuration/roles/get', {
             success: function (response) {
                 responses++;
-                if (responses === 3) {
+                if (responses === asyncRequests) {
                     removeLoader($$('#sidebar-configuration'));
                 }
                 if (response.responseCode === message.codes.success) {
-                    for (let role of response.result) {
-                        rolesJson[role.id] = role.name;
-                    }
                     roles = response.result;
                     createList('roles', response.result);
                 } else {
@@ -508,12 +501,33 @@ let configuration = function () {
         trigger('comm/configuration/users/get', {
             success: function (response) {
                 responses++;
-                if (responses === 3) {
+                if (responses === asyncRequests) {
                     removeLoader($$('#sidebar-configuration'));
                 }
                 if (response.responseCode === message.codes.success) {
                     users = response.result;
                     createList('users', response.result);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-configuration'));
+            }
+        });
+
+        trigger('comm/configuration/parameters/get', {
+            success: function (response) {
+                responses++;
+                if (responses === asyncRequests) {
+                    removeLoader($$('#sidebar-configuration'));
+                }
+                if (response.responseCode === message.codes.success) {
+                    userParameters = response.result;
+                    rolesJson = {};
+                    for (let role of response.result.roles) {
+                        rolesJson[role.id] = role.name;
+                    }
                 } else {
                     trigger('message', response.responseCode);
                 }
