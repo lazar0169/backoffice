@@ -172,6 +172,7 @@
     display: flex;
 }
 
+.configuration-form-wrapper .select,
 .configuration-form-wrapper .selected {
     width: 100%;
 }

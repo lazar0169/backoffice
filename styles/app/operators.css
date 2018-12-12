@@ -272,8 +272,8 @@
     text-transform: uppercase;
 }
 
-.select,
-.select .selected {
+#operators-form .select,
+#operators-form .select .selected {
     width: 100%;
 }
 

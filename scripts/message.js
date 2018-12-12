@@ -102,6 +102,7 @@ const message = function () {
     };
 
     on('message', function (data) {
+        if (!data) return;
         let code = data[0];
         let message;
         if (code === undefined) {

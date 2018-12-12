@@ -5,6 +5,9 @@ let comm = function () {
         // Reset
         'comm/reset': '/Account/ChangePassword',
 
+        // Roles
+        'comm/user/role': '/Account/GetUserRole',
+
         // Login
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',
@@ -29,6 +32,7 @@ let comm = function () {
         'comm/accounting/operators/get': '/Accounting/GetOperators',
         'comm/accounting/portals/get': '/Accounting/GetPortalsByOperatorId',
         'comm/accounting/get': '/Accounting/GetAccounting',
+        'comm/accounting/manager/get': '/Accounting/GetManagerAccounting',
 
         'comm/accounting/excel/get': '/Accounting/ToExcel',
 
@@ -105,22 +109,24 @@ let comm = function () {
         });
     }
 
-    function connect(action, data = {}) {
+    function connect(action, data = {}, callerAction) {
         get(action, {
             success: function (response) {
                 data.success = data.success || function () { }
                 data.success(response);
+                loading.validate(callerAction);
             },
             fail: function (err) {
                 data.fail = data.fail || function () { }
                 data.fail(err);
+                loading.validate(callerAction);
             }
         }, data.body);
     }
 
     for (let action in actions) {
         on(action, function (data) {
-            connect(actions[action], data);
+            connect(actions[action], data, action);
         });
     }
 }();

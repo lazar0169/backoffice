@@ -126,6 +126,10 @@ let dropdown = function () {
                 }
                 wrapper.appendChild(optionElement);
             }
+        } else {
+            let placeholder = document.createElement('span');
+            placeholder.id = id;
+            return placeholder;
         }
 
         select.appendChild(selected);

@@ -39,6 +39,8 @@
             "components/slider.js",
             "components/graph.js",
             "message.js",
+            "loading.js",
+            "roles.js",
             "app/navigation.js",
             "app/responsive.js",
             "app/configuration.js",
@@ -65,7 +67,8 @@
             "app/operators.css",
             "app/accounting.css",
             "app/dashboard.css",
-            "app/statistic.css"
+            "app/statistic.css",
+            "roles.css"
         ]
     }
 }

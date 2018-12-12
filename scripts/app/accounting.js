@@ -13,6 +13,11 @@ let accounting = function () {
         operatorAccounting: {}
     };
 
+    let actionByRoles = {
+        'admin': 'comm/accounting/get',
+        'manager': 'comm/accounting/manager/get'
+    }
+
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
 
@@ -113,7 +118,7 @@ let accounting = function () {
         if (response.responseCode === message.codes.success) {
             clearElement($$('#accounting-operators-list'));
             let operatorsDropdown = dropdown.generate(response.result, 'accounting-operators-list', 'Select operator');
-            insertAfter(operatorsDropdown, $$('#accounting-time-span-to'));
+            $$('#accounting-operators-list-wrapper').appendChild(operatorsDropdown);
 
             on('accounting-operators-list/selected', function (value) {
                 addLoader($$('#accounting-reports-filter'));
@@ -134,6 +139,13 @@ let accounting = function () {
                     }
                 });
             });
+
+            switch (roles.getRole()) {
+                case 'manager':
+                    trigger('accounting-operators-list/selected', 0);
+                    break;
+            }
+
         } else {
             trigger('message', response.responseCode);
         }
@@ -142,7 +154,7 @@ let accounting = function () {
     function populateFilter(response) {
         clearElement($$('#accounting-portals-list'));
         let portalsDropown = dropdown.generate(response.result, 'accounting-portals-list', 'Select portal', true);
-        insertAfter(portalsDropown, $$('#accounting-operators-list'));
+        $$('#accounting-portals-list-wrapper').appendChild(portalsDropown);
         $$('#accounting-get-reports').classList.remove('hidden');
 
         $$('#accounting-get-reports').onclick = function () {
@@ -152,19 +164,33 @@ let accounting = function () {
             // $$('#accounting-reports-footer').classList.add('hidden');
             pageReports.innerHTML = '';
             let button = this;
-            let data = {
-                timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
-                fromDate: reportsFromDate,
-                toDate: reportsToDate,
-                operaterId: $$('#accounting-operators-list').getSelected(),
-                portalIds: $$('#accounting-portals-list').getSelected(),
-                bonusRate: $$('#accounting-reports-bonus-rate').get(),
-                deduction: $$('#accounting-reports-deduction').get(),
-                reduction: $$('#accounting-reports-reduction').value || 0
+            let data;
+
+            switch (roles.getRole()) {
+                case 'admin':
+                    data = {
+                        timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
+                        fromDate: reportsFromDate,
+                        toDate: reportsToDate,
+                        operaterId: $$('#accounting-operators-list').getSelected(),
+                        portalIds: $$('#accounting-portals-list').getSelected(),
+                        bonusRate: $$('#accounting-reports-bonus-rate').get(),
+                        deduction: $$('#accounting-reports-deduction').get(),
+                        reduction: $$('#accounting-reports-reduction').value || 0
+                    }
+                    break;
+                case 'manager':
+                    data = {
+                        timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
+                        fromDate: reportsFromDate,
+                        toDate: reportsToDate,
+                        portalIds: $$('#accounting-portals-list').getSelected(),
+                    }
+                    break;
             }
 
             addLoader(button);
-            trigger('comm/accounting/get', {
+            trigger(actionByRoles[roles.getRole()], {
                 body: data,
                 success: function (response) {
                     removeLoader(button);
@@ -210,7 +236,7 @@ let accounting = function () {
                         // $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
 
                         // Prepare excel data
-                        excelData.operatorName = $$('#accounting-operators-list').children[0].innerHTML;
+                        excelData.operatorName = response.result.operatorName;
                         excelData.operatorAccounting = response.result;
 
                         // Enable download button
@@ -542,6 +568,15 @@ let accounting = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
+
+                    switch (roles.getRole()) {
+                        case 'manager':
+                            response = {
+                                responseCode: 1000
+                            };
+                            break;
+                    }
+
                     afterLoad(response);
                 } else {
                     trigger('message', response.responseCode);
