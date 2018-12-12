@@ -128,6 +128,7 @@ let dropdown = function () {
             }
         } else {
             let placeholder = document.createElement('span');
+            placeholder.style.display = 'none';
             placeholder.id = id;
             return placeholder;
         }
