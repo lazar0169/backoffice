@@ -5,6 +5,7 @@
             "components/notify.js",
             "message.js",
             "login.js",
+            "loading.js",
             "app/responsive.js"
         ],
         "styles": [
@@ -20,6 +21,7 @@
             "components/notify.js",
             "message.js",
             "reset.js",
+            "loading.js",
             "app/responsive.js"
         ],
         "styles": [

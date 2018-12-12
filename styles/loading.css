@@ -44,9 +44,14 @@
     z-index: 5;
     background-color: #434a5c;
     color: white;
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#loading-log {
+    margin-top: 1em;
 }
 
 #loading.hidden {
