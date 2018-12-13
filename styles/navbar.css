@@ -24,7 +24,7 @@
 }
 
 .navbar a.active {
-    color: #ffffff;
+    color: #ffcf58;
     border-bottom: solid 2px #feb940;
 }
 
@@ -161,6 +161,10 @@
     float: left;
     padding: 0.7em;
     background-color: #3d4552;
+}
+
+.mobile .navbar a {
+    height: auto;
 }
 
 .mobile .navbar>button {
