@@ -1,5 +1,5 @@
 #statistic .datepicker.disabled {
-    display: none;
+    display: none !important;
 }
 
 #statistic-summary-filter,
@@ -21,7 +21,7 @@
 #statistic-get-compared.hidden,
 #statistic-get-per-game.hidden,
 #statistic-get-games-summary.hidden {
-    display: none;
+    display: none !important;
 }
 
 #statistic-get-summary,
@@ -36,7 +36,7 @@
 #statistic-compared-graphs.hidden,
 #statistic-per-game-graphs.hidden,
 #statistic-games-summary-graphs.hidden {
-    display: none;
+    display: none !important;
 }
 
 #statistic-summary-table .last,

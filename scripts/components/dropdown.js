@@ -127,10 +127,7 @@ let dropdown = function () {
                 wrapper.appendChild(optionElement);
             }
         } else {
-            let placeholder = document.createElement('span');
-            placeholder.style.display = 'none';
-            placeholder.id = id;
-            return placeholder;
+            select.style.display = 'none';
         }
 
         select.appendChild(selected);
