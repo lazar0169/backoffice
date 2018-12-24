@@ -55,8 +55,6 @@ function log(msg) {
 
 let loadElements = [];
 
-let blockUi = function () { return; };
-
 function addLoader(element) {
     if (element.getElementsByClassName('loading').length > 0) return;
     let loader = document.createElement('span');
@@ -70,7 +68,10 @@ function addLoader(element) {
 }
 
 function removeLoader(element) {
-    if (!element.getElementsByClassName('loading')[0]) return;
+    if (!element.getElementsByClassName('loading')[0]) {
+        if ($$('#block-ui')) $$('#block-ui').remove();
+        return;
+    };
     element.getElementsByClassName('loading')[0].remove();
     $$('#block-ui').remove();
     trigger('message/hide');

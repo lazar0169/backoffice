@@ -70,30 +70,8 @@ let dashboard = function () {
     });
     let dashboardData;
 
-    on('dashboard/loaded', function () {
-        main.innerHTML = '';
-        addLoader($$('#sidebar-dashboard'));
-        trigger('comm/dashboard/get', {
-            success: function (response) {
-                removeLoader($$('#sidebar-dashboard'));
-                if (response.responseCode === message.codes.success) {
-                    dashboardData = response.result;
-                    main.appendChild(table.generate({
-                        data: parseData(dashboardData.activities.activities),
-                        id: 'dashboard-table',
-                        dynamic: false,
-                        sticky: true,
-                        stickyCol: true
-                    }));
-                } else {
-                    trigger('message', response.responseCode);
-                }
-            },
-            fail: function () {
-                removeLoader($$('#sidebar-dashboard'));
-            }
-        });
-    });
+    on('dashboard/loaded', getDashboard);
+    on('currency/dashboard', getDashboard);
 
     on('dashboard/jackpots/loaded', function () {
         if (!dashboardData) return;
@@ -243,6 +221,31 @@ let dashboard = function () {
         }
         table.preserveHeight(portals);
     });
+
+    function getDashboard() {
+        main.innerHTML = '';
+        addLoader($$('#sidebar-dashboard'));
+        trigger('comm/dashboard/get', {
+            success: function (response) {
+                removeLoader($$('#sidebar-dashboard'));
+                if (response.responseCode === message.codes.success) {
+                    dashboardData = response.result;
+                    main.appendChild(table.generate({
+                        data: parseData(dashboardData.activities.activities),
+                        id: 'dashboard-table',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true
+                    }));
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-dashboard'));
+            }
+        });
+    }
 
     function search(element, term) {
         for (let section of element.getElementsByTagName('section')) {

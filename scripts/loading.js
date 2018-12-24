@@ -5,6 +5,7 @@ let loading = function () {
         'comm/user/role': false,
         'comm/configuration/profile/get': false,
         'comm/dashboard/get': false,
+        'comm/currency/getAll': false,
         'comm/currency/get': false
     }
     let total = Object.keys(conditions).length;
@@ -13,7 +14,8 @@ let loading = function () {
         if (conditions[action] !== undefined) {
             conditions[action] = true;
             passed++
-            $$('#loading-precentage').innerHTML = `LOADING &nbsp;&nbsp; ${Math.ceil((total / passed) * 100)}%`;
+            let percentage = Math.ceil(Number(passed / total) * 100);
+            $$('#loading-precentage').innerHTML = `LOADING &nbsp;&nbsp; ${percentage}%`;
             if (_config.development) {
                 let log = document.createElement('pre');
                 log.innerHTML = `Processing: ${action}`;

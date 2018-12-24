@@ -23,7 +23,7 @@ let dropdown = function () {
 
             for (let option of dropdown.children[1].children) {
                 option.addEventListener('click', function (e) {
-                    event.preventDefault();
+                    e.preventDefault();
                     e.stopPropagation();
                     if (isMultiple) {
                         option.children[0].checked = !option.children[0].checked;

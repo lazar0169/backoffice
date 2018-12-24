@@ -1,6 +1,9 @@
 let comm = function () {
     const actions = {
-        'comm/currency/get': '/Statistics/GetDefaultCurrencies',
+        // Currency
+        'comm/currency/getAll': '/Statistics/GetDefaultCurrencies',
+        'comm/currency/set': '/Account/SetCurrency',
+        'comm/currency/get': '/Account/GetCurrency',
 
         // Reset
         'comm/reset': '/Account/ChangePassword',
@@ -16,7 +19,7 @@ let comm = function () {
         'com/login/logged': '/Account/IsLoggedIn',
 
         // Dashboard
-        'comm/dashboard/get': '/Dashboard/GetDashboardResult',
+        'comm/dashboard/get': '/Dashboard/GetDashboard',
 
         // Statistics
         'comm/statistic/game/categories/get': '/Statistics/GetGameCategories',
