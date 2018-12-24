@@ -41,8 +41,16 @@ let table = function () {
 
         let colsCount = Object.keys(params.data[0]).length;
         let tbody = document.createElement('div');
-        tbody.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
-        tbody.style.gridTemplateRows = `repeat(${params.data.length}, 1fr)`;
+        let gridTemplateColumns = '';
+        let gridTemplateRows = '';
+        for (let fr = 0; fr < colsCount; fr++) {
+            gridTemplateColumns += '1fr ';
+        }
+        for (let fr = 0; fr < params.data.length; fr++) {
+            gridTemplateRows += '1fr ';
+        }
+        tbody.style.gridTemplateColumns = `${gridTemplateColumns}`;
+        tbody.style.gridTemplateRows = `${gridTemplateRows}`;
         tbody.id = params.id;
         tbody.className = 'tbody';
 
