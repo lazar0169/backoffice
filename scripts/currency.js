@@ -17,7 +17,7 @@ let currency = function () {
                     addLoader(droppdown.children[0]);
                     droppdown.children[1].classList.add('hidden');
                     trigger('comm/currency/set', {
-                        body: { id: Number(selected.id) },
+                        body: { id: Number(option.dataset.id) },
                         success: function (response) {
                             removeLoader(droppdown.children[0]);
                             if (response.responseCode === message.codes.success) {
