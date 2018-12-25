@@ -119,7 +119,7 @@ let table = function () {
                 // -----
                 // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
                 // and value must be extracted
-                if (isNumber(value.split ? value.split('<span')[0] : value)) {
+                if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
                     cell.style.justifyContent = 'flex-end';
                 }
                 cell.innerHTML = prefix + value + sufix;
