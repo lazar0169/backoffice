@@ -14,7 +14,11 @@ let statisticCompared = function () {
             $$('#statistic-compared-time-span-from').classList.remove('disabled');
             $$('#statistic-compared-time-span-to').classList.remove('disabled');
         }
-        filterPeriod($$('#statistic-compared-time-interval'), value);
+        let firstAvailable = filterPeriod($$('#statistic-compared-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-compared-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-compared-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-compared-time-span-from', function (data) {

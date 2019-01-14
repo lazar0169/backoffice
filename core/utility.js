@@ -189,13 +189,18 @@ function filterPeriod(element, period = 'custom') {
         'LastYear': [2, 3]
     };
 
+    let firstAvailable;
+
     for (let option of element.getElementsByClassName('option')) {
         if (map[period].includes(Number(option.dataset.value))) {
             option.style.display = 'block';
+            if (!firstAvailable) firstAvailable = { value: option.dataset.value, name: option.innerHTML };
         } else {
             option.style.display = 'none';
         }
     }
+
+    return firstAvailable;
 }
 
 function isFloat(n) {
@@ -218,6 +223,6 @@ function isNumber(value) {
 }
 
 function convertToNumber(value) {
-    if (value.replace) value = value.replace(/\s/g, '').replace(/,/g, '');
+    if (value.replace) value = value.replace(/\s/g, '').replace(/,/g, '').replace(/%/g, '');
     return value !== '' && !isNaN(Number(value)) ? Number(value) : value;
 }

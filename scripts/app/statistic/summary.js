@@ -17,7 +17,11 @@ let statisticSummary = function () {
             $$('#statistic-summary-time-span-from').classList.remove('disabled');
             $$('#statistic-summary-time-span-to').classList.remove('disabled');
         }
-        filterPeriod($$('#statistic-summary-time-interval'), value);
+        let firstAvailable = filterPeriod($$('#statistic-summary-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-summary-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-summary-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-summary-time-span-from', function (data) {

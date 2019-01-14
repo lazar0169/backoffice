@@ -16,7 +16,11 @@ let statisticPerGame = function () {
             $$('#statistic-per-game-time-span-from').classList.remove('disabled');
             $$('#statistic-per-game-time-span-to').classList.remove('disabled');
         }
-        filterPeriod($$('#statistic-per-game-time-interval'), value);
+        let firstAvailable = filterPeriod($$('#statistic-per-game-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-per-game-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-per-game-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-per-game-time-span-from', function (data) {

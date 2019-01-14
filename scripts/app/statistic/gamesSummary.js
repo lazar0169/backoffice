@@ -18,7 +18,11 @@ let statisticGamesSummary = function () {
             $$('#statistic-games-summary-time-span-from').classList.remove('disabled');
             $$('#statistic-games-summary-time-span-to').classList.remove('disabled');
         }
-        filterPeriod($$('#statistic-games-summary-time-interval'), value);
+        let firstAvailable = filterPeriod($$('#statistic-games-summary-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-games-summary-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-games-summary-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-games-summary-time-span-from', function (data) {
