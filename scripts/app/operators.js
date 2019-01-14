@@ -212,7 +212,7 @@ let operators = function () {
         let userName = $$('#operator-user-name');
         let password = $$('#operator-password');
         let integrationTypeWrapper = $$('#operator-integration-type');
-        let warrningActiveCredit = $$('#operator-warrning-active-credit');
+        let warningActiveCredit = $$('#operator-warning-active-credit');
         let blockingActiveCredit = $$('#operator-blocking-active-credit');
         return {
             show: function (element, index) {
@@ -228,7 +228,7 @@ let operators = function () {
                     gameLaunchURL.value = element.gameLaunchURL;
                     userName.value = element.userName;
                     password.value = element.password;
-                    warrningActiveCredit.value = element.warrningActiveCredit;
+                    warningActiveCredit.value = element.warningActiveCredit;
                     blockingActiveCredit.value = element.blockingActiveCredit;
                     operatorsCurrencyWrapper.children[0].children[0].innerHTML = currenciesModel[element.currencyId];
                     operatorsCurrencyWrapper.children[0].children[0].dataset.value = element.currencyId;
@@ -253,7 +253,7 @@ let operators = function () {
                     gameLaunchURL.value = '';
                     userName.value = '';
                     password.value = '';
-                    warrningActiveCredit.value = '';
+                    warningActiveCredit.value = '';
                     blockingActiveCredit.value = '';
                 }
                 for (let button of $$('.operators-form-jackpot-button')) {
@@ -273,7 +273,7 @@ let operators = function () {
                         !integrationTypeWrapper.children[0].getSelected() ||
                         !userName.value ||
                         !password.value ||
-                        !warrningActiveCredit.value ||
+                        !warningActiveCredit.value ||
                         !blockingActiveCredit.value ||
                         !operatorsCurrencyWrapper.children[0].children[0].dataset.value) {
                         trigger('message', message.codes.badParameter);
@@ -283,7 +283,7 @@ let operators = function () {
                     openedPortalData.integrationType = integrationTypeWrapper.children[0].getSelected();
                     openedPortalData.userName = userName.value;
                     openedPortalData.password = password.value;
-                    openedPortalData.warrningActiveCredit = Number(warrningActiveCredit.value);
+                    openedPortalData.warningActiveCredit = Number(warningActiveCredit.value);
                     openedPortalData.blockingActiveCredit = Number(blockingActiveCredit.value);
                     openedPortalData.currencyId = Number(operatorsCurrencyWrapper.children[0].children[0].dataset.value);
                     openedPortalData.portal.name = `${$$('#operator-name').value} ${$$('#operator-portal-currency-code').children[0].innerHTML}`;
@@ -311,7 +311,7 @@ let operators = function () {
                 gameLaunchURL.value = '';
                 userName.value = '';
                 password.value = '';
-                warrningActiveCredit.value = '';
+                warningActiveCredit.value = '';
                 blockingActiveCredit.value = '';
                 editModePortal = false;
                 modal.classList.remove('show');

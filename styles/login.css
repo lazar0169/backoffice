@@ -43,7 +43,8 @@
     width: 100%;
 }
 
-.form.hidden {
+.form.hidden,
+#warning-safari-modal.hidden {
     display: none;
 }
 
@@ -82,6 +83,32 @@
     text-align: center;
     margin-top: 1em;
     color: white !important;
+}
+
+#warning-safari-modal {
+    position: absolute;
+    display: flex;
+    width: 80%;
+    margin: auto;
+    flex-direction: column;
+    background-color: #425269;
+    border: 1px solid #313c4a;
+    box-shadow: 0 0 0.8em 0.1em #353e4f;
+    box-sizing: border-box;
+    padding: 1em;
+}
+
+#warning-modal-title {
+    height: 3em;
+    display: flex;
+    align-items: center;
+}
+
+#warning-modal-title b {
+    color: #fdba41;
+    font-size: 2em;
+    line-height: 1em;
+    margin-right: 0.5em;
 }
 
 /* ================== MOBILE  ================== */

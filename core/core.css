@@ -290,6 +290,12 @@ p {
     margin-top: 30px;
 }
 
+pre {
+    color: #fdba41;
+    padding: 0.1em 0.3em;
+    display: inline;
+}
+
 /* ================== MOBILE  ================== */
 
 .mobile label {

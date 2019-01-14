@@ -8,7 +8,7 @@ let notify = function () {
     let types = {
         0: 'info', // permanent info (24h timeout)
         1: 'info',
-        2: 'warrning',
+        2: 'warning',
         3: 'error',
         4: 'success'
     };
