@@ -54,6 +54,10 @@
     margin-top: 1em;
 }
 
+#loading-log pre {
+    display: block;
+}
+
 #loading.hidden {
     display: none;
 }
