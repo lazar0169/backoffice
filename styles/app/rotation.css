@@ -13,7 +13,7 @@
     display: none;
 }
 
-.mobile .landscape #rotate-device {
+.mobile.landscape #rotate-device {
     display: flex;
 }
 

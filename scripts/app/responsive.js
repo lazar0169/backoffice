@@ -1,5 +1,6 @@
 let responsive = function () {
     let isLandscape = false;
+    let ratio = 4 / 3;
 
     window.addEventListener('resize', function () {
         resizeGame();
@@ -23,6 +24,7 @@ let responsive = function () {
         let gameWindow = $$('#main-content') || $$('#login') || $$('#reset');
         isLandscape = window.innerWidth > window.innerHeight && document.activeElement.tagName.toLowerCase() !== 'input';
         document.body.classList[isMobile() ? 'add' : 'remove']('mobile');
-        isLandscape ? gameWindow.classList.add('landscape') : gameWindow.classList.remove('landscape');
+        if (isMobile()) document.body.style.minHeight = window.innerWidth * ratio + 'px';
+        isLandscape ? document.body.classList.add('landscape') : document.body.classList.remove('landscape');
     }
 }();
