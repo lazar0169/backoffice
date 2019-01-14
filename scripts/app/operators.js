@@ -214,12 +214,12 @@ let operators = function () {
         let integrationTypeWrapper = $$('#operator-integration-type');
         let warrningActiveCredit = $$('#operator-warrning-active-credit');
         let blockingActiveCredit = $$('#operator-blocking-active-credit');
-        $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'add' : 'remove']('edit');
         return {
             show: function (element, index) {
                 operatorsCurrencyWrapper.innerHTML = '';
                 integrationTypeWrapper.innerHTML = '';
                 integrationTypeWrapper.appendChild(dropdown.generate(integrationTypes, 'operator-integration-type', 'Integration Type'));
+                $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'remove' : 'add']('edit');
                 if (editModePortal) {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(currencies, 'operator-portal-currency-code', 'Select currency'));
                     openedPortalData = element;
@@ -293,7 +293,7 @@ let operators = function () {
                         operatorData.portalSettingsList.push(openedPortalData);
                     }
                     refreshPortalList();
-                    if (operatorData.portalSettingsList.length > 0 && $$('#operator-name').innerHTML !== '') {
+                    if (operatorData.portalSettingsList.length > 0 && $$('#operator-name').value !== '') {
                         $$('#operators-form-save').classList.remove('disabled');
                     }
                     portalModal.hide();
@@ -316,7 +316,7 @@ let operators = function () {
                 editModePortal = false;
                 modal.classList.remove('show');
                 filterCurrencies();
-                if (this.value === '' || $$('#operators-portals').children[0].children.length === 0) {
+                if ($$('#operator-name').value === '' || $$('#operators-portals').children[0].children.length === 0) {
                     $$('#operators-form-save').classList.add('disabled');
                 } else {
                     $$('#operators-form-save').classList.remove('disabled');
