@@ -237,6 +237,7 @@ let dashboard = function () {
                         sticky: true,
                         stickyCol: true
                     }));
+                    table.preserveHeight(main);
                 } else {
                     trigger('message', response.responseCode);
                 }
