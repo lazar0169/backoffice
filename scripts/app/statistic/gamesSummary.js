@@ -4,6 +4,7 @@ let statisticGamesSummary = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let gamesSummaryButton = $$('#statistic-get-games-summary');
     let gamesSummaryTableWrapper = $$('#statistic-games-summary-table');
+    let gamesSummaryHeader = $$('#statistic-games-summary-header');
     let gamesSummaryChartTotalBet = graph.generate($$('#statistic-games-summary-graphs').children[0], 'line');
     let gamesSummaryChartTotalWin = graph.generate($$('#statistic-games-summary-graphs').children[1], 'line');
     let gamesSummaryChartRounds = graph.generate($$('#statistic-games-summary-graphs').children[2], 'line');
@@ -39,6 +40,7 @@ let statisticGamesSummary = function () {
         clearElement($$('#statistic-games-summary-operators'));
         clearElement($$('#statistic-games-summary-portals'));
         gamesSummaryTableWrapper.innerHTML = '';
+        gamesSummaryHeader.innerHTML = '';
         gamesSummaryButton.classList.add('hidden');
         $$('#statistic-games-summary-graphs').classList.add('hidden');
         requested = false;
@@ -159,6 +161,8 @@ let statisticGamesSummary = function () {
                         stickyCol: true
                     }));
                     table.preserveHeight(gamesSummaryTableWrapper);
+
+                    gamesSummaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
 
                     let labels = [];
                     let games = [];

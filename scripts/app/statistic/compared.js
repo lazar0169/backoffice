@@ -4,6 +4,7 @@ let statisticCompared = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let comparedButton = $$('#statistic-get-compared');
     let comparedTableWrapper = $$('#statistic-compared-table');
+    let comparedHeader = $$('#statistic-compared-header');
     let requested = false;
 
     let defaultSelectionValue = 'LastMonth';
@@ -35,6 +36,7 @@ let statisticCompared = function () {
         clearElement($$('#statistic-compared-operators'));
         clearElement($$('#statistic-compared-portals'));
         comparedTableWrapper.innerHTML = '';
+        comparedHeader.innerHTML = '';
         comparedButton.classList.add('hidden');
         requested = false;
 
@@ -158,7 +160,7 @@ let statisticCompared = function () {
                     headerRounds.innerHTML = '<h2>Table Rounds:</h2> <div id="compared-disabled-games-rounds" class="header-games-list"></div>';
                     headerPayout.innerHTML = '<h2>Table Payout (%):</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
-                    comparedTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}</h2?`;
+                    comparedHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}`;
 
                     let tableBet = table.generate({
                         data: tables.gamesBet,

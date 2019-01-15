@@ -5,6 +5,7 @@ let statisticPerGame = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let perGameButton = $$('#statistic-get-per-game');
     let perGameTableWrapper = $$('#statistic-per-game-table');
+    let perGameHeader = $$('#statistic-per-game-header');
     let getGamesEvent;
     let requested = false;
 
@@ -37,6 +38,7 @@ let statisticPerGame = function () {
         clearElement($$('#statistic-per-game-operators'));
         clearElement($$('#statistic-per-game-portals'));
         perGameTableWrapper.innerHTML = '';
+        perGameHeader.innerHTML = '';
         perGameButton.classList.add('hidden');
         requested = false;
 
@@ -168,7 +170,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
                     summary.push(response.result.sum);
-                    perGameTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}</h2?`;
+                    perGameHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',

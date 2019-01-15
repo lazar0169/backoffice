@@ -4,6 +4,7 @@ let statisticSummary = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let summaryButton = $$('#statistic-get-summary');
     let summaryTableWrapper = $$('#statistic-summary-table');
+    let summaryHeader = $$('#statistic-summary-header');
     let summaryChartTotalBetWin = graph.generate($$('#statistic-summary-graphs').children[0], 'bar', 2);
     let summaryChartRounds = graph.generate($$('#statistic-summary-graphs').children[1], 'bar');
     let summaryChartPayout = graph.generate($$('#statistic-summary-graphs').children[2], 'bar');
@@ -38,6 +39,7 @@ let statisticSummary = function () {
         clearElement($$('#statistic-summary-operators'));
         clearElement($$('#statistic-summary-portals'));
         summaryTableWrapper.innerHTML = '';
+        summaryHeader.innerHTML = '';
         summaryButton.classList.add('hidden');
         $$('#statistic-summary-graphs').classList.add('hidden');
         requested = false;
@@ -158,6 +160,8 @@ let statisticSummary = function () {
                         stickyCol: true
                     }));
                     table.preserveHeight(summaryTableWrapper);
+
+                    summaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
 
                     let labels = [];
                     let totalBetData = [];
