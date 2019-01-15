@@ -285,6 +285,13 @@
     margin-bottom: 1em;
 }
 
+#configuration-profile-notifications-wrapper {
+    width: 100%;
+    max-width: 20em;
+    text-align: center;
+    margin: 1em 0;
+}
+
 /* Search */
 
 .configuration-title.search>.caption-title,

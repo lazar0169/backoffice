@@ -32,6 +32,13 @@
     padding: 0.25rem 1rem;
 }
 
+#statistic-summary-graphs,
+#statistic-compared-graphs,
+#statistic-per-game-graphs,
+#statistic-games-summary-graphs {
+    margin-top: 2em;
+}
+
 #statistic-summary-graphs.hidden,
 #statistic-compared-graphs.hidden,
 #statistic-per-game-graphs.hidden,

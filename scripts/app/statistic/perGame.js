@@ -8,6 +8,8 @@ let statisticPerGame = function () {
     let getGamesEvent;
     let requested = false;
 
+    let defaultSelectionValue = 'LastMonth';
+
     on('statistic-per-game-time-span/selected', function (value) {
         if (value !== 'custom') {
             $$('#statistic-per-game-time-span-from').classList.add('disabled');
@@ -46,6 +48,7 @@ let statisticPerGame = function () {
                     insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-time-span-to'));
                     on('statistic-per-game-categories/selected', getGames);
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -59,6 +62,17 @@ let statisticPerGame = function () {
     on('currency/statistic', function () {
         if (requested) getStatistic();
     });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-per-game-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-per-game-operators'));

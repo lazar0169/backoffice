@@ -6,6 +6,8 @@ let statisticCompared = function () {
     let comparedTableWrapper = $$('#statistic-compared-table');
     let requested = false;
 
+    let defaultSelectionValue = 'LastMonth';
+
     on('statistic-compared-time-span/selected', function (value) {
         if (value !== 'custom') {
             $$('#statistic-compared-time-span-from').classList.add('disabled');
@@ -43,6 +45,7 @@ let statisticCompared = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-compared-categories', 'Select categories', true), $$('#statistic-compared-time-span-to'));
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -56,6 +59,17 @@ let statisticCompared = function () {
     on('currency/statistic', function () {
         if (requested) getStatistic();
     });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-compared-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-compared-operators'));

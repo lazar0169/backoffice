@@ -9,6 +9,8 @@ let statisticSummary = function () {
     let summaryChartPayout = graph.generate($$('#statistic-summary-graphs').children[2], 'bar');
     let requested = false;
 
+    let defaultSelectionValue = 'LastMonth';
+
     on('statistic-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
             $$('#statistic-summary-time-span-from').classList.add('disabled');
@@ -47,6 +49,7 @@ let statisticSummary = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -60,6 +63,17 @@ let statisticSummary = function () {
     on('currency/statistic', function () {
         if (requested) getStatistic();
     });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-summary-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-summary-operators'));

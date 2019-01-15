@@ -51,6 +51,7 @@ let configuration = function () {
         let userName = $$('#configuration-profile-user-name').value;
         let email = $$('#configuration-profile-email').value;
         let phoneNumber = $$('#configuration-profile-phone').value;
+        let notifications = $$('#configuration-profile-notifications').checked;
 
         let button = this;
 
@@ -61,7 +62,8 @@ let configuration = function () {
                     "name": name,
                     "userName": userName,
                     "email": email,
-                    "phoneNumber": phoneNumber
+                    "phoneNumber": phoneNumber,
+                    "notifications": notifications
                 },
                 success: function (response) {
                     removeLoader(button);
@@ -83,15 +85,17 @@ let configuration = function () {
             success: function (response) {
                 removeLoader($$('#configuration-navbar-profile'));
                 if (response.responseCode === message.codes.success) {
-                    $$('#configuration-profile-name').value = response.result.name
-                    $$('#configuration-profile-user-name').value = response.result.userName
-                    $$('#configuration-profile-email').value = response.result.email
-                    $$('#configuration-profile-phone').value = response.result.phoneNumber
+                    $$('#configuration-profile-name').value = response.result.name;
+                    $$('#configuration-profile-user-name').value = response.result.userName;
+                    $$('#configuration-profile-email').value = response.result.email;
+                    $$('#configuration-profile-phone').value = response.result.phoneNumber;
+                    $$('#configuration-profile-notifications').checked = JSON.parse(response.result.notifications);
                 } else {
                     $$('#configuration-profile-name').value = '';
                     $$('#configuration-profile-user-name').value = '';
                     $$('#configuration-profile-email').value = '';
                     $$('#configuration-profile-phone').value = '';
+                    $$('#configuration-profile-notifications').checked = false;
                 }
             },
             fail: function (err) {
