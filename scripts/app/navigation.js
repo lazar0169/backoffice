@@ -36,6 +36,8 @@ const navigation = function () {
     }
 
     $$('#sidebar-logout').addEventListener('click', function () {
+        let reset = confirm('Are you sure that you want to log out?');
+        if (!reset) return;
         addLoader($$('#sidebar-logout'));
         trigger('comm/login/logout', {
             success: function (response) {
