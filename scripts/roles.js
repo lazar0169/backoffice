@@ -6,6 +6,8 @@ let roles = function () {
             '#configuration-roles',
         ],
         'manager': [
+            '#accounting-navbar-setup',
+            '#sidebar-operators',
             '#accounting-reports-bonus-rate',
             '#accounting-reports-deduction',
             '#accounting-reports-reduction',
