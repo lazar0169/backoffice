@@ -14,8 +14,8 @@ let accounting = function () {
     };
 
     let actionByRoles = {
-        'admin': 'comm/accounting/get',
-        'manager': 'comm/accounting/manager/get'
+        'Admin': 'comm/accounting/get',
+        'Manager': 'comm/accounting/manager/get'
     }
 
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -154,7 +154,7 @@ let accounting = function () {
             });
 
             switch (roles.getRole()) {
-                case 'manager':
+                case 'Manager':
                     trigger('accounting-operators-list/selected', 0);
                     break;
             }
@@ -180,7 +180,7 @@ let accounting = function () {
             let data;
 
             switch (roles.getRole()) {
-                case 'admin':
+                case 'Admin':
                     data = {
                         timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
                         fromDate: reportsFromDate,
@@ -192,7 +192,7 @@ let accounting = function () {
                         reduction: $$('#accounting-reports-reduction').value || 0
                     }
                     break;
-                case 'manager':
+                case 'Manager':
                     data = {
                         timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
                         fromDate: reportsFromDate,
@@ -586,7 +586,7 @@ let accounting = function () {
                 if (response.responseCode === message.codes.success) {
 
                     switch (roles.getRole()) {
-                        case 'manager':
+                        case 'Manager':
                             response = {
                                 responseCode: 1000
                             };

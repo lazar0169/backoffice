@@ -1,11 +1,11 @@
 let roles = function () {
     let role;
     let base = {
-        'admin': _config.development ? [] : [
+        'Admin': _config.development ? [] : [
             '#configuration-actions',
             '#configuration-roles',
         ],
-        'manager': [
+        'Manager': [
             '#sidebar-operators',
             '#accounting-navbar-setup',
             '#accounting-reports-download-excel',
@@ -15,7 +15,7 @@ let roles = function () {
             '#configuration-actions',
             '#configuration-roles',
         ],
-        'accounting': [
+        'Accounting': [
             '#sidebar-operators',
             '#accounting-navbar-setup',
             '#configuration-actions',
@@ -27,8 +27,8 @@ let roles = function () {
         success: function (response) {
             if (response.responseCode === message.codes.success) {
                 role = response.result.toLowerCase();
-                // role = 'manager';
-                if (!base[role]) role = 'admin';
+                // role = 'Manager';
+                if (!base[role]) role = 'Admin';
                 setupUiBasedOnRole();
             }
         },
