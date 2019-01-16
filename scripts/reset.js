@@ -1,25 +1,30 @@
-const login = function () {
+const reset = function () {
     let resetBtn = $$('#reset-btn');
 
     on('load', function () {
-        addLoader($$('#login-form'));
+        addLoader($$('#reset-form'));
+
+        if (urlData.getItem('username') || urlData.getItem('pin')) {
+            location.href = getLocation();
+        }
+
         trigger('com/login/logged', {
             success: function (response) {
-                removeLoader($$('#login-form'));
+                removeLoader($$('#reset-form'));
                 if (response.responseCode === message.codes.success && response.result) {
                     location.href = getLocation() + '/main.html';
                 }
             },
             fail: function () {
-                removeLoader($$('#login-form'));
+                removeLoader($$('#reset-form'));
             }
         });
     });
 
-    // LOGIN --------------------------
-    resetBtn.addEventListener('click', loginEvent);
+    // RESET --------------------------
+    resetBtn.addEventListener('click', resetEvent);
 
-    function loginEvent(e) {
+    function resetEvent(e) {
         if (e) e.preventDefault();
         let password = $$('#password').value;
         let repeatPassword = $$('#repeat-password').value;

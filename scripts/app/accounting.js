@@ -21,6 +21,8 @@ let accounting = function () {
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
 
+    let defaultSelectionValue = 'LastMonth';
+
     $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
     $$('#accounting-setup-form-cancel').addEventListener('click', hideModal);
     $$('#accounting-setup-form-tax-back').addEventListener('click', function () { tax.hide(); });
@@ -49,6 +51,17 @@ let accounting = function () {
             $$('#accounting-time-span-to').classList.remove('disabled');
         }
     });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#accounting-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function generateReport(data, sum) {
         let array = JSON.parse(JSON.stringify(data));
@@ -564,6 +577,9 @@ let accounting = function () {
         $$('#accounting-get-reports').classList.add('hidden');
         $$('#accounting-reports-download').classList.add('hidden');
         $$('#accounting-reports-download-excel').classList.add('hidden');
+
+        selectDefault();
+
         addLoader($$('#sidebar-accounting'));
         trigger('comm/accounting/operators/get', {
             success: function (response) {
