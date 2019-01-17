@@ -35,6 +35,9 @@ let loading = function () {
         $$('#loading').classList.add('hidden');
         $$('#loading-precentage').innerHTML = 'LOADING &nbsp;&nbsp; 0%';
         $$('#loading-log').innerHTML = '';
+
+        let user = $$('#sidebar-user').children[1].innerHTML.split(' ')[0];
+        trigger('message', [message.codes.welcome, user]);
         isLoaded = true;
     }
 
