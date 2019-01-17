@@ -26,7 +26,7 @@ let roles = function () {
     trigger('comm/user/role', {
         success: function (response) {
             if (response.responseCode === message.codes.success) {
-                role = response.result.toLowerCase();
+                role = response.result;
                 // role = 'Manager';
                 if (!base[role]) role = 'Admin';
                 setupUiBasedOnRole();
