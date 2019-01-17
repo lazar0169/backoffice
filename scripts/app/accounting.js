@@ -15,7 +15,8 @@ let accounting = function () {
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
-        'Manager': 'comm/accounting/manager/get'
+        'Accounting': 'comm/accounting/get',
+        'Manager': 'comm/accounting/manager/get',
     }
 
     let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -132,6 +133,7 @@ let accounting = function () {
             clearElement($$('#accounting-operators-list'));
             let operatorsDropdown = dropdown.generate(response.result, 'accounting-operators-list', 'Select operator');
             $$('#accounting-operators-list-wrapper').appendChild(operatorsDropdown);
+            if (!response.result) $$('#accounting-operators-list-wrapper').style.display = 'none';
 
             on('accounting-operators-list/selected', function (value) {
                 addLoader($$('#accounting-reports-filter'));
@@ -153,10 +155,9 @@ let accounting = function () {
                 });
             });
 
-            switch (roles.getRole()) {
-                case 'Manager':
-                    trigger('accounting-operators-list/selected', 0);
-                    break;
+            // Prevent operator change
+            if (roles.getRole() === 'Manager') {
+                trigger('accounting-operators-list/selected', 0);
             }
 
         } else {
@@ -180,7 +181,16 @@ let accounting = function () {
             let data;
 
             switch (roles.getRole()) {
-                case 'Admin':
+                case 'Manager':
+                    data = {
+                        timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
+                        fromDate: reportsFromDate,
+                        toDate: reportsToDate,
+                        portalIds: $$('#accounting-portals-list').getSelected(),
+                    }
+                    break;
+
+                default:
                     data = {
                         timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
                         fromDate: reportsFromDate,
@@ -190,14 +200,6 @@ let accounting = function () {
                         bonusRate: $$('#accounting-reports-bonus-rate').get(),
                         deduction: $$('#accounting-reports-deduction').get(),
                         reduction: $$('#accounting-reports-reduction').value || 0
-                    }
-                    break;
-                case 'Manager':
-                    data = {
-                        timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
-                        fromDate: reportsFromDate,
-                        toDate: reportsToDate,
-                        portalIds: $$('#accounting-portals-list').getSelected(),
                     }
                     break;
             }
@@ -211,7 +213,8 @@ let accounting = function () {
                         // Prepare pdf report
                         doc = new jsPDF('l', 'pt');
                         doc.setFontSize(9);
-                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
+                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName};`);
+                        // doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
                         doc.setFontSize(16);
                         docPageCount = 0;
 
@@ -585,12 +588,11 @@ let accounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
-                    switch (roles.getRole()) {
-                        case 'Manager':
-                            response = {
-                                responseCode: 1000
-                            };
-                            break;
+                    // Prevent operator change
+                    if (roles.getRole() === 'Manager') {
+                        response = {
+                            responseCode: 1000
+                        };
                     }
 
                     afterLoad(response);
