@@ -16,9 +16,9 @@ let table = function () {
 
         function fixHeight(element) {
             for (let table of element.getElementsByClassName('table')) {
-                let height = table.children[0].offsetHeight;
-                if (height < 400) {
-                    table.style.height = height + 20 + 'px';
+                let rowCount = table.children[0].style.gridTemplateRows.replace(/\s/g, '').replace(/fr/g, '').length;
+                if (rowCount < 14) {
+                    table.style.height = rowCount * 30 + 20 + 'px';
                 } else {
                     table.style.height = '400px';
                 }
