@@ -219,7 +219,8 @@ function isNumber(value) {
     }
     return check(value)
         || check(Number(value))
-        || check(Number(value.replace(/,/g, '')));
+        || check(Number(value.replace(/,/g, '')))
+        || value.includes('%');
 }
 
 function convertToNumber(value) {
