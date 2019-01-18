@@ -177,9 +177,9 @@ let statisticPerGame = function () {
                         dynamic: false,
                         sticky: true,
                         options: {
-                            sufix: {
+                            prefix: {
                                 col: 'payout',
-                                text: '<span style="color: yellow;float: right; margin-left: 0.8em;">&#9888;</span>',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
                                 condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
                             }
                         },

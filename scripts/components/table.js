@@ -111,10 +111,10 @@ let table = function () {
                 let sufix = '';
                 let prefix = '';
                 if (params.options.sufix && params.options.sufix.text && params.options.sufix.col === Object.keys(params.data[row])[col]) {
-                    sufix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.sufix.text : '';
+                    sufix = params.options.sufix.condition.test(convertToNumber(params.data[row][Object.keys(params.data[row])[col]])) ? params.options.sufix.text : '';
                 }
                 if (params.options.prefix && params.options.prefix.text && params.options.prefix.col === Object.keys(params.data[row])[col]) {
-                    prefix = params.options.prefix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.prefix.text : '';
+                    prefix = params.options.prefix.condition.test(convertToNumber(params.data[row][Object.keys(params.data[row])[col]])) ? params.options.prefix.text : '';
                 }
                 // -----
                 // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
