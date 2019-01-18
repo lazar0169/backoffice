@@ -158,7 +158,7 @@ let statisticCompared = function () {
                     headerBet.innerHTML = '<h2>Games Bet:</h2> <div id="compared-disabled-games-bet" class="header-games-list"></div>';
                     headerWin.innerHTML = '<h2>Games Win:</h2> <div id="compared-disabled-games-win" class="header-games-list"></div>';
                     headerRounds.innerHTML = '<h2>Table Rounds:</h2> <div id="compared-disabled-games-rounds" class="header-games-list"></div>';
-                    headerPayout.innerHTML = '<h2>Table Payout (%):</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
+                    headerPayout.innerHTML = '<h2>Table Payout:</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
                     comparedHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}`;
 

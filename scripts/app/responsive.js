@@ -20,6 +20,14 @@ let responsive = function () {
         trigger('window/click', e);
     });
 
+    window.addEventListener('keydown', function (e) {
+        // prevent TAB
+        if (e.which === 9) {
+            e.preventDefault();
+        }
+        trigger('window/key', e);
+    });
+
     function resizeGame() {
         let gameWindow = $$('#main-content') || $$('#login') || $$('#reset');
         isLandscape = window.innerWidth > window.innerHeight && document.activeElement.tagName.toLowerCase() !== 'input';
