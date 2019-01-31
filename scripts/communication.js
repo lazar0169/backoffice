@@ -1,6 +1,15 @@
 let comm = function () {
     const actions = {
-        'comm/currency/get': '/Statistics/GetDefaultCurrencies',
+        // Currency
+        'comm/currency/getAll': '/Statistics/GetDefaultCurrencies',
+        'comm/currency/set': '/Account/SetCurrency',
+        'comm/currency/get': '/Account/GetCurrency',
+
+        // Reset
+        'comm/reset': '/Account/ChangePassword',
+
+        // Roles
+        'comm/user/role': '/Account/GetUserRole',
 
         // Login
         'comm/login/credentials': '/Account/LogIn',
@@ -10,7 +19,7 @@ let comm = function () {
         'com/login/logged': '/Account/IsLoggedIn',
 
         // Dashboard
-        'comm/dashboard/get': '/Dashboard/GetDashboardResult',
+        'comm/dashboard/get': '/Dashboard/GetDashboard',
 
         // Statistics
         'comm/statistic/game/categories/get': '/Statistics/GetGameCategories',
@@ -26,6 +35,7 @@ let comm = function () {
         'comm/accounting/operators/get': '/Accounting/GetOperators',
         'comm/accounting/portals/get': '/Accounting/GetPortalsByOperatorId',
         'comm/accounting/get': '/Accounting/GetAccounting',
+        'comm/accounting/manager/get': '/Accounting/GetManagerAccounting',
 
         'comm/accounting/excel/get': '/Accounting/ToExcel',
 
@@ -43,6 +53,8 @@ let comm = function () {
         'comm/operators/get/single': '/Operator/GetOperator',
 
         // Configuration
+        'comm/configuration/parameters/get': '/Settings/GetUserParameters',
+
         'comm/configuration/actions/create': '/Settings/CreateAction',
         'comm/configuration/roles/create': '/Settings/CreateRole',
         'comm/configuration/users/create': '/Settings/CreateUser',
@@ -100,22 +112,24 @@ let comm = function () {
         });
     }
 
-    function connect(action, data = {}) {
+    function connect(action, data = {}, callerAction) {
         get(action, {
             success: function (response) {
                 data.success = data.success || function () { }
                 data.success(response);
+                loading.validate(callerAction);
             },
             fail: function (err) {
                 data.fail = data.fail || function () { }
                 data.fail(err);
+                loading.validate(callerAction);
             }
         }, data.body);
     }
 
     for (let action in actions) {
         on(action, function (data) {
-            connect(actions[action], data);
+            connect(actions[action], data, action);
         });
     }
 }();

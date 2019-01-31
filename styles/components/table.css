@@ -162,20 +162,29 @@ th {
     cursor: default;
 }
 
-caption {
+caption,
+.caption {
     display: flex;
     color: white;
     background-color: #dd9853;
     border-bottom: none;
+    height: 2.5em;
 }
 
-.caption-title {
+.caption-title,
+.caption-search {
     padding: 0.5em 0.8em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     width: calc(100% - 1px);
+    height: calc(100% - 0.4em) !important;
+    margin: 0.2em !important;
+}
+
+.caption-search {
+    display: none;
 }
 
 tbody>tr:nth-child(1)>td {

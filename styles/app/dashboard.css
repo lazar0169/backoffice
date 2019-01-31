@@ -37,6 +37,30 @@
     text-align: center;
 }
 
+#dashboard-portals-wrapper {
+    width: 100%;
+    flex: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#dashboard-portals .page-content-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+#dashboard-portals-search-wrapper {
+    width: 100%;
+    padding: 1em 0;
+    text-align: center;
+    border-bottom: 1px solid #3a4050;
+}
+
+#dashboard-portals-search-wrapper input {
+    width: 30em;
+    text-align: center;
+}
+
 /* MOBILE */
 
 .mobile #dashboard-players-wrapper {
@@ -55,5 +79,9 @@
 }
 
 .mobile #dashboard-chart-wrapper {
+    width: 100%;
+}
+
+.mobile #dashboard-portals-search-wrapper input {
     width: 100%;
 }

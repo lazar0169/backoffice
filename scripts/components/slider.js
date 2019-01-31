@@ -18,6 +18,9 @@ let slider = function () {
             slider.get = function () {
                 return Number(slider.children[1].value);
             }
+            slider.children[2].addEventListener('change', function () {
+                slider.set(Number(slider.children[2].value.replace('%', '')));
+            });
         }
     }
 

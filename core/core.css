@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
-    /* min-width: 400px; */
+    min-height: 650px;
     height: 100%;
     width: 100%;
     flex-direction: row-reverse;
@@ -25,6 +25,14 @@ body {
     -moz-appearance: none !important;
     -webkit-appearance: none !important;
     -webkit-tap-highlight-color: transparent !important;
+}
+
+body.mobile.landscape {
+    min-height: auto !important;
+}
+
+body.mobile.landscape>div {
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -282,6 +290,12 @@ p {
     margin-top: 30px;
 }
 
+pre {
+    color: #fdba41;
+    padding: 0.1em 0.3em;
+    display: inline;
+}
+
 /* ================== MOBILE  ================== */
 
 .mobile label {
@@ -320,7 +334,7 @@ p {
 }
 
 .mobile button {
-    padding: 1rem;
+    padding: 0.7em;
 }
 
 .mobile button:active {

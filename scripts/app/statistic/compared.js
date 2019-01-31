@@ -4,6 +4,10 @@ let statisticCompared = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let comparedButton = $$('#statistic-get-compared');
     let comparedTableWrapper = $$('#statistic-compared-table');
+    let comparedHeader = $$('#statistic-compared-header');
+    let requested = false;
+
+    let defaultSelectionValue = 'LastMonth';
 
     on('statistic-compared-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -13,6 +17,11 @@ let statisticCompared = function () {
             $$('#statistic-compared-time-span-from').classList.remove('disabled');
             $$('#statistic-compared-time-span-to').classList.remove('disabled');
         }
+        let firstAvailable = filterPeriod($$('#statistic-compared-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-compared-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-compared-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-compared-time-span-from', function (data) {
@@ -27,7 +36,9 @@ let statisticCompared = function () {
         clearElement($$('#statistic-compared-operators'));
         clearElement($$('#statistic-compared-portals'));
         comparedTableWrapper.innerHTML = '';
+        comparedHeader.innerHTML = '';
         comparedButton.classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -36,6 +47,7 @@ let statisticCompared = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-compared-categories', 'Select categories', true), $$('#statistic-compared-time-span-to'));
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -46,6 +58,20 @@ let statisticCompared = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-compared-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-compared-operators'));
@@ -134,31 +160,35 @@ let statisticCompared = function () {
                     headerRounds.innerHTML = '<h2>Table Rounds:</h2> <div id="compared-disabled-games-rounds" class="header-games-list"></div>';
                     headerPayout.innerHTML = '<h2>Table Payout:</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
-                    comparedTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}</h2?`;
+                    comparedHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}`;
 
                     let tableBet = table.generate({
                         data: tables.gamesBet,
                         id: 'statistic-compared-table-bet',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
                     let tableWin = table.generate({
                         data: tables.gamesWin,
                         id: 'statistic-compared-table-win',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
                     let tableRounds = table.generate({
                         data: tables.gamesRounds,
                         id: 'statistic-compared-table-rounds',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
                     let tablePayout = table.generate({
                         data: tables.gamesPayout,
                         id: 'statistic-compared-table-payout',
                         dynamic: true,
-                        sticky: true
+                        sticky: true,
+                        stickyCol: true
                     });
 
                     comparedTableWrapper.appendChild(headerBet);
@@ -230,6 +260,7 @@ let statisticCompared = function () {
                         tablePayout.getElementsByClassName('remove-btn')[i].click();
                     }
 
+                    requested = true;
 
                 } else {
                     trigger('message', response.responseCode);

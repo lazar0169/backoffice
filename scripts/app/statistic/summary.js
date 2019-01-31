@@ -4,9 +4,13 @@ let statisticSummary = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let summaryButton = $$('#statistic-get-summary');
     let summaryTableWrapper = $$('#statistic-summary-table');
+    let summaryHeader = $$('#statistic-summary-header');
     let summaryChartTotalBetWin = graph.generate($$('#statistic-summary-graphs').children[0], 'bar', 2);
     let summaryChartRounds = graph.generate($$('#statistic-summary-graphs').children[1], 'bar');
     let summaryChartPayout = graph.generate($$('#statistic-summary-graphs').children[2], 'bar');
+    let requested = false;
+
+    let defaultSelectionValue = 'LastMonth';
 
     on('statistic-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -16,6 +20,11 @@ let statisticSummary = function () {
             $$('#statistic-summary-time-span-from').classList.remove('disabled');
             $$('#statistic-summary-time-span-to').classList.remove('disabled');
         }
+        let firstAvailable = filterPeriod($$('#statistic-summary-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-summary-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-summary-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-summary-time-span-from', function (data) {
@@ -30,8 +39,10 @@ let statisticSummary = function () {
         clearElement($$('#statistic-summary-operators'));
         clearElement($$('#statistic-summary-portals'));
         summaryTableWrapper.innerHTML = '';
+        summaryHeader.innerHTML = '';
         summaryButton.classList.add('hidden');
         $$('#statistic-summary-graphs').classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -40,6 +51,7 @@ let statisticSummary = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -50,6 +62,20 @@ let statisticSummary = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-summary-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-summary-operators'));
@@ -125,14 +151,17 @@ let statisticSummary = function () {
                         dynamic: false,
                         sticky: true,
                         options: {
-                            sufix: {
+                            prefix: {
                                 col: 'payout',
-                                text: '<span style="color: yellow;float: right;">&#9888;</span>',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
                                 condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
                             }
-                        }
+                        },
+                        stickyCol: true
                     }));
                     table.preserveHeight(summaryTableWrapper);
+
+                    summaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
 
                     let labels = [];
                     let totalBetData = [];
@@ -141,16 +170,18 @@ let statisticSummary = function () {
                     let payoutData = [];
 
                     for (let row of response.result.statisticsPerDate) {
-                        labels.push(row.period);
-                        totalBetData.push(row.totalBet);
-                        totalWinData.push(row.totalWin);
-                        roundsData.push(row.rounds);
-                        payoutData.push(row.payout);
+                        labels.push(convertToNumber(row.period));
+                        totalBetData.push(convertToNumber(row.totalBet));
+                        totalWinData.push(convertToNumber(row.totalWin));
+                        roundsData.push(convertToNumber(row.rounds));
+                        payoutData.push(convertToNumber(row.payout));
                     }
 
-                    summaryChartTotalBetWin.options.legend.dispay = !isMobile;
-                    summaryChartRounds.options.legend.dispay = !isMobile;
-                    summaryChartPayout.options.legend.dispay = !isMobile;
+                    // summaryChartTotalBetWin.options.legend.dispay = !isMobile();
+                    // summaryChartRounds.options.legend.dispay = !isMobile();
+                    // summaryChartPayout.options.legend.dispay = !isMobile();
+
+                    $$('#statistic-summary-graphs').style.display = isMobile() ? 'none' : 'block';
 
                     summaryChartTotalBetWin.options.legend.position = 'right';
                     summaryChartRounds.options.legend.position = 'right';
@@ -174,7 +205,7 @@ let statisticSummary = function () {
                     summaryChartPayout.update();
 
                     $$('#statistic-summary-graphs').classList.remove('hidden');
-
+                    requested = true;
                 } else {
                     trigger('message', response.responseCode);
                 }

@@ -5,7 +5,11 @@ let statisticPerGame = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let perGameButton = $$('#statistic-get-per-game');
     let perGameTableWrapper = $$('#statistic-per-game-table');
+    let perGameHeader = $$('#statistic-per-game-header');
     let getGamesEvent;
+    let requested = false;
+
+    let defaultSelectionValue = 'LastMonth';
 
     on('statistic-per-game-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -15,6 +19,11 @@ let statisticPerGame = function () {
             $$('#statistic-per-game-time-span-from').classList.remove('disabled');
             $$('#statistic-per-game-time-span-to').classList.remove('disabled');
         }
+        let firstAvailable = filterPeriod($$('#statistic-per-game-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-per-game-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-per-game-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-per-game-time-span-from', function (data) {
@@ -29,7 +38,9 @@ let statisticPerGame = function () {
         clearElement($$('#statistic-per-game-operators'));
         clearElement($$('#statistic-per-game-portals'));
         perGameTableWrapper.innerHTML = '';
+        perGameHeader.innerHTML = '';
         perGameButton.classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -39,6 +50,7 @@ let statisticPerGame = function () {
                     insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-time-span-to'));
                     on('statistic-per-game-categories/selected', getGames);
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -49,6 +61,20 @@ let statisticPerGame = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-per-game-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-per-game-operators'));
@@ -144,22 +170,23 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
                     summary.push(response.result.sum);
-                    perGameTableWrapper.innerHTML = `<h2>Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}</h2?`;
+                    perGameHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
                         dynamic: false,
                         sticky: true,
                         options: {
-                            sufix: {
+                            prefix: {
                                 col: 'payout',
-                                text: '<span style="color: yellow;float: right;">&#9888;</span>',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
                                 condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
                             }
-                        }
+                        },
+                        stickyCol: true
                     }));
                     table.preserveHeight(perGameTableWrapper);
-
+                    requested = true;
                 } else {
                     trigger('message', response.responseCode);
                 }

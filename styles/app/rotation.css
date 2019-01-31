@@ -1,0 +1,144 @@
+#rotate-device {
+    background-color: #434a5c;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    color: #dd9853;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    display: none;
+}
+
+.mobile.landscape #rotate-device {
+    display: flex;
+}
+
+#rotate-device #device-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    height: 46vw;
+    width: 46vw;
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    animation: rotate-device 2s ease-out infinite;
+}
+
+#rotate-device #device-image #phone-back,
+#rotate-device #device-image #phone-back #phone-speaker,
+#rotate-device #device-image #phone-back #phone-screen,
+#rotate-device #device-image #phone-back #phone-button {
+    position: absolute;
+    background: #dd9853;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    height: 70%;
+    width: 40%;
+    border-radius: 2vw;
+}
+
+#rotate-device #device-image #phone-back #phone-speaker {
+    background: #434a5c;
+    top: 5%;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 5%;
+    width: 8.9%;
+    border-radius: 2vw;
+}
+
+#rotate-device #device-image #phone-back #phone-screen {
+    background: #434a5c;
+    top: 13%;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 71%;
+    width: 86%;
+    border-radius: 1vw;
+}
+
+#rotate-device #device-image #phone-back #phone-button {
+    background: #434a5c;
+    top: auto;
+    bottom: 3%;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 10%;
+    width: 20%;
+    border-radius: 0.7vw;
+}
+
+@-moz-keyframes rotate-device {
+    0% {
+        -moz-transform: scale3d(0.5, 0.5, 0.5) rotate(90deg);
+        opacity: 0;
+    }
+    15% {
+        -moz-transform: scale3d(1, 1, 1) rotate(90deg);
+        opacity: 1;
+    }
+    25% {
+        -moz-transform: rotate(90deg);
+    }
+    100% {
+        -moz-transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes rotate-device {
+    0% {
+        -webkit-transform: scale3d(0.5, 0.5, 0.5) rotate(90deg);
+        opacity: 0;
+    }
+    15% {
+        -webkit-transform: scale3d(1, 1, 1) rotate(90deg);
+        opacity: 1;
+    }
+    25% {
+        -webkit-transform: rotate(90deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+@keyframes rotate-device {
+    0% {
+        transform: scale3d(0.5, 0.5, 0.5) rotate(90deg);
+        opacity: 0;
+    }
+    15% {
+        transform: scale3d(1, 1, 1) rotate(90deg);
+        opacity: 1;
+    }
+    25% {
+        transform: rotate(90deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+#rotate-text {
+    position: absolute;
+    text-align: center;
+    bottom: 1%;
+    left: 0;
+    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}

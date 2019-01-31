@@ -8,7 +8,7 @@ let notify = function () {
     let types = {
         0: 'info', // permanent info (24h timeout)
         1: 'info',
-        2: 'warrning',
+        2: 'warning',
         3: 'error',
         4: 'success'
     };
@@ -33,7 +33,7 @@ let notify = function () {
             data.type = data.type !== undefined ? data.type : 1;
             data.message = data.message || 'Simple toast banner';
             data.duration = data.type === 0 ? 86400 : data.duration || idleTime;
-            toast.innerHTML = data.message;
+            toast.innerHTML = `<span>${data.message}</span>`;
             toast.className = `toast ${types[data.type]} show`;
             isBusy = true;
 

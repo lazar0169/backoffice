@@ -1,16 +1,16 @@
 const login = function () {
     let loginBtn = $$('#login-btn');
     let pinBtn = $$('#pin-btn');
+
+    let warningSafariModal = $$('#warning-safari-modal');
+    let warningButton = $$('#warning-modal-btn');
+
     let activeForm = 'login';
 
     if (localStorage.getItem('rememberLogin')) {
         $$('#login-username').value = localStorage.getItem('loginName');
         $$("#login-remember").checked = !!localStorage.getItem('rememberLogin');
     }
-
-    on('resize', function () {
-        document.body.classList[isMobile ? 'add' : 'remove']('mobile');
-    });
 
     on('load', function () {
         addLoader($$('#login-form'));
@@ -20,6 +20,12 @@ const login = function () {
                 if (response.responseCode === message.codes.success && response.result) {
                     location.href = getLocation() + '/main.html';
                 }
+                if (
+                    isMobile() &&
+                    isSafari &&
+                    !JSON.parse(localStorage.getItem('rememberWarning'))) {
+                    warningSafariModal.classList.remove('hidden');
+                }
             },
             fail: function () {
                 removeLoader($$('#login-form'));
@@ -27,23 +33,17 @@ const login = function () {
         });
     });
 
-    // window.addEventListener('keyup', function (event) {
-    //     if (event.keyCode === 13) {
-    //         if (activeForm === 'login') {
-    //             loginEvent();
-    //         } else if (activeForm === 'pin') {
-    //             pinEvent();
-    //         } else {
-    //             return;
-    //         }
-    //     }
-    // });
-
     // LOGIN --------------------------
     loginBtn.addEventListener('click', loginEvent);
 
-    // PIN --------------------------
+    // PIN ----------------------------
     pinBtn.addEventListener('click', pinEvent);
+
+    // WARNING ------------------------
+    warningButton.addEventListener('click', function () {
+        localStorage.setItem('rememberWarning', $$("#warning-modal-dont-show").checked);
+        warningSafariModal.classList.add('hidden');
+    });
 
     $$('#login-forgot-password').addEventListener('click', function (e) {
         e.preventDefault();
@@ -56,7 +56,8 @@ const login = function () {
                 addLoader(hyperlink);
                 trigger('com/login/password/reset', {
                     body: {
-                        userName: $$('#login-username').value
+                        userName: $$('#login-username').value,
+                        link: getLocation() + '/reset.html'
                     },
                     success: function (response) {
                         removeLoader(hyperlink);

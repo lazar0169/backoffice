@@ -36,6 +36,8 @@ const navigation = function () {
     }
 
     $$('#sidebar-logout').addEventListener('click', function () {
+        let reset = confirm('Are you sure that you want to log out?');
+        if (!reset) return;
         addLoader($$('#sidebar-logout'));
         trigger('comm/login/logout', {
             success: function (response) {
@@ -53,17 +55,26 @@ const navigation = function () {
     });
 
     $$('#logo').addEventListener('click', function () {
-        if (isMobile) {
+        if (isMobile()) {
             $$('#sidebar').classList.remove('active');
         }
     });
 
-    on('resize', function () {
-        document.body.classList[isMobile ? 'add' : 'remove']('mobile');
-    });
-
     on('load', function () {
         trigger(`dashboard/loaded`);
+    });
+
+    addLoader($$('#sidebar-user'));
+    trigger('comm/configuration/profile/get', {
+        success: function (response) {
+            removeLoader($$('#sidebar-user'));
+            if (response.responseCode === message.codes.success) {
+                $$('#sidebar-user').children[1].innerHTML = response.result.name;
+            }
+        },
+        fail: function (err) {
+            removeLoader($$('#sidebar-user'));
+        }
     });
 
     function to(data) {
@@ -76,7 +87,7 @@ const navigation = function () {
         $$(`#${data.page}-${data.tab}`).classList.add('active');
         $$(`#${active.page}-navbar-${active.tab}`).classList.remove('active');
         $$(`#${data.page}-navbar-${data.tab}`).classList.add('active');
-        if (isMobile) {
+        if (isMobile()) {
             $$('#sidebar').classList.remove('active');
         }
         $$(`#${data.page}`).getElementsByClassName('tabs-wrapper')[0].classList.add('hidden');
@@ -93,4 +104,13 @@ const navigation = function () {
     }
 
     on('navigation/change', to);
+
+    return {
+        get: function () {
+            return {
+                page: active.page,
+                tab: active.tab
+            }
+        }
+    }
 }();

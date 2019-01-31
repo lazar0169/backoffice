@@ -4,10 +4,14 @@ let statisticGamesSummary = function () {
     let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let gamesSummaryButton = $$('#statistic-get-games-summary');
     let gamesSummaryTableWrapper = $$('#statistic-games-summary-table');
+    let gamesSummaryHeader = $$('#statistic-games-summary-header');
     let gamesSummaryChartTotalBet = graph.generate($$('#statistic-games-summary-graphs').children[0], 'line');
     let gamesSummaryChartTotalWin = graph.generate($$('#statistic-games-summary-graphs').children[1], 'line');
     let gamesSummaryChartRounds = graph.generate($$('#statistic-games-summary-graphs').children[2], 'line');
     let gamesSummaryChartPayout = graph.generate($$('#statistic-games-summary-graphs').children[3], 'line');
+    let requested = false;
+
+    let defaultSelectionValue = 'LastMonth';
 
     on('statistic-games-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
@@ -17,6 +21,11 @@ let statisticGamesSummary = function () {
             $$('#statistic-games-summary-time-span-from').classList.remove('disabled');
             $$('#statistic-games-summary-time-span-to').classList.remove('disabled');
         }
+        let firstAvailable = filterPeriod($$('#statistic-games-summary-time-interval'), value);
+
+        // Select first available period
+        $$('#statistic-games-summary-time-interval').children[0].innerHTML = firstAvailable.name;
+        $$('#statistic-games-summary-time-interval').children[0].dataset.value = firstAvailable.value;
     });
 
     on('date/statistic-games-summary-time-span-from', function (data) {
@@ -31,8 +40,10 @@ let statisticGamesSummary = function () {
         clearElement($$('#statistic-games-summary-operators'));
         clearElement($$('#statistic-games-summary-portals'));
         gamesSummaryTableWrapper.innerHTML = '';
+        gamesSummaryHeader.innerHTML = '';
         gamesSummaryButton.classList.add('hidden');
         $$('#statistic-games-summary-graphs').classList.add('hidden');
+        requested = false;
 
         addLoader($$('#sidebar-statistic'));
         trigger('comm/statistic/game/categories/get', {
@@ -41,6 +52,7 @@ let statisticGamesSummary = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-games-summary-categories', 'Select categories', true), $$('#statistic-games-summary-time-span-to'));
                     getOperators();
+                    selectDefault();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -51,6 +63,20 @@ let statisticGamesSummary = function () {
         });
     });
 
+    on('currency/statistic', function () {
+        if (requested) getStatistic();
+    });
+
+    function selectDefault() {
+        // Default time stamp selection
+        let options = $$('#statistic-games-summary-time-span').getElementsByClassName('option');
+        for (let option of options) {
+            if (option.dataset.value === defaultSelectionValue) {
+                option.click();
+                return;
+            }
+        }
+    }
 
     function getOperators() {
         clearElement($$('#statistic-games-summary-operators'));
@@ -126,14 +152,17 @@ let statisticGamesSummary = function () {
                         dynamic: false,
                         sticky: true,
                         options: {
-                            sufix: {
+                            prefix: {
                                 col: 'payout',
-                                text: '<span style="color: yellow;float: right;">&#9888;</span>',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
                                 condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
                             }
-                        }
+                        },
+                        stickyCol: true
                     }));
                     table.preserveHeight(gamesSummaryTableWrapper);
+
+                    gamesSummaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
 
                     let labels = [];
                     let games = [];
@@ -147,10 +176,12 @@ let statisticGamesSummary = function () {
                     gamesSummaryChartRounds.data.datasets.length = 0;
                     gamesSummaryChartPayout.data.datasets.length = 0;
 
-                    gamesSummaryChartTotalBet.options.legend.display = !isMobile;
-                    gamesSummaryChartTotalWin.options.legend.display = !isMobile;
-                    gamesSummaryChartRounds.options.legend.display = !isMobile;
-                    gamesSummaryChartPayout.options.legend.display = !isMobile;
+                    // gamesSummaryChartTotalBet.options.legend.display = !isMobile();
+                    // gamesSummaryChartTotalWin.options.legend.display = !isMobile();
+                    // gamesSummaryChartRounds.options.legend.display = !isMobile();
+                    // gamesSummaryChartPayout.options.legend.display = !isMobile();
+
+                    $$('#statistic-games-summary-graphs').style.display = isMobile() ? 'none' : 'block';
 
                     gamesSummaryChartTotalBet.options.legend.position = 'right';
                     gamesSummaryChartTotalWin.options.legend.position = 'right';
@@ -175,10 +206,10 @@ let statisticGamesSummary = function () {
                             roundsData[game] = [];
                             payoutData[game] = [];
                             for (let row of response.result.operaterGamesStatistics[game]) {
-                                totalBetData[game].push(row.totalBet);
-                                totalWinData[game].push(row.totalWin);
-                                roundsData[game].push(row.rounds);
-                                payoutData[game].push(row.payout);
+                                totalBetData[game].push(convertToNumber(row.totalBet));
+                                totalWinData[game].push(convertToNumber(row.totalWin));
+                                roundsData[game].push(convertToNumber(row.rounds));
+                                payoutData[game].push(convertToNumber(row.payout));
                             }
                         }
 
@@ -234,7 +265,7 @@ let statisticGamesSummary = function () {
                     gamesSummaryChartPayout.update();
 
                     $$('#statistic-games-summary-graphs').classList.remove('hidden');
-
+                    requested = true;
                 } else {
                     trigger('message', response.responseCode);
                 }

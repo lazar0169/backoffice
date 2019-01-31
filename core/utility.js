@@ -11,11 +11,16 @@ function $$(selector) {
 }
 
 // Global flags
-let isAndroid = navigator.userAgent.toLowerCase().indexOf('android') > -1;
-let isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-let isIphone = navigator.platform && /iPhone|iPod/.test(navigator.platform);
-let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-// let isMobile = false;
+function isMobile() {
+    return navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i)
+        || window.innerWidth < 580;
+};
 let isFirefox = typeof InstallTrigger !== 'undefined';
 let isSafari = navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
 let isEdge = /Edge\/\d./i.test(navigator.userAgent);
@@ -50,8 +55,6 @@ function log(msg) {
 
 let loadElements = [];
 
-let blockUi = function () { return; };
-
 function addLoader(element) {
     if (element.getElementsByClassName('loading').length > 0) return;
     let loader = document.createElement('span');
@@ -65,7 +68,10 @@ function addLoader(element) {
 }
 
 function removeLoader(element) {
-    if (!element.getElementsByClassName('loading')[0]) return;
+    if (!element.getElementsByClassName('loading')[0]) {
+        if ($$('#block-ui')) $$('#block-ui').remove();
+        return;
+    };
     element.getElementsByClassName('loading')[0].remove();
     $$('#block-ui').remove();
     trigger('message/hide');
@@ -168,4 +174,56 @@ function getLocation() {
     path.splice(-1, 1);
     path.join('/');
     return location.origin + path;
+}
+
+function filterPeriod(element, period = 'custom') {
+    let map = {
+        'custom': [0, 1, 2, 3],
+        'Today': [0],
+        'Yasterday': [0],
+        'LastThreeDays': [0, 1],
+        'LastWeek': [1],
+        'LastMonth': [1, 2],
+        'LastMonth': [1, 2],
+        'LastQuarter': [2, 3],
+        'LastYear': [2, 3]
+    };
+
+    let firstAvailable;
+
+    for (let option of element.getElementsByClassName('option')) {
+        if (map[period].includes(Number(option.dataset.value))) {
+            option.style.display = 'block';
+            if (!firstAvailable) firstAvailable = { value: option.dataset.value, name: option.innerHTML };
+        } else {
+            option.style.display = 'none';
+        }
+    }
+
+    return firstAvailable;
+}
+
+function isFloat(n) {
+    return Number(n) === n && n % 1 !== 0;
+}
+
+function isInt(n) {
+    return Number(n) === n && n % 1 === 0;
+}
+
+function isNumber(value) {
+    if (value.replace) value = value.replace(/\s/g, '');
+    if (value === '') return false;
+    function check(val) {
+        return typeof val === typeof Number() && !isNaN(val);
+    }
+    return check(value)
+        || check(Number(value))
+        || check(Number(value.replace(/,/g, '')))
+        || value.includes('%');
+}
+
+function convertToNumber(value) {
+    if (value.replace) value = value.replace(/\s/g, '').replace(/,/g, '').replace(/%/g, '');
+    return value !== '' && !isNaN(Number(value)) ? Number(value) : value;
 }

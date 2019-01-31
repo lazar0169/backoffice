@@ -175,6 +175,10 @@
     width: 100%;
 }
 
+#operator-name.disabled {
+    filter: grayscale(1) opacity(0.5);
+}
+
 .operators-form-inputs {
     width: 100%;
     overflow: auto;
@@ -185,6 +189,7 @@
 
 .operators-form-inputs>* {
     margin: 0.3em 0;
+    width: 100%;
 }
 
 #operators-form table {
@@ -199,10 +204,15 @@
     display: flex;
 }
 
-#operators-games,
 #operators-portals {
     overflow: auto;
     flex: 1;
+}
+
+#operators-games-wrapper,
+#operators-games-wrapper>.select,
+#operators-games-wrapper>.select>.selected {
+    width: 100%;
 }
 
 #operators-form-button-wrapper,
@@ -263,10 +273,8 @@
     text-transform: uppercase;
 }
 
-#operator-currency-timezone .select,
-#operator-currency-timezone .select .selected,
-#operator-portal-currency-code,
-#operator-portal-currency-code .selected {
+#operators-form .select,
+#operators-form .select .selected {
     width: 100%;
 }
 

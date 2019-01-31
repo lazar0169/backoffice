@@ -3,14 +3,32 @@
         "scripts": [
             "communication.js",
             "components/notify.js",
-            "app/responsive.js",
             "message.js",
-            "login.js"
+            "login.js",
+            "loading.js",
+            "app/responsive.js"
         ],
         "styles": [
             "login.css",
             "components/notify.css",
-            "loading.css"
+            "loading.css",
+            "app/rotation.css"
+        ]
+    },
+    "reset": {
+        "scripts": [
+            "communication.js",
+            "components/notify.js",
+            "message.js",
+            "reset.js",
+            "loading.js",
+            "app/responsive.js"
+        ],
+        "styles": [
+            "reset.css",
+            "components/notify.css",
+            "loading.css",
+            "app/rotation.css"
         ]
     },
     "main": {
@@ -22,6 +40,9 @@
             "components/table.js",
             "components/slider.js",
             "components/graph.js",
+            "message.js",
+            "loading.js",
+            "roles.js",
             "app/navigation.js",
             "app/responsive.js",
             "app/configuration.js",
@@ -32,7 +53,6 @@
             "app/statistic/gamesSummary.js",
             "app/statistic/perGame.js",
             "app/statistic/compared.js",
-            "message.js",
             "currency.js"
         ],
         "styles": [
@@ -44,11 +64,13 @@
             "components/table.css",
             "main.css",
             "navbar.css",
+            "app/rotation.css",
             "app/configuration.css",
             "app/operators.css",
             "app/accounting.css",
             "app/dashboard.css",
-            "app/statistic.css"
+            "app/statistic.css",
+            "roles.css"
         ]
     }
 }

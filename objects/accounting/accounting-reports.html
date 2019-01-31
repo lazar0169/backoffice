@@ -16,23 +16,29 @@
             </div>
             <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
             <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
+            <div id="accounting-operators-list-wrapper"></div>
+            <div id="accounting-portals-list-wrapper"></div>
             <div class="slider" data-sufix=" %" id="accounting-reports-bonus-rate">
                 <span>Bonus Rate: </span>
                 <input type="range" value="0" min="0" max="100" step="0.01">
-                <input type="text" value="0%" disabled>
+                <input type="text" value="0%">
             </div>
             <div class="slider" data-sufix=" %" id="accounting-reports-deduction">
                 <span>Deduction: </span>
                 <input type="range" value="0" min="0" max="100" step="0.01">
-                <input type="text" value="0%" disabled>
+                <input type="text" value="0%">
             </div>
-            <input type="number" id="accounting-reports-reduction" placeholder="Reduction">
+            <input type="number" min="0" id="accounting-reports-reduction" placeholder="Reduction">
             <button id="accounting-get-reports" class="hidden">GET REPORTS</button>
             <button id="accounting-reports-download" class="cancel hidden">DOWNLOAD PDF</button>
             <button id="accounting-reports-download-excel" class="save hidden">DOWNLOAD EXCEL</button>
         </div>
 
         <div id="accounting-reports-header" class="hidden">
+            <div>
+                <span id="accounting-reports-header-operator">Operator Name:</span>
+                <span id="accounting-reports-header-operator-value"></span>
+            </div>
             <div>
                 <span id="accounting-reports-header-currency">Casino Currency:</span>
                 <span id="accounting-reports-header-currency-value"></span>
@@ -46,7 +52,7 @@
         <div id="accounting-reports-tables">
 
         </div>
-        <div id="accounting-reports-footer" class="hidden">
+        <!-- <div id="accounting-reports-footer" class="hidden">
             <div>
                 <span id="accounting-reports-footer-tax">Scaled Tax Fee:</span>
                 <span id="accounting-reports-footer-tax-value">100</span>
@@ -63,6 +69,6 @@
                 <span id="accounting-reports-footer-sum">Fee Sum:</span>
                 <span id="accounting-reports-footer-sum-value">100</span>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

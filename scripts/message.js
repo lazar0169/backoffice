@@ -11,6 +11,8 @@ const message = function () {
         invalidCurrencyAndTimeZone: 906,
         loading: 907,
         downloadFailed: 908,
+        newOperator: 909,
+        welcome: 910,
         success: 1000,
         badParameter: 1001,
         nonExistingUserName: 2001,
@@ -22,6 +24,7 @@ const message = function () {
         loggedOut: 2007,
         badResetPasswordRequest: 2008,
         disabledUser: 2009,
+        notDefaultCurrency: 2010,
         invalidName: 3001,
         invalidUserName: 3002,
         invalidEmail: 3003,
@@ -29,7 +32,12 @@ const message = function () {
         weakPassword: 3005,
         userNameExists: 3006,
         emailExists: 3007,
+        duplicatedPortals: 3008,
+        duplicatedRoles: 3009,
+        duplicatedActions: 3010,
+        portalsWithSameCurrency: 4001,
         missingTax: 5001,
+        noData: 7001,
     };
 
     const description = {
@@ -40,10 +48,12 @@ const message = function () {
         902: 'Please enter PIN that you received in mail.',
         903: 'Passwords don\'t match. Please try again',
         904: 'You must enter valid user name in order to reset password',
-        905: 'You will recive an email shortly with new password. When you do, use it to log in and go to: "configuration -> profile" to change it',
+        905: 'You will recive an email shortly with new password. When you do, use it to log in and go to: <pre style="color: greenyellow">CONFIGURATION &#8250; PROFILE</pre> to change it. <br><br><button>OK</button>',
         906: 'Please check currency and time zone',
         907: 'Loading...',
         908: 'Download failed, please contact administrator.',
+        909: 'You have successfuly created a new operator. Taxes for new operator can be configured in <pre style="color: greenyellow">ACCOUNTING &#8250; SETUP</pre> tab. <br><br><button>OK</button>',
+        910: '<pre style="color: #50ff51;">&#9733; &#9733; &#9733;</pre> Welcome %s <pre style="color: #50ff51;">&#9733; &#9733; &#9733;</pre>',
         1000: 'Successful!',
         1001: 'Please check you parameters.',
         2001: 'User name does not exist! Please contact your administrator.',
@@ -55,6 +65,7 @@ const message = function () {
         2007: 'Welcome: Use your credentials to log in.',
         2008: 'Invalid PIN. Please try to reset password again, or contact your administrator.',
         2009: 'User disabled! Please contact your supervisor in order to enable this login.',
+        2010: 'Selected currency is not valid. Please contact your administrator for more info.',
         3001: 'Invalid name. It can only contains uppercase and lowercase letters and space (white space)',
         3002: 'Invalid user name. It can only contains uppercase and lowercase letters, special characters "_" and ".", and numbers.',
         3003: 'Invalid email. Email address is in correct form.',
@@ -62,7 +73,12 @@ const message = function () {
         3005: 'Weak password. Password must contain at least single uppercase letter, single number and special character (!@#$%^&*;?), and to be minimum 8 character long.',
         3006: 'User name already exist. Please choose another one.',
         3007: 'Email is already in use. Please choose another one.',
+        3008: 'Something wenp\'t wrong. Duplicated portals found. Please contact your administrator.',
+        3009: 'Something wenp\'t wrong. Duplicated roles found. Please contact your administrator.',
+        3010: 'Something wenp\'t wrong. Duplicated actions found. Please contact your administrator.',
+        4001: 'A portal with this currency exists. Please choose another one or contact your administrator.',
         5001: 'Tax configuration is missing for selected operator.',
+        7001: 'No date for selected parameters.',
     };
 
     const type = {
@@ -73,10 +89,12 @@ const message = function () {
         902: 1,
         903: 3,
         904: 3,
-        905: 4,
+        905: 0,
         906: 2,
         907: 0,
         908: 3,
+        909: 0,
+        910: 1,
         1000: 4,
         1001: 3,
         2001: 3,
@@ -88,6 +106,7 @@ const message = function () {
         2007: 1,
         2008: 3,
         2009: 3,
+        2010: 3,
         3001: 3,
         3002: 3,
         3003: 3,
@@ -95,10 +114,14 @@ const message = function () {
         3005: 3,
         3006: 3,
         3007: 3,
+        3008: 3,
+        4001: 3,
         5001: 3,
+        7001: 1,
     };
 
     on('message', function (data) {
+        if (!data) return;
         let code = data[0];
         let message;
         if (code === undefined) {

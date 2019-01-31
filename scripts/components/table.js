@@ -16,9 +16,9 @@ let table = function () {
 
         function fixHeight(element) {
             for (let table of element.getElementsByClassName('table')) {
-                let height = table.children[0].offsetHeight;
-                if (height < 400) {
-                    table.style.height = height + 20 + 'px';
+                let rowCount = table.children[0].style.gridTemplateRows.replace(/\s/g, '').replace(/fr/g, '').length;
+                if (rowCount < 14) {
+                    table.style.height = rowCount * 30 + 20 + 'px';
                 } else {
                     table.style.height = '400px';
                 }
@@ -41,8 +41,16 @@ let table = function () {
 
         let colsCount = Object.keys(params.data[0]).length;
         let tbody = document.createElement('div');
-        tbody.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
-        tbody.style.gridTemplateRows = `repeat(${params.data.length}, 1fr)`;
+        let gridTemplateColumns = '';
+        let gridTemplateRows = '';
+        for (let fr = 0; fr < colsCount; fr++) {
+            gridTemplateColumns += '1fr ';
+        }
+        for (let fr = 0; fr < params.data.length; fr++) {
+            gridTemplateRows += '1fr ';
+        }
+        tbody.style.gridTemplateColumns = `${gridTemplateColumns}`;
+        tbody.style.gridTemplateRows = `${gridTemplateRows}`;
         tbody.id = params.id;
         tbody.className = 'tbody';
 
@@ -98,17 +106,23 @@ let table = function () {
             let rowId = generateGuid();
             for (let col = 0; col < colsCount; col++) {
                 let cell = document.createElement('div');
+                let value = params.data[row][Object.keys(params.data[row])[col]];
                 // options
                 let sufix = '';
                 let prefix = '';
                 if (params.options.sufix && params.options.sufix.text && params.options.sufix.col === Object.keys(params.data[row])[col]) {
-                    sufix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.sufix.text : '';
+                    sufix = params.options.sufix.condition.test(convertToNumber(params.data[row][Object.keys(params.data[row])[col]])) ? params.options.sufix.text : '';
                 }
                 if (params.options.prefix && params.options.prefix.text && params.options.prefix.col === Object.keys(params.data[row])[col]) {
-                    prefix = params.options.sufix.condition.test(params.data[row][Object.keys(params.data[row])[col]]) ? params.options.prefix.text : '';
+                    prefix = params.options.prefix.condition.test(convertToNumber(params.data[row][Object.keys(params.data[row])[col]])) ? params.options.prefix.text : '';
                 }
                 // -----
-                cell.innerHTML = prefix + params.data[row][Object.keys(params.data[row])[col]] + sufix;
+                // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
+                // and value must be extracted
+                if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
+                    cell.style.justifyContent = 'flex-end';
+                }
+                cell.innerHTML = prefix + value + sufix;
                 cell.className = col === 0 ? `first ${params.stickyCol ? 'sticky' : ''} cell` : 'cell';
                 cell.classList.add(`row-${rowId}`);
                 if (row === params.data.length - 1) cell.classList.add('last');

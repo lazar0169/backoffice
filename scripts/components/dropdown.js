@@ -12,7 +12,8 @@ let dropdown = function () {
         }
 
         function initializeDropdown(dropdown, placeholder, isMultiple) {
-            dropdown.getSelected = function () { return false; };
+            dropdown.getSelected = function () { return dropdown.children[0].dataset.value; };
+            dropdown.getSelectedName = function () { return dropdown.children[0].innerHTML; }
             dropdown.prevCollapsed = true;
 
             dropdown.children[0].addEventListener('click', function () {
@@ -22,7 +23,7 @@ let dropdown = function () {
 
             for (let option of dropdown.children[1].children) {
                 option.addEventListener('click', function (e) {
-                    event.preventDefault();
+                    e.preventDefault();
                     e.stopPropagation();
                     if (isMultiple) {
                         option.children[0].checked = !option.children[0].checked;
@@ -31,12 +32,13 @@ let dropdown = function () {
                         dropdown.children[0].innerHTML = option.innerHTML;
                         dropdown.children[0].dataset.value = option.dataset.value;
                         dropdown.children[1].classList.add("hidden");
-                        dropdown.getSelected = function () {
-                            return option.dataset.value;
-                        };
                     }
                     trigger(`${dropdown.id}/selected`, dropdown.getSelected());
                 });
+            }
+
+            if (isMultiple) {
+                dropdown.children[0].innerHTML = readCheck(dropdown, placeholder);
             }
 
             window.addEventListener('click', function (e) {
@@ -53,14 +55,35 @@ let dropdown = function () {
         function readCheck(dropdown, placeholder) {
             let selected = [];
             let ids = [];
+            let objects = [];
+            let total = [];
             for (let option of dropdown.children[1].children) {
                 if (option.children[0].checked) {
                     selected.push(option.children[1].innerHTML);
                     ids.push(option.children[0].dataset.id);
+                    objects.push({
+                        checked: option.children[0].checked,
+                        id: option.children[0].dataset.id,
+                        name: option.children[1].innerHTML
+                    });
                 }
+                total.push({
+                    checked: option.children[0].checked,
+                    id: option.children[0].dataset.id,
+                    name: option.children[1].innerHTML
+                });
             }
             dropdown.getSelected = function () {
                 return ids;
+            };
+            dropdown.getSelectedNames = function () {
+                return selected;
+            };
+            dropdown.getSelectedObject = function () {
+                return objects;
+            };
+            dropdown.getAll = function () {
+                return total;
             };
             return selected.length !== 0 ? selected.join(', ') : placeholder;
         }
@@ -90,7 +113,7 @@ let dropdown = function () {
                     let input = document.createElement('input');
                     let label = document.createElement('label');
                     input.type = 'checkbox';
-                    input.checked = false;
+                    input.checked = option.checked || false;
                     input.dataset.id = option.id;
                     label.innerHTML = option.name || option.category;
                     label.title = option.name || option.category;
@@ -103,6 +126,8 @@ let dropdown = function () {
                 }
                 wrapper.appendChild(optionElement);
             }
+        } else {
+            select.style.display = 'none';
         }
 
         select.appendChild(selected);
