@@ -18,7 +18,7 @@ let table = function () {
             for (let table of element.getElementsByClassName('table')) {
                 let rowCount = table.children[0].style.gridTemplateRows.replace(/\s/g, '').replace(/fr/g, '').length;
                 if (rowCount < 14) {
-                    table.style.height = rowCount * 30 + 20 + 'px';
+                    table.style.height = rowCount * 29 + 'px';
                 } else {
                     table.style.height = '400px';
                 }
@@ -46,7 +46,7 @@ let table = function () {
         for (let fr = 0; fr < colsCount; fr++) {
             gridTemplateColumns += '1fr ';
         }
-        for (let fr = 0; fr < params.data.length; fr++) {
+        for (let fr = 0; fr < params.data.length + 1; fr++) {
             gridTemplateRows += '1fr ';
         }
         tbody.style.gridTemplateColumns = `${gridTemplateColumns}`;
