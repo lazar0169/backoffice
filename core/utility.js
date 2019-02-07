@@ -194,7 +194,7 @@ function filterPeriod(element, period = 'custom') {
     for (let option of element.getElementsByClassName('option')) {
         if (map[period].includes(Number(option.dataset.value))) {
             option.style.display = 'block';
-            if (!firstAvailable) firstAvailable = { value: option.dataset.value, name: option.innerHTML };
+            if (!firstAvailable) firstAvailable = { value: option.dataset.value, name: option.innerText };
         } else {
             option.style.display = 'none';
         }

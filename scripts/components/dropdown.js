@@ -13,7 +13,7 @@ let dropdown = function () {
 
         function initializeDropdown(dropdown, placeholder, isMultiple) {
             dropdown.getSelected = function () { return dropdown.children[0].dataset.value; };
-            dropdown.getSelectedName = function () { return dropdown.children[0].innerHTML; }
+            dropdown.getSelectedName = function () { return dropdown.children[0].innerText; }
             dropdown.prevCollapsed = true;
 
             dropdown.children[0].addEventListener('click', function () {
@@ -29,7 +29,7 @@ let dropdown = function () {
                         option.children[0].checked = !option.children[0].checked;
                         dropdown.children[0].innerHTML = readCheck(dropdown, placeholder);
                     } else {
-                        dropdown.children[0].innerHTML = option.innerHTML;
+                        dropdown.children[0].innerHTML = option.innerText;
                         dropdown.children[0].dataset.value = option.dataset.value;
                         dropdown.children[1].classList.add("hidden");
                     }
@@ -59,18 +59,18 @@ let dropdown = function () {
             let total = [];
             for (let option of dropdown.children[1].children) {
                 if (option.children[0].checked) {
-                    selected.push(option.children[1].innerHTML);
+                    selected.push(option.children[1].innerText);
                     ids.push(option.children[0].dataset.id);
                     objects.push({
                         checked: option.children[0].checked,
                         id: option.children[0].dataset.id,
-                        name: option.children[1].innerHTML
+                        name: option.children[1].innerText
                     });
                 }
                 total.push({
                     checked: option.children[0].checked,
                     id: option.children[0].dataset.id,
-                    name: option.children[1].innerHTML
+                    name: option.children[1].innerText
                 });
             }
             dropdown.getSelected = function () {

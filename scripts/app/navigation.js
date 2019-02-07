@@ -6,7 +6,7 @@ const navigation = function () {
 
     for (let tab of $$('.tab')) {
         tab.addEventListener('click', function () {
-            tab.parentNode.parentNode.getElementsByClassName('mobile-select')[0].innerHTML = tab.innerHTML;
+            tab.parentNode.parentNode.getElementsByClassName('mobile-select')[0].innerHTML = tab.innerText;
             to({ page: tab.dataset.page, tab: tab.dataset.tab });
         });
     }
@@ -91,7 +91,7 @@ const navigation = function () {
             $$('#sidebar').classList.remove('active');
         }
         $$(`#${data.page}`).getElementsByClassName('tabs-wrapper')[0].classList.add('hidden');
-        $$(`#${data.page}`).getElementsByClassName('mobile-select')[0].innerHTML = $$(`#${data.page}-navbar-${data.tab}`).innerHTML;
+        $$(`#${data.page}`).getElementsByClassName('mobile-select')[0].innerHTML = $$(`#${data.page}-navbar-${data.tab}`).innerText;
 
         if (active.page !== data.page) {
             trigger(`${data.page}/loaded`);

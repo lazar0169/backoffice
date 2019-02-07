@@ -387,9 +387,9 @@ let accounting = function () {
                 operatorData.scaledTax = [];
                 for (let tr of $$('#accounting-setup-scaled-table').children[0].children[1].children) {
                     let scaledTax = {
-                        stepFrom: tr.children[0].innerHTML,
-                        stepTo: tr.children[1].innerHTML,
-                        fee: tr.children[2].innerHTML
+                        stepFrom: tr.children[0].innerText,
+                        stepTo: tr.children[1].innerText,
+                        fee: tr.children[2].innerText
                     };
                     operatorData.scaledTax.push(scaledTax);
                 }

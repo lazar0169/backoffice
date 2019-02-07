@@ -22,10 +22,10 @@ let currency = function () {
                             removeLoader(droppdown.children[0]);
                             if (response.responseCode === message.codes.success) {
                                 for (let cur of list) {
-                                    cur.children[0].innerHTML = option.innerHTML;
+                                    cur.children[0].innerHTML = option.innerText;
                                 }
                                 selected.id = option.dataset.id;
-                                selected.name = option.innerHTML;
+                                selected.name = option.innerText;
                                 trigger(`currency/${droppdown.dataset.page}`);
                             } else {
                                 trigger('message', response.responseCode);

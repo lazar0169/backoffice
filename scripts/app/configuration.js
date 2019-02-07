@@ -279,7 +279,7 @@ let configuration = function () {
                 case 'actions':
                     list = [];
                     for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
-                        list.push({ checked: td.children[0].checked, role: { id: td.children[0].dataset.id, name: td.children[1].innerHTML } });
+                        list.push({ checked: td.children[0].checked, role: { id: td.children[0].dataset.id, name: td.children[1].innerText } });
                     }
                     data = { action: { id: openedId === '' ? 0 : openedId, name: $$('#configuration-action-name').value }, rolesList: list };
                     section = 'actions';
@@ -287,7 +287,7 @@ let configuration = function () {
                 case 'roles':
                     list = [];
                     for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
-                        list.push({ checked: td.children[0].checked, action: { id: td.children[0].dataset.id, name: td.children[1].innerHTML } });
+                        list.push({ checked: td.children[0].checked, action: { id: td.children[0].dataset.id, name: td.children[1].innerText } });
                     }
                     data = { role: { id: openedId, name: $$('#configuration-role-name').value }, actionsList: list };
                     section = 'roles';
@@ -448,7 +448,7 @@ let configuration = function () {
 
     function search(element, term) {
         for (let row of element.getElementsByTagName('td')) {
-            if (row.innerHTML.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+            if (row.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
                 row.parentNode.style.display = 'table-row';
             } else {
                 row.parentNode.style.display = 'none';

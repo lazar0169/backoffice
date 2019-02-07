@@ -286,7 +286,7 @@ let operators = function () {
                     openedPortalData.warningActiveCredit = Number(warningActiveCredit.value);
                     openedPortalData.blockingActiveCredit = Number(blockingActiveCredit.value);
                     openedPortalData.currencyId = Number(operatorsCurrencyWrapper.children[0].children[0].dataset.value);
-                    openedPortalData.portal.name = `${$$('#operator-name').value} ${$$('#operator-portal-currency-code').children[0].innerHTML}`;
+                    openedPortalData.portal.name = `${$$('#operator-name').value} ${$$('#operator-portal-currency-code').children[0].innerText}`;
                     if (editModePortal) {
                         operatorData.portalSettingsList[index] = openedPortalData;
                     } else {
