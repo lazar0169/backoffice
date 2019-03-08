@@ -11,6 +11,7 @@ let operators = function () {
     let defaultJackpotSettings = {};
     let operatorData = {};
     let openedPortalData = {};
+    let selectedRow;
 
     let templateOperatorData = {
         operator: {
@@ -135,7 +136,6 @@ let operators = function () {
             $$('#operators-operator-enabled').checked = false;
         }
 
-
         $$('#operators-form-save').onclick = function () {
             let button = this;
 
@@ -189,7 +189,6 @@ let operators = function () {
 
         $$('#operators-black-overlay').style.display = 'block';
         form.classList.add('show');
-        $$('#operators-main').children[0].scrollTop = 0;
         $$('#operators-main').children[0].style.overflow = 'hidden';
     }
 
@@ -202,6 +201,7 @@ let operators = function () {
         }
         portalModal.hide();
         jackpotModal.hide();
+        selectedRow.classList.remove('hover');
         editMode = false;
     }
 
@@ -413,6 +413,8 @@ let operators = function () {
 
     on('operators/show/modal', function (data) {
         addLoader(data.caller);
+        selectedRow = data.caller.parentNode;
+        selectedRow.classList.add('hover');
         trigger('comm/operators/get/single', {
             body: {
                 id: data.id

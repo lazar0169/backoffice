@@ -142,6 +142,10 @@ tr:hover {
     cursor: pointer;
 }
 
+tr.hover {
+    background-color: #3e4a58;
+}
+
 td,
 th {
     color: white;
