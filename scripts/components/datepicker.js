@@ -2,7 +2,7 @@ let datepicker = function () {
     // Initialize all date pickers
     on('load', function () {
         for (let picker of $$('.datepicker')) {
-            new Pikaday({
+            let dp = new Pikaday({
                 field: picker,
                 firstDay: 1,
                 minDate: new Date(2010, 1, 31),
@@ -25,6 +25,10 @@ let datepicker = function () {
                     log(apiString);
                 }
             });
+
+            picker.setToday = () => {
+                dp.setDate(new Date());
+            }
         }
     });
 
