@@ -12,6 +12,7 @@ let accounting = function () {
         operatorName: "",
         operatorAccounting: {}
     };
+    let selectedRow;
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -429,7 +430,6 @@ let accounting = function () {
 
         $$('#accounting-setup-black-overlay').style.display = 'block';
         $$('#accounting-setup-form').classList.add('show');
-        $$('#accounting-setup').children[0].scrollTop = 0;
         $$('#accounting-setup').children[0].style.overflow = 'hidden';
     }
 
@@ -437,6 +437,7 @@ let accounting = function () {
         $$('#accounting-setup-black-overlay').style.display = 'none';
         $$('#accounting-setup-form').classList.remove('show');
         $$('#accounting-setup').children[0].style.overflow = 'auto';
+        selectedRow.classList.remove('hover');
         tax.hide();
     }
 
@@ -535,6 +536,8 @@ let accounting = function () {
 
     on('accounting/show/modal', function (data) {
         addLoader(data.caller);
+        selectedRow = data.caller.parentNode;
+        selectedRow.classList.add('hover');
         trigger('comm/accounting/setup/operator/get', {
             body: {
                 id: data.id

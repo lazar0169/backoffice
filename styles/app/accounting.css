@@ -89,10 +89,12 @@
 }
 
 #accounting-setup-black-overlay {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     display: none;
+    top: 0;
+    left: 0;
 }
 
 /* Form */
@@ -209,7 +211,7 @@
 /* Buttons end */
 
 #accounting-setup-form {
-    position: absolute;
+    position: fixed;
     width: 35em;
     height: 35em;
     max-height: 100%;
