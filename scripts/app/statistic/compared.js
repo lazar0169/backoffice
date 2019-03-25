@@ -253,7 +253,7 @@ let statisticCompared = function () {
                         }
                     };
 
-                    for (let i = 4; i < tableBet.getElementsByClassName('remove-btn').length; i++) {
+                    for (let i = 6; i < tableBet.getElementsByClassName('remove-btn').length; i++) {
                         tableBet.getElementsByClassName('remove-btn')[i].click();
                         tableWin.getElementsByClassName('remove-btn')[i].click();
                         tableRounds.getElementsByClassName('remove-btn')[i].click();
