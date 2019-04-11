@@ -50,7 +50,7 @@ function getQueryParams(qs) {
 
 function log(msg) {
     var stack = new Error().stack.replace('Error', 'Callstack:');
-    if (_config.development) console.log(`[${new Date().toLocaleTimeString()}]:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}\n${stack}`);
+    if (_config.development) console.log(`[${new Date().toLocaleTimeString()}]:\t${typeof msg === "object" ? JSON.stringify(msg) : msg}\n`, stack);
 }
 
 let loadElements = [];

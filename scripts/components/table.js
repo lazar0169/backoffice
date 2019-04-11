@@ -54,46 +54,70 @@ let table = function () {
         tbody.id = params.id;
         tbody.className = 'tbody';
 
-        let hiddenColls = {};
+        let hiddenCols = {};
         let colIds = [];
 
         let t = document.createElement('div');
         t.className = params.sticky ? 'table sticky' : 'table';
+
+        t.props = {
+            id: params.id,
+            body: tbody,
+            colsCount: colsCount,
+            colIds: colIds,
+            dynamic: params.dynamic,
+            sticky: params.sticky,
+            stickyCol: params.stickyCol,
+            options: params.options,
+            gridTemplateColumns: gridTemplateColumns,
+            gridTemplateRows: gridTemplateRows
+        };
+
         t.appendChild(tbody);
 
         t.getHiddenCols = function () {
-            return hiddenColls;
+            return hiddenCols;
         };
 
         t.onChange = function () {
             return;
         };
 
+        t.update = function (data) {
+            let table = t;
+            let gridTemplateRowsNew = '';
+            for (let fr = 0; fr < data.length + 1; fr++) {
+                gridTemplateRowsNew += '1fr ';
+            }
+            table.props.body.style.gridTemplateRows = `${gridTemplateRowsNew}`;
+            generateBody(data, table);
+        };
+
         t.showCol = function (id) {
-            if (!hiddenColls[id]) return;
-            for (let element of $$(`.col-${hiddenColls[id]}`)) {
+            if (!hiddenCols[id]) return;
+            for (let element of $$(`.col-${hiddenCols[id]}`)) {
                 element.style.display = 'flex';
             }
             tbody.style.gridTemplateColumns += ' 1fr';
-            delete hiddenColls[id];
-            t.onChange(hiddenColls[id]);
+            delete hiddenCols[id];
+            t.onChange(hiddenCols[id]);
         };
 
         for (let col = 0; col < colsCount; col++) {
             let colId = generateGuid();
             let head = document.createElement('div');
             head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
-            head.className = `head ${params.stickyCol ? 'sticky-col' : ''} cell`;
+            head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell`;
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
-            if (params.dynamic) {
+            if (t.props.dynamic) {
                 let removeElem = document.createElement('div');
                 removeElem.className = 'remove-btn';
                 removeElem.onclick = function () {
                     for (let element of $$(`.col-${colId}`)) {
                         element.style.display = 'none';
                     }
-                    hiddenColls[Object.keys(params.data[0])[col]] = colId;
+                    hiddenCols[Object.keys(params.data[0])[col]] = colId;
                     tbody.style.gridTemplateColumns = tbody.style.gridTemplateColumns.split(' ').splice(1).join(' ');
                     t.onChange(colId);
                 };
@@ -102,34 +126,41 @@ let table = function () {
             tbody.appendChild(head);
         }
 
-        for (let row = 0; row < params.data.length; row++) {
-            let rowId = generateGuid();
-            for (let col = 0; col < colsCount; col++) {
-                let cell = document.createElement('div');
-                let value = params.data[row][Object.keys(params.data[row])[col]];
-                // options
-                let sufix = '';
-                let prefix = '';
-                if (params.options.sufix && params.options.sufix.text && params.options.sufix.col === Object.keys(params.data[row])[col]) {
-                    sufix = params.options.sufix.condition.test(convertToNumber(params.data[row][Object.keys(params.data[row])[col]])) ? params.options.sufix.text : '';
+        generateBody(params.data, t);
+
+        function generateBody(data, table) {
+            while (table.props.body.children.length > table.props.colsCount) {
+                table.props.body.children[table.props.body.children.length - 1].remove();
+            }
+            for (let row = 0; row < data.length; row++) {
+                let rowId = generateGuid();
+                for (let col = 0; col < colsCount; col++) {
+                    let cell = document.createElement('div');
+                    let value = data[row][Object.keys(data[row])[col]];
+                    // options
+                    let suffix = '';
+                    let prefix = '';
+                    if (table.props.options.suffix && table.props.options.suffix.text && table.props.options.suffix.col === Object.keys(params.data[row])[col]) {
+                        suffix = table.props.options.suffix.condition.test(convertToNumber(data[row][Object.keys(data[row])[col]])) ? options.suffix.text : '';
+                    }
+                    if (table.props.options.prefix && table.props.options.prefix.text && table.props.options.prefix.col === Object.keys(data[row])[col]) {
+                        prefix = table.props.options.prefix.condition.test(convertToNumber(data[row][Object.keys(data[row])[col]])) ? table.props.options.prefix.text : '';
+                    }
+                    // -----
+                    // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
+                    // and value must be extracted
+                    if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
+                        cell.style.justifyContent = 'flex-end';
+                    }
+                    cell.innerHTML = prefix + value + suffix;
+                    cell.className = col === 0 ? `first ${table.props.stickyCol ? 'sticky' : ''} cell` : 'cell';
+                    cell.classList.add(`row-${rowId}`);
+                    if (row === data.length - 1) cell.classList.add('last');
+                    cell.classList.add(`col-${table.props.colIds[col]}`);
+                    cell.onmouseover = function () { hoverRow(`row-${rowId}`, true); };
+                    cell.onmouseout = function () { hoverRow(`row-${rowId}`, false); };
+                    table.props.body.appendChild(cell);
                 }
-                if (params.options.prefix && params.options.prefix.text && params.options.prefix.col === Object.keys(params.data[row])[col]) {
-                    prefix = params.options.prefix.condition.test(convertToNumber(params.data[row][Object.keys(params.data[row])[col]])) ? params.options.prefix.text : '';
-                }
-                // -----
-                // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
-                // and value must be extracted
-                if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
-                    cell.style.justifyContent = 'flex-end';
-                }
-                cell.innerHTML = prefix + value + sufix;
-                cell.className = col === 0 ? `first ${params.stickyCol ? 'sticky' : ''} cell` : 'cell';
-                cell.classList.add(`row-${rowId}`);
-                if (row === params.data.length - 1) cell.classList.add('last');
-                cell.classList.add(`col-${colIds[col]}`);
-                cell.onmouseover = function () { hoverRow(`row-${rowId}`, true); };
-                cell.onmouseout = function () { hoverRow(`row-${rowId}`, false); };
-                tbody.appendChild(cell);
             }
         }
 
