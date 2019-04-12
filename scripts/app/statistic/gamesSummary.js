@@ -145,7 +145,6 @@ let statisticGamesSummary = function () {
                 removeLoader(gamesSummaryButton);
                 if (response.responseCode === message.codes.success) {
                     let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerGame));
-                    summary.push(response.result.gameStatisticsSum);
                     gamesSummaryTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
@@ -160,6 +159,22 @@ let statisticGamesSummary = function () {
                         },
                         stickyCol: true
                     }));
+
+                    gamesSummaryTableWrapper.appendChild(table.generate({
+                        data: [response.result.gameStatisticsSum],
+                        id: '',
+                        dynamic: false,
+                        sticky: true,
+                        options: {
+                            prefix: {
+                                col: 'payout',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
+                                condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
+                            }
+                        },
+                        stickyCol: true
+                    }));
+
                     table.preserveHeight(gamesSummaryTableWrapper);
 
                     gamesSummaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;

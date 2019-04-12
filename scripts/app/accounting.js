@@ -88,13 +88,6 @@ let accounting = function () {
                 doc.setFontSize(16);
             }
         });
-
-        return table.generate({
-            data: array,
-            id: '',
-            dynamic: false,
-            sticky: true
-        });
     }
 
     function generateHeadline(string) {
@@ -220,23 +213,33 @@ let accounting = function () {
                         docPageCount = 0;
 
                         pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.slotAccounting, response.result.slotAccountingSum));
+                        generateReport(response.result.slotAccounting, response.result.slotAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: [response.result.slotAccountingSum], id: '', dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum));
+                        generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: [response.result.rouletteAccountingSum], id: '', dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum));
+                        generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: [response.result.liveEuropeanRouletteAccountingSum], id: '', dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum));
+                        generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: [response.result.tripleCrownRouletteAccountingSum], id: '', dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum));
+                        generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: [response.result.pokerAccountingSum], id: '', dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(document.createElement('hr'));
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
-                        pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
+                        pageReports.appendChild(table.generate({ data: [response.result.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
 
                         table.preserveHeight(pageReports);
 
