@@ -22,7 +22,7 @@ const login = function () {
                 }
                 if (
                     isMobile() &&
-                    isSafari &&
+                    IS_SAFARI &&
                     !JSON.parse(localStorage.getItem('rememberWarning'))) {
                     warningSafariModal.classList.remove('hidden');
                 }

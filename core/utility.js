@@ -21,9 +21,12 @@ function isMobile() {
         || navigator.userAgent.match(/Windows Phone/i)
         || window.innerWidth < 580;
 };
-let isFirefox = typeof InstallTrigger !== 'undefined';
-let isSafari = navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
-let isEdge = /Edge\/\d./i.test(navigator.userAgent);
+const IS_FIREFOX = typeof InstallTrigger !== 'undefined';
+const IS_SAFARI = navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+const IS_EDGE = /Edge\/\d./i.test(navigator.userAgent);
+const ARROW_UP = '&#9650;';
+const ARROW_DOWN = '&#9660;';
+const NEUTRAL_LINE = '&#9644;';
 
 let urlData = function () {
     let data = getQueryParams(window.location.search);
