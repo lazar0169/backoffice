@@ -164,6 +164,7 @@ let statisticGamesSummary = function () {
                         data: [response.result.gameStatisticsSum],
                         id: '',
                         dynamic: false,
+                        headHidden: true,
                         sticky: true,
                         options: {
                             prefix: {

@@ -1,5 +1,5 @@
 .table {
-    overflow: auto;
+    overflow: overlay;
     position: relative;
     height: 400px;
     width: 100%;
@@ -56,6 +56,10 @@
 
 .head.sticky-col.cell:nth-child(1) {
     left: 0;
+}
+
+.head.cell.head-hidden {
+    display: none;
 }
 
 .sticky .first.sticky.cell,

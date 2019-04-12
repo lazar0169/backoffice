@@ -31,6 +31,7 @@ let table = function () {
         params.dynamic = params.dynamic || false;
         params.sticky = params.sticky || false;
         params.stickyCol = params.stickyCol || false;
+        params.headHidden = params.headHidden || false;
         params.options = params.options || {};
 
         if (!params.data || params.data.length === 0) {
@@ -123,7 +124,7 @@ let table = function () {
             let value = Object.keys(params.data[0])[col];
             head.dataset.id = value;
             head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
-            head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell`;
+            head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell ${params.headHidden ? 'head-hidden' : ''}`;
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
             // Table can either be dynamic (with an X in header) or sortable (click on header),

@@ -189,6 +189,7 @@ let statisticPerGame = function () {
                         data: [response.result.sum],
                         id: '',
                         dynamic: false,
+                        headHidden: true,
                         sticky: true,
                         options: {
                             prefix: {
