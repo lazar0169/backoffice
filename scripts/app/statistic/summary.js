@@ -144,7 +144,6 @@ let statisticSummary = function () {
                 removeLoader(summaryButton);
                 if (response.responseCode === message.codes.success) {
                     let summary = JSON.parse(JSON.stringify(response.result.statisticsPerDate));
-                    summary.push(response.result.sum);
                     summaryTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
@@ -159,6 +158,22 @@ let statisticSummary = function () {
                         },
                         stickyCol: true
                     }));
+
+                    summaryTableWrapper.appendChild(table.generate({
+                        data: [response.result.sum],
+                        id: '',
+                        dynamic: false,
+                        sticky: true,
+                        options: {
+                            prefix: {
+                                col: 'payout',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
+                                condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
+                            }
+                        },
+                        stickyCol: true
+                    }));
+
                     table.preserveHeight(summaryTableWrapper);
 
                     summaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;

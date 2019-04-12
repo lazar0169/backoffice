@@ -142,10 +142,23 @@ let table = function () {
                 head.appendChild(removeElem);
             } else {
                 head.onclick = function () {
-                    if (head.dataset.sortingOrder === undefined) {
-                        head.dataset.sortingOrder = 0;
+                    for (let headElement of tbody.getElementsByClassName('head')) {
+                        if (headElement.dataset.id !== value && headElement.dataset.sortingOrder !== undefined) {
+                            delete headElement.dataset.sortingOrder;
+                            headElement.getElementsByTagName('span')[0].remove();
+                        }
                     }
-                    head.dataset.sortingOrder = convertToNumber(head.dataset.sortingOrder) ? 0 : 1;
+                    if (head.dataset.sortingOrder === undefined) {
+                        head.dataset.sortingOrder = 1;
+                        head.innerHTML += `<span style="color: white;float: right; margin-left: 0.8em;">${ARROW_UP}</span>`;
+                    }
+                    if (convertToNumber(head.dataset.sortingOrder)) {
+                        head.dataset.sortingOrder = 0;
+                        head.getElementsByTagName('span')[0].innerHTML = ARROW_DOWN;
+                    } else {
+                        head.dataset.sortingOrder = 1;
+                        head.getElementsByTagName('span')[0].innerHTML = ARROW_UP;
+                    }
                     t.sortCol(value, head.dataset.sortingOrder);
                 };
             }
@@ -174,7 +187,7 @@ let table = function () {
                         prefix = table.props.options.prefix.condition.test(convertToNumber(data[row][Object.keys(data[row])[col]])) ? table.props.options.prefix.text : '';
                     }
                     // -----
-                    // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">&#9650;</span>"
+                    // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">${ARROW_UP}</span>"
                     // and value must be extracted
                     if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
                         cell.style.justifyContent = 'flex-end';

@@ -169,7 +169,6 @@ let statisticPerGame = function () {
                 removeLoader(perGameButton);
                 if (response.responseCode === message.codes.success) {
                     let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
-                    summary.push(response.result.sum);
                     perGameHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
@@ -185,6 +184,22 @@ let statisticPerGame = function () {
                         },
                         stickyCol: true
                     }));
+
+                    perGameTableWrapper.appendChild(table.generate({
+                        data: [response.result.sum],
+                        id: '',
+                        dynamic: false,
+                        sticky: true,
+                        options: {
+                            prefix: {
+                                col: 'payout',
+                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
+                                condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
+                            }
+                        },
+                        stickyCol: true
+                    }));
+
                     table.preserveHeight(perGameTableWrapper);
                     requested = true;
                 } else {
