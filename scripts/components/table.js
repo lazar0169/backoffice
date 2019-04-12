@@ -63,6 +63,7 @@ let table = function () {
         t.props = {
             id: params.id,
             body: tbody,
+            data: params.data,
             colsCount: colsCount,
             colIds: colIds,
             dynamic: params.dynamic,
@@ -93,6 +94,19 @@ let table = function () {
             generateBody(data, table);
         };
 
+        t.sortCol = function (col, order = 1) {
+            let table = t;
+            order = convertToNumber(order);
+            table.props.data.sort((a, b) => {
+                if (isNumber(a[col])) {
+                    return convertToNumber(a[col]) > convertToNumber(b[col]) ? order ? 1 : -1 : order ? -1 : 1;
+                } else {
+                    return a[col] > b[col] ? order ? 1 : -1 : order ? -1 : 1;
+                }
+            });
+            table.update(table.props.data);
+        };
+
         t.showCol = function (id) {
             if (!hiddenCols[id]) return;
             for (let element of $$(`.col-${hiddenCols[id]}`)) {
@@ -106,10 +120,14 @@ let table = function () {
         for (let col = 0; col < colsCount; col++) {
             let colId = generateGuid();
             let head = document.createElement('div');
+            let value = Object.keys(params.data[0])[col];
+            head.dataset.id = value;
             head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
             head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell`;
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
+            // Table can either be dynamic (with an X in header) or sortable (click on header),
+            // but it can not be both due to data mutation problem (col hiding is only visual representation)
             if (t.props.dynamic) {
                 let removeElem = document.createElement('div');
                 removeElem.className = 'remove-btn';
@@ -122,6 +140,14 @@ let table = function () {
                     t.onChange(colId);
                 };
                 head.appendChild(removeElem);
+            } else {
+                head.onclick = function () {
+                    if (head.dataset.sortingOrder === undefined) {
+                        head.dataset.sortingOrder = 0;
+                    }
+                    head.dataset.sortingOrder = convertToNumber(head.dataset.sortingOrder) ? 0 : 1;
+                    t.sortCol(value, head.dataset.sortingOrder);
+                };
             }
             tbody.appendChild(head);
         }
@@ -132,6 +158,7 @@ let table = function () {
             while (table.props.body.children.length > table.props.colsCount) {
                 table.props.body.children[table.props.body.children.length - 1].remove();
             }
+            table.props.data = data;
             for (let row = 0; row < data.length; row++) {
                 let rowId = generateGuid();
                 for (let col = 0; col < colsCount; col++) {
