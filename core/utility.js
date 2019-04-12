@@ -164,8 +164,12 @@ function transformCamelToRegular(string) {
         return string
             // insert a space before all caps
             .replace(/([A-Z])/g, ' $1')
+            // trim whitespace
+            .trim()
             // uppercase the first character
-            .replace(/^./, function (str) { return str.toUpperCase(); })
+            .replace(/^./, function (str) {
+                return str.toUpperCase();
+            })
     }
 }
 
