@@ -2,6 +2,7 @@ let dashboard = function () {
     let main = $$('#dashboard-main').children[0];
     let jackpots = $$('#dashboard-jackpots').children[0];
     let portals = $$('#dashboard-portals-wrapper');
+    let portalTable = $$(`#portals-table`);
     let players = $$('#dashboard-players').children[0];
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
@@ -184,61 +185,61 @@ let dashboard = function () {
 
     on('dashboard/portals/loaded', function () {
         if (!dashboardData) return;
-        portals.innerHTML = '';
+        let wrapperTable = portalTable.getElementsByTagName('table')[0];
         let input = $$('#dashboard-portals-search');
 
         input.addEventListener('input', function () {
-            search(portals, input.value);
+            search(wrapperTable, input.value);
         });
         input.addEventListener('keyup', function (e) {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
-                search(portals, '');
+                search(wrapperTable, '');
             }
         });
-        input.addEventListener('blur', function () {
-            input.value = '';
-            search(portals, '');
-        });
+        // input.addEventListener('blur', function () {
+        //     input.value = '';
+        //     search(wrapperTable, '');
+        // });
 
         input.value = '';
-        search(portals, '');
+        search(wrapperTable, '');
+        let body = document.createElement('tbody');
+        wrapperTable.appendChild(body);
+        hideAllRows(wrapperTable);
 
         for (let portal in dashboardData.portalsActivities) {
-            let wrapper = document.createElement('section');
-            wrapper.dataset.value = portal;
-            let header = document.createElement('h2');
-            header.innerHTML = portal;
-            header.opened = false;
-            wrapper.appendChild(header);
-            header.onclick = () => {
-                if (!header.opened) {
-                    if (!header.created) {
-                        wrapper.appendChild(table.generate({
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            td.innerHTML = portal;
+            tr.dataset.id = portal;
+            tr.appendChild(td);
+            body.appendChild(tr);
+            tr.opened = false;
+            tr.onclick = () => {
+                if (!tr.opened) {
+                    if (!tr.created) {
+                        td.appendChild(table.generate({
                             data: parseData(dashboardData.portalsActivities[portal].activities),
                             id: portal,
                             dynamic: false,
                             sticky: true,
                             stickyCol: true
                         }));
-                        header.created = true;
-                        table.preserveHeight(wrapper);
+                        tr.created = true;
+                        table.preserveHeight(td);
                     }
                     else {
-                        let tableElement = document.getElementById(portal).parentElement;
-                        header.opened = true;
-                        tableElement.style.display = "none";
+                        hideElement(document.getElementById(portal).parentElement);
+                        tr.opened = true;
                     }
                 }
                 else {
-                    let tableElement = document.getElementById(portal).parentElement;
-                    header.opened = false;
-                    tableElement.style.display = "block";
+                    showElement(document.getElementById(portal).parentElement);
+                    tr.opened = false;
                 }
             }
-            portals.appendChild(wrapper);
         }
-        table.preserveHeight(portals);
     });
 
     function getDashboard() {
@@ -268,11 +269,14 @@ let dashboard = function () {
     }
 
     function search(element, term) {
-        for (let section of element.getElementsByTagName('section')) {
-            if (section.dataset.value.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
-                section.style.display = 'block';
+        if(!term){
+            return;
+        }
+        for (let tableRow of element.getElementsByTagName('tr')) {
+            if (tableRow.dataset.id.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
             } else {
-                section.style.display = 'none';
+                tableRow.style.display = 'none';
             }
         }
     }
@@ -298,5 +302,22 @@ let dashboard = function () {
             tableData.push(row);
         }
         return tableData;
+    }
+
+    function hideElement(element) {
+        element.style.display = "none";
+    }
+
+    function showElement(element) {
+        element.style.display = "block";
+    }
+
+    function hideAllRows(element) {
+        for (let tableRow of element.getElementsByTagName('td')) {
+            if (tableRow.children[0]) {
+                hideElement(tableRow.children[0]);
+                tableRow.parentElement.opened = true;
+            }
+        }
     }
 }();
