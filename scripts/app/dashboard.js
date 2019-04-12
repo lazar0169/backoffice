@@ -222,6 +222,7 @@ let dashboard = function () {
                             stickyCol: true
                         }));
                         header.created = true;
+                        table.preserveHeight(wrapper);
                     }
                     else {
                         let tableElement = document.getElementById(portal).parentElement;
