@@ -209,14 +209,33 @@ let dashboard = function () {
             wrapper.dataset.value = portal;
             let header = document.createElement('h2');
             header.innerHTML = portal;
+            header.opened = false;
             wrapper.appendChild(header);
-            wrapper.appendChild(table.generate({
-                data: parseData(dashboardData.portalsActivities[portal].activities),
-                id: '',
-                dynamic: false,
-                sticky: true,
-                stickyCol: true
-            }));
+            header.onclick = () => {
+                if (!header.opened) {
+                    if (!header.created) {
+                        wrapper.appendChild(table.generate({
+                            data: parseData(dashboardData.portalsActivities[portal].activities),
+                            id: portal,
+                            dynamic: false,
+                            sticky: true,
+                            stickyCol: true
+                        }));
+                        header.created = true;
+                        table.preserveHeight(wrapper);
+                    }
+                    else {
+                        let tableElement = document.getElementById(portal).parentElement;
+                        header.opened = true;
+                        tableElement.style.display = "none";
+                    }
+                }
+                else {
+                    let tableElement = document.getElementById(portal).parentElement;
+                    header.opened = false;
+                    tableElement.style.display = "block";
+                }
+            }
             portals.appendChild(wrapper);
         }
         table.preserveHeight(portals);
