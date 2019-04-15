@@ -66,7 +66,7 @@ let accounting = function () {
     }
 
     function generateReport(data, sum) {
-        let array = JSON.parse(JSON.stringify(data));
+        let array = getCopy(data);
         let title = sum.gameName;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
@@ -214,28 +214,23 @@ let accounting = function () {
 
                         pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
                         generateReport(response.result.slotAccounting, response.result.slotAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', dynamic: false, sticky: true }));
-                        pageReports.appendChild(table.generate({ data: [response.result.slotAccountingSum], id: '', headHidden: response.result.slotAccounting.length > 0, dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', sum: response.result.slotAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
                         generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', dynamic: false, sticky: true }));
-                        pageReports.appendChild(table.generate({ data: [response.result.rouletteAccountingSum], id: '', headHidden: response.result.rouletteAccounting.length > 0, dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', sum: response.result.rouletteAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
                         generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', dynamic: false, sticky: true }));
-                        pageReports.appendChild(table.generate({ data: [response.result.liveEuropeanRouletteAccountingSum], id: '', headHidden: response.result.liveEuropeanRouletteAccounting.length > 0, dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', sum: response.result.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
                         generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', dynamic: false, sticky: true }));
-                        pageReports.appendChild(table.generate({ data: [response.result.tripleCrownRouletteAccountingSum], id: '', headHidden: response.result.tripleCrownRouletteAccounting.length > 0, dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', sum: response.result.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
                         generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', dynamic: false, sticky: true }));
-                        pageReports.appendChild(table.generate({ data: [response.result.pokerAccountingSum], id: '', headHidden: response.result.pokerAccounting.length > 0, dynamic: false, sticky: true }));
+                        pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', sum: response.result.pokerAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(document.createElement('hr'));
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
@@ -456,7 +451,7 @@ let accounting = function () {
 
         function show(element, index) {
             if (taxEditMode) {
-                element = JSON.parse(JSON.stringify(element));
+                element = getCopy(element);
                 from.value = index === 0 ? 0 : element.stepFrom;
                 to.value = element.stepTo;
                 fee.set(Number(element.fee));

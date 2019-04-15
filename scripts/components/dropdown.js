@@ -43,7 +43,7 @@ let dropdown = function () {
             };
             dropdown.prevCollapsed = true;
 
-            if (!searchVisible) {
+            if (!searchVisible || isMobile()) {
                 searchWrapper.style.display = 'none';
             }
 
@@ -213,9 +213,7 @@ let dropdown = function () {
             search.appendChild(selectAll);
             search.appendChild(selectAllLabel);
         }
-        if (!isMobile()) {
-            wrapper.appendChild(search);
-        }
+        wrapper.appendChild(search);
 
         if (data && data.length > 0) {
             for (let option of data) {

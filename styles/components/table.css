@@ -54,6 +54,17 @@
     z-index: 2;
 }
 
+.cell.last {
+    background-color: #20272f;
+    position: sticky;
+    bottom: 0;
+    left: auto;
+}
+
+.cell.last.sticky {
+    left: 0;
+}
+
 .head.sticky-col.cell:nth-child(1) {
     left: 0;
 }

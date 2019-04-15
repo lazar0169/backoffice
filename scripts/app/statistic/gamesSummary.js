@@ -144,27 +144,12 @@ let statisticGamesSummary = function () {
             success: function (response) {
                 removeLoader(gamesSummaryButton);
                 if (response.responseCode === message.codes.success) {
-                    let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerGame));
+                    let summary = getCopy(response.result.gameStatisticsPerGame);
                     gamesSummaryTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
                         dynamic: false,
-                        sticky: true,
-                        options: {
-                            prefix: {
-                                col: 'payout',
-                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
-                                condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
-                            }
-                        },
-                        stickyCol: true
-                    }));
-
-                    gamesSummaryTableWrapper.appendChild(table.generate({
-                        data: [response.result.gameStatisticsSum],
-                        id: '',
-                        dynamic: false,
-                        headHidden: true,
+                        sum: response.result.gameStatisticsSum,
                         sticky: true,
                         options: {
                             prefix: {
