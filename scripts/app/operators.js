@@ -34,7 +34,7 @@ let operators = function () {
     });
 
     $$('#operators-add-new').addEventListener('click', function () {
-        operatorData = JSON.parse(JSON.stringify(templateOperatorData));
+        operatorData = getCopy(templateOperatorData);
         showModal(operatorData);
     });
 

@@ -16,9 +16,9 @@ let table = function () {
 
         function fixHeight(element) {
             for (let table of element.getElementsByClassName('table')) {
-                let rowCount = table.children[0].style.gridTemplateRows.replace(/\s/g, '').replace(/fr/g, '').length;
-                if (rowCount < 14) {
-                    table.style.height = rowCount * 29 + 'px';
+                let rowCount = table.props.rowsCount;
+                if (rowCount < (isMobile() ? 8 : 14)) {
+                    table.style.height = table.children[0].clientHeight + (table.children[0].clientWidth > table.clientWidth ? 20 : 0) + 'px';
                 } else {
                     table.style.height = '400px';
                 }
@@ -31,6 +31,8 @@ let table = function () {
         params.dynamic = params.dynamic || false;
         params.sticky = params.sticky || false;
         params.stickyCol = params.stickyCol || false;
+        params.headHidden = params.headHidden || false;
+        params.sum = params.sum || false;
         params.options = params.options || {};
 
         if (!params.data || params.data.length === 0) {
@@ -43,10 +45,12 @@ let table = function () {
         let tbody = document.createElement('div');
         let gridTemplateColumns = '';
         let gridTemplateRows = '';
+        let numberOfRows = 0;
         for (let fr = 0; fr < colsCount; fr++) {
             gridTemplateColumns += '1fr ';
         }
-        for (let fr = 0; fr < params.data.length + 1; fr++) {
+        for (let fr = params.headHidden ? 1 : 0; fr < params.data.length + 1; fr++) {
+            numberOfRows++;
             gridTemplateRows += '1fr ';
         }
         tbody.style.gridTemplateColumns = `${gridTemplateColumns}`;
@@ -65,6 +69,8 @@ let table = function () {
             body: tbody,
             data: params.data,
             colsCount: colsCount,
+            rowsCount: numberOfRows,
+            sum: params.sum,
             colIds: colIds,
             dynamic: params.dynamic,
             sticky: params.sticky,
@@ -123,7 +129,7 @@ let table = function () {
             let value = Object.keys(params.data[0])[col];
             head.dataset.id = value;
             head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
-            head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell`;
+            head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell ${params.headHidden ? 'head-hidden' : ''}`;
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
             // Table can either be dynamic (with an X in header) or sortable (click on header),
@@ -171,7 +177,10 @@ let table = function () {
             while (table.props.body.children.length > table.props.colsCount) {
                 table.props.body.children[table.props.body.children.length - 1].remove();
             }
-            table.props.data = data;
+            table.props.data = getCopy(data);
+            if (table.props.sum) {
+                data.push(table.props.sum);
+            }
             for (let row = 0; row < data.length; row++) {
                 let rowId = generateGuid();
                 for (let col = 0; col < colsCount; col++) {
@@ -195,7 +204,9 @@ let table = function () {
                     cell.innerHTML = prefix + value + suffix;
                     cell.className = col === 0 ? `first ${table.props.stickyCol ? 'sticky' : ''} cell` : 'cell';
                     cell.classList.add(`row-${rowId}`);
-                    if (row === data.length - 1) cell.classList.add('last');
+                    if (row === data.length - 1 && table.props.sum) {
+                        cell.classList.add('last');
+                    }
                     cell.classList.add(`col-${table.props.colIds[col]}`);
                     cell.onmouseover = function () { hoverRow(`row-${rowId}`, true); };
                     cell.onmouseout = function () { hoverRow(`row-${rowId}`, false); };

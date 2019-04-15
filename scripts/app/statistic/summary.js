@@ -143,26 +143,12 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader(summaryButton);
                 if (response.responseCode === message.codes.success) {
-                    let summary = JSON.parse(JSON.stringify(response.result.statisticsPerDate));
+                    let summary = getCopy(response.result.statisticsPerDate);
                     summaryTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
                         dynamic: false,
-                        sticky: true,
-                        options: {
-                            prefix: {
-                                col: 'payout',
-                                text: '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>',
-                                condition: /^([0-9]{3,})(\.[0-9]{0,})?$/gm
-                            }
-                        },
-                        stickyCol: true
-                    }));
-
-                    summaryTableWrapper.appendChild(table.generate({
-                        data: [response.result.sum],
-                        id: '',
-                        dynamic: false,
+                        sum: response.result.sum,
                         sticky: true,
                         options: {
                             prefix: {

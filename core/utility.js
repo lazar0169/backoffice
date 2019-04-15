@@ -234,3 +234,7 @@ function convertToNumber(value) {
     if (value.replace) value = value.replace(/\s/g, '').replace(/,/g, '').replace(/%/g, '');
     return value !== '' && !isNaN(Number(value)) ? Number(value) : value;
 }
+
+function getCopy(data) {
+    return JSON.parse(JSON.stringify(data));
+}
