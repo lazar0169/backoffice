@@ -1,5 +1,5 @@
 .table {
-    overflow: overlay;
+    overflow: auto;
     position: relative;
     height: 400px;
     width: 100%;
