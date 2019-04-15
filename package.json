@@ -23,12 +23,12 @@
     "css-minifiers": "^3.0.0",
     "javascript-obfuscator": "^0.18.1",
     "jsdom": "^11.11.0",
-    "node-minify": "^3.3.0",
+    "node-minify": "^3.6.0",
     "node-watch": "^0.5.8",
     "pretty": "^2.0.0"
   },
   "dependencies": {
-    "eslint": "^5.2.0",
-    "npm": "^6.2.0"
+    "eslint": "^5.16.0",
+    "npm": "^6.9.0"
   }
 }
