@@ -80,6 +80,10 @@ let table = function () {
             gridTemplateRows: gridTemplateRows
         };
 
+        t.onclick = function (e) {
+            e.stopPropagation();
+        };
+
         t.appendChild(tbody);
 
         t.getHiddenCols = function () {

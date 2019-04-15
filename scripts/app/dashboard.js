@@ -1,9 +1,7 @@
 let dashboard = function () {
     let main = $$('#dashboard-main').children[0];
     let jackpots = $$('#dashboard-jackpots').children[0];
-    let portals = $$('#dashboard-portals-wrapper');
     let portalTable = $$(`#portals-table`);
-    let players = $$('#dashboard-players').children[0];
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
     let portalListener;
@@ -191,16 +189,18 @@ let dashboard = function () {
         input.addEventListener('input', function () {
             search(wrapperTable, input.value);
         });
+
         input.addEventListener('keyup', function (e) {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
                 search(wrapperTable, '');
             }
         });
-        // input.addEventListener('blur', function () {
-        //     input.value = '';
-        //     search(wrapperTable, '');
-        // });
+
+        $$('#dashboard-portals-remove-search').onclick = function () {
+            input.value = '';
+            search(wrapperTable, '');
+        };
 
         input.value = '';
         search(wrapperTable, '');
@@ -211,32 +211,34 @@ let dashboard = function () {
         for (let portal in dashboardData.portalsActivities) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
-            td.innerHTML = portal;
+            let portalTitle = document.createElement('div');
+            portalTitle.className = 'portal-title';
+            portalTitle.innerText = portal;
+            td.appendChild(portalTitle);
+            td.className = 'collapsed';
             tr.dataset.id = portal;
             tr.appendChild(td);
             body.appendChild(tr);
-            tr.opened = false;
-            tr.onclick = () => {
-                if (!tr.opened) {
-                    if (!tr.created) {
-                        td.appendChild(table.generate({
+            td.collapsed = true;
+            td.onclick = () => {
+                if (td.collapsed) {
+                    if (!td.created) {
+                        let t = table.generate({
                             data: parseData(dashboardData.portalsActivities[portal].activities),
-                            id: portal,
+                            id: `portal-${portal}`,
                             dynamic: false,
                             sticky: true,
                             stickyCol: true
-                        }));
-                        tr.created = true;
+                        })
+                        td.appendChild(t);
+                        td.created = true;
                         table.preserveHeight(td);
                     }
-                    else {
-                        hideElement(document.getElementById(portal).parentElement);
-                        tr.opened = true;
-                    }
-                }
-                else {
-                    showElement(document.getElementById(portal).parentElement);
-                    tr.opened = false;
+                    td.collapsed = false;
+                    td.classList.remove('collapsed');
+                } else {
+                    td.classList.add('collapsed');
+                    td.collapsed = true;
                 }
             }
         }
@@ -269,9 +271,6 @@ let dashboard = function () {
     }
 
     function search(element, term) {
-        if(!term){
-            return;
-        }
         for (let tableRow of element.getElementsByTagName('tr')) {
             if (tableRow.dataset.id.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
                 tableRow.style.display = 'table-row';
@@ -302,14 +301,6 @@ let dashboard = function () {
             tableData.push(row);
         }
         return tableData;
-    }
-
-    function hideElement(element) {
-        element.style.display = "none";
-    }
-
-    function showElement(element) {
-        element.style.display = "block";
     }
 
     function hideAllRows(element) {
