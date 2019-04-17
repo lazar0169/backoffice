@@ -1,0 +1,14 @@
+#accounting-get-total.hidden{
+    display: none !important;
+}
+
+#accounting-get-total{
+    display: inline;
+    padding: 0.25rem 1rem;
+}
+
+/* MOBILE */
+
+#accounting-get-total{
+    margin: 0.5em 0;
+}
