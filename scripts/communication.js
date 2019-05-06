@@ -83,10 +83,11 @@ let comm = function () {
         'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
     };
 
-    let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`
+    let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;
+    let accessToken;
 
     function get(action, callback, body) {
-        let accessToken = localStorage.getItem('accessToken');
+        accessToken = localStorage.getItem('accessToken');
         fetch(apiUrl + action, {
             method: 'POST',
             credentials: 'include',
@@ -101,21 +102,8 @@ let comm = function () {
         }).then(function (response) {
             // log(response.headers.get("content-type"));
             if (response.status === 401) {
-                connect(actions['comm/auth/token/refresh'], {
-                    body: {
-                        UserName: localStorage.getItem('loginName'),
-                        AccessToken: localStorage.getItem('accessToken'),
-                        RefreshToken: localStorage.getItem('refreshToken')
-                    },
-                    success: function (response) {
-                        localStorage.setItem('accessToken', response.result.accessToken);
-                        localStorage.setItem('refreshToken', response.result.refreshToken);
-                        return response.json();
-                    },
-                    fail: function () {
-                        location.href = getLocation();
-                    }
-                }, 'comm/auth/token/refresh');
+                refreshAccessToken(action, callback, body);
+                throw Error('refresh');
             } else {
                 return response.json();
             }
@@ -126,13 +114,34 @@ let comm = function () {
             }
             callback.success(json);
         }).catch((err) => {
-            callback.fail(err);
-            trigger('message', message.codes.clientError);
-            console.error(err.stack);
-            // setTimeout(() => {
-            //     location.href = getLocation();
-            // }, 1000);
+            if (err.message !== 'refresh') {
+                callback.fail(err);
+                trigger('message', message.codes.clientError);
+                console.error(err.stack);
+                // setTimeout(() => {
+                //     location.href = getLocation();
+                // }, 1000);
+            }
         });
+    }
+
+    function refreshAccessToken(action, callback, body) {
+        connect(actions['comm/auth/token/refresh'], {
+            body: {
+                userName: localStorage.getItem('loginName'),
+                accessToken: localStorage.getItem('accessToken'),
+                refreshToken: localStorage.getItem('refreshToken')
+            },
+            success: function (response) {
+                localStorage.setItem('accessToken', response.result.accessToken);
+                localStorage.setItem('refreshToken', response.result.refreshToken);
+                accessToken = response.result.accessToken;
+                get(action, callback, body);
+            },
+            fail: function () {
+                location.href = getLocation();
+            }
+        }, 'comm/auth/token/refresh');
     }
 
     function connect(action, data = {}, callerAction) {
