@@ -15,8 +15,11 @@ let comm = function () {
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
-        'com/login/password/reset': '/Account/ForgottenPassword',
-        'com/login/logged': '/Account/IsLoggedIn',
+        'comm/login/password/reset': '/Account/ForgottenPassword',
+        'comm/login/logged': '/Account/IsLoggedIn',
+
+        // Authorization
+        'comm/auth/token/refresh': '/Token/RefreshAccessToken',
 
         // Dashboard
         'comm/dashboard/get': '/Dashboard/GetDashboard',
@@ -83,22 +86,42 @@ let comm = function () {
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`
 
     function get(action, callback, body) {
+        let accessToken = localStorage.getItem('accessToken');
         fetch(apiUrl + action, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'credentials': 'include'
+                'credentials': 'include',
+                'Authorization': `Bearer ${accessToken}`
             },
             // mode: "no-cors",
             body: JSON.stringify(body)
         }).then(function (response) {
             // log(response.headers.get("content-type"));
-            return response.json();
+            if (response.status === 401) {
+                connect(actions['comm/auth/token/refresh'], {
+                    body: {
+                        UserName: localStorage.getItem('loginName'),
+                        AccessToken: localStorage.getItem('accessToken'),
+                        RefreshToken: localStorage.getItem('refreshToken')
+                    },
+                    success: function (response) {
+                        localStorage.setItem('accessToken', response.result.accessToken);
+                        localStorage.setItem('refreshToken', response.result.refreshToken);
+                        return response.json();
+                    },
+                    fail: function () {
+                        location.href = getLocation();
+                    }
+                }, 'comm/auth/token/refresh');
+            } else {
+                return response.json();
+            }
         }).then(function (json) {
             log(json);
-            if (json.responseCode === message.codes.loggedOut) {
+            if (json.responseCode === message.codes.loggedOut || json.responseCode === message.codes.invalidToken) {
                 location.href = getLocation();
             }
             callback.success(json);

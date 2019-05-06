@@ -306,7 +306,7 @@ let dashboard = function () {
     function hideAllRows(element) {
         for (let tableRow of element.getElementsByTagName('td')) {
             if (tableRow.children[0]) {
-                hideElement(tableRow.children[0]);
+                tableRow.classList.add('collapsed');
                 tableRow.parentElement.opened = true;
             }
         }
