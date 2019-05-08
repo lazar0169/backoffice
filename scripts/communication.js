@@ -44,6 +44,12 @@ let comm = function () {
         'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',
         'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
 
+        // Advance Statistics
+        'comm/advance-statistics/totalPerGame/get' : '/AdvancedStatistics/GetTotalPerGame',
+        'comm/advance-statistics/portalPerGame/get' : '/AdvancedStatistics/GetPortalPerGame',
+        'comm/advance-statistics/playersOfGame/get' : '/AdvancedStatistics/GetPlayersOfPortal',
+        'comm/advance-statistics/betsOfGame/get' : '/AdvancedStatistics/GetBetsOfPortal',
+
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
         'comm/operators/create': '/Operator/CreateOperator',

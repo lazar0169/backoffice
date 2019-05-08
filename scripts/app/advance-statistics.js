@@ -1,454 +1,77 @@
-let accountingFazi = function () {
+let advanceAccounting = function () {
     let main = $$('#advance-statistics-main');
     let portals = $$('#advance-statistics-portals');
     let players = $$('#advance-statistics-players');
     let bets = $$('#advance-statistics-bets');
+    const totalGetButton = $$('#advance-statistics-get-total');
+    let firstPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let firstPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let secondPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let secondPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let selectedRow;
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
         'Accounting': 'comm/accounting/get',
         'Manager': 'comm/accounting/manager/get',
-    }
-
-    function fillTable(table, data, options) {
-        // TODO: fill data with options
-    }
-
-    function generateHeadline(string) {
-        let headline = document.createElement('h2');
-        headline.innerHTML = string.replace(' Sum', '');
-        return headline;
-    }
-
-    function saveBase64(reportName, byte) {
-        var link = document.createElement('a');
-        link.href = byte;
-        var fileName = reportName;
-        link.download = fileName;
-        link.click();
     };
 
-    function downloadExcel() {
-        addLoader($$('#accounting-reports-download-excel'));
-        trigger('comm/accounting/excel/get', {
-            body: excelData,
+    function fillTable(tableElement, data, options) {
+        let tableObject = table.generate({
+            data: data,
+            id: 'advance-statistics-main-table',
+            dynamic: true,
+            sticky: true,
+            stickyCol: true,
+        });
+        //table.preserveHeight(tableElement.parentElement);
+        tableElement.appendChild(tableObject);
+    };
+
+    on('date/accounting-time-main-first-period-span-from', function (data) {
+        firstPeriodFrom = data;
+    });
+    on('date/accounting-time-main-first-period-span-to', function (data) {
+        firstPeriodTo = data;
+    });
+    on('date/accounting-time-main-second-period-span-from', function (data) {
+        secondPeriodFrom = data;
+    });
+    on('date/accounting-time-main-second-period-span-to', function (data) {
+        secondPeriodTo = data;
+    });
+
+    function getTotalPerGame(){
+        let mainTable = $$('#advance-statistics-main-table');
+        mainTable.innerHTML = "";
+        addLoader(totalGetButton);
+        trigger('comm/advance-statistics/totalPerGame/get', {
+            body: {
+                firstPeriod: {
+                    fromTime: firstPeriodFrom,
+                    toTime: firstPeriodTo,
+                },
+                secondPeriod: {
+                    fromTime: secondPeriodFrom,
+                    toTime: secondPeriodTo,
+                },
+            },
             success: function (response) {
-                removeLoader($$('#accounting-reports-download-excel'));
+                removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
-                    saveBase64(`${response.result.name}.xlsx`, 'data:application/octet-stream;base64,' + response.result.data);
+                    let tableOptions = {
+                        dynamic: true,
+                        sticky: true,
+                        stickyCol: true,
+                    };
+                    
+                    fillTable(mainTable, parseMainData(response.result), tableOptions);
                 } else {
                     trigger('message', response.responseCode);
                 }
-            },
-            fail: function () {
-                removeLoader($$('#accounting-reports-download-excel'));
             }
         });
-    }
-
-    function afterLoad(response) {
-        if (response.responseCode === message.codes.success) {
-            clearElement($$('#accounting-operators-list'));
-            let operatorsDropdown = dropdown.generate(response.result, 'accounting-operators-list', 'Select operator');
-            $$('#accounting-operators-list-wrapper').appendChild(operatorsDropdown);
-            if (!response.result) $$('#accounting-operators-list-wrapper').style.display = 'none';
-
-            on('accounting-operators-list/selected', function (value) {
-                addLoader($$('#accounting-reports-filter'));
-                trigger('comm/accounting/portals/get', {
-                    body: {
-                        id: value
-                    },
-                    success: function (response) {
-                        if (response.responseCode === message.codes.success) {
-                            populateFilter(response);
-                            removeLoader($$('#accounting-reports-filter'));
-                        } else {
-                            trigger('message', response.responseCode);
-                        }
-                    },
-                    fail: function () {
-                        removeLoader($$('#accounting-reports-filter'));
-                    }
-                });
-            });
-
-            // Prevent operator change
-            if (roles.getRole() === 'Manager') {
-                trigger('accounting-operators-list/selected', 0);
-            }
-
-        } else {
-            trigger('message', response.responseCode);
-        }
-    }
-
-    function populateFilter(response) {
-        clearElement($$('#accounting-portals-list'));
-        let portalsDropown = dropdown.generate(response.result, 'accounting-portals-list', 'Select portal', true);
-        $$('#accounting-portals-list-wrapper').appendChild(portalsDropown);
-        $$('#accounting-get-reports').classList.remove('hidden');
-
-        $$('#accounting-get-reports').onclick = function () {
-            $$('#accounting-reports-download').classList.add('hidden');
-            $$('#accounting-reports-download-excel').classList.add('hidden');
-            $$('#accounting-reports-header').classList.add('hidden');
-            // $$('#accounting-reports-footer').classList.add('hidden');
-            pageReports.innerHTML = '';
-            let button = this;
-            let data;
-
-            switch (roles.getRole()) {
-                case 'Manager':
-                    data = {
-                        timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
-                        fromDate: reportsFromDate,
-                        toDate: reportsToDate,
-                        portalIds: $$('#accounting-portals-list').getSelected(),
-                    }
-                    break;
-
-                default:
-                    data = {
-                        timeSpan: $$('#accounting-time-span').getSelected() || 'custom',
-                        fromDate: reportsFromDate,
-                        toDate: reportsToDate,
-                        operaterId: $$('#accounting-operators-list').getSelected(),
-                        portalIds: $$('#accounting-portals-list').getSelected(),
-                        bonusRate: $$('#accounting-reports-bonus-rate').get(),
-                        deduction: $$('#accounting-reports-deduction').get(),
-                        reduction: $$('#accounting-reports-reduction').value || 0
-                    }
-                    break;
-            }
-
-            addLoader(button);
-            trigger(actionByRoles[roles.getRole()], {
-                body: data,
-                success: function (response) {
-                    removeLoader(button);
-                    if (response.responseCode === message.codes.success) {
-                        // Prepare pdf report
-                        doc = new jsPDF('l', 'pt');
-                        doc.setFontSize(9);
-                        doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName};`);
-                        // doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
-                        doc.setFontSize(16);
-                        docPageCount = 0;
-
-                        pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
-                        generateReport(response.result.slotAccounting, response.result.slotAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', sum: response.result.slotAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
-                        generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', sum: response.result.rouletteAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
-                        generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', sum: response.result.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
-                        generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', sum: response.result.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
-                        generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', sum: response.result.pokerAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(document.createElement('hr'));
-                        pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
-                        pageReports.appendChild(table.generate({ data: [response.result.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
-
-                        table.preserveHeight(pageReports);
-
-                        header.classList.remove('hidden');
-                        // footer.classList.remove('hidden');
-
-                        $$('#accounting-reports-header-operator-value').innerHTML = response.result.operatorName;
-                        $$('#accounting-reports-header-currency-value').innerHTML = response.result.casinoCurrency;
-                        $$('#accounting-reports-header-period-value').innerHTML = response.result.period;
-
-                        // $$('#accounting-reports-footer-tax-value').innerHTML = response.result.scaledTaxFee;
-                        // $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
-                        // $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
-                        // $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
-
-                        // Prepare excel data
-                        excelData.operatorName = response.result.operatorName;
-                        excelData.operatorAccounting = response.result;
-
-                        // Enable download button
-                        $$('#accounting-reports-download').classList.remove('hidden');
-                        $$('#accounting-reports-download-excel').classList.remove('hidden');
-                    } else {
-                        trigger('message', response.responseCode);
-                    }
-                },
-                fail: function () {
-                    removeLoader(button);
-                }
-            });
-        };
-    }
-
-    // Creates operators list
-    function createList(data) {
-        let actions = $$(`#accounting-operators-table`);
-        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
-            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
-        }
-        let body = document.createElement('tbody');
-        for (let row of data) {
-            let tr = document.createElement('tr');
-            let td = document.createElement('td');
-            td.innerHTML = row.name;
-            tr.dataset.id = row.id;
-            tr.onclick = function () { trigger('accounting/show/modal', { id: row.id, caller: td }) };
-            tr.appendChild(td);
-            body.appendChild(tr);
-        }
-        actions.getElementsByTagName('table')[0].appendChild(body);
-        actions.classList.remove('hidden');
-    }
-
-    function createTaxList(data) {
-        let actions = $$(`#accounting-setup-scaled-table`);
-        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
-            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
-        }
-        let body = document.createElement('tbody');
-
-        // Header
-        let trHead = document.createElement('tr');
-        let thFrom = document.createElement('th');
-        let thTo = document.createElement('th');
-        let thFee = document.createElement('th');
-        thFrom.innerHTML = 'Step From';
-        thTo.innerHTML = 'Step To';
-        thFee.innerHTML = 'Fee';
-        trHead.appendChild(thFrom);
-        trHead.appendChild(thTo);
-        trHead.appendChild(thFee);
-        body.appendChild(trHead);
-
-        for (let i = 0; i < data.length; i++) {
-            let tr = document.createElement('tr');
-            for (let cell in data[i]) {
-                let td = document.createElement('td');
-                td.innerHTML = data[i][cell];
-                tr.appendChild(td);
-            }
-            tr.onclick = function () {
-                taxEditMode = true;
-                tax.show(data[i], i);
-            };
-            body.appendChild(tr);
-        }
-        actions.getElementsByTagName('table')[0].appendChild(body);
-        actions.classList.remove('hidden');
-    }
-
-    function showModal(data) {
-        if (!data) {
-            trigger('message', message.codes.badParameter);
-            return;
-        }
-        operatorData = data;
-
-        let gamingTax = $$('#accounting-setup-gaming-tax');
-        let liveEuropeanRouletteFee = $$('#accounting-setup-live-european-roulette-fee');
-        let maxBonusRate = $$('#accounting-setup-max-bonus-rate');
-        let pokerFee = $$('#accounting-setup-poker-fee');
-        let rouletteFee = $$('#accounting-setup-roulette-fee');
-        let slotFee = $$('#accounting-setup-slot-fee');
-        let tripleCrownRouletteFee = $$('#accounting-setup-triple-crown-roulette-fee');
-        let vat = $$('#accounting-setup-vat');
-
-        let buttonWrapper = $$('#accounting-setup-form-button-wrapper');
-
-        if (operatorData.isFixedTax || !operatorData.scaledTax) { // FIXED
-            buttonWrapper.classList.remove('scaled');
-            isScaledSelected = false;
-            operatorData.scaledTax = [];
-            $$('#accounting-setup-form-inputs-fixed').classList.remove('hidden');
-            $$('#accounting-setup-form-inputs-scaled').classList.add('hidden');
-            $$('#accounting-setup-checkbox').checked = false;
-        } else { // SCALED
-            buttonWrapper.classList.add('scaled');
-            isScaledSelected = true;
-            operatorData.fixedTax = {
-                gamingTax: 0,
-                liveEuropeanRouletteFee: 0,
-                maxBonusRate: 0,
-                pokerFee: 0,
-                rouletteFee: 0,
-                slotFee: 0,
-                tripleCrownRouletteFee: 0,
-                vat: 0
-            };
-            $$('#accounting-setup-form-inputs-fixed').classList.add('hidden');
-            $$('#accounting-setup-form-inputs-scaled').classList.remove('hidden');
-            $$('#accounting-setup-checkbox').checked = true;
-        }
-
-        gamingTax.set(operatorData.fixedTax.gamingTax);
-        liveEuropeanRouletteFee.set(operatorData.fixedTax.liveEuropeanRouletteFee);
-        maxBonusRate.set(operatorData.fixedTax.maxBonusRate);
-        pokerFee.set(operatorData.fixedTax.pokerFee);
-        rouletteFee.set(operatorData.fixedTax.rouletteFee);
-        slotFee.set(operatorData.fixedTax.slotFee);
-        tripleCrownRouletteFee.set(operatorData.fixedTax.tripleCrownRouletteFee);
-        vat.set(operatorData.fixedTax.vat);
-        createTaxList(operatorData.scaledTax);
-
-        $$('#accounting-setup-form-save').onclick = function () {
-            let button = this;
-            addLoader(button);
-            if (isScaledSelected) {
-                operatorData.fixedTax = null;
-                operatorData.scaledTax = [];
-                for (let tr of $$('#accounting-setup-scaled-table').children[0].children[1].children) {
-                    let scaledTax = {
-                        stepFrom: tr.children[0].innerText,
-                        stepTo: tr.children[1].innerText,
-                        fee: tr.children[2].innerText
-                    };
-                    operatorData.scaledTax.push(scaledTax);
-                }
-                operatorData.scaledTax.splice(0, 1);
-                operatorData.isFixedTax = false;
-            } else {
-                operatorData.scaledTax = null;
-                operatorData.fixedTax = {
-                    gamingTax: gamingTax.get(),
-                    liveEuropeanRouletteFee: liveEuropeanRouletteFee.get(),
-                    maxBonusRate: maxBonusRate.get(),
-                    pokerFee: pokerFee.get(),
-                    rouletteFee: rouletteFee.get(),
-                    slotFee: slotFee.get(),
-                    tripleCrownRouletteFee: tripleCrownRouletteFee.get(),
-                    vat: vat.get(),
-                };
-                operatorData.isFixedTax = true;
-            }
-
-            trigger(`comm/accounting/setup/operator/set/${isScaledSelected ? 'scaled' : 'fixed'}`, {
-                body: operatorData,
-                success: function (response) {
-                    removeLoader(button);
-                    if (response.responseCode === message.codes.success) {
-                        trigger('accounting/setup/loaded');
-                        hideModal();
-                    } else {
-                        trigger('message', response.responseCode);
-                    }
-                },
-                fail: function () {
-                    removeLoader(button);
-                }
-            });
-        };
-
-        $$('#accounting-setup-black-overlay').style.display = 'block';
-        $$('#accounting-setup-form').classList.add('show');
-        $$('#accounting-setup').children[0].style.overflow = 'hidden';
-    }
-
-    function hideModal() {
-        $$('#accounting-setup-black-overlay').style.display = 'none';
-        $$('#accounting-setup-form').classList.remove('show');
-        $$('#accounting-setup').children[0].style.overflow = 'auto';
-        selectedRow.classList.remove('hover');
-        tax.hide();
-    }
-
-    let tax = function () {
-        let modal = $$('#accounting-setup-form-tax');
-        let from = $$('#accounting-setup-tax-from');
-        let to = $$('#accounting-setup-tax-to');
-        let fee = $$('#accounting-setup-tax-fee');
-        let saveButton = $$('#accounting-setup-form-tax-save');
-        let removeButton = $$('#accounting-setup-form-tax-remove');
-        let wrapper = $$('#accounting-setup-form-tax-button-wrapper');
-        $$('#accounting-setup-form-tax-button-wrapper').classList[taxEditMode ? 'add' : 'remove']('edit');
-
-        function show(element, index) {
-            if (taxEditMode) {
-                element = getCopy(element);
-                from.value = index === 0 ? 0 : element.stepFrom;
-                to.value = element.stepTo;
-                fee.set(Number(element.fee));
-                wrapper.classList.add('edit');
-                console.log(element, index);
-            } else {
-                from.value = operatorData.scaledTax.length === 0 ? 0 : Number(operatorData.scaledTax[operatorData.scaledTax.length - 1].stepTo) + 0.01;
-                to.value = '';
-                fee.set(0);
-                wrapper.classList.remove('edit');
-            }
-
-            modal.classList.add('show');
-
-            saveButton.onclick = function () {
-                if (Number(to.value) <= Number(from.value)) {
-                    trigger('message', message.codes.badParameter);
-                } else {
-                    if (taxEditMode) {
-                        operatorData.scaledTax[index].stepFrom = 0;
-                        operatorData.scaledTax[index].fee = fee.get();
-                        if (operatorData.scaledTax.length > 1) {
-                            if (index > 0) {
-                                operatorData.scaledTax[index].stepFrom = (Number(operatorData.scaledTax[index - 1].stepTo) + 0.01).toFixed(2);
-                            }
-                            for (let i = index; i < operatorData.scaledTax.length; i++) {
-                                if (i < operatorData.scaledTax.length - 1) {
-                                    operatorData.scaledTax[i + 1].stepTo = (Number(to.value) - Number(operatorData.scaledTax[index].stepTo) + Number(operatorData.scaledTax[i + 1].stepTo)).toFixed(2);
-                                    operatorData.scaledTax[i + 1].stepFrom = i === index ? (Number(to.value) + 0.01).toFixed(2) : (Number(operatorData.scaledTax[i].stepTo) + 0.01).toFixed(2);
-                                }
-                            }
-                        }
-                        operatorData.scaledTax[index].stepTo = to.value;
-                    } else {
-                        operatorData.scaledTax.push({
-                            stepFrom: from.value,
-                            stepTo: to.value,
-                            fee: fee.get()
-                        });
-                    }
-                    sort();
-                    createTaxList(operatorData.scaledTax);
-                    hide();
-                }
-            };
-
-            removeButton.onclick = function () {
-                if (taxEditMode) {
-                    operatorData.scaledTax.splice(index, 1);
-                    createTaxList(operatorData.scaledTax);
-                    hide();
-                }
-            };
-        }
-
-        function hide() {
-            taxEditMode = false;
-            modal.classList.remove('show');
-        }
-
-        function sort() {
-            if (operatorData.scaledTax.length > 0) {
-                operatorData.scaledTax.sort(sortByProperty('stepFrom'));
-            }
-        }
-
-        return {
-            show: show,
-            hide: hide,
-            sort: sort
-        }
-    }();
+    };
 
     on('date/accounting-time-span-from', function (data) {
         reportsFromDate = data;
@@ -457,46 +80,9 @@ let accountingFazi = function () {
         reportsToDate = data;
     });
 
-    on('accounting/show/modal', function (data) {
-        addLoader(data.caller);
-        selectedRow = data.caller.parentNode;
-        selectedRow.classList.add('hover');
-        trigger('comm/accounting/setup/operator/get', {
-            body: {
-                id: data.id
-            },
-            success: function (response) {
-                removeLoader(data.caller);
-                if (response.responseCode === message.codes.success) {
-                    openedId = data.id;
-                    showModal(response.result);
-                } else {
-                    trigger('message', response.responseCode)
-                }
-            },
-            fail: function () {
-                removeLoader(data.caller);
-            }
-        });
-    });
-
     on('advance-statistics/main/loaded', function () {
-        mainTable = $$('#advance-statistics-main-table');
-        mainTable.innerHTML = "";
-        let tableOptions = {
-            dynamic = true,
-            sticky = true,
-            stickyCol = true,
-        };
-        trigger('comm/advance-statistics/totalPerGame/get', {
-            success: function (response) {
-                if (response.responseCode === message.codes.success) {
-                    fillTable(mainTable, response.result, tableOptions);
-                } else {
-                    trigger('message', response.responseCode);
-                }
-            }
-        });
+        let mainTable = $$('#advance-statistics-main-table');
+        mainTable.innerHTML = ""; 
     });
 
     on('advance-statistics/portals/loaded', function () {
@@ -510,4 +96,22 @@ let accountingFazi = function () {
     on('advance-statistics/bets/loaded', function () {
        
     });
+
+    function parseMainData(data){
+        let keys = Object.keys(data);
+        let rowKeys = Object.keys(data[keys[0]]);
+        let tableData = [];
+
+        for (let key of keys) {
+            let row = {};
+            row['Game'] = key;
+            for(let rowKey of rowKeys){
+                row[rowKey] = data[key][rowKey];
+            }
+            tableData.push(row);
+        }
+        return tableData;
+    };
+
+    totalGetButton.addEventListener('click', getTotalPerGame);
 }();
