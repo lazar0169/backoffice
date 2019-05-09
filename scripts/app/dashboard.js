@@ -314,10 +314,8 @@ let dashboard = function () {
 
     function hideAllRows(element) {
         for (let tableRow of element.getElementsByTagName('td')) {
-            if (tableRow.children[0]) {
-                hideElement(tableRow.children[0]);
-                tableRow.parentElement.opened = true;
-            }
+            tableRow.classList.add('collapsed');
+            tableRow.collapsed = true;
         }
     }
 }();
