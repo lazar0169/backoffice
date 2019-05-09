@@ -13,6 +13,7 @@ let accounting = function () {
         operatorAccounting: {}
     };
     let selectedRow;
+    let isModalOpened = false;
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -429,6 +430,7 @@ let accounting = function () {
         $$('#accounting-setup-black-overlay').style.display = 'block';
         $$('#accounting-setup-form').classList.add('show');
         $$('#accounting-setup').children[0].style.overflow = 'hidden';
+        isModalOpened = true;
     }
 
     function hideModal() {
@@ -437,6 +439,7 @@ let accounting = function () {
         $$('#accounting-setup').children[0].style.overflow = 'auto';
         selectedRow.classList.remove('hover');
         tax.hide();
+        isModalOpened = false;
     }
 
     let tax = function () {
@@ -607,4 +610,10 @@ let accounting = function () {
             }
         });
     });
+
+    return {
+        get isModalOpened() {
+            return isModalOpened;
+        }
+    }
 }();

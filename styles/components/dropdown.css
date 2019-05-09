@@ -24,6 +24,10 @@
 }
 
 .option:hover,
+.option:focus,
+.option:focus-within,
+.option:active,
+.option.focused,
 .selected:hover {
     background-color: #ce853c;
     cursor: pointer;
