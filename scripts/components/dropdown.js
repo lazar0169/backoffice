@@ -61,21 +61,25 @@ let dropdown = function () {
                 if (isMultiple) {
                     optionsWrapper.children[0].classList.add('collapsed');
                 } else if (!isMobile() && searchVisible) {
+                    searchInput.value = '';
                     searchInput.focus();
+                    dropdown.search('');
                 }
             });
 
             if (searchButton) {
                 searchButton.onclick = function () {
                     searchWrapper.classList.remove('collapsed');
+                    searchInput.value = '';
                     searchInput.focus();
+                    dropdown.search('');
                 }
             }
 
             searchInput.onkeyup = function (e) {
                 if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-                    dropdown.search('');
                     searchInput.value = '';
+                    dropdown.search('');
                     if (isMultiple) {
                         searchWrapper.classList.add('collapsed');
                     }
