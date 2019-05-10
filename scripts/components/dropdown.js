@@ -15,7 +15,7 @@ let dropdown = function () {
             let selected = dropdown.children[0];
             let optionsWrapper = dropdown.children[1];
             let options = optionsWrapper.getElementsByClassName('option');
-            let searchVisible = options.length > 8;
+            let searchVisible = options.length > 8; // if less than 8 items, don't show search
             let searchWrapper = optionsWrapper.getElementsByClassName('select-search')[0];
             let searchButton = optionsWrapper.getElementsByClassName('select-search-button')[0];
             let selectAllCheckbox = optionsWrapper.getElementsByClassName('select-search-checkbox')[0];
@@ -33,6 +33,10 @@ let dropdown = function () {
                         option.style.display = 'none';
                     }
                 }
+                optionsWrapper.focusedItemIndex = -1;
+                for (let e of optionsWrapper.querySelectorAll('.option')) {
+                    e.classList.remove('focused');
+                }
             };
             dropdown.selectAll = function (mode = true) {
                 let options = optionsWrapper.getElementsByClassName('option');
@@ -49,29 +53,37 @@ let dropdown = function () {
 
             selected.addEventListener('click', function () {
                 dropdown.prevCollapsed = optionsWrapper.classList.contains('hidden');
+                optionsWrapper.focusedItemIndex = -1;
+                for (let e of optionsWrapper.querySelectorAll('.option')) {
+                    e.classList.remove('focused');
+                }
                 optionsWrapper.classList.toggle('hidden');
                 if (isMultiple) {
                     optionsWrapper.children[0].classList.add('collapsed');
                 } else if (!isMobile() && searchVisible) {
+                    searchInput.value = '';
                     searchInput.focus();
+                    dropdown.search('');
                 }
             });
 
             if (searchButton) {
                 searchButton.onclick = function () {
                     searchWrapper.classList.remove('collapsed');
+                    searchInput.value = '';
                     searchInput.focus();
+                    dropdown.search('');
                 }
             }
 
             searchInput.onkeyup = function (e) {
                 if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-                    dropdown.search('');
                     searchInput.value = '';
+                    dropdown.search('');
                     if (isMultiple) {
                         searchWrapper.classList.add('collapsed');
                     }
-                } else {
+                } else if (e.keyCode !== 40 && e.keyCode !== 38) {
                     dropdown.search(searchInput.value);
                 }
             };
@@ -88,6 +100,10 @@ let dropdown = function () {
                         selected.innerHTML = option.innerText;
                         selected.dataset.value = option.dataset.value;
                         optionsWrapper.classList.add('hidden');
+                        optionsWrapper.focusedItemIndex = -1;
+                        for (let e of optionsWrapper.querySelectorAll('.option')) {
+                            e.classList.remove('focused');
+                        }
                         if (searchVisible) {
                             dropdown.search();
                         }
@@ -119,6 +135,10 @@ let dropdown = function () {
                     !e.target.parentNode.classList.contains('options-wrapper')
                 ) {
                     optionsWrapper.classList.add("hidden");
+                    optionsWrapper.focusedItemIndex = -1;
+                    for (let e of optionsWrapper.querySelectorAll('.option')) {
+                        e.classList.remove('focused');
+                    }
                     if (searchVisible) {
                         dropdown.search();
                     }
@@ -214,6 +234,38 @@ let dropdown = function () {
             search.appendChild(selectAllLabel);
         }
         wrapper.appendChild(search);
+        wrapper.focusedItemIndex = -1;
+        searchInput.onkeydown = function (e) {
+            let elements = Array.prototype.slice.call(wrapper.querySelectorAll('.option')).filter((element) => { return element.style.display !== 'none' });
+            switch (e.keyCode) {
+                case 40:
+                    e.preventDefault();
+                    if (wrapper.focusedItemIndex < elements.length - 1) {
+                        wrapper.focusedItemIndex++;
+                    } else {
+                        wrapper.focusedItemIndex = elements.length - 1;
+                    }
+                    break;
+                case 38:
+                    e.preventDefault();
+                    if (wrapper.focusedItemIndex > 0) {
+                        wrapper.focusedItemIndex--;
+                    }
+                    break;
+                case 13:
+                    elements[wrapper.focusedItemIndex].click();
+                    break;
+            }
+            for (let e of wrapper.querySelectorAll('.option')) {
+                e.classList.remove('focused');
+            }
+            if (wrapper.focusedItemIndex > -1) {
+                try {
+                    elements[wrapper.focusedItemIndex].classList.add('focused');
+                    elements[wrapper.focusedItemIndex].scrollIntoView(false);
+                } catch (error) { }
+            }
+        }
 
         if (data && data.length > 0) {
             for (let option of data) {

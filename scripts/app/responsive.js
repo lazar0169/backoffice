@@ -23,7 +23,9 @@ let responsive = function () {
     window.addEventListener('keydown', function (e) {
         // prevent TAB
         if (e.which === 9) {
-            e.preventDefault();
+            if (operators.isModalOpened || accounting.isModalOpened) {
+                e.preventDefault();
+            }
         }
         trigger('window/key', e);
     });

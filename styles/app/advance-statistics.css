@@ -1,0 +1,73 @@
+/* ACCOUNTING FAZI */
+
+#advance-statistics .datepicker.disabled {
+    display: none !important;
+}
+
+#advance-statistics-total-filter,
+#advance-statistics-players-filter,
+#advance-statistics-portals-filter,
+#advance-statistics-bets-filter {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#advance-statistics-total-filter>*,
+#advance-statistics-players-filter>*,
+#advance-statistics-portals-filter>*,
+#advance-statistics-bets-filter>* {
+    margin: 0.5em 0.5em;
+}
+
+#advance-statistics-get-total.hidden,
+#advance-statistics-get-players.hidden,
+#advance-statistics-get-portals.hidden,
+#advance-statistics-get-bets.hidden {
+    display: none !important;
+}
+
+#advance-statistics-get-total,
+#advance-statistics-get-players,
+#advance-statistics-get-portals,
+#advance-statistics-get-bets {
+    display: inline;
+    padding: 0.25rem 1rem;
+}
+
+#advance-statistics-main-table>h2 {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.5);
+    padding-bottom: 1em;
+    margin-bottom: 0;
+}
+
+#advance-statistics-main-table {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#advance-statistics-main-table table {
+    width: 100%;
+}
+
+#advance-statistics-main-table.hidden {
+    display: none;
+}
+
+/* MOBILE */
+
+.mobile #advance-statistics-total-filter>*,
+.mobile #advance-statistics-players-filter>*,
+.mobile #advance-statistics-portals-filter>*,
+.mobile #advance-statistics-bets-filter>* {
+    margin: 0.5em 0;
+}
+
+.mobile #advance-statistics-get-total,
+.mobile #advance-statistics-get-players,
+.mobile #advance-statistics-get-portals,
+.mobile #advance-statistics-get-bets {
+    padding: 0.85rem 1rem;
+    width: 100%;
+}
