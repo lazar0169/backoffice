@@ -159,8 +159,15 @@ input[type=checkbox] {
     display: none;
 }
 
-fieldset {
-    padding: 0.3em 0.5em;
+.fieldset {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.2em 0.4em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 label:before {
@@ -258,7 +265,7 @@ input[type="range"]::-webkit-slider-thumb:after {
 .slider {
     display: flex;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 0 0 0 0.5em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
