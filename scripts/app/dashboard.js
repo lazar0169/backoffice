@@ -15,10 +15,12 @@ let dashboard = function () {
                 borderColor: "rgba(255, 255, 255, 0.5)",
                 // hoverBackgroundColor: '#dd9853'
             }],
-            labels: []
+            labels: [],
+            hiddenSlices: []
         },
         options: {
             responsive: true,
+            isSlicesHidden: false,
             legend: {
                 position: 'right',
                 labels: {
@@ -91,6 +93,7 @@ let dashboard = function () {
     });
 
     on('dashboard/players/loaded', function () {
+        chart.options.isSlicesHidden = false;
         playersWrapper.innerHTML = '';
         filters.innerHTML = '';
 
@@ -161,6 +164,7 @@ let dashboard = function () {
         let colors = [];
         let labels = [];
         let values = [];
+        let hiddenSlices = [0];
         for (let chart of dashboardData.pieChart) {
             labels.push(chart.portalName);
             values.push(chart.numberOfNewPlayers);
@@ -169,11 +173,16 @@ let dashboard = function () {
                 color = generateColor();
             }
             colors.push(color);
+            if (hiddenSlices.length < dashboardData.pieChart.length - 5) {
+                hiddenSlices.push(hiddenSlices[hiddenSlices.length - 1] + 1);
+            }
         }
 
         chart.data.datasets[0].data = values;
         chart.data.datasets[0].backgroundColor = colors;
         chart.data.labels = labels;
+
+        chart.data.hiddenSlices = hiddenSlices;
         // chart.options.legend.display = !isMobile()
         $$('#dashboard-chart-wrapper').style.display = isMobile() ? 'none' : 'block';
         chart.update();
@@ -305,10 +314,8 @@ let dashboard = function () {
 
     function hideAllRows(element) {
         for (let tableRow of element.getElementsByTagName('td')) {
-            if (tableRow.children[0]) {
-                hideElement(tableRow.children[0]);
-                tableRow.parentElement.opened = true;
-            }
+            tableRow.classList.add('collapsed');
+            tableRow.collapsed = true;
         }
     }
 }();

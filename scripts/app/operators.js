@@ -12,6 +12,7 @@ let operators = function () {
     let operatorData = {};
     let openedPortalData = {};
     let selectedRow;
+    let isModalOpened = false;
 
     let templateOperatorData = {
         operator: {
@@ -306,6 +307,7 @@ let operators = function () {
                 };
 
                 modal.classList.add('show');
+                isModalOpened = true;
             },
             hide: function () {
                 gameLaunchURL.value = '';
@@ -321,6 +323,7 @@ let operators = function () {
                 } else {
                     $$('#operators-form-save').classList.remove('disabled');
                 }
+                isModalOpened = false;
             }
         }
     }();
@@ -434,4 +437,10 @@ let operators = function () {
             }
         });
     });
+
+    return {
+        get isModalOpened() {
+            return isModalOpened;
+        }
+    }
 }();

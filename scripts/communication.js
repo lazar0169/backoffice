@@ -45,10 +45,10 @@ let comm = function () {
         'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
 
         // Advance Statistics
-        'comm/advance-statistics/totalPerGame/get' : '/AdvancedStatistics/GetTotalPerGame',
-        'comm/advance-statistics/portalPerGame/get' : '/AdvancedStatistics/GetPortalPerGame',
-        'comm/advance-statistics/playersOfGame/get' : '/AdvancedStatistics/GetPlayersOfPortal',
-        'comm/advance-statistics/betsOfGame/get' : '/AdvancedStatistics/GetBetsOfPortal',
+        'comm/advance-statistics/totalPerGame/get': '/AdvancedStatistics/GetTotalPerGame',
+        'comm/advance-statistics/portalPerGame/get': '/AdvancedStatistics/GetPortalPerGame',
+        'comm/advance-statistics/playersOfGame/get': '/AdvancedStatistics/GetPlayersOfPortal',
+        'comm/advance-statistics/betsOfGame/get': '/AdvancedStatistics/GetBetsOfPortal',
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
@@ -105,7 +105,7 @@ let comm = function () {
         }).then(function (json) {
             log(json);
             if (json.responseCode === message.codes.loggedOut) {
-                location.href = getLocation();
+                logOut();
             }
             callback.success(json);
         }).catch((err) => {
@@ -113,7 +113,7 @@ let comm = function () {
             trigger('message', message.codes.clientError);
             console.error(err.stack);
             // setTimeout(() => {
-            //     location.href = getLocation();
+            //    logOut();
             // }, 1000);
         });
     }

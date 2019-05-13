@@ -2,10 +2,16 @@
     <div class="page-content-wrapper">
         <div id="advance-statistics-portals-filter">
             <div id="advance-statistics-portals-portals-list-wrapper"></div>
-            <input type="text" id="accounting-time-portals-first-period-span-from" class="datepicker" readonly>
-            <input type="text" id="accounting-time-portals-first-period-span-to" class="datepicker" readonly>
-            <input type="text" id="accounting-time-portals-second-period-span-from" class="datepicker" readonly>
-            <input type="text" id="accounting-time-portals-second-period-span-to" class="datepicker" readonly>
+            <fieldset>
+                <legend>First period:</legend>
+                <input type="text" id="accounting-time-portals-first-period-span-from" class="datepicker" readonly>
+                <input type="text" id="accounting-time-portals-first-period-span-to" class="datepicker" readonly>
+            </fieldset>
+            <fieldset>
+                <legend>Second period:</legend>
+                <input type="text" id="accounting-time-portals-second-period-span-from" class="datepicker" readonly>
+                <input type="text" id="accounting-time-portals-second-period-span-to" class="datepicker" readonly>
+            </fieldset>
             <button id="advance-statistics-get-portals" class="hidden">GET</button>
         </div>
         <div id="advance-statistics-portals-table"></div>
