@@ -4,11 +4,12 @@ let advanceAccounting = function () {
     let players = $$('#advance-statistics-players');
     let bets = $$('#advance-statistics-bets');
     const totalGetButton = $$('#advance-statistics-get-total');
+    let mainTable = $$('#advance-statistics-main-table');
+    let portalsTable = $$('#advance-statistics-portals-table');
     let firstPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let firstPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let secondPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
     let secondPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let selectedRow;
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -16,7 +17,7 @@ let advanceAccounting = function () {
         'Manager': 'comm/accounting/manager/get',
     };
 
-    function fillTable(tableElement, data, options) {
+    function fillTable(tableElement, data) {
         let tableObject = table.generate({
             data: data,
             id: 'advance-statistics-main-table',
@@ -24,7 +25,6 @@ let advanceAccounting = function () {
             sticky: true,
             stickyCol: true,
         });
-        //table.preserveHeight(tableElement.parentElement);
         tableElement.appendChild(tableObject);
     };
 
@@ -41,8 +41,7 @@ let advanceAccounting = function () {
         secondPeriodTo = data;
     });
 
-    function getTotalPerGame(){
-        let mainTable = $$('#advance-statistics-main-table');
+    function getTotalPerGame() {
         mainTable.innerHTML = "";
         addLoader(totalGetButton);
         trigger('comm/advance-statistics/totalPerGame/get', {
@@ -59,13 +58,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
-                    let tableOptions = {
-                        dynamic: true,
-                        sticky: true,
-                        stickyCol: true,
-                    };
-                    
-                    fillTable(mainTable, parseMainData(response.result), tableOptions);
+                    fillTable(mainTable, parseMainData(response.result));
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -81,23 +74,50 @@ let advanceAccounting = function () {
     });
 
     on('advance-statistics/main/loaded', function () {
-        let mainTable = $$('#advance-statistics-main-table');
-        mainTable.innerHTML = ""; 
+        mainTable.innerHTML = '';
     });
 
     on('advance-statistics/portals/loaded', function () {
-       
+        portalsTable.innerHTML = '';
+        clearElement($$('#accounting-portals-list'));
+        $$('#advance-statistics-get-portals').classList.add('hidden');
+
+        addLoader($$('#sidebar-advance-statistics'));
+        trigger('comm/accounting/operators/get', {
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    getPortals(response.result, 'portals');
+                } else {
+                    trigger('message', response.responseCode);
+                }
+                removeLoader($$('#sidebar-advance-statistics'));
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-advance-statistics'));
+            }
+        });
     });
 
     on('advance-statistics/players/loaded', function () {
-       
+
     });
 
     on('advance-statistics/bets/loaded', function () {
-       
+
     });
 
-    function parseMainData(data){
+    function getPortals(data, tab) {
+        clearElement($$(`#advance-statistics-${tab}-portals-list`));
+        let portalsDropdown = dropdown.generate(data, `advance-statistics-${tab}-portals-list`, 'Select portal');
+        $$(`#advance-statistics-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
+        if (!data) $$(`#advance-statistics-${tab}-portals-list-wrapper`).style.display = 'none';
+        $$('#advance-statistics-get-portals').classList.remove('hidden');
+    }
+
+    function parseMainData(data) {
+        if (Object.getOwnPropertyNames(data).length === 0) {
+            return [];
+        }
         let keys = Object.keys(data);
         let rowKeys = Object.keys(data[keys[0]]);
         let tableData = [];
@@ -105,13 +125,17 @@ let advanceAccounting = function () {
         for (let key of keys) {
             let row = {};
             row['Game'] = key;
-            for(let rowKey of rowKeys){
+            for (let rowKey of rowKeys) {
                 row[rowKey] = data[key][rowKey];
             }
             tableData.push(row);
         }
         return tableData;
     };
+
+    function makePortalDropdown(elementAfter, newElementId, data) {
+        //TODO: implement portals dropdown generation
+    }
 
     totalGetButton.addEventListener('click', getTotalPerGame);
 }();

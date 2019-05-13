@@ -161,6 +161,7 @@ function transformCamelToRegular(string) {
         'MTD',
         'SPLM'
     ];
+    string = string.toString();
     if (exceptions.includes(string)) {
         return string.toUpperCase();
     } else {
@@ -228,6 +229,10 @@ function isNumber(value) {
         || check(Number(value))
         || check(Number(value.replace(/,/g, '')))
         || value.includes('%');
+}
+
+function logOut() {
+    location.href = getLocation();
 }
 
 function convertToNumber(value) {

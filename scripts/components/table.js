@@ -76,6 +76,7 @@ let table = function () {
             sticky: params.sticky,
             stickyCol: params.stickyCol,
             options: params.options,
+            headers: [],
             gridTemplateColumns: gridTemplateColumns,
             gridTemplateRows: gridTemplateRows
         };
@@ -131,8 +132,9 @@ let table = function () {
             let colId = generateGuid();
             let head = document.createElement('div');
             let value = Object.keys(params.data[0])[col];
+            t.props.headers.push(value);
             head.dataset.id = value;
-            head.innerHTML = transformCamelToRegular(Object.keys(params.data[0])[col]);
+            head.innerHTML = transformCamelToRegular(value);
             head.className = `head ${t.props.stickyCol ? 'sticky-col' : ''} cell ${params.headHidden ? 'head-hidden' : ''}`;
             head.classList.add(`col-${colId}`);
             colIds.push(colId);
@@ -145,7 +147,7 @@ let table = function () {
                     for (let element of $$(`.col-${colId}`)) {
                         element.style.display = 'none';
                     }
-                    hiddenCols[Object.keys(params.data[0])[col]] = colId;
+                    hiddenCols[value] = colId;
                     tbody.style.gridTemplateColumns = tbody.style.gridTemplateColumns.split(' ').splice(1).join(' ');
                     t.onChange(colId);
                 };
@@ -199,11 +201,24 @@ let table = function () {
                     if (table.props.options.prefix && table.props.options.prefix.text && table.props.options.prefix.col === Object.keys(data[row])[col]) {
                         prefix = table.props.options.prefix.condition.test(convertToNumber(data[row][Object.keys(data[row])[col]])) ? table.props.options.prefix.text : '';
                     }
+                    if (table.props.options.onClick) {
+                        cell.onclick = () => {
+                            let clickedData = {};
+                            let rowElements = table.props.body.getElementsByClassName(`row-${rowId}`);
+                            for (let i = 0; i < rowElements.length; i++) {
+                                clickedData[table.props.headers[i]] = isNumber(rowElements[i].dataset.value) ? convertToNumber(rowElements[i].dataset.value) : rowElements[i].dataset.value;
+                            }
+                            table.props.options.onClick(clickedData);
+                        }
+                    }
                     // -----
                     // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">${ARROW_UP}</span>"
                     // and value must be extracted
                     if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
                         cell.style.justifyContent = 'flex-end';
+                        cell.dataset.value = convertToNumber(value.split('<span')[0]);
+                    } else {
+                        cell.dataset.value = isNumber(value) ? convertToNumber(value) : value;
                     }
                     cell.innerHTML = prefix + value + suffix;
                     cell.className = col === 0 ? `first ${table.props.stickyCol ? 'sticky' : ''} cell` : 'cell';
