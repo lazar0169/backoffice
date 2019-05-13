@@ -161,6 +161,7 @@ function transformCamelToRegular(string) {
         'MTD',
         'SPLM'
     ];
+    string = string.toString();
     if (exceptions.includes(string)) {
         return string.toUpperCase();
     } else {
