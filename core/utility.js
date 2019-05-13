@@ -231,6 +231,10 @@ function isNumber(value) {
         || value.includes('%');
 }
 
+function logOut() {
+    location.href = getLocation();
+}
+
 function convertToNumber(value) {
     if (value.replace) value = value.replace(/\s/g, '').replace(/,/g, '').replace(/%/g, '');
     return value !== '' && !isNaN(Number(value)) ? Number(value) : value;

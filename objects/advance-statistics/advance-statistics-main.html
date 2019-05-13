@@ -1,10 +1,16 @@
 <div id="advance-statistics-main" class="page-content active">
     <div class="page-content-wrapper">
         <div id="advance-statistics-total-filter">
-            <input type="text" id="accounting-time-main-first-period-span-from" class="datepicker" readonly>
-            <input type="text" id="accounting-time-main-first-period-span-to" class="datepicker" readonly>
-            <input type="text" id="accounting-time-main-second-period-span-from" class="datepicker" readonly>
-            <input type="text" id="accounting-time-main-second-period-span-to" class="datepicker" readonly>
+            <fieldset>
+                <legend>First period:</legend>
+                <input type="text" id="accounting-time-main-first-period-span-from" class="datepicker" readonly>
+                <input type="text" id="accounting-time-main-first-period-span-to" class="datepicker" readonly>
+            </fieldset>
+            <fieldset>
+                <legend>Second period:</legend>
+                <input type="text" id="accounting-time-main-second-period-span-from" class="datepicker" readonly>
+                <input type="text" id="accounting-time-main-second-period-span-to" class="datepicker" readonly>
+            </fieldset>
             <button id="advance-statistics-get-total" class="">GET</button>
         </div>
         <div id="advance-statistics-main-table"></div>
