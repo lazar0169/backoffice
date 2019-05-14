@@ -23,7 +23,7 @@ let responsive = function () {
     window.addEventListener('keydown', function (e) {
         // prevent TAB
         if (e.which === 9) {
-            if (operators.isModalOpened || accounting.isModalOpened) {
+            if (typeof operators !== typeof undefined && operators.isModalOpened || typeof accounting !== typeof undefined && accounting.isModalOpened) {
                 e.preventDefault();
             }
         }
