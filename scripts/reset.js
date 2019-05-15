@@ -8,7 +8,7 @@ const reset = function () {
             location.href = getLocation();
         }
 
-        trigger('com/login/logged', {
+        trigger('comm/login/logged', {
             success: function (response) {
                 removeLoader($$('#reset-form'));
                 if (response.responseCode === message.codes.success && response.result) {
