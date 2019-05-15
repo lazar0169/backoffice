@@ -124,9 +124,6 @@ let comm = function () {
                 callback.fail(err);
                 trigger('message', message.codes.clientError);
                 console.error(err.stack);
-                // setTimeout(() => {
-                //     logOut();
-                // }, 1000);
             }
         });
     }
