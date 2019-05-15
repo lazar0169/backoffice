@@ -216,7 +216,7 @@ let table = function () {
                     // and value must be extracted
                     if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
                         cell.style.justifyContent = 'flex-end';
-                        cell.dataset.value = convertToNumber(value.split('<span')[0]);
+                        cell.dataset.value = isNumber(value) ? value : convertToNumber(value.split('<span')[0]);
                     } else {
                         cell.dataset.value = isNumber(value) ? convertToNumber(value) : value;
                     }
