@@ -39,66 +39,66 @@ let advanceAccounting = function () {
         'Manager': 'comm/accounting/manager/get',
     };
 
-    function fillTable(tableElement, data) {
+    function fillTable(tableElement, data, callback) {
         let tableObject = table.generate({
             data: data,
             id: 'advance-statistics-main-table',
-            dynamic: true,
             sticky: true,
             stickyCol: true,
+            onClick: callback
         });
         tableElement.appendChild(tableObject);
     };
 
-    on('date/accounting-time-main-first-period-span-from', function (data) {
+    on('date/advance-statistics-main-first-period-time-span-from', function (data) {
         mainFirstPeriodFrom = data;
     });
-    on('date/accounting-time-main-first-period-span-to', function (data) {
+    on('date/advance-statistics-main-first-period-time-span-to', function (data) {
         mainFirstPeriodTo = data;
     });
-    on('date/accounting-time-main-second-period-span-from', function (data) {
+    on('date/advance-statistics-main-second-period-time-span-from', function (data) {
         mainSecondPeriodFrom = data;
     });
-    on('date/accounting-time-main-second-period-span-to', function (data) {
+    on('date/advance-statistics-main-second-period-time-span-to', function (data) {
         mainSecondPeriodTo = data;
     });
 
-    on('date/accounting-time-portals-first-period-span-from', function (data) {
+    on('date/advance-statistics-portals-first-period-time-span-from', function (data) {
         portalsFirstPeriodFrom = data;
     });
-    on('date/accounting-time-portals-first-period-span-to', function (data) {
+    on('date/advance-statistics-portals-first-period-time-span-to', function (data) {
         portalsFirstPeriodTo = data;
     });
-    on('date/accounting-time-portals-second-period-span-from', function (data) {
+    on('date/advance-statistics-portals-second-period-time-span-from', function (data) {
         portalsSecondPeriodFrom = data;
     });
-    on('date/accounting-time-portals-second-period-span-to', function (data) {
+    on('date/advance-statistics-portals-second-period-time-span-to', function (data) {
         portalsSecondPeriodTo = data;
     });
 
-    on('date/accounting-time-players-first-period-span-from', function (data) {
+    on('date/advance-statistics-players-first-period-time-span-from', function (data) {
         playersFirstPeriodFrom = data;
     });
-    on('date/accounting-time-players-first-period-span-to', function (data) {
+    on('date/advance-statistics-players-first-period-time-span-to', function (data) {
         playersFirstPeriodTo = data;
     });
-    on('date/accounting-time-players-second-period-span-from', function (data) {
+    on('date/advance-statistics-players-second-period-time-span-from', function (data) {
         playersSecondPeriodFrom = data;
     });
-    on('date/accounting-time-players-second-period-span-to', function (data) {
+    on('date/advance-statistics-players-second-period-time-span-to', function (data) {
         playersSecondPeriodTo = data;
     });
 
-    on('date/accounting-time-bets-first-period-span-from', function (data) {
+    on('date/advance-statistics-bets-first-period-time-span-from', function (data) {
         betsFirstPeriodFrom = data;
     });
-    on('date/accounting-time-bets-first-period-span-to', function (data) {
+    on('date/advance-statistics-bets-first-period-time-span-to', function (data) {
         betsFirstPeriodTo = data;
     });
-    on('date/accounting-time-bets-second-period-span-from', function (data) {
+    on('date/advance-statistics-bets-second-period-time-span-from', function (data) {
         betsSecondPeriodFrom = data;
     });
-    on('date/accounting-time-bets-second-period-span-to', function (data) {
+    on('date/advance-statistics-bets-second-period-time-span-to', function (data) {
         betsSecondPeriodTo = data;
     });
 
@@ -153,6 +153,36 @@ let advanceAccounting = function () {
         });
     };
 
+    function getPlayersOfPortal() {
+        playersTable.innerHTML = "";
+        addLoader(playersGetButton);
+        trigger('comm/advance-statistics/playersOfGame/get', {
+            body: {
+                portalId: $$('#advance-statistics-players-portals-list').getSelected(),
+                firstPeriod: {
+                    fromTime: playersFirstPeriodFrom,
+                    toTime: playersFirstPeriodTo,
+                },
+                secondPeriod: {
+                    fromTime: playersSecondPeriodFrom,
+                    toTime: playersSecondPeriodTo,
+                },
+            },
+            success: function (response) {
+                removeLoader(playersGetButton);
+                if (response.responseCode === message.codes.success) {
+                    fillTable(playersTable, parseGameData(response.result));
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            }
+        });
+    };
+
+    function getBetsOfPortal() {
+
+    };
+
     on('date/accounting-time-span-from', function (data) {
         reportsFromDate = data;
     });
@@ -167,13 +197,22 @@ let advanceAccounting = function () {
     on('advance-statistics/portals/loaded', function () {
         portalsTable.innerHTML = '';
         clearElement($$('#accounting-portals-list'));
-        //$$('#advance-statistics-get-portals').classList.add('hidden');
+        $$('#advance-statistics-get-portals').classList.add('hidden');
 
         addLoader($$('#sidebar-advance-statistics'));
+
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    getPortals(response.result, 'portals');
+
+                    // Prevent operator change
+                    if (roles.getRole() === 'Manager') {
+                        response = {
+                            responseCode: 1000
+                        };
+                    }
+
+                    afterLoad(response, `portals`);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -183,23 +222,73 @@ let advanceAccounting = function () {
                 removeLoader($$('#sidebar-advance-statistics'));
             }
         });
+        // trigger('comm/accounting/portals/get', {
+        //     body: {
+        //         id: 1726,
+        //     },
+        //     success: function (response) {
+        //         if (response.responseCode === message.codes.success) {
+        //             getPortals(response.result, 'portals');
+        //         } else {
+        //             trigger('message', response.responseCode);
+        //         }
+        //         removeLoader($$('#sidebar-advance-statistics'));
+        //     },
+        //     fail: function () {
+        //         removeLoader($$('#sidebar-advance-statistics'));
+        //     }
+        // });
     });
 
     on('advance-statistics/players/loaded', function () {
+        playersTable.innerHTML = '';
+        clearElement($$('#accounting-players-list'));
+        $$('#advance-statistics-get-players').classList.add('hidden');
 
+        addLoader($$('#sidebar-advance-statistics'));
+
+        trigger('comm/accounting/operators/get', {
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+
+                    // Prevent operator change
+                    if (roles.getRole() === 'Manager') {
+                        response = {
+                            responseCode: 1000
+                        };
+                    }
+
+                    afterLoad(response, `players`);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+                removeLoader($$('#sidebar-advance-statistics'));
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-advance-statistics'));
+            }
+        });
+        // trigger('comm/accounting/portals/get', {
+        //     body: {
+        //         id: 1726,
+        //     },
+        //     success: function (response) {
+        //         if (response.responseCode === message.codes.success) {
+        //             getPortals(response, 'players');
+        //         } else {
+        //             trigger('message', response.responseCode);
+        //         }
+        //         removeLoader($$('#sidebar-advance-statistics'));
+        //     },
+        //     fail: function () {
+        //         removeLoader($$('#sidebar-advance-statistics'));
+        //     }
+        // });
     });
 
     on('advance-statistics/bets/loaded', function () {
 
     });
-
-    function getPortals(data, tab) {
-        clearElement($$(`#advance-statistics-${tab}-portals-list`));
-        let portalsDropdown = dropdown.generate(data, `advance-statistics-${tab}-portals-list`, 'Select portal');
-        $$(`#advance-statistics-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
-        if (!data) $$(`#advance-statistics-${tab}-portals-list-wrapper`).style.display = 'none';
-        $$('#advance-statistics-get-portals').classList.remove('hidden');
-    }
 
     function parseGameData(data) {
         if (Object.getOwnPropertyNames(data).length === 0) {
@@ -220,10 +309,53 @@ let advanceAccounting = function () {
         return tableData;
     };
 
-    function makePortalDropdown(elementAfter, newElementId, data) {
-        //TODO: implement portals dropdown generation
+    function afterLoad(response, tab) {
+        if (response.responseCode === message.codes.success) {
+            clearElement($$(`#advance-statistics-${tab}-operators-list`));
+            let operatorsDropdown = dropdown.generate(response.result, `advance-statistics-${tab}-operators-list`, 'Select operator');
+            $$(`#advance-statistics-${tab}-operators-list-wrapper`).appendChild(operatorsDropdown);
+            if (!response.result) $$(`#advance-statistics-${tab}-operators-list-wrapper`).style.display = 'none';
+
+            on(`advance-statistics-${tab}-operators-list/selected`, function (value) {
+                addLoader($$(`#advance-statistics-${tab}-filter`));
+                trigger('comm/accounting/portals/get', {
+                    body: {
+                        id: value
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            getPortals(response, tab);
+                            removeLoader($$(`#advance-statistics-${tab}-filter`));
+                        } else {
+                            trigger('message', response.responseCode);
+                        }
+                    },
+                    fail: function () {
+                        removeLoader($$(`#advance-statistics-${tab}-filter`));
+                    }
+                });
+            });
+
+            // Prevent operator change
+            if (roles.getRole() === 'Manager') {
+                trigger('accounting-operators-list/selected', 0);
+            }
+
+        } else {
+            trigger('message', response.responseCode);
+        }
+    };
+
+    function getPortals(data, tab) {
+        clearElement($$(`#advance-statistics-${tab}-portals-list`));
+        let portalsDropdown = dropdown.generate(data.result, `advance-statistics-${tab}-portals-list`, 'Select portal');
+        $$(`#advance-statistics-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
+        if (!data.result) $$(`#advance-statistics-${tab}-portals-list-wrapper`).style.display = 'none';
+        $$(`#advance-statistics-get-${tab}`).classList.remove('hidden');
     };
 
     totalGetButton.addEventListener('click', getTotalPerGame);
     portalsGetButton.addEventListener('click', getPortalsPerGame);
+    playersGetButton.addEventListener('click', getPlayersOfPortal);
+    betsGetButton.addEventListener('click', getBetsOfPortal);
 }();
