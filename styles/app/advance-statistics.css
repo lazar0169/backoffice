@@ -181,6 +181,71 @@
     transform: rotate(45deg);
 }
 
+/* SWITCH */
+
+#switch-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+#advance-statistics-bets-switch {
+    padding-left: 2em; 
+    padding-right: 2em; 
+    justify-content: center;
+}
+
+#advance-statistics-bets-switch span{
+    background: #313c4a !important;
+}
+
+#label-before-advance-statistics-bets-checkbox {
+    padding-right: 1rem !important;
+    padding-left: 0 !important;
+}
+#label-after-advance-statistics-bets-checkbox {
+    padding-left: 1rem !important;
+}
+
+#label-before-advance-statistics-bets-checkbox:before,
+#label-before-advance-statistics-bets-checkbox:after,
+#label-after-advance-statistics-bets-checkbox:before,
+#label-after-advance-statistics-bets-checkbox:after {
+    display: none !important;
+}
+
+/* BETS GAMES SEARCH */
+
+#dashboard-portals-search-wrapper {
+    width: 100%;
+    padding: 1em 0;
+    text-align: center;
+    border-bottom: 1px solid #3a4050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dashboard-portals-search-wrapper input {
+    width: 30em;
+    text-align: center;
+}
+
+#dashboard-portals-remove-search {
+    background: transparent;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    border-radius: 2px;
+    margin-left: -1.8em;
+    transition: background-color 0.3s ease;
+}
+
+#dashboard-portals-remove-search:hover {
+    background-color: #a53825;
+}
+
 /* MOBILE */
 
 .mobile #advance-statistics-total-filter>*,
@@ -196,4 +261,16 @@
 .mobile #advance-statistics-get-bets {
     padding: 0.85rem 1rem;
     width: 100%;
+}
+
+.mobile #dashboard-portals-search-wrapper input {
+    width: 100%;
+}
+
+.mobile #dashboard-portals-remove-search {
+    background-color: #a53825;
+    height: 1.8em;
+    width: 1.8em;
+    border-radius: 3px;
+    margin-left: -2.4em;
 }

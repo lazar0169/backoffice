@@ -358,6 +358,11 @@
     opacity: 1;
 }
 
+.switch:before,
+.switch:after{
+    display: none !important;
+}
+
 #label-for-accounting-setup-checkbox {
     padding: 0 0 0 1em;
     align-items: center;
