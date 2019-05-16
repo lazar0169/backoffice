@@ -189,14 +189,7 @@ let advanceAccounting = function () {
     function getBetsOfPortal() {
 
     };
-
-    on('date/accounting-time-span-from', function (data) {
-        reportsFromDate = data;
-    });
-    on('date/accounting-time-span-to', function (data) {
-        reportsToDate = data;
-    });
-
+    
     on('advance-statistics/main/loaded', function () {
         mainTable.innerHTML = '';
     });

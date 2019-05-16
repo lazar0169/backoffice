@@ -183,7 +183,7 @@
 
 /* SWITCH */
 
-#switch-wrapper {
+#switch-and-search-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -217,7 +217,7 @@
 
 /* BETS GAMES SEARCH */
 
-#dashboard-portals-search-wrapper {
+#advance-statistics-bets-search-wrapper {
     width: 100%;
     padding: 1em 0;
     text-align: center;
@@ -225,14 +225,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-left: 10em;
 }
 
-#dashboard-portals-search-wrapper input {
+#advance-statistics-bets-search-wrapper input {
     width: 30em;
     text-align: center;
+    display: inline-block;
 }
 
-#dashboard-portals-remove-search {
+#advance-statistics-bets-remove-search {
     background: transparent;
     height: 1.5em;
     padding: 0;
@@ -240,9 +242,10 @@
     border-radius: 2px;
     margin-left: -1.8em;
     transition: background-color 0.3s ease;
+    display: inline-block;
 }
 
-#dashboard-portals-remove-search:hover {
+#advance-statistics-bets-remove-search:hover {
     background-color: #a53825;
 }
 
@@ -263,11 +266,11 @@
     width: 100%;
 }
 
-.mobile #dashboard-portals-search-wrapper input {
+.mobile #advance-statistics-bets-search-wrapper input {
     width: 100%;
 }
 
-.mobile #dashboard-portals-remove-search {
+.mobile #advance-statistics-bets-remove-search {
     background-color: #a53825;
     height: 1.8em;
     width: 1.8em;
