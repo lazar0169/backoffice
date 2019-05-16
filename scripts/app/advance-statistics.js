@@ -6,31 +6,31 @@ let advanceAccounting = function () {
     //main tab
     const totalGetButton = $$('#advance-statistics-get-total');
     let mainTable = $$('#advance-statistics-main-table');
-    let mainFirstPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let mainFirstPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let mainSecondPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let mainSecondPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let mainFirstPeriodFrom = getToday();
+    let mainFirstPeriodTo = getToday();
+    let mainSecondPeriodFrom = getToday();
+    let mainSecondPeriodTo = getToday();
     //portals tab 
     const portalsGetButton = $$('#advance-statistics-get-portals');
     let portalsTable = $$('#advance-statistics-portals-table');
-    let portalsFirstPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let portalsFirstPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let portalsSecondPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let portalsSecondPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let portalsFirstPeriodFrom = getToday();
+    let portalsFirstPeriodTo = getToday();
+    let portalsSecondPeriodFrom = getToday();
+    let portalsSecondPeriodTo = getToday();
     //players tab
     const playersGetButton = $$('#advance-statistics-get-players');
     let playersTable = $$('#advance-statistics-players-table');
-    let playersFirstPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let playersFirstPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let playersSecondPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let playersSecondPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let playersFirstPeriodFrom = getToday();
+    let playersFirstPeriodTo = getToday();
+    let playersSecondPeriodFrom = getToday();
+    let playersSecondPeriodTo = getToday();
     //bets tab
     const betsGetButton = $$('#advance-statistics-get-bets');
     let betsTable = $$('#advance-statistics-bets-table');
-    let betsFirstPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let betsFirstPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let betsSecondPeriodFrom = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let betsSecondPeriodTo = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let betsFirstPeriodFrom = getToday();
+    let betsFirstPeriodTo = getToday();
+    let betsSecondPeriodFrom = getToday();
+    let betsSecondPeriodTo = getToday();
 
 
     $$('#players-black-overlay').addEventListener('click', hidePopup);

@@ -1,7 +1,7 @@
 let statisticCompared = function () {
     let selectedOperator;
-    let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let statisticFromDate = getToday();
+    let statisticToDate = getToday();
     let comparedButton = $$('#statistic-get-compared');
     let comparedTableWrapper = $$('#statistic-compared-table');
     let comparedHeader = $$('#statistic-compared-header');

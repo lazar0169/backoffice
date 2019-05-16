@@ -1,7 +1,7 @@
 let statisticSummary = function () {
     let selectedOperator;
-    let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let statisticFromDate = getToday();
+    let statisticToDate = getToday();
     let summaryButton = $$('#statistic-get-summary');
     let summaryTableWrapper = $$('#statistic-summary-table');
     let summaryHeader = $$('#statistic-summary-header');

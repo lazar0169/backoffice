@@ -142,7 +142,7 @@ let comm = function () {
                 get(action, callback, body);
             },
             fail: function () {
-                location.href = getLocation();
+                logOut();
             }
         }, 'comm/auth/token/refresh');
     }

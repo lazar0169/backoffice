@@ -8,16 +8,12 @@ let datepicker = function () {
                 minDate: new Date(2010, 1, 1),
                 maxDate: new Date(),
                 format: 'DD.MM.YYYY',
-                // yearRange: [2000, 2020],
                 toString(date, format) {
                     let day = date.getDate();
                     let month = date.getMonth() + 1;
                     let year = date.getFullYear();
-
                     month = month < 10 ? '0' + month : month;
                     day = day < 10 ? '0' + day : day;
-
-                    // return `${year}-${month}-${day}T00:00:00.000Z`;
                     return format.replace('YYYY', year).replace('MM', month).replace('DD', day);
                 },
                 setDefaultDate: true,

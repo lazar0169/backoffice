@@ -1,7 +1,7 @@
 let statisticGamesSummary = function () {
     let selectedOperator;
-    let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let statisticFromDate = getToday();
+    let statisticToDate = getToday();
     let gamesSummaryButton = $$('#statistic-get-games-summary');
     let gamesSummaryTableWrapper = $$('#statistic-games-summary-table');
     let gamesSummaryHeader = $$('#statistic-games-summary-header');

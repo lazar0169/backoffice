@@ -1,8 +1,8 @@
 let statisticPerGame = function () {
     let selectedOperator;
     let selectedGameId;
-    let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let statisticFromDate = getToday();
+    let statisticToDate = getToday();
     let perGameButton = $$('#statistic-get-per-game');
     let perGameTableWrapper = $$('#statistic-per-game-table');
     let perGameHeader = $$('#statistic-per-game-header');

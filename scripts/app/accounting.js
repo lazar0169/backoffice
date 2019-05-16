@@ -21,8 +21,8 @@ let accounting = function () {
         'Manager': 'comm/accounting/manager/get',
     }
 
-    let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let reportsFromDate = getToday();
+    let reportsToDate = getToday();
 
     let defaultSelectionValue = 'LastMonth';
 

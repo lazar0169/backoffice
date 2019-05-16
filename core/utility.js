@@ -231,6 +231,10 @@ function isNumber(value) {
         || value.includes('%');
 }
 
+function getToday() {
+    return new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+}
+
 function logOut() {
     location.href = getLocation();
 }
