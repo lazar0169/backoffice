@@ -159,7 +159,7 @@ input[type=checkbox] {
     display: none;
 }
 
-.fieldset {
+fieldset {
     display: flex;
     align-items: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -168,6 +168,10 @@ input[type=checkbox] {
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+fieldset legend {
+    padding: 0 0.3em;
 }
 
 label:before {

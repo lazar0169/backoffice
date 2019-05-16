@@ -2,7 +2,7 @@ let datepicker = function () {
     // Initialize all date pickers
     on('load', function () {
         for (let picker of $$('.datepicker')) {
-            let isRange = picker.parentElement.classList.contains('fieldset');
+            let isRange = picker.parentElement.tagName === 'FIELDSET';
             let firstPicker;
             let secondPicker;
             if (isRange) {
