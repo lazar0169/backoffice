@@ -23,7 +23,6 @@ let datepicker = function () {
                 setDefaultDate: true,
                 defaultDate: new Date(),
                 onSelect: function (date) {
-                    picker.value = this.toString();
                     trigger(`date/${picker.id}`, this.toString('YYYY-MM-DDT00:00:00.000Z'));
                     log(this.toString());
                 }
