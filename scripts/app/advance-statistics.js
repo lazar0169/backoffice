@@ -34,9 +34,17 @@ let advanceAccounting = function () {
     let betsSecondPeriodFrom = getToday();
     let betsSecondPeriodTo = getToday();
 
+    let isPerNumberOfHandsSelected = true;
+    const secondFilterButton = $$('#advance-statistics-get-bets-percentage');
+
+    
+
 
     $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
+    $$('#accounting-setup-checkbox').addEventListener('change', function () {
+        isPerNumberOfHandsSelected = !isPerNumberOfHandsSelected;
+    });
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -187,9 +195,74 @@ let advanceAccounting = function () {
     };
 
     function getBetsOfPortal() {
+        //TODO: implement this function as dashboard-portals page with expand feature
 
+        // betsTable.innerHTML = "";
+        // let wrapperTable = portalTable.getElementsByTagName('table')[0];
+        // let input = $$('#dashboard-portals-search');
+
+        // input.addEventListener('input', function () {
+        //     search(wrapperTable, input.value);
+        // });
+
+        // input.addEventListener('keyup', function (e) {
+        //     if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+        //         input.value = '';
+        //         search(wrapperTable, '');
+        //     }
+        // });
+
+        // $$('#dashboard-portals-remove-search').onclick = function () {
+        //     input.value = '';
+        //     search(wrapperTable, '');
+        // };
+
+        // input.value = '';
+        // search(wrapperTable, '');
+        // let body = document.createElement('tbody');
+        // wrapperTable.appendChild(body);
+        // hideAllRows(wrapperTable);
+
+        // for (let portal in dashboardData.portalsActivities) {
+        //     let tr = document.createElement('tr');
+        //     let td = document.createElement('td');
+        //     let portalTitle = document.createElement('div');
+        //     portalTitle.className = 'portal-title';
+        //     portalTitle.innerText = portal;
+        //     td.appendChild(portalTitle);
+        //     td.className = 'collapsed';
+        //     tr.dataset.id = portal;
+        //     tr.appendChild(td);
+        //     body.appendChild(tr);
+        //     td.collapsed = true;
+        //     td.onclick = () => {
+        //         if (td.collapsed) {
+        //             if (!td.created) {
+        //                 let t = table.generate({
+        //                     data: parseData(dashboardData.portalsActivities[portal].activities),
+        //                     id: `portal-${portal}`,
+        //                     dynamic: false,
+        //                     sticky: true,
+        //                     stickyCol: true
+        //                 })
+        //                 td.appendChild(t);
+        //                 td.created = true;
+        //                 table.preserveHeight(td);
+        //             }
+        //             td.collapsed = false;
+        //             td.classList.remove('collapsed');
+        //         } else {
+        //             td.classList.add('collapsed');
+        //             td.collapsed = true;
+        //         }
+        //     }
+        // }
     };
-    
+
+    function getRecommendedBetLimit() {
+        //TODO: implement recommend bet limit
+    };
+
     on('advance-statistics/main/loaded', function () {
         mainTable.innerHTML = '';
     });
@@ -262,6 +335,7 @@ let advanceAccounting = function () {
         betsTable.innerHTML = '';
         clearElement($$('#advance-statistics-bets-operators-list'));
         clearElement($$('#advance-statistics-bets-portals-list'));
+        $$('#advance-statistics-get-bets').classList.add('hidden');
         $$('#advance-statistics-get-bets').classList.add('hidden');
 
         addLoader($$('#sidebar-advance-statistics'));
@@ -398,4 +472,5 @@ let advanceAccounting = function () {
     portalsGetButton.addEventListener('click', getPortalsPerGame);
     playersGetButton.addEventListener('click', getPlayersOfPortal);
     betsGetButton.addEventListener('click', getBetsOfPortal);
+    secondFilterButton.addEventListener('click', getRecommendedBetLimit);
 }();

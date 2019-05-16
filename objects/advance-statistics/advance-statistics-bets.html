@@ -17,20 +17,29 @@
         </div>
 
         <div id="switch-and-search-wrapper">
-            <label id="label-before-advance-statistics-bets-checkbox" for="advance-statistics-bets-checkbox">Per Number Of Hands</label>
-            <label id="advance-statistics-bets-switch" class="switch">
-                <input id="advance-statistics-bets-checkbox" type="checkbox">
-                <span></span>
-                <div></div>
-            </label>
-            <label id="label-after-advance-statistics-bets-checkbox" for="advance-statistics-bets-checkbox">Per Number Of Players</label>
 
-            <div id="advance-statistics-games-search-wrapper">
+            <div id="advance-statistics-bets-search-wrapper">
                 <input type="text" id="advance-statistics-bets-search" placeholder="Search games">
                 <button id="advance-statistics-bets-remove-search" class="cancel">X</button>
+            </div>
+
+            <div id="advance-statistics-bets-switch-wrapper">
+                <label id="label-before-advance-statistics-bets-checkbox" for="advance-statistics-bets-checkbox">Number Of Hands</label>
+                <label id="advance-statistics-bets-switch" class="switch">
+                    <input id="advance-statistics-bets-checkbox" type="checkbox">
+                    <span></span>
+                    <div></div>
+                </label>
+                <label id="label-after-advance-statistics-bets-checkbox" for="advance-statistics-bets-checkbox">Number Of Players</label>
             </div>
         </div>
 
         <div id="advance-statistics-bets-table"></div>
+
+        <div id="bets-second-filter">
+            <input type="text" id="advance-statistics-wanted-percentage" placeholder="Wanted Percentage">
+            <button id="advance-statistics-get-bets-percentage">RECOMMEND BET LIMIT</button>
+            <input type="text" id="advance-statistics-second-filter-result" disabled>
+        </div>
     </div>
 </div>

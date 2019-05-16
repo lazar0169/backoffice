@@ -185,9 +185,19 @@
 
 #switch-and-search-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     align-content: center;
+    margin-top: 2.5em;
+}
+
+#advance-statistics-bets-switch-wrapper{
+    margin-top: 1em;
+}
+
+#switch-and-search-wrapper.hidden {
+    display: none;
 }
 
 #advance-statistics-bets-switch {
@@ -217,17 +227,6 @@
 
 /* BETS GAMES SEARCH */
 
-#advance-statistics-bets-search-wrapper {
-    width: 100%;
-    padding: 1em 0;
-    text-align: center;
-    border-bottom: 1px solid #3a4050;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 10em;
-}
-
 #advance-statistics-bets-search-wrapper input {
     width: 30em;
     text-align: center;
@@ -247,6 +246,27 @@
 
 #advance-statistics-bets-remove-search:hover {
     background-color: #a53825;
+}
+
+/* BETS SECOND FILTER */
+
+#bets-second-filter {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#bets-second-filter.hidden{
+    display: none;
+}
+
+#advance-statistics-wanted-percentage,
+#advance-statistics-get-bets-percentage,
+#advance-statistics-second-filter-result {
+    display: inline-block;
+    margin: inherit;
 }
 
 /* MOBILE */
