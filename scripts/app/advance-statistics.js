@@ -19,7 +19,9 @@ let advanceAccounting = function () {
     let portalsSecondPeriodTo = getToday();
     //players tab
     const playersGetButton = $$('#advance-statistics-get-players');
+    const playersFormCancelButton = $$('#players-form-cancel');
     let playersTable = $$('#advance-statistics-players-table');
+    let playersFormTable = $$('#players-form-table');
     let playersFirstPeriodFrom = getToday();
     let playersFirstPeriodTo = getToday();
     let playersSecondPeriodFrom = getToday();
@@ -34,6 +36,7 @@ let advanceAccounting = function () {
 
 
     $$('#players-black-overlay').addEventListener('click', hidePopup);
+    $$('#players-form-cancel').addEventListener('click', hidePopup);
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -230,7 +233,9 @@ let advanceAccounting = function () {
     });
 
     on('advance-statistics/players/loaded', function () {
+        hidePopup();
         playersTable.innerHTML = '';
+        playersFormTable.innerHTML = '';
         clearElement($$('#advance-statistics-players-operators-list'));
         clearElement($$('#advance-statistics-players-portals-list'));
         $$('#advance-statistics-get-players').classList.add('hidden');
@@ -356,10 +361,33 @@ let advanceAccounting = function () {
     };
 
     function showPlayersPopup(rowData) {
-        //TODO: finish this function and corresponding css
-
+        playersFormTable.innerHTML = '';
         let form = $$(`#players-form`);
         console.log(rowData);
+
+        trigger('comm/advance-statistics/playerGames/get', {
+            body: {
+                playerId: rowData.Player,
+                firstInterval: {
+                    fromTime: playersFirstPeriodFrom,
+                    toTime: playersFirstPeriodTo,
+                },
+                secondInterval: {
+                    fromTime: playersSecondPeriodFrom,
+                    toTime: playersSecondPeriodTo,
+                },
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`));
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function () {
+                console.error('Failed to get row data!');
+            }
+        });
 
         $$('#players-black-overlay').style.display = 'block';
         form.classList.add('show');
@@ -367,6 +395,7 @@ let advanceAccounting = function () {
     };
 
     function hidePopup() {
+        playersFormTable.innerHTML = ``;
         $$('#players-black-overlay').style.display = 'none';
         $$('#players-form').classList.remove('show');
         players.children[0].style.overflow = 'auto';
