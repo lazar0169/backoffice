@@ -12,11 +12,9 @@ let statisticPerGame = function () {
 
     on('statistic-per-game-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#statistic-per-game-time-span-from').classList.add('disabled');
-            $$('#statistic-per-game-time-span-to').classList.add('disabled');
+            $$('#statistic-per-game-fieldset').classList.add('disabled');
         } else {
-            $$('#statistic-per-game-time-span-from').classList.remove('disabled');
-            $$('#statistic-per-game-time-span-to').classList.remove('disabled');
+            $$('#statistic-per-game-fieldset').classList.remove('disabled');
         }
         let firstAvailable = filterPeriod($$('#statistic-per-game-time-interval'), value);
 
@@ -46,7 +44,7 @@ let statisticPerGame = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-fieldset'));
                     on('statistic-per-game-categories/selected', getGames);
                     getOperators();
                     selectDefault();

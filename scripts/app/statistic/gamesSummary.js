@@ -15,11 +15,9 @@ let statisticGamesSummary = function () {
 
     on('statistic-games-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#statistic-games-summary-time-span-from').classList.add('disabled');
-            $$('#statistic-games-summary-time-span-to').classList.add('disabled');
+            $$('#statistic-games-summary-fieldset').classList.add('disabled');
         } else {
-            $$('#statistic-games-summary-time-span-from').classList.remove('disabled');
-            $$('#statistic-games-summary-time-span-to').classList.remove('disabled');
+            $$('#statistic-games-summary-fieldset').classList.remove('disabled');
         }
         let firstAvailable = filterPeriod($$('#statistic-games-summary-time-interval'), value);
 
@@ -50,7 +48,7 @@ let statisticGamesSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-categories', 'Select categories', true), $$('#statistic-games-summary-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-games-summary-categories', 'Select categories', true), $$('#statistic-games-summary-fieldset'));
                     getOperators();
                     selectDefault();
                 } else {

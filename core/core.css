@@ -160,7 +160,7 @@ input[type=checkbox] {
 }
 
 fieldset {
-    display: flex;
+    display: inline-block;
     align-items: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 0.2em 0.4em;

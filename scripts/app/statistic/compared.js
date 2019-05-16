@@ -11,11 +11,9 @@ let statisticCompared = function () {
 
     on('statistic-compared-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#statistic-compared-time-span-from').classList.add('disabled');
-            $$('#statistic-compared-time-span-to').classList.add('disabled');
+            $$('#statistic-compared-fieldset').classList.add('disabled');
         } else {
-            $$('#statistic-compared-time-span-from').classList.remove('disabled');
-            $$('#statistic-compared-time-span-to').classList.remove('disabled');
+            $$('#statistic-compared-fieldset').classList.remove('disabled');
         }
         let firstAvailable = filterPeriod($$('#statistic-compared-time-interval'), value);
 
@@ -45,7 +43,7 @@ let statisticCompared = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-compared-categories', 'Select categories', true), $$('#statistic-compared-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-compared-categories', 'Select categories', true), $$('#statistic-compared-fieldset'));
                     getOperators();
                     selectDefault();
                 } else {
