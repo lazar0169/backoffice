@@ -52,6 +52,7 @@ let comm = function () {
         'comm/advance-statistics/portalsPerGame/get': '/AdvancedStatistics/GetPortalPerGame',
         'comm/advance-statistics/playersOfGame/get': '/AdvancedStatistics/GetPlayersOfPortal',
         'comm/advance-statistics/betsOfGame/get': '/AdvancedStatistics/GetBetsOfPortal',
+        'comm/advance-statistics/playerGames/get': '/AdvancedStatistics/GetPlayerPerGame',
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
@@ -116,7 +117,7 @@ let comm = function () {
         }).then(function (json) {
             log(json);
             if (json.responseCode === message.codes.loggedOut || json.responseCode === message.codes.invalidToken) {
-                logOut();
+                // logOut();
             }
             callback.success(json);
         }).catch((err) => {
