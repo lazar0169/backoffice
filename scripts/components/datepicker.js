@@ -67,10 +67,10 @@ let datepicker = function () {
 
             picker.reset = () => {
                 dp.setMinDate(new Date('2010-01-01T00:00:00Z'));
+                dp.setDate(new Date());
+                dp.setStartRange(new Date());
+                dp.setEndRange(new Date());
                 picker.isRangeSet = false;
-                picker.setToday();
-                picker.setStart(new Date());
-                picker.setEnd(new Date());
             };
 
             function setRange() {
