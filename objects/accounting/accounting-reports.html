@@ -15,8 +15,11 @@
                     <div class="option" data-value="LastYear">Last Year</div>
                 </div>
             </div>
-            <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
-            <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
+            <fieldset id="accounting-time-span-fieldset" class="disabled">
+                <div class="legend">Period: </div>
+                <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
+                <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
+            </fieldset>
             <div id="accounting-operators-list-wrapper"></div>
             <div id="accounting-portals-list-wrapper"></div>
             <div class="slider" data-suffix=" %" id="accounting-reports-bonus-rate">

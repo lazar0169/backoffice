@@ -47,11 +47,9 @@ let accounting = function () {
 
     on('accounting-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#accounting-time-span-from').classList.add('disabled');
-            $$('#accounting-time-span-to').classList.add('disabled');
+            $$('#accounting-time-span-fieldset').classList.add('disabled');
         } else {
-            $$('#accounting-time-span-from').classList.remove('disabled');
-            $$('#accounting-time-span-to').classList.remove('disabled');
+            $$('#accounting-time-span-fieldset').classList.remove('disabled');
         }
     });
 
