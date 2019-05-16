@@ -1,6 +1,6 @@
 /* ACCOUNTING */
 
-#accounting .datepicker.disabled {
+#accounting fieldset.disabled {
     display: none;
 }
 
@@ -18,12 +18,16 @@
 
 #accounting-reports-filter {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     flex-wrap: wrap;
 }
 
 #accounting-reports-filter>* {
     margin: 0.5em 0.5em;
+}
+
+#accounting-reports-filter>fieldset {
+    margin-bottom: 0;
 }
 
 #accounting-reports .tbody .table-col>div:nth-last-child(1) {
@@ -359,7 +363,7 @@
 }
 
 .switch:before,
-.switch:after{
+.switch:after {
     display: none !important;
 }
 

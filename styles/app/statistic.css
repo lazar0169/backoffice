@@ -1,4 +1,4 @@
-#statistic .datepicker.disabled {
+#statistic fieldset.disabled {
     display: none !important;
 }
 
@@ -8,6 +8,7 @@
 #statistic-games-summary-filter {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-end;
 }
 
 #statistic-summary-filter>*,
@@ -15,6 +16,13 @@
 #statistic-per-game-filter>*,
 #statistic-games-summary-filter>* {
     margin: 0.5em 0.5em;
+}
+
+#statistic-summary-filter>fieldset,
+#statistic-compared-filter>fieldset,
+#statistic-per-game-filter>fieldset,
+#statistic-games-summary-filter>fieldset {
+    margin-bottom: 0;
 }
 
 #statistic-get-summary.hidden,

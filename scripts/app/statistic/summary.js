@@ -14,11 +14,9 @@ let statisticSummary = function () {
 
     on('statistic-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#statistic-summary-time-span-from').classList.add('disabled');
-            $$('#statistic-summary-time-span-to').classList.add('disabled');
+            $$('#statistic-summary-fieldset').classList.add('disabled');
         } else {
-            $$('#statistic-summary-time-span-from').classList.remove('disabled');
-            $$('#statistic-summary-time-span-to').classList.remove('disabled');
+            $$('#statistic-summary-fieldset').classList.remove('disabled');
         }
         let firstAvailable = filterPeriod($$('#statistic-summary-time-interval'), value);
 
@@ -38,6 +36,8 @@ let statisticSummary = function () {
         clearElement($$('#statistic-summary-categories'));
         clearElement($$('#statistic-summary-operators'));
         clearElement($$('#statistic-summary-portals'));
+        $$('#statistic-summary-time-span-from').reset();
+        $$('#statistic-summary-time-span-to').reset();
         summaryTableWrapper.innerHTML = '';
         summaryHeader.innerHTML = '';
         summaryButton.classList.add('hidden');
@@ -49,7 +49,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-fieldset'));
                     getOperators();
                     selectDefault();
                 } else {

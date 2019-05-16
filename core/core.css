@@ -160,8 +160,7 @@ input[type=checkbox] {
 }
 
 fieldset {
-    display: flex;
-    align-items: center;
+    display: inline-block;
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 0.2em 0.4em;
     -webkit-box-sizing: border-box;
@@ -172,6 +171,14 @@ fieldset {
 
 fieldset legend {
     padding: 0 0.3em;
+}
+
+fieldset .legend {
+    margin-right: 0.7em;
+}
+
+fieldset>* {
+    display: inline-block;
 }
 
 label:before {
@@ -340,6 +347,25 @@ pre {
 
 .mobile .slider span {
     width: 100%;
+}
+
+.mobile .legend {
+    margin-bottom: 0.5em;
+}
+
+.mobile fieldset {
+    width: 100%;
+    margin-bottom: 0.5em !important;
+    border-left: none;
+    border-right: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.mobile fieldset>input {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5em !important;
 }
 
 .mobile input {

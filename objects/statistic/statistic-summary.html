@@ -25,8 +25,11 @@
                     <div class="option" data-value="3">Monthly</div>
                 </div>
             </div>
-            <input type="text" id="statistic-summary-time-span-from" class="datepicker" readonly>
-            <input type="text" id="statistic-summary-time-span-to" class="datepicker" readonly>
+            <fieldset id="statistic-summary-fieldset" class="disabled">
+                <div class="legend">Period: </div>
+                <input type="text" id="statistic-summary-time-span-from" class="datepicker" readonly>
+                <input type="text" id="statistic-summary-time-span-to" class="datepicker" readonly>
+            </fieldset>
             <button id="statistic-get-summary" class="hidden">GET STATISTIC</button>
         </div>
         <h2 id="statistic-summary-header"></h2>
