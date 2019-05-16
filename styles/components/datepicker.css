@@ -79,6 +79,11 @@ table {
     color: #ffffff;
 }
 
+.is-inrange .pika-button {
+    color: white;
+    background-color: #967443;
+}
+
 .is-selected .pika-button {
     background-color: #f99d1c;
     color: #fff;
