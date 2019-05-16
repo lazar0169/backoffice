@@ -34,6 +34,8 @@ let statisticPerGame = function () {
         clearElement($$('#statistic-per-game-categories'));
         clearElement($$('#statistic-per-game-operators'));
         clearElement($$('#statistic-per-game-portals'));
+        $$('#statistic-per-game-time-span-from').reset();
+        $$('#statistic-per-game-time-span-to').reset();
         perGameTableWrapper.innerHTML = '';
         perGameHeader.innerHTML = '';
         perGameButton.classList.add('hidden');

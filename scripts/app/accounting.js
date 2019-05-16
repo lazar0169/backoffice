@@ -582,6 +582,8 @@ let accounting = function () {
         $$('#accounting-get-reports').classList.add('hidden');
         $$('#accounting-reports-download').classList.add('hidden');
         $$('#accounting-reports-download-excel').classList.add('hidden');
+        $$('#accounting-time-span-from').reset();
+        $$('#accounting-time-span-to').reset();
 
         selectDefault();
 

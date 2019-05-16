@@ -33,6 +33,8 @@ let statisticCompared = function () {
         clearElement($$('#statistic-compared-categories'));
         clearElement($$('#statistic-compared-operators'));
         clearElement($$('#statistic-compared-portals'));
+        $$('#statistic-compared-time-span-from').reset();
+        $$('#statistic-compared-time-span-to').reset();
         comparedTableWrapper.innerHTML = '';
         comparedHeader.innerHTML = '';
         comparedButton.classList.add('hidden');

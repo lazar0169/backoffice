@@ -37,6 +37,8 @@ let statisticGamesSummary = function () {
         clearElement($$('#statistic-games-summary-categories'));
         clearElement($$('#statistic-games-summary-operators'));
         clearElement($$('#statistic-games-summary-portals'));
+        $$('#statistic-games-summary-time-span-from').reset();
+        $$('#statistic-games-summary-time-span-to').reset();
         gamesSummaryTableWrapper.innerHTML = '';
         gamesSummaryHeader.innerHTML = '';
         gamesSummaryButton.classList.add('hidden');

@@ -36,6 +36,8 @@ let statisticSummary = function () {
         clearElement($$('#statistic-summary-categories'));
         clearElement($$('#statistic-summary-operators'));
         clearElement($$('#statistic-summary-portals'));
+        $$('#statistic-summary-time-span-from').reset();
+        $$('#statistic-summary-time-span-to').reset();
         summaryTableWrapper.innerHTML = '';
         summaryHeader.innerHTML = '';
         summaryButton.classList.add('hidden');
