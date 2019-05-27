@@ -16,7 +16,7 @@
             <button id="advance-statistics-get-bets" class="hidden">GET</button>
         </div>
 
-        <div id="switch-and-search-wrapper">
+        <div id="switch-and-search-wrapper" class="hidden">
 
             <div id="advance-statistics-bets-search-wrapper">
                 <input type="text" id="advance-statistics-bets-search" placeholder="Search games">
@@ -34,9 +34,18 @@
             </div>
         </div>
 
-        <div id="advance-statistics-bets-table"></div>
+        <div id="advance-statistics-bets-table-wrapper">
+            <div id="advance-statistics-bets-table">
+                <table>
+                    <caption>
+                        <div class="caption-title">Games</div>
+                    </caption>
+                </table>
+            </div>
+        </div>
 
-        <div id="bets-second-filter">
+
+        <div id="bets-second-filter" class="hidden">
             <input type="text" id="advance-statistics-wanted-percentage" placeholder="Wanted Percentage">
             <button id="advance-statistics-get-bets-percentage">RECOMMEND BET LIMIT</button>
             <input type="text" id="advance-statistics-second-filter-result" disabled>

@@ -33,11 +33,13 @@ let advanceAccounting = function () {
     let betsFirstPeriodTo = getToday();
     let betsSecondPeriodFrom = getToday();
     let betsSecondPeriodTo = getToday();
+    let checkedGames = [];
+    let betsResult = [];
 
     let isPerNumberOfHandsSelected = true;
     const secondFilterButton = $$('#advance-statistics-get-bets-percentage');
 
-    
+
 
 
     $$('#players-black-overlay').addEventListener('click', hidePopup);
@@ -45,6 +47,16 @@ let advanceAccounting = function () {
     $$('#accounting-setup-checkbox').addEventListener('change', function () {
         isPerNumberOfHandsSelected = !isPerNumberOfHandsSelected;
     });
+
+    function addGameToList(event) {
+        const gameIndex = checkedGames.indexOf(event.target.innerHTML);
+        if (gameIndex === -1) {
+            checkedGames.push(event.target.innerHTML);
+        }
+        else {
+            checkedGames.splice(gameIndex, 1);
+        }
+    };
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -63,6 +75,86 @@ let advanceAccounting = function () {
             }
         });
         tableElement.appendChild(tableObject);
+    };
+
+    function prepareBetsTable(games) {
+        let wrapperTable = betsTable.getElementsByTagName('table')[0];
+        let input = $$('#advance-statistics-bets-search');
+        betsTable.classList.remove('hidden');
+
+        input.addEventListener('input', function () {
+            searchGames(wrapperTable, input.value);
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchGames(wrapperTable, '');
+            }
+        });
+
+        $$('#advance-statistics-bets-remove-search').onclick = function () {
+            input.value = '';
+            searchGames(wrapperTable, '');
+        };
+
+        input.value = '';
+        searchGames(wrapperTable, '');
+        let body = document.createElement('tbody');
+        wrapperTable.appendChild(body);
+        hideAllRows(wrapperTable);
+
+        for (let game in games.result) {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            //checkbox things
+            let gameCheckboxWrapper = document.createElement('div');
+            let gameCheckbox = document.createElement('input');
+            let gameCheckboxLabel = document.createElement('label');
+            gameCheckboxWrapper.id = 'advance-statistics-bets-game-checkbox-wrapper';
+            gameCheckboxWrapper.classList.add('game-title');
+
+            gameCheckbox.id = `advance-statistics-bets-game-checkbox-${game}`;
+            gameCheckbox.type = 'checkbox';
+            gameCheckbox.value = game;
+            gameCheckbox.name = game;
+
+            gameCheckboxLabel.htmlFor = `advance-statistics-bets-game-checkbox-${game}`;
+            gameCheckboxLabel.innerHTML = `${game}`;
+            gameCheckboxLabel.addEventListener('click', addGameToList);
+
+            gameCheckboxWrapper.appendChild(gameCheckbox);
+            gameCheckboxWrapper.appendChild(gameCheckboxLabel);
+            //checkbox things end
+            td.appendChild(gameCheckboxWrapper);
+            td.className = 'collapsed';
+            tr.dataset.id = game;
+            tr.appendChild(td);
+            body.appendChild(tr);
+            td.collapsed = true;
+            td.onclick = () => {
+                //TODO: implement when switching tables
+                if (td.collapsed) {
+                    if (!td.created) {
+                        let t = table.generate({
+                            data: [games.result[game]],
+                            id: `portal-${game}`,
+                            dynamic: false,
+                            sticky: true,
+                            stickyCol: true
+                        })
+                        td.appendChild(t);
+                        td.created = true;
+                        table.preserveHeight(td);
+                    }
+                    td.collapsed = false;
+                    td.classList.remove('collapsed');
+                } else {
+                    td.classList.add('collapsed');
+                    td.collapsed = true;
+                }
+            }
+        }
     };
 
     on('date/advance-statistics-main-first-period-time-span-from', function (data) {
@@ -138,6 +230,9 @@ let advanceAccounting = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+            },
+            fail: function () {
+                removeLoader(totalGetButton);
             }
         });
     };
@@ -164,6 +259,9 @@ let advanceAccounting = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+            },
+            fail: function () {
+                removeLoader(portalsGetButton);
             }
         });
     };
@@ -190,77 +288,70 @@ let advanceAccounting = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+            },
+            fail: function () {
+                removeLoader(playersGetButton);
             }
         });
     };
 
     function getBetsOfPortal() {
-        //TODO: implement this function as dashboard-portals page with expand feature
+        betsResult = [];
+        $$('#switch-and-search-wrapper').classList.remove('hidden');
+        $$('#bets-second-filter').classList.remove('hidden');
 
-        // betsTable.innerHTML = "";
-        // let wrapperTable = portalTable.getElementsByTagName('table')[0];
-        // let input = $$('#dashboard-portals-search');
-
-        // input.addEventListener('input', function () {
-        //     search(wrapperTable, input.value);
-        // });
-
-        // input.addEventListener('keyup', function (e) {
-        //     if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-        //         input.value = '';
-        //         search(wrapperTable, '');
-        //     }
-        // });
-
-        // $$('#dashboard-portals-remove-search').onclick = function () {
-        //     input.value = '';
-        //     search(wrapperTable, '');
-        // };
-
-        // input.value = '';
-        // search(wrapperTable, '');
-        // let body = document.createElement('tbody');
-        // wrapperTable.appendChild(body);
-        // hideAllRows(wrapperTable);
-
-        // for (let portal in dashboardData.portalsActivities) {
-        //     let tr = document.createElement('tr');
-        //     let td = document.createElement('td');
-        //     let portalTitle = document.createElement('div');
-        //     portalTitle.className = 'portal-title';
-        //     portalTitle.innerText = portal;
-        //     td.appendChild(portalTitle);
-        //     td.className = 'collapsed';
-        //     tr.dataset.id = portal;
-        //     tr.appendChild(td);
-        //     body.appendChild(tr);
-        //     td.collapsed = true;
-        //     td.onclick = () => {
-        //         if (td.collapsed) {
-        //             if (!td.created) {
-        //                 let t = table.generate({
-        //                     data: parseData(dashboardData.portalsActivities[portal].activities),
-        //                     id: `portal-${portal}`,
-        //                     dynamic: false,
-        //                     sticky: true,
-        //                     stickyCol: true
-        //                 })
-        //                 td.appendChild(t);
-        //                 td.created = true;
-        //                 table.preserveHeight(td);
-        //             }
-        //             td.collapsed = false;
-        //             td.classList.remove('collapsed');
-        //         } else {
-        //             td.classList.add('collapsed');
-        //             td.collapsed = true;
-        //         }
-        //     }
-        // }
+        addLoader(betsGetButton);
+        trigger('comm/advance-statistics/playersOfGame/get', {
+            body: {
+                portalId: $$('#advance-statistics-bets-portals-list').getSelected(),
+                firstPeriod: {
+                    fromTime: betsFirstPeriodFrom,
+                    toTime: betsFirstPeriodTo,
+                },
+                secondPeriod: {
+                    fromTime: betsSecondPeriodFrom,
+                    toTime: betsSecondPeriodTo,
+                },
+            },
+            success: function (response) {
+                removeLoader(betsGetButton);
+                if (response.responseCode === message.codes.success) {
+                    betsResult = parseGameData(response.result, 'Game');
+                    prepareBetsTable(response);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function () {
+                removeLoader(betsGetButton);
+            }
+        });
     };
 
     function getRecommendedBetLimit() {
         //TODO: implement recommend bet limit
+        selectedGames = getSelectedGames();
+
+        addLoader(secondFilterButton);
+        trigger('comm/advance-statistics/betsOfGame/get', {
+            body: {
+                //TODO: see what parameters are needed here 
+
+                wantedPercentage: $$('#advance-statistics-wanted-percentage').value,
+                selectedGames: selectedGames,
+            },
+            success: function (response) {
+                removeLoader(secondFilterButton);
+                // if (response.responseCode === message.codes.success) {
+                //     fillTable(playersTable, parseGameData(response.result, `Player`), showPlayersPopup);
+                // } else {
+                //     trigger('message', response.responseCode);
+                // }
+            },
+            fail: function () {
+                removeLoader(secondFilterButton);
+            }
+        });
     };
 
     on('advance-statistics/main/loaded', function () {
@@ -332,11 +423,19 @@ let advanceAccounting = function () {
     });
 
     on('advance-statistics/bets/loaded', function () {
-        betsTable.innerHTML = '';
+        checkedGames = [];
+        betsResult = [];
         clearElement($$('#advance-statistics-bets-operators-list'));
         clearElement($$('#advance-statistics-bets-portals-list'));
-        $$('#advance-statistics-get-bets').classList.add('hidden');
-        $$('#advance-statistics-get-bets').classList.add('hidden');
+
+        $$('#switch-and-search-wrapper').classList.add('hidden');
+        $$('#bets-second-filter').classList.add('hidden');
+        betsTable.classList.add('hidden');
+
+        let tbody = betsTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+        if (tbody.length) {
+            tbody[0].remove();
+        }
 
         addLoader($$('#sidebar-advance-statistics'));
 
@@ -461,11 +560,32 @@ let advanceAccounting = function () {
         players.children[0].style.overflow = 'hidden';
     };
 
+    function getSelectedGames() {
+
+    };
+
     function hidePopup() {
         playersFormTable.innerHTML = ``;
         $$('#players-black-overlay').style.display = 'none';
         $$('#players-form').classList.remove('show');
         players.children[0].style.overflow = 'auto';
+    };
+
+    function searchGames(element, term) {
+        for (let tableRow of element.getElementsByTagName('tr')) {
+            if (tableRow.dataset.id.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
+            } else {
+                tableRow.style.display = 'none';
+            }
+        }
+    };
+
+    function hideAllRows(element) {
+        for (let tableRow of element.getElementsByTagName('td')) {
+            tableRow.classList.add('collapsed');
+            tableRow.collapsed = true;
+        }
     };
 
     totalGetButton.addEventListener('click', getTotalPerGame);
