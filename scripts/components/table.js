@@ -214,7 +214,7 @@ let table = function () {
                     // -----
                     // value has to be splitted because at dashboard, parsed data comes in a form "335.01<span style="...">${ARROW_UP}</span>"
                     // and value must be extracted
-                    if (value && isNumber(value.split ? value.split('<span')[0] : value)) {
+                    if ((value || value === 0) && isNumber(value.split ? value.split('<span')[0] : value)) {
                         cell.style.justifyContent = 'flex-end';
                         cell.dataset.value = isNumber(value) ? value : convertToNumber(value.split('<span')[0]);
                     } else {

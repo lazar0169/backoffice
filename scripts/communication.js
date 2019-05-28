@@ -48,11 +48,12 @@ let comm = function () {
         'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
 
         // Advance Statistics
-        'comm/advance-statistics/totalPerGame/get': '/AdvancedStatistics/GetTotalPerGame',
-        'comm/advance-statistics/portalsPerGame/get': '/AdvancedStatistics/GetPortalPerGame',
-        'comm/advance-statistics/playersOfGame/get': '/AdvancedStatistics/GetPlayersOfPortal',
-        'comm/advance-statistics/betsOfGame/get': '/AdvancedStatistics/GetBetsOfPortal',
-        'comm/advance-statistics/playerGames/get': '/AdvancedStatistics/GetPlayerPerGame',
+        'comm/advance-statistics/totalPerGame/get': '/Management/GetTotalPerGame',
+        'comm/advance-statistics/portalsPerGame/get': '/Management/GetPortalPerGame',
+        'comm/advance-statistics/playersOfGame/get': '/Management/GetPlayersOfPortal',
+        'comm/advance-statistics/betsOfGame/get': '/Management/GetBetsOfPortal',
+        'comm/advance-statistics/RecommendBetLimit/get': '/Management/RecommendBetLimit',
+        'comm/advance-statistics/playerGames/get': '/Management/GetPlayerPerGame',
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
@@ -117,7 +118,7 @@ let comm = function () {
         }).then(function (json) {
             log(json);
             if (json.responseCode === message.codes.loggedOut || json.responseCode === message.codes.invalidToken) {
-                logOut();
+                // logOut();
             }
             callback.success(json);
         }).catch((err) => {

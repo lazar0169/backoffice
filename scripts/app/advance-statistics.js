@@ -31,31 +31,55 @@ let advanceAccounting = function () {
     let betsTable = $$('#advance-statistics-bets-table');
     let betsFirstPeriodFrom = getToday();
     let betsFirstPeriodTo = getToday();
-    let betsSecondPeriodFrom = getToday();
-    let betsSecondPeriodTo = getToday();
     let checkedGames = [];
     let betsResult = [];
+    let selectedGames = null;
 
-    let isPerNumberOfHandsSelected = true;
+    let isPerNumberOfHandsSelected = false;
     const secondFilterButton = $$('#advance-statistics-get-bets-percentage');
+    let betsCheckbox = $$('#advance-statistics-bets-checkbox');
 
 
 
 
     $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
-    $$('#accounting-setup-checkbox').addEventListener('change', function () {
+    betsCheckbox.addEventListener('change', function () {
         isPerNumberOfHandsSelected = !isPerNumberOfHandsSelected;
+        changePerNumberOfView();
     });
+
+    function changePerNumberOfView() {
+        if (isPerNumberOfHandsSelected) {
+            for (let game in betsResult.perNumberOfHands) {
+                let tableViewHands = $$(`#${game}-per-number-of-hands`);
+                let tableViewPlayers = $$(`#${game}-per-number-of-players`);
+                if (tableViewHands) {
+                    tableViewHands.parentElement.classList.remove('hidden');
+                }
+                if (tableViewPlayers) {
+                    tableViewPlayers.parentElement.classList.add('hidden');
+                }
+            }
+        }
+        else {
+            for (let game in betsResult.perNumberOfPlayers) {
+                let tableViewPlayers = $$(`#${game}-per-number-of-players`);
+                let tableViewHands = $$(`#${game}-per-number-of-hands`);
+                if (tableViewPlayers) {
+                    tableViewPlayers.parentElement.classList.remove('hidden');
+                }
+                if (tableViewHands) {
+                    tableViewHands.parentElement.classList.add('hidden');
+                }
+            }
+        }
+
+    };
 
     function addGameToList(event) {
         const gameIndex = checkedGames.indexOf(event.target.innerHTML);
-        if (gameIndex === -1) {
-            checkedGames.push(event.target.innerHTML);
-        }
-        else {
-            checkedGames.splice(gameIndex, 1);
-        }
+        gameIndex === -1 ? checkedGames.push(event.target.innerHTML) : checkedGames.splice(gameIndex, 1);
     };
 
     let actionByRoles = {
@@ -104,7 +128,7 @@ let advanceAccounting = function () {
         wrapperTable.appendChild(body);
         hideAllRows(wrapperTable);
 
-        for (let game in games.result) {
+        for (let game in games.result.perNumberOfHands) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
             //checkbox things
@@ -136,14 +160,28 @@ let advanceAccounting = function () {
                 //TODO: implement when switching tables
                 if (td.collapsed) {
                     if (!td.created) {
-                        let t = table.generate({
-                            data: [games.result[game]],
-                            id: `portal-${game}`,
+                        let tPerNumberOfHands = table.generate({
+                            data: games.result.perNumberOfHands[game],
+                            id: `${game}-per-number-of-hands`,
+                            dynamic: false,
+                            sticky: true,
+                            stickyCol: true
+                        });
+                        let tPerNumberOfPlayers = table.generate({
+                            data: games.result.perNumberOfHands[game],
+                            id: `${game}-per-number-of-players`,
                             dynamic: false,
                             sticky: true,
                             stickyCol: true
                         })
-                        td.appendChild(t);
+                        td.appendChild(tPerNumberOfHands);
+                        td.appendChild(tPerNumberOfPlayers);
+                        if (isPerNumberOfHandsSelected) {
+                            tPerNumberOfPlayers.classList.add('hidden');
+                        }
+                        else {
+                            tPerNumberOfHands.classList.add('hidden');
+                        }
                         td.created = true;
                         table.preserveHeight(td);
                     }
@@ -201,12 +239,6 @@ let advanceAccounting = function () {
     });
     on('date/advance-statistics-bets-first-period-time-span-to', function (data) {
         betsFirstPeriodTo = data;
-    });
-    on('date/advance-statistics-bets-second-period-time-span-from', function (data) {
-        betsSecondPeriodFrom = data;
-    });
-    on('date/advance-statistics-bets-second-period-time-span-to', function (data) {
-        betsSecondPeriodTo = data;
     });
 
     function getTotalPerGame() {
@@ -296,27 +328,27 @@ let advanceAccounting = function () {
     };
 
     function getBetsOfPortal() {
+        checkedGames = [];
         betsResult = [];
         $$('#switch-and-search-wrapper').classList.remove('hidden');
         $$('#bets-second-filter').classList.remove('hidden');
 
+        let tbody = betsTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+        if (tbody.length) {
+            tbody[0].remove();
+        }
+
         addLoader(betsGetButton);
-        trigger('comm/advance-statistics/playersOfGame/get', {
+        trigger('comm/advance-statistics/betsOfGame/get', {
             body: {
                 portalId: $$('#advance-statistics-bets-portals-list').getSelected(),
-                firstPeriod: {
-                    fromTime: betsFirstPeriodFrom,
-                    toTime: betsFirstPeriodTo,
-                },
-                secondPeriod: {
-                    fromTime: betsSecondPeriodFrom,
-                    toTime: betsSecondPeriodTo,
-                },
+                fromTime: betsFirstPeriodFrom,
+                toTime: betsFirstPeriodTo,
             },
             success: function (response) {
                 removeLoader(betsGetButton);
                 if (response.responseCode === message.codes.success) {
-                    betsResult = parseGameData(response.result, 'Game');
+                    betsResult = response.result;
                     prepareBetsTable(response);
                 } else {
                     trigger('message', response.responseCode);
@@ -329,24 +361,21 @@ let advanceAccounting = function () {
     };
 
     function getRecommendedBetLimit() {
-        //TODO: implement recommend bet limit
         selectedGames = getSelectedGames();
 
         addLoader(secondFilterButton);
-        trigger('comm/advance-statistics/betsOfGame/get', {
+        trigger('comm/advance-statistics/RecommendBetLimit/get', {
             body: {
-                //TODO: see what parameters are needed here 
-
+                betRangesItems: selectedGames,
                 wantedPercentage: $$('#advance-statistics-wanted-percentage').value,
-                selectedGames: selectedGames,
             },
             success: function (response) {
                 removeLoader(secondFilterButton);
-                // if (response.responseCode === message.codes.success) {
-                //     fillTable(playersTable, parseGameData(response.result, `Player`), showPlayersPopup);
-                // } else {
-                //     trigger('message', response.responseCode);
-                // }
+                if (response.responseCode === message.codes.success) {
+                    $$('#advance-statistics-second-filter-result').value = response.result;
+                } else {
+                    trigger('message', response.responseCode);
+                }
             },
             fail: function () {
                 removeLoader(secondFilterButton);
@@ -423,6 +452,8 @@ let advanceAccounting = function () {
     });
 
     on('advance-statistics/bets/loaded', function () {
+        isPerNumberOfHandsSelected = false;
+        betsCheckbox.checked = true;
         checkedGames = [];
         betsResult = [];
         clearElement($$('#advance-statistics-bets-operators-list'));
@@ -561,7 +592,11 @@ let advanceAccounting = function () {
     };
 
     function getSelectedGames() {
-
+        let resultArray = {};
+        for (let game of checkedGames) {
+            resultArray[game] = betsResult.perNumberOfHands[game];
+        }
+        return resultArray;
     };
 
     function hidePopup() {

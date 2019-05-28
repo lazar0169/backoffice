@@ -28,10 +28,18 @@
     display: none !important;
 }
 
-/* #advance-statistics-get-total,
-#advance-statistics-get-players,
-#advance-statistics-get-portals,
-#advance-statistics-get-bets {} */
+#advance-statistics-main-table,
+#advance-statistics-portals-table,
+#advance-statistics-players-table{
+    height: 92%;
+    margin-top: 1.5em
+}
+
+#advance-statistics-main-table>.table,
+#advance-statistics-portals-table>.table,
+#advance-statistics-players-table>.table{
+    height: 100%;
+}
 
 #advance-statistics-main-table>h2 {
     border-bottom: solid 1px rgba(255, 255, 255, 0.5);
@@ -289,6 +297,10 @@
     -webkit-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
     -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
     box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
+}
+
+#advance-statistics-bets-table td div.table.hidden{
+    display: none !important;
 }
 
 #advance-statistics-bets-table td.collapsed {
