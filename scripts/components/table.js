@@ -208,7 +208,7 @@ let table = function () {
                             for (let i = 0; i < rowElements.length; i++) {
                                 clickedData[table.props.headers[i]] = isNumber(rowElements[i].dataset.value) ? convertToNumber(rowElements[i].dataset.value) : rowElements[i].dataset.value;
                             }
-                            table.props.options.onClick(clickedData);
+                            table.props.options.onClick(clickedData, rowId);
                         }
                     }
                     // -----

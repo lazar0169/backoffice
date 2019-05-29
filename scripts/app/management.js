@@ -1,43 +1,44 @@
 let advanceAccounting = function () {
-    let main = $$('#advance-statistics-main');
-    let portals = $$('#advance-statistics-portals');
-    let players = $$('#advance-statistics-players');
-    let bets = $$('#advance-statistics-bets');
+    let main = $$('#management-main');
+    let portals = $$('#management-portals');
+    let players = $$('#management-players');
+    let bets = $$('#management-bets');
     //main tab
-    const totalGetButton = $$('#advance-statistics-get-total');
-    let mainTable = $$('#advance-statistics-main-table');
+    const totalGetButton = $$('#management-get-total');
+    let mainTable = $$('#management-main-table');
     let mainFirstPeriodFrom = getToday();
     let mainFirstPeriodTo = getToday();
     let mainSecondPeriodFrom = getToday();
     let mainSecondPeriodTo = getToday();
     //portals tab 
-    const portalsGetButton = $$('#advance-statistics-get-portals');
-    let portalsTable = $$('#advance-statistics-portals-table');
+    const portalsGetButton = $$('#management-get-portals');
+    let portalsTable = $$('#management-portals-table');
     let portalsFirstPeriodFrom = getToday();
     let portalsFirstPeriodTo = getToday();
     let portalsSecondPeriodFrom = getToday();
     let portalsSecondPeriodTo = getToday();
     //players tab
-    const playersGetButton = $$('#advance-statistics-get-players');
-    const playersFormCancelButton = $$('#players-form-cancel');
-    let playersTable = $$('#advance-statistics-players-table');
+    const playersGetButton = $$('#management-get-players');
+    let playersTable = $$('#management-players-table');
     let playersFormTable = $$('#players-form-table');
     let playersFirstPeriodFrom = getToday();
     let playersFirstPeriodTo = getToday();
     let playersSecondPeriodFrom = getToday();
     let playersSecondPeriodTo = getToday();
     //bets tab
-    const betsGetButton = $$('#advance-statistics-get-bets');
-    let betsTable = $$('#advance-statistics-bets-table');
+    const betsGetButton = $$('#management-get-bets');
+    let betsTable = $$('#management-bets-table');
     let betsFirstPeriodFrom = getToday();
     let betsFirstPeriodTo = getToday();
     let checkedGames = [];
     let betsResult = [];
     let selectedGames = null;
+    let popupHidden = true;
+    let selectedRowId = null;
 
     let isPerNumberOfHandsSelected = false;
-    const secondFilterButton = $$('#advance-statistics-get-bets-percentage');
-    let betsCheckbox = $$('#advance-statistics-bets-checkbox');
+    const secondFilterButton = $$('#management-get-bets-percentage');
+    let betsCheckbox = $$('#management-bets-checkbox');
 
 
 
@@ -74,8 +75,13 @@ let advanceAccounting = function () {
                 }
             }
         }
-
     };
+
+    $$('#management-wanted-percentage').addEventListener('keydown', function (e) {
+        if ((e.keyCode < 48 || e.keyCode > 57) && e.keyCode !== 190 && e.keyCode !== 8) {
+            e.preventDefault();
+        }
+    });
 
     function addGameToList(event) {
         const gameIndex = checkedGames.indexOf(event.target.innerHTML);
@@ -88,10 +94,10 @@ let advanceAccounting = function () {
         'Manager': 'comm/accounting/manager/get',
     };
 
-    function fillTable(tableElement, data, callback) {
+    function fillTable(tableElement, data, callback, tableName) {
         let tableObject = table.generate({
             data: data,
-            id: 'advance-statistics-main-table',
+            id: tableName,
             sticky: true,
             stickyCol: true,
             options: {
@@ -103,7 +109,7 @@ let advanceAccounting = function () {
 
     function prepareBetsTable(games) {
         let wrapperTable = betsTable.getElementsByTagName('table')[0];
-        let input = $$('#advance-statistics-bets-search');
+        let input = $$('#management-bets-search');
         betsTable.classList.remove('hidden');
 
         input.addEventListener('input', function () {
@@ -117,7 +123,7 @@ let advanceAccounting = function () {
             }
         });
 
-        $$('#advance-statistics-bets-remove-search').onclick = function () {
+        $$('#management-bets-remove-search').onclick = function () {
             input.value = '';
             searchGames(wrapperTable, '');
         };
@@ -135,15 +141,15 @@ let advanceAccounting = function () {
             let gameCheckboxWrapper = document.createElement('div');
             let gameCheckbox = document.createElement('input');
             let gameCheckboxLabel = document.createElement('label');
-            gameCheckboxWrapper.id = 'advance-statistics-bets-game-checkbox-wrapper';
+            gameCheckboxWrapper.id = 'management-bets-game-checkbox-wrapper';
             gameCheckboxWrapper.classList.add('game-title');
 
-            gameCheckbox.id = `advance-statistics-bets-game-checkbox-${game}`;
+            gameCheckbox.id = `management-bets-game-checkbox-${game}`;
             gameCheckbox.type = 'checkbox';
             gameCheckbox.value = game;
             gameCheckbox.name = game;
 
-            gameCheckboxLabel.htmlFor = `advance-statistics-bets-game-checkbox-${game}`;
+            gameCheckboxLabel.htmlFor = `management-bets-game-checkbox-${game}`;
             gameCheckboxLabel.innerHTML = `${game}`;
             gameCheckboxLabel.addEventListener('click', addGameToList);
 
@@ -168,7 +174,7 @@ let advanceAccounting = function () {
                             stickyCol: true
                         });
                         let tPerNumberOfPlayers = table.generate({
-                            data: games.result.perNumberOfHands[game],
+                            data: games.result.perNumberOfPlayers[game],
                             id: `${game}-per-number-of-players`,
                             dynamic: false,
                             sticky: true,
@@ -176,14 +182,15 @@ let advanceAccounting = function () {
                         })
                         td.appendChild(tPerNumberOfHands);
                         td.appendChild(tPerNumberOfPlayers);
+                        td.created = true;
+                        table.preserveHeight(td);
+
                         if (isPerNumberOfHandsSelected) {
                             tPerNumberOfPlayers.classList.add('hidden');
                         }
                         else {
                             tPerNumberOfHands.classList.add('hidden');
                         }
-                        td.created = true;
-                        table.preserveHeight(td);
                     }
                     td.collapsed = false;
                     td.classList.remove('collapsed');
@@ -195,56 +202,56 @@ let advanceAccounting = function () {
         }
     };
 
-    on('date/advance-statistics-main-first-period-time-span-from', function (data) {
+    on('date/management-main-first-period-time-span-from', function (data) {
         mainFirstPeriodFrom = data;
     });
-    on('date/advance-statistics-main-first-period-time-span-to', function (data) {
+    on('date/management-main-first-period-time-span-to', function (data) {
         mainFirstPeriodTo = data;
     });
-    on('date/advance-statistics-main-second-period-time-span-from', function (data) {
+    on('date/management-main-second-period-time-span-from', function (data) {
         mainSecondPeriodFrom = data;
     });
-    on('date/advance-statistics-main-second-period-time-span-to', function (data) {
+    on('date/management-main-second-period-time-span-to', function (data) {
         mainSecondPeriodTo = data;
     });
 
-    on('date/advance-statistics-portals-first-period-time-span-from', function (data) {
+    on('date/management-portals-first-period-time-span-from', function (data) {
         portalsFirstPeriodFrom = data;
     });
-    on('date/advance-statistics-portals-first-period-time-span-to', function (data) {
+    on('date/management-portals-first-period-time-span-to', function (data) {
         portalsFirstPeriodTo = data;
     });
-    on('date/advance-statistics-portals-second-period-time-span-from', function (data) {
+    on('date/management-portals-second-period-time-span-from', function (data) {
         portalsSecondPeriodFrom = data;
     });
-    on('date/advance-statistics-portals-second-period-time-span-to', function (data) {
+    on('date/management-portals-second-period-time-span-to', function (data) {
         portalsSecondPeriodTo = data;
     });
 
-    on('date/advance-statistics-players-first-period-time-span-from', function (data) {
+    on('date/management-players-first-period-time-span-from', function (data) {
         playersFirstPeriodFrom = data;
     });
-    on('date/advance-statistics-players-first-period-time-span-to', function (data) {
+    on('date/management-players-first-period-time-span-to', function (data) {
         playersFirstPeriodTo = data;
     });
-    on('date/advance-statistics-players-second-period-time-span-from', function (data) {
+    on('date/management-players-second-period-time-span-from', function (data) {
         playersSecondPeriodFrom = data;
     });
-    on('date/advance-statistics-players-second-period-time-span-to', function (data) {
+    on('date/management-players-second-period-time-span-to', function (data) {
         playersSecondPeriodTo = data;
     });
 
-    on('date/advance-statistics-bets-first-period-time-span-from', function (data) {
+    on('date/management-bets-first-period-time-span-from', function (data) {
         betsFirstPeriodFrom = data;
     });
-    on('date/advance-statistics-bets-first-period-time-span-to', function (data) {
+    on('date/management-bets-first-period-time-span-to', function (data) {
         betsFirstPeriodTo = data;
     });
 
     function getTotalPerGame() {
         mainTable.innerHTML = "";
         addLoader(totalGetButton);
-        trigger('comm/advance-statistics/totalPerGame/get', {
+        trigger('comm/management/totalPerGame/get', {
             body: {
                 firstPeriod: {
                     fromTime: mainFirstPeriodFrom,
@@ -258,7 +265,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
-                    fillTable(mainTable, parseGameData(response.result, `Game`));
+                    fillTable(mainTable, parseGameData(response.result, `Game`), undefined, 'management-main-table-div');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -272,9 +279,9 @@ let advanceAccounting = function () {
     function getPortalsPerGame() {
         portalsTable.innerHTML = "";
         addLoader(portalsGetButton);
-        trigger('comm/advance-statistics/portalsPerGame/get', {
+        trigger('comm/management/portalsPerGame/get', {
             body: {
-                portalId: $$('#advance-statistics-portals-portals-list').getSelected(),
+                portalId: $$('#management-portals-portals-list').getSelected(),
                 firstPeriod: {
                     fromTime: portalsFirstPeriodFrom,
                     toTime: portalsFirstPeriodTo,
@@ -287,7 +294,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 removeLoader(portalsGetButton);
                 if (response.responseCode === message.codes.success) {
-                    fillTable(portalsTable, parseGameData(response.result, `Game`));
+                    fillTable(portalsTable, parseGameData(response.result, `Game`), undefined, 'management-portals-table-div');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -301,9 +308,9 @@ let advanceAccounting = function () {
     function getPlayersOfPortal() {
         playersTable.innerHTML = "";
         addLoader(playersGetButton);
-        trigger('comm/advance-statistics/playersOfGame/get', {
+        trigger('comm/management/playersOfGame/get', {
             body: {
-                portalId: $$('#advance-statistics-players-portals-list').getSelected(),
+                portalId: $$('#management-players-portals-list').getSelected(),
                 firstPeriod: {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
@@ -316,7 +323,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 removeLoader(playersGetButton);
                 if (response.responseCode === message.codes.success) {
-                    fillTable(playersTable, parseGameData(response.result, `Player`), showPlayersPopup);
+                    fillTable(playersTable, parseGameData(response.result, `Player`), showPlayersPopup, 'management-players-table-div');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -339,9 +346,9 @@ let advanceAccounting = function () {
         }
 
         addLoader(betsGetButton);
-        trigger('comm/advance-statistics/betsOfGame/get', {
+        trigger('comm/management/betsOfGame/get', {
             body: {
-                portalId: $$('#advance-statistics-bets-portals-list').getSelected(),
+                portalId: $$('#management-bets-portals-list').getSelected(),
                 fromTime: betsFirstPeriodFrom,
                 toTime: betsFirstPeriodTo,
             },
@@ -364,15 +371,15 @@ let advanceAccounting = function () {
         selectedGames = getSelectedGames();
 
         addLoader(secondFilterButton);
-        trigger('comm/advance-statistics/RecommendBetLimit/get', {
+        trigger('comm/management/RecommendBetLimit/get', {
             body: {
                 betRangesItems: selectedGames,
-                wantedPercentage: $$('#advance-statistics-wanted-percentage').value,
+                wantedPercentage: $$('#management-wanted-percentage').value,
             },
             success: function (response) {
                 removeLoader(secondFilterButton);
                 if (response.responseCode === message.codes.success) {
-                    $$('#advance-statistics-second-filter-result').value = response.result;
+                    $$('#management-second-filter-result').value = response.result;
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -383,17 +390,17 @@ let advanceAccounting = function () {
         });
     };
 
-    on('advance-statistics/main/loaded', function () {
+    on('management/main/loaded', function () {
         mainTable.innerHTML = '';
     });
 
-    on('advance-statistics/portals/loaded', function () {
+    on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
-        clearElement($$('#advance-statistics-portals-operators-list'));
-        clearElement($$('#advance-statistics-portals-portals-list'));
-        $$('#advance-statistics-get-portals').classList.add('hidden');
+        clearElement($$('#management-portals-operators-list'));
+        clearElement($$('#management-portals-portals-list'));
+        $$('#management-get-portals').classList.add('hidden');
 
-        addLoader($$('#sidebar-advance-statistics'));
+        addLoader($$('#sidebar-management'));
 
         trigger('comm/accounting/operators/get', {
             success: function (response) {
@@ -410,23 +417,23 @@ let advanceAccounting = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
-                removeLoader($$('#sidebar-advance-statistics'));
+                removeLoader($$('#sidebar-management'));
             },
             fail: function () {
-                removeLoader($$('#sidebar-advance-statistics'));
+                removeLoader($$('#sidebar-management'));
             }
         });
     });
 
-    on('advance-statistics/players/loaded', function () {
+    on('management/players/loaded', function () {
         hidePopup();
         playersTable.innerHTML = '';
         playersFormTable.innerHTML = '';
-        clearElement($$('#advance-statistics-players-operators-list'));
-        clearElement($$('#advance-statistics-players-portals-list'));
-        $$('#advance-statistics-get-players').classList.add('hidden');
+        clearElement($$('#management-players-operators-list'));
+        clearElement($$('#management-players-portals-list'));
+        $$('#management-get-players').classList.add('hidden');
 
-        addLoader($$('#sidebar-advance-statistics'));
+        addLoader($$('#sidebar-management'));
 
         trigger('comm/accounting/operators/get', {
             success: function (response) {
@@ -443,24 +450,25 @@ let advanceAccounting = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
-                removeLoader($$('#sidebar-advance-statistics'));
+                removeLoader($$('#sidebar-management'));
             },
             fail: function () {
-                removeLoader($$('#sidebar-advance-statistics'));
+                removeLoader($$('#sidebar-management'));
             }
         });
     });
 
-    on('advance-statistics/bets/loaded', function () {
+    on('management/bets/loaded', function () {
         isPerNumberOfHandsSelected = false;
         betsCheckbox.checked = true;
         checkedGames = [];
         betsResult = [];
-        clearElement($$('#advance-statistics-bets-operators-list'));
-        clearElement($$('#advance-statistics-bets-portals-list'));
+        clearElement($$('#management-bets-operators-list'));
+        clearElement($$('#management-bets-portals-list'));
 
         $$('#switch-and-search-wrapper').classList.add('hidden');
         $$('#bets-second-filter').classList.add('hidden');
+        $$('#management-get-bets').classList.add('hidden');
         betsTable.classList.add('hidden');
 
         let tbody = betsTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
@@ -468,7 +476,7 @@ let advanceAccounting = function () {
             tbody[0].remove();
         }
 
-        addLoader($$('#sidebar-advance-statistics'));
+        addLoader($$('#sidebar-management'));
 
         trigger('comm/accounting/operators/get', {
             success: function (response) {
@@ -485,10 +493,10 @@ let advanceAccounting = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
-                removeLoader($$('#sidebar-advance-statistics'));
+                removeLoader($$('#sidebar-management'));
             },
             fail: function () {
-                removeLoader($$('#sidebar-advance-statistics'));
+                removeLoader($$('#sidebar-management'));
             }
         });
     });
@@ -514,13 +522,13 @@ let advanceAccounting = function () {
 
     function afterLoad(response, tab) {
         if (response.responseCode === message.codes.success) {
-            clearElement($$(`#advance-statistics-${tab}-operators-list`));
-            let operatorsDropdown = dropdown.generate(response.result, `advance-statistics-${tab}-operators-list`, 'Select operator');
-            $$(`#advance-statistics-${tab}-operators-list-wrapper`).appendChild(operatorsDropdown);
-            if (!response.result) $$(`#advance-statistics-${tab}-operators-list-wrapper`).style.display = 'none';
+            clearElement($$(`#management-${tab}-operators-list`));
+            let operatorsDropdown = dropdown.generate(response.result, `management-${tab}-operators-list`, 'Select operator');
+            $$(`#management-${tab}-operators-list-wrapper`).appendChild(operatorsDropdown);
+            if (!response.result) $$(`#management-${tab}-operators-list-wrapper`).style.display = 'none';
 
-            on(`advance-statistics-${tab}-operators-list/selected`, function (value) {
-                addLoader($$(`#advance-statistics-${tab}-filter`));
+            on(`management-${tab}-operators-list/selected`, function (value) {
+                addLoader($$(`#management-${tab}-filter`));
                 trigger('comm/accounting/portals/get', {
                     body: {
                         id: value
@@ -528,13 +536,13 @@ let advanceAccounting = function () {
                     success: function (response) {
                         if (response.responseCode === message.codes.success) {
                             getPortals(response, tab);
-                            removeLoader($$(`#advance-statistics-${tab}-filter`));
+                            removeLoader($$(`#management-${tab}-filter`));
                         } else {
                             trigger('message', response.responseCode);
                         }
                     },
                     fail: function () {
-                        removeLoader($$(`#advance-statistics-${tab}-filter`));
+                        removeLoader($$(`#management-${tab}-filter`));
                     }
                 });
             });
@@ -550,33 +558,39 @@ let advanceAccounting = function () {
     };
 
     function getPortals(data, tab) {
-        clearElement($$(`#advance-statistics-${tab}-portals-list`));
-        let portalsDropdown = dropdown.generate(data.result, `advance-statistics-${tab}-portals-list`, 'Select portal');
-        $$(`#advance-statistics-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
-        if (!data.result) $$(`#advance-statistics-${tab}-portals-list-wrapper`).style.display = 'none';
-        $$(`#advance-statistics-get-${tab}`).classList.remove('hidden');
+        clearElement($$(`#management-${tab}-portals-list`));
+        let portalsDropdown = dropdown.generate(data.result, `management-${tab}-portals-list`, 'Select portal');
+        $$(`#management-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
+        if (!data.result) $$(`#management-${tab}-portals-list-wrapper`).style.display = 'none';
+        $$(`#management-get-${tab}`).classList.remove('hidden');
     };
 
-    function showPlayersPopup(rowData) {
+    function showPlayersPopup(rowData, rowId) {
+        if (popupHidden) {
+            hidePopup();
+            return;
+        }
+        popupHidden = !popupHidden;
         playersFormTable.innerHTML = '';
         let form = $$(`#players-form`);
-        console.log(rowData);
+        selectedRowId = rowId;
 
-        trigger('comm/advance-statistics/playerGames/get', {
+        trigger('comm/management/playerGames/get', {
             body: {
-                playerId: rowData.Player,
-                firstInterval: {
+                player: rowData.Player,
+                firstPeriod: {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
                 },
-                secondInterval: {
+                secondPeriod: {
                     fromTime: playersSecondPeriodFrom,
                     toTime: playersSecondPeriodTo,
                 },
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`));
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div');
+                    highlightRow();
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -594,7 +608,7 @@ let advanceAccounting = function () {
     function getSelectedGames() {
         let resultArray = {};
         for (let game of checkedGames) {
-            resultArray[game] = betsResult.perNumberOfHands[game];
+            resultArray[game] = isPerNumberOfHandsSelected ? betsResult.perNumberOfHands[game] : betsResult.perNumberOfPlayers[game];
         }
         return resultArray;
     };
@@ -604,6 +618,8 @@ let advanceAccounting = function () {
         $$('#players-black-overlay').style.display = 'none';
         $$('#players-form').classList.remove('show');
         players.children[0].style.overflow = 'auto';
+        popupHidden = !popupHidden;
+        removeHighlightRow();
     };
 
     function searchGames(element, term) {
@@ -620,6 +636,28 @@ let advanceAccounting = function () {
         for (let tableRow of element.getElementsByTagName('td')) {
             tableRow.classList.add('collapsed');
             tableRow.collapsed = true;
+        }
+    };
+
+    function highlightRow() {
+        if (!selectedRowId) {
+            return;
+        }
+
+        let columns = $$(`.row-${selectedRowId}`);
+        for (let column of columns) {
+            column.classList.add('hover');
+        }
+    };
+
+    function removeHighlightRow(){
+        if (!selectedRowId) {
+            return;
+        }
+
+        let columns = $$(`.row-${selectedRowId}`);
+        for (let column of columns) {
+            column.classList.remove('hover');
         }
     };
 

@@ -1,64 +1,64 @@
-/* ACCOUNTING FAZI */
+/* MANAGEMENT */
 
-#advance-statistics .datepicker.disabled {
+#management .datepicker.disabled {
     display: none !important;
 }
 
-#advance-statistics-total-filter,
-#advance-statistics-players-filter,
-#advance-statistics-portals-filter,
-#advance-statistics-bets-filter {
+#management-total-filter,
+#management-players-filter,
+#management-portals-filter,
+#management-bets-filter {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
 
-#advance-statistics-total-filter>*,
-#advance-statistics-players-filter>*,
-#advance-statistics-portals-filter>*,
-#advance-statistics-bets-filter>* {
+#management-total-filter>*,
+#management-players-filter>*,
+#management-portals-filter>*,
+#management-bets-filter>* {
     margin: 0.5em 0.5em;
     display: inline;
 }
 
-#advance-statistics-get-total.hidden,
-#advance-statistics-get-players.hidden,
-#advance-statistics-get-portals.hidden,
-#advance-statistics-get-bets.hidden {
+#management-get-total.hidden,
+#management-get-players.hidden,
+#management-get-portals.hidden,
+#management-get-bets.hidden {
     display: none !important;
 }
 
-#advance-statistics-main-table,
-#advance-statistics-portals-table,
-#advance-statistics-players-table{
+#management-main-table,
+#management-portals-table,
+#management-players-table{
     height: 92%;
     margin-top: 1.5em
 }
 
-#advance-statistics-main-table>.table,
-#advance-statistics-portals-table>.table,
-#advance-statistics-players-table>.table{
+#management-main-table>.table,
+#management-portals-table>.table,
+#management-players-table>.table{
     height: 100%;
 }
 
-#advance-statistics-main-table>h2 {
+#management-main-table>h2 {
     border-bottom: solid 1px rgba(255, 255, 255, 0.5);
     padding-bottom: 1em;
     margin-bottom: 0;
 }
 
-#advance-statistics-main-table {
+#management-main-table {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
 }
 
-#advance-statistics-main-table table {
+#management-main-table table {
     width: 100%;
 }
 
-#advance-statistics-main-table.hidden {
+#management-main-table.hidden {
     display: none;
 }
 
@@ -100,7 +100,9 @@
     pointer-events: none;
     overflow: hidden;
     transition: transform 0.3s, opacity 0.3s;
-    z-index: 1;
+    z-index: 3;
+    bottom: 25%;
+    right: 25%;
 }
 
 #players-form.show {
@@ -116,6 +118,7 @@
     display: none;
     top: 0;
     left: 0;
+    z-index: 2;
 }
 
 .players-form-wrapper {
@@ -134,7 +137,7 @@
 }
 
 .players-form-wrapper h2 {
-    margin: 0.5em 0;
+    margin: 0.5em 1em;
 }
 
 #operator-name.disabled {
@@ -200,7 +203,7 @@
     margin-top: 2.5em;
 }
 
-#advance-statistics-bets-switch-wrapper{
+#management-bets-switch-wrapper{
     margin-top: 1em;
 }
 
@@ -208,40 +211,40 @@
     display: none;
 }
 
-#advance-statistics-bets-switch {
+#management-bets-switch {
     padding-left: 2em; 
     padding-right: 2em; 
     justify-content: center;
 }
 
-#advance-statistics-bets-switch span{
+#management-bets-switch span{
     background: #313c4a !important;
 }
 
-#label-before-advance-statistics-bets-checkbox {
+#label-before-management-bets-checkbox {
     padding-right: 1rem !important;
     padding-left: 0 !important;
 }
-#label-after-advance-statistics-bets-checkbox {
+#label-after-management-bets-checkbox {
     padding-left: 1rem !important;
 }
 
-#label-before-advance-statistics-bets-checkbox:before,
-#label-before-advance-statistics-bets-checkbox:after,
-#label-after-advance-statistics-bets-checkbox:before,
-#label-after-advance-statistics-bets-checkbox:after {
+#label-before-management-bets-checkbox:before,
+#label-before-management-bets-checkbox:after,
+#label-after-management-bets-checkbox:before,
+#label-after-management-bets-checkbox:after {
     display: none !important;
 }
 
 /* BETS GAMES SEARCH */
 
-#advance-statistics-bets-search-wrapper input {
+#management-bets-search-wrapper input {
     width: 30em;
     text-align: center;
     display: inline-block;
 }
 
-#advance-statistics-bets-remove-search {
+#management-bets-remove-search {
     background: transparent;
     height: 1.5em;
     padding: 0;
@@ -252,7 +255,7 @@
     display: inline-block;
 }
 
-#advance-statistics-bets-remove-search:hover {
+#management-bets-remove-search:hover {
     background-color: #a53825;
 }
 
@@ -270,52 +273,52 @@
     display: none;
 }
 
-#advance-statistics-wanted-percentage,
-#advance-statistics-get-bets-percentage,
-#advance-statistics-second-filter-result {
+#management-wanted-percentage,
+#management-get-bets-percentage,
+#management-second-filter-result {
     display: inline-block;
     margin: inherit;
 }
 
-#advance-statistics-bets-table-wrapper {
+#management-bets-table-wrapper {
     overflow: auto;
     max-height: 66%;
     margin-top: 1.5em;
 }
 
-#advance-statistics-bets-table,
-#advance-statistics-bets-table table{
+#management-bets-table,
+#management-bets-table table{
     width: 100%;
 }
 
-#advance-statistics-bets-table.hidden{
+#management-bets-table.hidden{
     display: none !important;
 }
 
-#advance-statistics-bets-table td {
+#management-bets-table td {
     background-color: #3e4a58;
     -webkit-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
     -moz-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
     box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
 }
 
-#advance-statistics-bets-table td div.table.hidden{
+#management-bets-table td div.table.hidden{
     display: none !important;
 }
 
-#advance-statistics-bets-table td.collapsed {
+#management-bets-table td.collapsed {
     background-color: transparent;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
 }
 
-#advance-statistics-bets-table td .table {
+#management-bets-table td .table {
     display: block;
     transition: all ease 0.3s;
 }
 
-#advance-statistics-bets-table td .game-title {
+#management-bets-table td .game-title {
     margin-bottom: 1em;
     box-sizing: border-box;
     padding: 0.5em;
@@ -325,11 +328,11 @@
     transition: all ease 0.3s;
 }
 
-#advance-statistics-bets-table td.collapsed .table {
+#management-bets-table td.collapsed .table {
     height: 0 !important;
 }
 
-#advance-statistics-bets-table td.collapsed .game-title {
+#management-bets-table td.collapsed .game-title {
     margin: 0;
     padding: 0;
     color: #d2d2d2;
@@ -348,26 +351,26 @@
 
 /* MOBILE */
 
-.mobile #advance-statistics-total-filter>*,
-.mobile #advance-statistics-players-filter>*,
-.mobile #advance-statistics-portals-filter>*,
-.mobile #advance-statistics-bets-filter>* {
+.mobile #management-total-filter>*,
+.mobile #management-players-filter>*,
+.mobile #management-portals-filter>*,
+.mobile #management-bets-filter>* {
     margin: 0.5em 0;
 }
 
-.mobile #advance-statistics-get-total,
-.mobile #advance-statistics-get-players,
-.mobile #advance-statistics-get-portals,
-.mobile #advance-statistics-get-bets {
+.mobile #management-get-total,
+.mobile #management-get-players,
+.mobile #management-get-portals,
+.mobile #management-get-bets {
     padding: 0.85rem 1rem;
     width: 100%;
 }
 
-.mobile #advance-statistics-bets-search-wrapper input {
+.mobile #management-bets-search-wrapper input {
     width: 100%;
 }
 
-.mobile #advance-statistics-bets-remove-search {
+.mobile #management-bets-remove-search {
     background-color: #a53825;
     height: 1.8em;
     width: 1.8em;

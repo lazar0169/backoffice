@@ -47,13 +47,13 @@ let comm = function () {
         'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',
         'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
 
-        // Advance Statistics
-        'comm/advance-statistics/totalPerGame/get': '/Management/GetTotalPerGame',
-        'comm/advance-statistics/portalsPerGame/get': '/Management/GetPortalPerGame',
-        'comm/advance-statistics/playersOfGame/get': '/Management/GetPlayersOfPortal',
-        'comm/advance-statistics/betsOfGame/get': '/Management/GetBetsOfPortal',
-        'comm/advance-statistics/RecommendBetLimit/get': '/Management/RecommendBetLimit',
-        'comm/advance-statistics/playerGames/get': '/Management/GetPlayerPerGame',
+        // Management
+        'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
+        'comm/management/portalsPerGame/get': '/Management/GetPortalPerGame',
+        'comm/management/playersOfGame/get': '/Management/GetPlayersOfPortal',
+        'comm/management/betsOfGame/get': '/Management/GetBetsOfPortal',
+        'comm/management/RecommendBetLimit/get': '/Management/RecommendBetLimit',
+        'comm/management/playerGames/get': '/Management/GetPlayerPerGame',
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',

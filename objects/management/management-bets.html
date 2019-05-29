@@ -1,0 +1,49 @@
+<div id="management-bets" class="page-content">
+    <div class="page-content-wrapper">
+        <div id="management-bets-filter">
+            <div id="management-bets-operators-list-wrapper"></div>
+            <div id="management-bets-portals-list-wrapper"></div>
+            <fieldset>
+                <div class="legend">Period: </div>
+                <input type="text" id="management-bets-first-period-time-span-from" class="datepicker" readonly>
+                <input type="text" id="management-bets-first-period-time-span-to" class="datepicker" readonly>
+            </fieldset>
+            <button id="management-get-bets" class="hidden">GET</button>
+        </div>
+
+        <div id="switch-and-search-wrapper" class="hidden">
+
+            <div id="management-bets-search-wrapper">
+                <input type="text" id="management-bets-search" placeholder="Search games">
+                <button id="management-bets-remove-search" class="cancel">X</button>
+            </div>
+
+            <div id="management-bets-switch-wrapper">
+                <label id="label-before-management-bets-checkbox" for="management-bets-checkbox">Number Of Hands</label>
+                <label id="management-bets-switch" class="switch">
+                    <input id="management-bets-checkbox" type="checkbox">
+                    <span></span>
+                    <div></div>
+                </label>
+                <label id="label-after-management-bets-checkbox" for="management-bets-checkbox">Number Of Players</label>
+            </div>
+        </div>
+
+        <div id="management-bets-table-wrapper">
+            <div id="management-bets-table">
+                <table>
+                    <caption>
+                        <div class="caption-title">Games</div>
+                    </caption>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="bets-second-filter" class="hidden">
+            <input type="text" id="management-wanted-percentage" placeholder="Wanted Percentage">
+            <button id="management-get-bets-percentage">RECOMMEND BET LIMIT</button>
+            <input type="text" id="management-second-filter-result" disabled>
+        </div>
+    </div>
+</div>
