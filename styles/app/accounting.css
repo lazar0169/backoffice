@@ -78,6 +78,7 @@
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
+    margin-top: 4em;
 }
 
 #accounting-operators-table table {
@@ -374,6 +375,37 @@
     display: flex;
 }
 
+/* SETUP OPERATORS SEARCH */
+
+#accounting-setup-search-wrapper{
+    position: absolute;
+}
+
+#accounting-setup-search-wrapper.hidden{
+    display: none;
+}
+
+#accounting-setup-search-wrapper input {
+    width: 30em;
+    text-align: center;
+    display: inline-block;
+}
+
+#accounting-setup-remove-search {
+    background: transparent;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    border-radius: 2px;
+    margin-left: -1.8em;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+#accounting-setup-remove-search:hover {
+    background-color: #a53825;
+}
+
 /* MOBILE */
 
 .mobile #accounting-reports-footer>div,
@@ -421,4 +453,16 @@
 .mobile .switch div {
     height: 30px;
     width: 30px;
+}
+
+.mobile #accounting-setup-search-wrapper input {
+    width: 100%;
+}
+
+.mobile #accounting-setup-remove-search {
+    background-color: #a53825;
+    height: 1.8em;
+    width: 1.8em;
+    border-radius: 3px;
+    margin-left: -2.4em;
 }

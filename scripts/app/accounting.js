@@ -270,6 +270,7 @@ let accounting = function () {
     // Creates operators list
     function createList(data) {
         let actions = $$(`#accounting-operators-table`);
+        let serachBar = $$(`#accounting-setup-search-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
@@ -285,6 +286,25 @@ let accounting = function () {
         }
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
+        serachBar.classList.remove('hidden');
+
+        let input = $$('#accounting-setup-search');
+
+        input.addEventListener('input', function () {
+            searchOperators(body, input.value);
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchOperators(body, '');
+            }
+        });
+
+        $$('#accounting-setup-remove-search').onclick = function () {
+            input.value = '';
+            searchOperators(body, '');
+        };
     }
 
     function createTaxList(data) {
@@ -323,6 +343,16 @@ let accounting = function () {
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
     }
+
+    function searchOperators(element, term) {
+        for (let tableRow of element.getElementsByTagName('tr')) {
+            if (tableRow.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
+            } else {
+                tableRow.style.display = 'none';
+            }
+        }
+    };
 
     function showModal(data) {
         if (!data) {

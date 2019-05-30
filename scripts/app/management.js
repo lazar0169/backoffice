@@ -110,24 +110,25 @@ let advanceAccounting = function () {
 
     function prepareBetsTable(games) {
         let wrapperTable = betsTable.getElementsByTagName('table')[0];
-        let input = $$('#management-bets-search');
+        //let input = $$('#management-bets-search');
         betsTable.classList.remove('hidden');
 
-        input.addEventListener('input', function () {
-            searchGames(wrapperTable, input.value);
-        });
+        // IF NEEDED SEARCH BAR UNCOMMENT 
+        // input.addEventListener('input', function () {
+        //     searchGames(wrapperTable, input.value);
+        // });
 
-        input.addEventListener('keyup', function (e) {
-            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-                input.value = '';
-                searchGames(wrapperTable, '');
-            }
-        });
+        // input.addEventListener('keyup', function (e) {
+        //     if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+        //         input.value = '';
+        //         searchGames(wrapperTable, '');
+        //     }
+        // });
 
-        $$('#management-bets-remove-search').onclick = function () {
-            input.value = '';
-            searchGames(wrapperTable, '');
-        };
+        // $$('#management-bets-remove-search').onclick = function () {
+        //     input.value = '';
+        //     searchGames(wrapperTable, '');
+        // };
 
         input.value = '';
         searchGames(wrapperTable, '');
