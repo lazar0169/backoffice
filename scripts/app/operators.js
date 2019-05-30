@@ -367,6 +367,7 @@ let operators = function () {
     // Creates operators list
     function createList(data) {
         let actions = $$(`#operators-table`);
+        let serachBar = $$(`#operators-main-search-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
@@ -383,6 +384,25 @@ let operators = function () {
         }
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
+        serachBar.classList.remove('hidden');
+
+        let input = $$('#operators-main-search');
+
+        input.addEventListener('input', function () {
+            searchOperators(body, input.value);
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchOperators(body, '');
+            }
+        });
+
+        $$('#operators-main-remove-search').onclick = function () {
+            input.value = '';
+            searchOperators(body, '');
+        };
     }
 
     function filterCurrencies() {
@@ -413,6 +433,16 @@ let operators = function () {
         }
         return table;
     }
+    
+    function searchOperators(element, term) {
+        for (let tableRow of element.getElementsByTagName('tr')) {
+            if (tableRow.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
+            } else {
+                tableRow.style.display = 'none';
+            }
+        }
+    };
 
     on('operators/show/modal', function (data) {
         addLoader(data.caller);
