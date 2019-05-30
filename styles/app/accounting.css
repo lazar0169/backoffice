@@ -456,7 +456,7 @@
 }
 
 .mobile #accounting-setup-search-wrapper input {
-    width: 100%;
+    width: 85%;
 }
 
 .mobile #accounting-setup-remove-search {
@@ -464,5 +464,5 @@
     height: 1.8em;
     width: 1.8em;
     border-radius: 3px;
-    margin-left: -2.4em;
+    margin-left: 0.2em;
 }

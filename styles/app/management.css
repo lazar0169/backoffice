@@ -377,3 +377,13 @@
     border-radius: 3px;
     margin-left: -2.4em;
 }
+
+.mobile #management-portals-filter>*,
+.mobile #management-players-filter>*{
+    display: contents !important;
+}
+
+.mobile #management-get-portals,
+.mobile #management-get-players{
+    display: inline !important;
+}
