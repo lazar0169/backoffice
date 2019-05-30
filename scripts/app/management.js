@@ -94,10 +94,11 @@ let advanceAccounting = function () {
         'Manager': 'comm/accounting/manager/get',
     };
 
-    function fillTable(tableElement, data, callback, tableName) {
+    function fillTable(tableElement, data, callback, tableName, sum) {
         let tableObject = table.generate({
             data: data,
             id: tableName,
+            sum: sum,
             sticky: true,
             stickyCol: true,
             options: {
@@ -163,7 +164,6 @@ let advanceAccounting = function () {
             body.appendChild(tr);
             td.collapsed = true;
             td.onclick = () => {
-                //TODO: implement when switching tables
                 if (td.collapsed) {
                     if (!td.created) {
                         let tPerNumberOfHands = table.generate({
@@ -574,6 +574,7 @@ let advanceAccounting = function () {
         playersFormTable.innerHTML = '';
         let form = $$(`#players-form`);
         selectedRowId = rowId;
+        let sumRow = makePlayerGamesSumRow(rowData);
 
         trigger('comm/management/playerGames/get', {
             body: {
@@ -589,8 +590,9 @@ let advanceAccounting = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div');
-                    highlightRow();
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div', sumRow);
+                    // highlightRow();
+                    $$('#players-form-title-player-id').innerHTML = rowData.Player;
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -619,7 +621,7 @@ let advanceAccounting = function () {
         $$('#players-form').classList.remove('show');
         players.children[0].style.overflow = 'auto';
         popupHidden = !popupHidden;
-        removeHighlightRow();
+        // removeHighlightRow();
     };
 
     function searchGames(element, term) {
@@ -639,31 +641,41 @@ let advanceAccounting = function () {
         }
     };
 
-    function highlightRow() {
-        if (!selectedRowId) {
-            return;
-        }
+    // function highlightRow() {
+    //     if (!selectedRowId) {
+    //         return;
+    //     }
 
-        let columns = $$(`.row-${selectedRowId}`);
-        for (let column of columns) {
-            column.classList.add('hover');
+    //     let columns = $$(`.row-${selectedRowId}`);
+    //     for (let column of columns) {
+    //         column.classList.add('hover');
+    //     }
+    // };
+
+    // function removeHighlightRow() {
+    //     if (!selectedRowId) {
+    //         return;
+    //     }
+
+    //     let columns = $$(`.row-${selectedRowId}`);
+    //     for (let column of columns) {
+    //         column.classList.remove('hover');
+    //     }
+    // };
+
+    function makePlayerGamesSumRow(data) {
+        let sumObject = {};
+        sumObject['Game'] = 'SUM';
+        for (let column in data) {
+            sumObject[`${column}`] = data[`${column}`];
         }
+        delete sumObject['Player'];
+        return sumObject;
     };
 
-    function removeHighlightRow(){
-        if (!selectedRowId) {
-            return;
-        }
-
-        let columns = $$(`.row-${selectedRowId}`);
-        for (let column of columns) {
-            column.classList.remove('hover');
-        }
-    };
-
-    totalGetButton.addEventListener('click', getTotalPerGame);
-    portalsGetButton.addEventListener('click', getPortalsPerGame);
-    playersGetButton.addEventListener('click', getPlayersOfPortal);
-    betsGetButton.addEventListener('click', getBetsOfPortal);
-    secondFilterButton.addEventListener('click', getRecommendedBetLimit);
+totalGetButton.addEventListener('click', getTotalPerGame);
+portalsGetButton.addEventListener('click', getPortalsPerGame);
+playersGetButton.addEventListener('click', getPlayersOfPortal);
+betsGetButton.addEventListener('click', getBetsOfPortal);
+secondFilterButton.addEventListener('click', getRecommendedBetLimit);
 }();
