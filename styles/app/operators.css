@@ -328,11 +328,13 @@
 }
 
 .mobile #operators-form {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    /* position: absolute; */
+    /* bottom: auto; */
+    bottom: 0;
+    position: fixed;
+    width: 95%;
+    height: 91.5%;
     box-shadow: none;
-    bottom: auto;
     right: auto;
     margin: 0;
 }

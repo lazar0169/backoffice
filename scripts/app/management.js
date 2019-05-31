@@ -94,7 +94,7 @@ let advanceAccounting = function () {
         'Manager': 'comm/accounting/manager/get',
     };
 
-    function fillTable(tableElement, data, callback, tableName, sum) {
+    function fillTable(tableElement, data, callback, tableName, sum, preserveHeight = false) {
         let tableObject = table.generate({
             data: data,
             id: tableName,
@@ -106,9 +106,14 @@ let advanceAccounting = function () {
             }
         });
         tableElement.appendChild(tableObject);
+        if(preserveHeight){
+            table.preserveHeight(tableElement.parentElement);
+        }
     };
 
     function prepareBetsTable(games) {
+        $$('#management-wanted-percentage').value = "";
+        $$('#management-second-filter-result').value = "";
         let wrapperTable = betsTable.getElementsByTagName('table')[0];
         //let input = $$('#management-bets-search');
         betsTable.classList.remove('hidden');
@@ -267,6 +272,7 @@ let advanceAccounting = function () {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
                     fillTable(mainTable, parseGameData(response.result, `Game`), undefined, 'management-main-table-div');
+                    mainTable.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -296,6 +302,7 @@ let advanceAccounting = function () {
                 removeLoader(portalsGetButton);
                 if (response.responseCode === message.codes.success) {
                     fillTable(portalsTable, parseGameData(response.result, `Game`), undefined, 'management-portals-table-div');
+                    portalsTable.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -325,6 +332,7 @@ let advanceAccounting = function () {
                 removeLoader(playersGetButton);
                 if (response.responseCode === message.codes.success) {
                     fillTable(playersTable, parseGameData(response.result, `Player`), showPlayersPopup, 'management-players-table-div');
+                    playersTable.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -356,6 +364,7 @@ let advanceAccounting = function () {
                 if (response.responseCode === message.codes.success) {
                     betsResult = response.result;
                     prepareBetsTable(response);
+                    $$('#management-bets-table-wrapper').classList.remove('hidden');
                     $$('#switch-and-search-wrapper').classList.remove('hidden');
                     $$('#bets-second-filter').classList.remove('hidden');
                 } else {
@@ -393,10 +402,12 @@ let advanceAccounting = function () {
 
     on('management/main/loaded', function () {
         mainTable.innerHTML = '';
+        mainTable.classList.add('hidden');
     });
 
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
+        portalsTable.classList.add('hidden');
         clearElement($$('#management-portals-operators-list'));
         clearElement($$('#management-portals-portals-list'));
         $$('#management-get-portals').classList.add('hidden');
@@ -429,6 +440,7 @@ let advanceAccounting = function () {
     on('management/players/loaded', function () {
         hidePopup();
         playersTable.innerHTML = '';
+        playersTable.classList.add('hidden');
         playersFormTable.innerHTML = '';
         clearElement($$('#management-players-operators-list'));
         clearElement($$('#management-players-portals-list'));
@@ -591,9 +603,10 @@ let advanceAccounting = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div', sumRow);
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div', sumRow, true);
                     // highlightRow();
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
+                    $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                 } else {
                     trigger('message', response.responseCode);
                 }
