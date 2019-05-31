@@ -379,11 +379,28 @@
 }
 
 .mobile #management-portals-filter>*,
-.mobile #management-players-filter>*{
+.mobile #management-players-filter>*,
+.mobile #management-bets-filter>*{
     display: contents !important;
 }
 
 .mobile #management-get-portals,
-.mobile #management-get-players{
+.mobile #management-get-players,
+.mobile #management-get-bets{
     display: inline !important;
+}
+
+.mobile #bets-second-filter{
+    flex-direction: column;
+}
+
+.mobile #management-wanted-percentage,
+.mobile #management-get-bets-percentage,
+.mobile #management-second-filter-result{
+    margin: auto;
+}
+
+.mobile #management-get-bets-percentage,
+.mobile #management-second-filter-result{
+    margin-top: 1em;
 }

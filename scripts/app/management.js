@@ -100,7 +100,7 @@ let advanceAccounting = function () {
             id: tableName,
             sum: sum,
             sticky: true,
-            stickyCol: true,
+            stickyCol: false,
             options: {
                 onClick: callback
             }
@@ -130,7 +130,7 @@ let advanceAccounting = function () {
         //     searchGames(wrapperTable, '');
         // };
 
-        input.value = '';
+        //input.value = '';
         searchGames(wrapperTable, '');
         let body = document.createElement('tbody');
         wrapperTable.appendChild(body);
@@ -338,8 +338,6 @@ let advanceAccounting = function () {
     function getBetsOfPortal() {
         checkedGames = [];
         betsResult = [];
-        $$('#switch-and-search-wrapper').classList.remove('hidden');
-        $$('#bets-second-filter').classList.remove('hidden');
 
         let tbody = betsTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
         if (tbody.length) {
@@ -358,6 +356,8 @@ let advanceAccounting = function () {
                 if (response.responseCode === message.codes.success) {
                     betsResult = response.result;
                     prepareBetsTable(response);
+                    $$('#switch-and-search-wrapper').classList.remove('hidden');
+                    $$('#bets-second-filter').classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -674,9 +674,9 @@ let advanceAccounting = function () {
         return sumObject;
     };
 
-totalGetButton.addEventListener('click', getTotalPerGame);
-portalsGetButton.addEventListener('click', getPortalsPerGame);
-playersGetButton.addEventListener('click', getPlayersOfPortal);
-betsGetButton.addEventListener('click', getBetsOfPortal);
-secondFilterButton.addEventListener('click', getRecommendedBetLimit);
+    totalGetButton.addEventListener('click', getTotalPerGame);
+    portalsGetButton.addEventListener('click', getPortalsPerGame);
+    playersGetButton.addEventListener('click', getPlayersOfPortal);
+    betsGetButton.addEventListener('click', getBetsOfPortal);
+    secondFilterButton.addEventListener('click', getRecommendedBetLimit);
 }();
