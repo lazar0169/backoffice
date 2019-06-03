@@ -192,7 +192,6 @@ function filterPeriod(element, period = 'custom') {
         'LastThreeDays': [0, 1],
         'LastWeek': [1],
         'LastMonth': [1, 2],
-        'LastMonth': [1, 2],
         'LastQuarter': [2, 3],
         'LastYear': [2, 3]
     };
