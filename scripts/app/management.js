@@ -549,10 +549,10 @@ let advanceAccounting = function () {
                     success: function (response) {
                         if (response.responseCode === message.codes.success) {
                             getPortals(response, tab);
-                            removeLoader($$(`#management-${tab}-filter`));
                         } else {
                             trigger('message', response.responseCode);
                         }
+                        removeLoader($$(`#management-${tab}-filter`));
                     },
                     fail: function () {
                         removeLoader($$(`#management-${tab}-filter`));

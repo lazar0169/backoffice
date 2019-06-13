@@ -309,16 +309,19 @@
 #configuration-currency>.page-content-wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 #configuration-currency-list-wrapper{
     display: flex;
     flex-wrap: wrap;
+    flex: 1;
 }
 
 #configuration-currency-option-wrapper{
     display: flex;
     flex-wrap: wrap;
+    flex: 80%;
 }
 
 #configuration-currency-main-options{
@@ -333,7 +336,6 @@
 #configuration-currency-main-options fieldset input{
     float: right;
 }
-
 
 /* MOBILE */
 

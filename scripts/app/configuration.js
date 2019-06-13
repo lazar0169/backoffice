@@ -460,6 +460,24 @@ let configuration = function () {
         // TODO
     });
 
+    on('configuration/currency/loaded', function () {
+        addLoader($$('#sidebar-configuration'));
+        trigger('comm/currency/getAll', {
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    actions = response.result;
+                    createList('currency-list-table', response.result);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+                removeLoader($$('#sidebar-configuration'));
+            },
+            fail: function () {
+                removeLoader($$('#sidebar-configuration'));
+            }
+        });
+    });
+
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
         addLoader($$('#sidebar-configuration'));
