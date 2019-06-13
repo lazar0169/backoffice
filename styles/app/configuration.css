@@ -303,6 +303,38 @@
     display: block;
 }
 
+
+/* CURRENCY */
+
+#configuration-currency>.page-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#configuration-currency-list-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#configuration-currency-option-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#configuration-currency-main-options{
+    display: flex;
+    flex-direction: column;
+}
+
+#configuration-currency-main-options fieldset .legend{
+    margin-top: 0.5em;
+}
+
+#configuration-currency-main-options fieldset input{
+    float: right;
+}
+
+
 /* MOBILE */
 
 .mobile #configuration-form-users .configuration-form-inputs {
