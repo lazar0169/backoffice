@@ -15,8 +15,11 @@ let comm = function () {
         'comm/login/credentials': '/Account/LogIn',
         'comm/login/pin': '/Account/EnterPin',
         'comm/login/logout': '/Account/LogOut',
-        'com/login/password/reset': '/Account/ForgottenPassword',
-        'com/login/logged': '/Account/IsLoggedIn',
+        'comm/login/password/reset': '/Account/ForgottenPassword',
+        'comm/login/logged': '/Account/IsLoggedIn',
+
+        // Authorization
+        'comm/auth/token/refresh': '/Token/RefreshAccessToken',
 
         // Dashboard
         'comm/dashboard/get': '/Dashboard/GetDashboard',
@@ -43,6 +46,14 @@ let comm = function () {
         'comm/accounting/setup/operator/get': '/AccountingOperators/ChooseOperatorsAccounting',
         'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',
         'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
+
+        // Management
+        'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
+        'comm/management/portalsPerGame/get': '/Management/GetPortalPerGame',
+        'comm/management/playersOfGame/get': '/Management/GetPlayersOfPortal',
+        'comm/management/betsOfGame/get': '/Management/GetBetsOfPortal',
+        'comm/management/RecommendBetLimit/get': '/Management/RecommendBetLimit',
+        'comm/management/playerGames/get': '/Management/GetPlayerPerGame',
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',
@@ -80,36 +91,62 @@ let comm = function () {
         'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
     };
 
-    let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`
+    let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;
+    let accessToken;
 
     function get(action, callback, body) {
+        accessToken = localStorage.getItem('accessToken');
         fetch(apiUrl + action, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'credentials': 'include'
+                'credentials': 'include',
+                'Authorization': `Bearer ${accessToken}`
             },
             // mode: "no-cors",
             body: JSON.stringify(body)
         }).then(function (response) {
             // log(response.headers.get("content-type"));
-            return response.json();
+            if (response.status === 401) {
+                refreshAccessToken(action, callback, body);
+                throw Error('refresh');
+            } else {
+                return response.json();
+            }
         }).then(function (json) {
             log(json);
-            if (json.responseCode === message.codes.loggedOut) {
-                location.href = getLocation();
+            if (json.responseCode === message.codes.loggedOut || json.responseCode === message.codes.invalidToken) {
+                logOut();
             }
             callback.success(json);
         }).catch((err) => {
-            callback.fail(err);
-            trigger('message', message.codes.clientError);
-            console.error(err.stack);
-            // setTimeout(() => {
-            //     location.href = getLocation();
-            // }, 1000);
+            if (err.message !== 'refresh') {
+                callback.fail(err);
+                trigger('message', message.codes.clientError);
+                console.error(err.stack);
+            }
         });
+    }
+
+    function refreshAccessToken(action, callback, body) {
+        connect(actions['comm/auth/token/refresh'], {
+            body: {
+                userName: localStorage.getItem('loginName'),
+                accessToken: localStorage.getItem('accessToken'),
+                refreshToken: localStorage.getItem('refreshToken')
+            },
+            success: function (response) {
+                localStorage.setItem('accessToken', response.result.accessToken);
+                localStorage.setItem('refreshToken', response.result.refreshToken);
+                accessToken = response.result.accessToken;
+                get(action, callback, body);
+            },
+            fail: function () {
+                logOut();
+            }
+        }, 'comm/auth/token/refresh');
     }
 
     function connect(action, data = {}, callerAction) {

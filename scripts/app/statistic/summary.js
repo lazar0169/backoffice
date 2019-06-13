@@ -1,7 +1,7 @@
 let statisticSummary = function () {
     let selectedOperator;
-    let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let statisticFromDate = getToday();
+    let statisticToDate = getToday();
     let summaryButton = $$('#statistic-get-summary');
     let summaryTableWrapper = $$('#statistic-summary-table');
     let summaryHeader = $$('#statistic-summary-header');
@@ -14,11 +14,9 @@ let statisticSummary = function () {
 
     on('statistic-summary-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#statistic-summary-time-span-from').classList.add('disabled');
-            $$('#statistic-summary-time-span-to').classList.add('disabled');
+            $$('#statistic-summary-fieldset').classList.add('disabled');
         } else {
-            $$('#statistic-summary-time-span-from').classList.remove('disabled');
-            $$('#statistic-summary-time-span-to').classList.remove('disabled');
+            $$('#statistic-summary-fieldset').classList.remove('disabled');
         }
         let firstAvailable = filterPeriod($$('#statistic-summary-time-interval'), value);
 
@@ -38,6 +36,8 @@ let statisticSummary = function () {
         clearElement($$('#statistic-summary-categories'));
         clearElement($$('#statistic-summary-operators'));
         clearElement($$('#statistic-summary-portals'));
+        $$('#statistic-summary-time-span-from').reset();
+        $$('#statistic-summary-time-span-to').reset();
         summaryTableWrapper.innerHTML = '';
         summaryHeader.innerHTML = '';
         summaryButton.classList.add('hidden');
@@ -49,7 +49,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-summary-categories', 'Select categories', true), $$('#statistic-summary-fieldset'));
                     getOperators();
                     selectDefault();
                 } else {
@@ -143,12 +143,12 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader(summaryButton);
                 if (response.responseCode === message.codes.success) {
-                    let summary = JSON.parse(JSON.stringify(response.result.statisticsPerDate));
-                    summary.push(response.result.sum);
+                    let summary = getCopy(response.result.statisticsPerDate);
                     summaryTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
                         dynamic: false,
+                        sum: response.result.sum,
                         sticky: true,
                         options: {
                             prefix: {
@@ -159,6 +159,7 @@ let statisticSummary = function () {
                         },
                         stickyCol: true
                     }));
+
                     table.preserveHeight(summaryTableWrapper);
 
                     summaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;

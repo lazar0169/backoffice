@@ -8,31 +8,31 @@ let currency = function () {
     function initCurrencyDropdown() {
         if (listener) off(listener);
 
-        for (let droppdown of list) {
-            droppdown.children[0].onclick = function () {
-                droppdown.children[1].classList.toggle('hidden');
+        for (let dropdown of list) {
+            dropdown.children[0].onclick = function () {
+                dropdown.children[1].classList.toggle('hidden');
             }
-            for (let option of droppdown.children[1].children) {
+            for (let option of dropdown.children[1].children) {
                 option.onclick = function () {
-                    addLoader(droppdown.children[0]);
-                    droppdown.children[1].classList.add('hidden');
+                    addLoader(dropdown.children[0]);
+                    dropdown.children[1].classList.add('hidden');
                     trigger('comm/currency/set', {
                         body: { id: Number(option.dataset.id) },
                         success: function (response) {
-                            removeLoader(droppdown.children[0]);
+                            removeLoader(dropdown.children[0]);
                             if (response.responseCode === message.codes.success) {
                                 for (let cur of list) {
                                     cur.children[0].innerHTML = option.innerText;
                                 }
                                 selected.id = option.dataset.id;
                                 selected.name = option.innerText;
-                                trigger(`currency/${droppdown.dataset.page}`);
+                                trigger(`currency/${dropdown.dataset.page}`);
                             } else {
                                 trigger('message', response.responseCode);
                             }
                         },
                         fail: function () {
-                            removeLoader(droppdown.children[0]);
+                            removeLoader(dropdown.children[0]);
                         }
                     });
                 }
@@ -43,8 +43,8 @@ let currency = function () {
             if (
                 e.target.parentNode && !e.target.parentNode.classList.contains('currency-wrapper') && !e.target.parentNode.classList.contains('currency')
             ) {
-                for (let droppdown of list) {
-                    droppdown.children[1].classList.add('hidden');
+                for (let dropdown of list) {
+                    dropdown.children[1].classList.add('hidden');
                 }
             }
         });
@@ -58,13 +58,13 @@ let currency = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     currenciesArray = response.result;
-                    for (let droppdown of list) {
-                        droppdown.children[0].innerHTML = currenciesArray[0].name;
+                    for (let dropdown of list) {
+                        dropdown.children[0].innerHTML = currenciesArray[0].name;
                         selected = currenciesArray[0];
-                        droppdown.children[1].innerHTML = '';
+                        dropdown.children[1].innerHTML = '';
                         for (let currency of currenciesArray) {
                             currencies[currency.id] = currency.name;
-                            droppdown.children[1].innerHTML += `<a data-id="${currency.id}">${currency.name}</a>`;
+                            dropdown.children[1].innerHTML += `<a data-id="${currency.id}">${currency.name}</a>`;
                         }
                     }
 

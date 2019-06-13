@@ -9,6 +9,10 @@ const styles = getFiles(`${buildFolder}/css`);
 const compress = require('node-minify');
 const minCss = require('css-minifiers');
 const javaScriptObfuscator = require('javascript-obfuscator');
+let config = '{}';
+try {
+    config = fs.readFileSync('config.json', 'utf8');
+} catch (error) { }
 
 const obfuscationOptions = {
     compact: true,
@@ -50,8 +54,10 @@ for (let script of scripts) {
         input: script,
         output: script
     });
-    let result = javaScriptObfuscator.obfuscate(fs.readFileSync(script, 'utf8'), obfuscationOptions);
-    fs.writeFileSync(script, result.getObfuscatedCode());
+    if (JSON.parse(config).obfuscate) {
+        let result = javaScriptObfuscator.obfuscate(fs.readFileSync(script, 'utf8'), obfuscationOptions);
+        fs.writeFileSync(script, result.getObfuscatedCode());
+    }
 }
 
 for (let style of styles) {

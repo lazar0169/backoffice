@@ -13,6 +13,7 @@ let accounting = function () {
         operatorAccounting: {}
     };
     let selectedRow;
+    let isModalOpened = false;
 
     let actionByRoles = {
         'Admin': 'comm/accounting/get',
@@ -20,8 +21,8 @@ let accounting = function () {
         'Manager': 'comm/accounting/manager/get',
     }
 
-    let reportsFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let reportsToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let reportsFromDate = getToday();
+    let reportsToDate = getToday();
 
     let defaultSelectionValue = 'LastMonth';
 
@@ -46,11 +47,9 @@ let accounting = function () {
 
     on('accounting-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#accounting-time-span-from').classList.add('disabled');
-            $$('#accounting-time-span-to').classList.add('disabled');
+            $$('#accounting-time-span-fieldset').classList.add('disabled');
         } else {
-            $$('#accounting-time-span-from').classList.remove('disabled');
-            $$('#accounting-time-span-to').classList.remove('disabled');
+            $$('#accounting-time-span-fieldset').classList.remove('disabled');
         }
     });
 
@@ -66,7 +65,7 @@ let accounting = function () {
     }
 
     function generateReport(data, sum) {
-        let array = JSON.parse(JSON.stringify(data));
+        let array = getCopy(data);
         let title = sum.gameName;
         sum[Object.keys(sum)[0]] = 'Sum';
         array.push(sum);
@@ -87,13 +86,6 @@ let accounting = function () {
                 doc.text(`Page: ${++docPageCount}`, 20, 580);
                 doc.setFontSize(16);
             }
-        });
-
-        return table.generate({
-            data: array,
-            id: '',
-            dynamic: false,
-            sticky: true
         });
     }
 
@@ -220,23 +212,28 @@ let accounting = function () {
                         docPageCount = 0;
 
                         pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.slotAccounting, response.result.slotAccountingSum));
+                        generateReport(response.result.slotAccounting, response.result.slotAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', sum: response.result.slotAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum));
+                        generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', sum: response.result.rouletteAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum));
+                        generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', sum: response.result.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum));
+                        generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', sum: response.result.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
-                        pageReports.appendChild(generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum));
+                        generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
+                        pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', sum: response.result.pokerAccountingSum, dynamic: false, sticky: true }));
                         doc.addPage();
                         pageReports.appendChild(document.createElement('hr'));
                         pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
-                        pageReports.appendChild(generateReport([], response.result.operatorAccountingSum));
+                        pageReports.appendChild(table.generate({ data: [response.result.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
 
                         table.preserveHeight(pageReports);
 
@@ -273,6 +270,7 @@ let accounting = function () {
     // Creates operators list
     function createList(data) {
         let actions = $$(`#accounting-operators-table`);
+        let serachBar = $$(`#accounting-setup-search-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
@@ -288,6 +286,25 @@ let accounting = function () {
         }
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
+        serachBar.classList.remove('hidden');
+
+        let input = $$('#accounting-setup-search');
+
+        input.addEventListener('input', function () {
+            searchOperators(body, input.value);
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchOperators(body, '');
+            }
+        });
+
+        $$('#accounting-setup-remove-search').onclick = function () {
+            input.value = '';
+            searchOperators(body, '');
+        };
     }
 
     function createTaxList(data) {
@@ -326,6 +343,16 @@ let accounting = function () {
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
     }
+
+    function searchOperators(element, term) {
+        for (let tableRow of element.getElementsByTagName('tr')) {
+            if (tableRow.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
+            } else {
+                tableRow.style.display = 'none';
+            }
+        }
+    };
 
     function showModal(data) {
         if (!data) {
@@ -431,6 +458,7 @@ let accounting = function () {
         $$('#accounting-setup-black-overlay').style.display = 'block';
         $$('#accounting-setup-form').classList.add('show');
         $$('#accounting-setup').children[0].style.overflow = 'hidden';
+        isModalOpened = true;
     }
 
     function hideModal() {
@@ -439,6 +467,7 @@ let accounting = function () {
         $$('#accounting-setup').children[0].style.overflow = 'auto';
         selectedRow.classList.remove('hover');
         tax.hide();
+        isModalOpened = false;
     }
 
     let tax = function () {
@@ -453,7 +482,7 @@ let accounting = function () {
 
         function show(element, index) {
             if (taxEditMode) {
-                element = JSON.parse(JSON.stringify(element));
+                element = getCopy(element);
                 from.value = index === 0 ? 0 : element.stepFrom;
                 to.value = element.stepTo;
                 fee.set(Number(element.fee));
@@ -583,6 +612,8 @@ let accounting = function () {
         $$('#accounting-get-reports').classList.add('hidden');
         $$('#accounting-reports-download').classList.add('hidden');
         $$('#accounting-reports-download-excel').classList.add('hidden');
+        $$('#accounting-time-span-from').reset();
+        $$('#accounting-time-span-to').reset();
 
         selectDefault();
 
@@ -609,4 +640,10 @@ let accounting = function () {
             }
         });
     });
+
+    return {
+        get isModalOpened() {
+            return isModalOpened;
+        }
+    }
 }();

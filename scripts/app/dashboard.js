@@ -1,8 +1,7 @@
 let dashboard = function () {
     let main = $$('#dashboard-main').children[0];
     let jackpots = $$('#dashboard-jackpots').children[0];
-    let portals = $$('#dashboard-portals-wrapper');
-    let players = $$('#dashboard-players').children[0];
+    let portalTable = $$(`#portals-table`);
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
     let portalListener;
@@ -16,10 +15,12 @@ let dashboard = function () {
                 borderColor: "rgba(255, 255, 255, 0.5)",
                 // hoverBackgroundColor: '#dd9853'
             }],
-            labels: []
+            labels: [],
+            hiddenSlices: []
         },
         options: {
             responsive: true,
+            isSlicesHidden: false,
             legend: {
                 position: 'right',
                 labels: {
@@ -92,6 +93,7 @@ let dashboard = function () {
     });
 
     on('dashboard/players/loaded', function () {
+        chart.options.isSlicesHidden = false;
         playersWrapper.innerHTML = '';
         filters.innerHTML = '';
 
@@ -162,6 +164,7 @@ let dashboard = function () {
         let colors = [];
         let labels = [];
         let values = [];
+        let hiddenSlices = [0];
         for (let chart of dashboardData.pieChart) {
             labels.push(chart.portalName);
             values.push(chart.numberOfNewPlayers);
@@ -170,11 +173,16 @@ let dashboard = function () {
                 color = generateColor();
             }
             colors.push(color);
+            if (hiddenSlices.length < dashboardData.pieChart.length - 5) {
+                hiddenSlices.push(hiddenSlices[hiddenSlices.length - 1] + 1);
+            }
         }
 
         chart.data.datasets[0].data = values;
         chart.data.datasets[0].backgroundColor = colors;
         chart.data.labels = labels;
+
+        chart.data.hiddenSlices = hiddenSlices;
         // chart.options.legend.display = !isMobile()
         $$('#dashboard-chart-wrapper').style.display = isMobile() ? 'none' : 'block';
         chart.update();
@@ -184,42 +192,65 @@ let dashboard = function () {
 
     on('dashboard/portals/loaded', function () {
         if (!dashboardData) return;
-        portals.innerHTML = '';
+        let wrapperTable = portalTable.getElementsByTagName('table')[0];
         let input = $$('#dashboard-portals-search');
 
         input.addEventListener('input', function () {
-            search(portals, input.value);
+            search(wrapperTable, input.value);
         });
+
         input.addEventListener('keyup', function (e) {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
-                search(portals, '');
+                search(wrapperTable, '');
             }
         });
-        input.addEventListener('blur', function () {
+
+        $$('#dashboard-portals-remove-search').onclick = function () {
             input.value = '';
-            search(portals, '');
-        });
+            search(wrapperTable, '');
+        };
 
         input.value = '';
-        search(portals, '');
+        search(wrapperTable, '');
+        let body = document.createElement('tbody');
+        wrapperTable.appendChild(body);
+        hideAllRows(wrapperTable);
 
         for (let portal in dashboardData.portalsActivities) {
-            let wrapper = document.createElement('section');
-            wrapper.dataset.value = portal;
-            let header = document.createElement('h2');
-            header.innerHTML = portal;
-            wrapper.appendChild(header);
-            wrapper.appendChild(table.generate({
-                data: parseData(dashboardData.portalsActivities[portal].activities),
-                id: '',
-                dynamic: false,
-                sticky: true,
-                stickyCol: true
-            }));
-            portals.appendChild(wrapper);
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            let portalTitle = document.createElement('div');
+            portalTitle.className = 'portal-title';
+            portalTitle.innerText = portal;
+            td.appendChild(portalTitle);
+            td.className = 'collapsed';
+            tr.dataset.id = portal;
+            tr.appendChild(td);
+            body.appendChild(tr);
+            td.collapsed = true;
+            td.onclick = () => {
+                if (td.collapsed) {
+                    if (!td.created) {
+                        let t = table.generate({
+                            data: parseData(dashboardData.portalsActivities[portal].activities),
+                            id: `portal-${portal}`,
+                            dynamic: false,
+                            sticky: true,
+                            stickyCol: true
+                        })
+                        td.appendChild(t);
+                        td.created = true;
+                        table.preserveHeight(td);
+                    }
+                    td.collapsed = false;
+                    td.classList.remove('collapsed');
+                } else {
+                    td.classList.add('collapsed');
+                    td.collapsed = true;
+                }
+            }
         }
-        table.preserveHeight(portals);
     });
 
     function getDashboard() {
@@ -249,11 +280,11 @@ let dashboard = function () {
     }
 
     function search(element, term) {
-        for (let section of element.getElementsByTagName('section')) {
-            if (section.dataset.value.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
-                section.style.display = 'block';
+        for (let tableRow of element.getElementsByTagName('tr')) {
+            if (tableRow.dataset.id.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
             } else {
-                section.style.display = 'none';
+                tableRow.style.display = 'none';
             }
         }
     }
@@ -267,11 +298,11 @@ let dashboard = function () {
             for (let j = 0; j < keys.length; j++) {
                 row['Activity'] = transformCamelToRegular(rows[i]);
                 if (j === keys.length - 1 && convertToNumber(data[keys[j]][rows[i]]) > 0) {
-                    row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + '<span style="color: limegreen;float: right; margin-left: 0.8em;">&#9650;</span>'; //If change is positive
+                    row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + `<span style="color: limegreen;float: right; margin-left: 0.8em;">${ARROW_UP}</span>`; //If change is positive
                 } else if (j === keys.length - 1 && convertToNumber(data[keys[j]][rows[i]]) < 0) {
-                    row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + '<span style="color: red;float: right; margin-left: 0.8em;">&#9660;</span>'; //If change is negative
+                    row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + `<span style="color: red;float: right; margin-left: 0.8em;">${ARROW_DOWN}</span>`; //If change is negative
                 } else if (j === keys.length - 1 && convertToNumber(data[keys[j]][rows[i]]) == 0) {
-                    row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + '<span style="color: sandybrown;float: right; margin-left: 0.8em;">&#9644;</span>'; //If no change 
+                    row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + `<span style="color: sandybrown;float: right; margin-left: 0.8em;">${NEUTRAL_LINE}</span>`; //If no change 
                 } else {
                     row[keys[j]] = data[keys[j]][rows[i]];
                 }
@@ -279,5 +310,12 @@ let dashboard = function () {
             tableData.push(row);
         }
         return tableData;
+    }
+
+    function hideAllRows(element) {
+        for (let tableRow of element.getElementsByTagName('td')) {
+            tableRow.classList.add('collapsed');
+            tableRow.collapsed = true;
+        }
     }
 }();

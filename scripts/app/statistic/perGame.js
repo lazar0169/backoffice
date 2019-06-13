@@ -1,23 +1,20 @@
 let statisticPerGame = function () {
     let selectedOperator;
     let selectedGameId;
-    let statisticFromDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
-    let statisticToDate = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+    let statisticFromDate = getToday();
+    let statisticToDate = getToday();
     let perGameButton = $$('#statistic-get-per-game');
     let perGameTableWrapper = $$('#statistic-per-game-table');
     let perGameHeader = $$('#statistic-per-game-header');
-    let getGamesEvent;
     let requested = false;
 
     let defaultSelectionValue = 'LastMonth';
 
     on('statistic-per-game-time-span/selected', function (value) {
         if (value !== 'custom') {
-            $$('#statistic-per-game-time-span-from').classList.add('disabled');
-            $$('#statistic-per-game-time-span-to').classList.add('disabled');
+            $$('#statistic-per-game-fieldset').classList.add('disabled');
         } else {
-            $$('#statistic-per-game-time-span-from').classList.remove('disabled');
-            $$('#statistic-per-game-time-span-to').classList.remove('disabled');
+            $$('#statistic-per-game-fieldset').classList.remove('disabled');
         }
         let firstAvailable = filterPeriod($$('#statistic-per-game-time-interval'), value);
 
@@ -37,6 +34,8 @@ let statisticPerGame = function () {
         clearElement($$('#statistic-per-game-categories'));
         clearElement($$('#statistic-per-game-operators'));
         clearElement($$('#statistic-per-game-portals'));
+        $$('#statistic-per-game-time-span-from').reset();
+        $$('#statistic-per-game-time-span-to').reset();
         perGameTableWrapper.innerHTML = '';
         perGameHeader.innerHTML = '';
         perGameButton.classList.add('hidden');
@@ -47,7 +46,7 @@ let statisticPerGame = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-time-span-to'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-categories', 'Select categories', true), $$('#statistic-per-game-fieldset'));
                     on('statistic-per-game-categories/selected', getGames);
                     getOperators();
                     selectDefault();
@@ -168,13 +167,13 @@ let statisticPerGame = function () {
             success: function (response) {
                 removeLoader(perGameButton);
                 if (response.responseCode === message.codes.success) {
-                    let summary = JSON.parse(JSON.stringify(response.result.gameStatisticsPerDate));
-                    summary.push(response.result.sum);
+                    let summary = getCopy(response.result.gameStatisticsPerDate);
                     perGameHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
                         dynamic: false,
+                        sum: response.result.sum,
                         sticky: true,
                         options: {
                             prefix: {
@@ -185,6 +184,7 @@ let statisticPerGame = function () {
                         },
                         stickyCol: true
                     }));
+
                     table.preserveHeight(perGameTableWrapper);
                     requested = true;
                 } else {

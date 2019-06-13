@@ -5,8 +5,6 @@ const login = function () {
     let warningSafariModal = $$('#warning-safari-modal');
     let warningButton = $$('#warning-modal-btn');
 
-    let activeForm = 'login';
-
     if (localStorage.getItem('rememberLogin')) {
         $$('#login-username').value = localStorage.getItem('loginName');
         $$("#login-remember").checked = !!localStorage.getItem('rememberLogin');
@@ -14,7 +12,7 @@ const login = function () {
 
     on('load', function () {
         addLoader($$('#login-form'));
-        trigger('com/login/logged', {
+        trigger('comm/login/logged', {
             success: function (response) {
                 removeLoader($$('#login-form'));
                 if (response.responseCode === message.codes.success && response.result) {
@@ -22,7 +20,7 @@ const login = function () {
                 }
                 if (
                     isMobile() &&
-                    isSafari &&
+                    IS_SAFARI &&
                     !JSON.parse(localStorage.getItem('rememberWarning'))) {
                     warningSafariModal.classList.remove('hidden');
                 }
@@ -54,7 +52,7 @@ const login = function () {
             let reset = confirm('Are you sure that you want to reset password?');
             if (reset) {
                 addLoader(hyperlink);
-                trigger('com/login/password/reset', {
+                trigger('comm/login/password/reset', {
                     body: {
                         userName: $$('#login-username').value,
                         link: getLocation() + '/reset.html'
@@ -100,13 +98,14 @@ const login = function () {
                 if (response.responseCode === message.codes.success) {
                     if ($$("#login-remember").checked) {
                         localStorage.setItem('rememberLogin', $$("#login-remember").checked);
-                        localStorage.setItem('loginName', $$("#login-username").value);
                     }
+                    localStorage.setItem('loginName', $$("#login-username").value);
+                    localStorage.setItem('accessToken', response.result.accessToken);
+                    localStorage.setItem('refreshToken', response.result.refreshToken);
                     trigger('message', message.codes.enterPin);
                     $$('#login-wrapper').classList.add('hidden');
                     $$('#pin-wrapper').classList.remove('hidden');
                     $$('#login-password').value = '';
-                    activeForm = 'pin';
                     $$('#login-pin').focus();
                 }
             },
@@ -146,7 +145,6 @@ const login = function () {
                 } else if (response.responseCode === message.codes.thirdTimeBadPin) {
                     $$('#login-form').classList.add('disabled');
                     $$('#login-pin').blur();
-                    activeForm = 'blocked';
                     setTimeout(function () {
                         location.href = getLocation();
                     }, notify.getIdleTime);

@@ -1,0 +1,37 @@
+<div id="management-players" class="page-content">
+    <div class="page-content-wrapper">
+        <div id="management-players-filter">
+            <div id="management-players-operators-list-wrapper"></div>
+            <div id="management-players-portals-list-wrapper"></div>
+            <fieldset>
+                <div class="legend">First Period: </div>
+                <input type="text" id="management-players-first-period-time-span-from" class="datepicker" readonly>
+                <input type="text" id="management-players-first-period-time-span-to" class="datepicker" readonly>
+            </fieldset>
+            <fieldset>
+                <div class="legend">Second Period: </div>
+                <input type="text" id="management-players-second-period-time-span-from" class="datepicker" readonly>
+                <input type="text" id="management-players-second-period-time-span-to" class="datepicker" readonly>
+            </fieldset>
+            <button id="management-get-players">GET</button>
+        </div>
+
+
+
+        <div id="management-players-table" class="hidden"></div>
+        <div id="players-black-overlay"></div>
+        <div id="players-form">
+            <div class="players-form-wrapper">
+                <div class="players-form-title">
+                    <h2>Player details</h2>
+                    <h2 id='players-form-title-player-id'></h2>
+                    <button class="config" id="players-form-cancel"></button>
+                </div>
+
+                <div id="players-form-table"></div>
+                <h3 id="players-form-title-player-caption-mobile">Player ID :</h3>
+                <h3 id='players-form-title-player-id-mobile'></h3>
+            </div>
+        </div>
+    </div>
+</div>

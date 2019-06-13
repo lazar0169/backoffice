@@ -159,6 +159,28 @@ input[type=checkbox] {
     display: none;
 }
 
+fieldset {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.2em 0.4em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+fieldset legend {
+    padding: 0 0.3em;
+}
+
+fieldset .legend {
+    margin-right: 0.7em;
+}
+
+fieldset>* {
+    display: inline-block;
+}
+
 label:before {
     content: '';
     position: absolute;
@@ -254,7 +276,7 @@ input[type="range"]::-webkit-slider-thumb:after {
 .slider {
     display: flex;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 0 0 0 0.5em;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -325,6 +347,25 @@ pre {
 
 .mobile .slider span {
     width: 100%;
+}
+
+.mobile .legend {
+    margin-bottom: 0.5em;
+}
+
+.mobile fieldset {
+    width: 100%;
+    margin-bottom: 0.5em !important;
+    border-left: none;
+    border-right: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.mobile fieldset>input {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5em !important;
 }
 
 .mobile input {

@@ -1,4 +1,4 @@
-#statistic .datepicker.disabled {
+#statistic fieldset.disabled {
     display: none !important;
 }
 
@@ -8,6 +8,7 @@
 #statistic-games-summary-filter {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-end;
 }
 
 #statistic-summary-filter>*,
@@ -15,6 +16,13 @@
 #statistic-per-game-filter>*,
 #statistic-games-summary-filter>* {
     margin: 0.5em 0.5em;
+}
+
+#statistic-summary-filter>fieldset,
+#statistic-compared-filter>fieldset,
+#statistic-per-game-filter>fieldset,
+#statistic-games-summary-filter>fieldset {
+    margin-bottom: 0;
 }
 
 #statistic-get-summary.hidden,
@@ -46,12 +54,6 @@
     display: none !important;
 }
 
-#statistic-summary-table .last,
-#statistic-per-game-table .last,
-#statistic-games-summary-table .last {
-    background-color: #3e4a58;
-}
-
 #statistic-compared-table>h2 {
     border-bottom: solid 1px rgba(255, 255, 255, 0.5);
     padding-bottom: 1em;
@@ -81,12 +83,6 @@
 
 /* MOBILE */
 
-.mobile #statistic-summary-table .last,
-.mobile #statistic-per-game-table .last,
-.mobile #statistic-games-summary-table .last {
-    background-color: #3e4a58;
-}
-
 .mobile #statistic-summary-filter>*,
 .mobile #statistic-compared-filter>*,
 .mobile #statistic-per-game-filter>*,
@@ -115,6 +111,7 @@
 }
 
 @media only screen and (max-width: 790px) {
+
     #statistic-summary-graphs,
     #statistic-compared-graphs,
     #statistic-per-game-graphs,

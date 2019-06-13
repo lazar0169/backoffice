@@ -4,6 +4,7 @@
             <div class="select" id="accounting-time-span">
                 <div class="selected" data-value="">Time Span</div>
                 <div class="options-wrapper hidden">
+                    <div class="select-search "><input type="text" placeholder="Search" class="select-search-input"><button class="select-search-button save"><img src="images/search.png" alt="search"></button></div>
                     <div class="option" data-value="custom">Custom</div>
                     <div class="option" data-value="Today">Today</div>
                     <div class="option" data-value="Yasterday">Yesterday</div>
@@ -14,16 +15,19 @@
                     <div class="option" data-value="LastYear">Last Year</div>
                 </div>
             </div>
-            <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
-            <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
+            <fieldset id="accounting-time-span-fieldset" class="disabled">
+                <div class="legend">Period: </div>
+                <input type="text" id="accounting-time-span-from" class="datepicker" readonly>
+                <input type="text" id="accounting-time-span-to" class="datepicker" readonly>
+            </fieldset>
             <div id="accounting-operators-list-wrapper"></div>
             <div id="accounting-portals-list-wrapper"></div>
-            <div class="slider" data-sufix=" %" id="accounting-reports-bonus-rate">
+            <div class="slider" data-suffix=" %" id="accounting-reports-bonus-rate">
                 <span>Bonus Rate: </span>
                 <input type="range" value="0" min="0" max="100" step="0.01">
                 <input type="text" value="0%">
             </div>
-            <div class="slider" data-sufix=" %" id="accounting-reports-deduction">
+            <div class="slider" data-suffix=" %" id="accounting-reports-deduction">
                 <span>Deduction: </span>
                 <input type="range" value="0" min="0" max="100" step="0.01">
                 <input type="text" value="0%">
