@@ -235,7 +235,14 @@ function getToday() {
 }
 
 function logOut() {
-    location.href = getLocation();
+    trigger('comm/login/logout', {
+        success: function () {
+            location.href = getLocation();
+        },
+        fail: function () {
+            location.href = getLocation();
+        }
+    });
 }
 
 function convertToNumber(value) {
