@@ -166,7 +166,7 @@
 /* Buttons end */
 
 #operators-form {
-    position: fixed;
+    position: absolute;
     width: 35em;
     height: 50em;
     max-height: 100%;
@@ -248,7 +248,7 @@
 #operators-games-wrapper>.select>.selected {
     width: 100%;
 }
-
+/* TODO */
 #operators-form-button-wrapper,
 #operators-form-portal-button-wrapper {
     display: grid;
@@ -279,6 +279,12 @@
 #operators-form-button-wrapper.edit #operators-form-remove,
 #operators-form-portal-button-wrapper.edit #operators-form-portal-remove {
     display: none;
+}
+
+#operators-operator-form-enabled-wrapper {
+    width: 100%;
+    margin: 0.5em 0;
+    text-align: center;
 }
 
 /* Portal edit */
@@ -333,7 +339,7 @@
     bottom: 0;
     position: fixed;
     width: 95%;
-    height: 91.5%;
+    height: 88.5%;
     box-shadow: none;
     right: auto;
     margin: 0;
