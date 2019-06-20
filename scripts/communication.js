@@ -117,7 +117,7 @@ let comm = function () {
             }
         }).then(function (json) {
             log(json);
-            if (json.responseCode === message.codes.loggedOut || json.responseCode === message.codes.invalidToken) {
+            if (json.responseCode === message.codes.invalidToken || json.responseCode === message.codes.loggedOut) {
                 logOut();
             }
             callback.success(json);
