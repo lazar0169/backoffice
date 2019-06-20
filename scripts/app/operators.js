@@ -41,6 +41,8 @@ let operators = function () {
 
     on('operators/main/loaded', function () {
         addLoader($$('#sidebar-operators'));
+        let input = $$('#operators-main-search');
+        input.value = '';
         let operatorsList;
         trigger('comm/operators/get', {
             success: function (response) {
