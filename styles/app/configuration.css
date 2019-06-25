@@ -357,6 +357,10 @@
 #configuration-currency-games-table{
     width: 30%
 }
+#configuration-currency-games-table tr.highlighted{
+    background: #76869b;
+}
+
 
 #configuration-currency-games-table table{
     width: 100%;

@@ -307,15 +307,14 @@ let configuration = function () {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
 
-            //td.appendChild();
             td.className = 'collapsed';
             tr.dataset.id = element;
             tr.appendChild(td);
             body.appendChild(tr);
-            td.collapsed = true;
+            td.highlighted = false;
             td.innerHTML = data[element][`${dataName}`];
             td.onclick = () => {
-                if (td.collapsed) {
+                if (td.highlighted) {
                     if (!td.created) {
                         let tableElement = table.generate({
                             data: data[element][`${dataName}`],
@@ -324,15 +323,15 @@ let configuration = function () {
                             sticky: true,
                             stickyCol: true
                         });
-                        td.appendChild(tableElement);
+                        $$('#configuration-currency-conversion-table').appendChild(tableElement);
                         td.created = true;
                         table.preserveHeight(td);
                     }
-                    td.collapsed = false;
-                    td.classList.remove('collapsed');
+                    td.highlighted = false;
+                    tr.classList.remove('highlighted');
                 } else {
-                    td.classList.add('collapsed');
-                    td.collapsed = true;
+                    tr.classList.add('highlighted');
+                    td.highlighted = true;
                 }
             }
         }
