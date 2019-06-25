@@ -227,6 +227,7 @@ let configuration = function () {
         $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
         $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
         createTable(result.currencyGamesBet, 'gameName', 'games');
+        //createTable(result.currencyGamesBet, 'gameName', 'games');
     }
 
     // Generates modal checkbox list
@@ -312,6 +313,7 @@ let configuration = function () {
             tr.appendChild(td);
             body.appendChild(tr);
             td.collapsed = true;
+            td.innerHTML = data[element][`${dataName}`];
             td.onclick = () => {
                 if (td.collapsed) {
                     if (!td.created) {
@@ -546,7 +548,7 @@ let configuration = function () {
     });
 
     on('configuration/currency/loaded', function () {
-        let tbody = currencyGamesBet.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+        let tbody = currencyTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
         if (tbody.length) {
             tbody[0].remove();
         }
