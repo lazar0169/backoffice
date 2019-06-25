@@ -136,6 +136,15 @@
     background-color: transparent;
 }
 
+#refresh-button-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+#refresh-button{
+    margin: 5em;
+}
+
 /* MOBILE */
 
 .mobile #dashboard-players-wrapper {
