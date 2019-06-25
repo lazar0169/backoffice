@@ -4,6 +4,14 @@ let comm = function () {
         'comm/currency/getAll': '/Statistics/GetDefaultCurrencies',
         'comm/currency/set': '/Account/SetCurrency',
         'comm/currency/get': '/Account/GetCurrency',
+        
+        'comm/currency/getCurrencies': '/Currency/get-currencies',
+        'comm/currency/readCurrency': '/Currency/read/0',
+        'comm/currency/updateCurrency': '/Currency/update/0',
+        'comm/currency/deleteCurrency': '/Currency/delete/0',
+        'comm/currency/createCurrency': '/Currency/create',
+        'comm/currency/getGames': '/Currency/get-games',
+        
 
         // Reset
         'comm/reset': '/Account/ChangePassword',
@@ -117,7 +125,7 @@ let comm = function () {
             }
         }).then(function (json) {
             log(json);
-            if (json.responseCode === message.codes.loggedOut || json.responseCode === message.codes.invalidToken) {
+            if (json.responseCode === message.codes.invalidToken || json.responseCode === message.codes.loggedOut) {
                 logOut();
             }
             callback.success(json);

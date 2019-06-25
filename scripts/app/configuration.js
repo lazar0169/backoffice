@@ -9,6 +9,9 @@ let configuration = function () {
     let editMode = false;
     let openedId;
 
+    let currencyTable = $$(`#configuration-currency-games-table`);
+    let jackpotTable = $$(`#configuration-currency-default-jackpot-settings-table`);
+
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
         e.preventDefault();
@@ -215,6 +218,17 @@ let configuration = function () {
         $$('#configuration-main').children[0].style.overflow = 'hidden';
     }
 
+    //Currency right side view
+    function showCurrencyView(result) {
+        $$('#configuration-currency-games-table-wrapper').classList.remove('hidden');
+        $$('#configuration-currency-option-wrapper').classList.remove('hidden');
+        let currencyWithBetGroup = result.currencyWithBetGroup;
+        $$('#configuration-currency-code').value = currencyWithBetGroup.currencyCode;
+        $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
+        $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
+        createTable(result.currencyGamesBet, 'gameName', 'games');
+    }
+
     // Generates modal checkbox list
     function generateModalData(data) {
         let table = ''
@@ -238,7 +252,7 @@ let configuration = function () {
     }
 
     // Creates users, action and roles list
-    function createList(section, data) {
+    function createList(section, data, dataType = 0) {
         let actions = $$(`#configuration-${section}`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
@@ -249,13 +263,77 @@ let configuration = function () {
             let td = document.createElement('td');
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td }) };
+            tr.onclick = function () {
+                if (dataType === 0) {
+                    trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
+                }
+                else {
+                    addLoader(td);
+                    trigger('comm/currency/readCurrency',
+                        {
+                            body: {
+                                id: this.dataset.id,
+                            },
+                            success: function (response) {
+                                if (response.responseCode === message.codes.success) {
+                                    showCurrencyView(response.result);
+                                }
+                                trigger('message', response.responseCode);
+                                removeLoader(tr);
+                            },
+                            fail: function (response) {
+                                removeLoader(tr);
+                            }
+                        });
+
+                }
+            };
             if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
             tr.appendChild(td);
             body.appendChild(tr);
         }
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
+    }
+
+    function createTable(data, dataName, section) {
+        let wrapperTable = $$(`#configuration-currency-${section}-table`).getElementsByTagName('table')[0];
+        let body = document.createElement('tbody');
+        wrapperTable.appendChild(body);
+        hideAllRows(wrapperTable);
+
+        for (let element in data) {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+
+            //td.appendChild();
+            td.className = 'collapsed';
+            tr.dataset.id = element;
+            tr.appendChild(td);
+            body.appendChild(tr);
+            td.collapsed = true;
+            td.onclick = () => {
+                if (td.collapsed) {
+                    if (!td.created) {
+                        let tableElement = table.generate({
+                            data: data[element][`${dataName}`],
+                            id: data[element][`${dataName}`],
+                            dynamic: false,
+                            sticky: true,
+                            stickyCol: true
+                        });
+                        td.appendChild(tableElement);
+                        td.created = true;
+                        table.preserveHeight(td);
+                    }
+                    td.collapsed = false;
+                    td.classList.remove('collapsed');
+                } else {
+                    td.classList.add('collapsed');
+                    td.collapsed = true;
+                }
+            }
+        }
     }
 
     for (let cancelBtn of $$('.configuration-form-cancel')) {
@@ -456,17 +534,35 @@ let configuration = function () {
         }
     }
 
+    function hideAllRows(element) {
+        for (let tableRow of element.getElementsByTagName('td')) {
+            tableRow.classList.add('collapsed');
+            tableRow.collapsed = true;
+        }
+    };
+
     on('configuration/profile/loaded', function () {
         // TODO
     });
 
     on('configuration/currency/loaded', function () {
+        let tbody = currencyGamesBet.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+        if (tbody.length) {
+            tbody[0].remove();
+        }
+
+        tbody = jackpotTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+        if (tbody.length) {
+            tbody[0].remove();
+        }
+
+        $$('#configuration-currency-option-wrapper').classList.add('hidden');
         addLoader($$('#sidebar-configuration'));
-        trigger('comm/currency/getAll', {
+        trigger('comm/currency/getCurrencies', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     actions = response.result;
-                    createList('currency-list-table', response.result);
+                    createList('currency-list-table', response.result, 1);
                 } else {
                     trigger('message', response.responseCode);
                 }
