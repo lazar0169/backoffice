@@ -75,6 +75,7 @@ let currency = function () {
                                 for (let selector of $$('.currency-select')) {
                                     selector.innerHTML = currencies[response.result];
                                 }
+                                $$('#refresh-button').innerHTML = 'REFRESH <img src="../images/refresh-icon.png" class="refresh-image"></span>';
                             } else {
                                 trigger('message', response.responseCode);
                             }

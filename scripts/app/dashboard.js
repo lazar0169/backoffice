@@ -5,7 +5,7 @@ let dashboard = function () {
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
     let portalListener;
-    const refreshButton = $$('#refresh-button');
+    let refreshButton = $$('#refresh-button');
     refreshButton.addEventListener('click', getDashboard);
     
     let chart = new Chart($$('#dashboard-pie-chart').getContext('2d'), {
@@ -257,9 +257,7 @@ let dashboard = function () {
     });
 
     function getDashboard() {
-        if(main.children.length > 1){
-            main.children[0].remove();
-        }
+        main.innerHTML = '';
         addLoader($$('#sidebar-dashboard'));
         trigger('comm/dashboard/get', {
             success: function (response) {

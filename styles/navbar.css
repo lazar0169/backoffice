@@ -79,12 +79,13 @@
     align-items: center;
     height: 2.3em;
     position: relative;
+    flex-direction: row-reverse;
 }
 
 .currency>.currency-wrapper {
     position: absolute;
     top: 2.3em;
-    width: 100%;
+    width: 33%;
     max-height: 15em;
     overflow: auto;
     background-color: #313c4a;
@@ -112,6 +113,10 @@
 
 .currency .currency-wrapper a:active {
     filter: brightness(1.3);
+}
+
+.refresh-image{
+    margin-left: 0.5em;
 }
 
 /* ================== MOBILE  ================== */
