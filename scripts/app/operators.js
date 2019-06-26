@@ -136,7 +136,7 @@ let operators = function () {
 
             $$('#operator-name').value = '';
             $$('#operators-form-button-wrapper').classList.add('edit');
-            $$('#operators-operator-enabled').checked = false;
+            $$('#operators-operator-enabled').checked = true;
         }
 
         $$('#operators-form-save').onclick = function () {
@@ -204,7 +204,9 @@ let operators = function () {
         }
         portalModal.hide();
         jackpotModal.hide();
-        selectedRow.classList.remove('hover');
+        if(selectedRow){
+            selectedRow.classList.remove('hover');
+        }
         editMode = false;
     }
 
@@ -238,7 +240,6 @@ let operators = function () {
                     integrationTypeWrapper.children[0].classList.add('disabled');
                     $$('#operators-operator-form-enabled').checked = element.enabled;
                 } else {
-                    $$('#operators-operator-form-enabled').checked = true;
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
                     if (currencyId && $$('#operator-timezone-code').children[0].dataset.value) {
