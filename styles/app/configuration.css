@@ -347,7 +347,7 @@
 #configuration-currency-games-table-wrapper{
     overflow: auto;
     max-height: 66%;
-    margin-top: 1.5em;
+    margin-top: 5em;
 }
 
 #configuration-currency-games-table-wrapper.hidden{
@@ -420,6 +420,15 @@
 
 #configuration-currency-default-jackpot-settings-wrapper.hidden{
     display: none
+}
+
+#configuration-currency-conversion-table{
+    flex: 0.7;
+    margin-left: 10em;
+}
+
+#configuration-currency-games-table caption{
+    justify-content: center;
 }
 
 /* MOBILE */

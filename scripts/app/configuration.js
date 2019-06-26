@@ -9,8 +9,14 @@ let configuration = function () {
     let editMode = false;
     let openedId;
 
+    const jackpotTypes = {
+        '1': 'Platinum',
+        '3': 'Diamond'
+    };
+
     let currencyTable = $$(`#configuration-currency-games-table`);
-    let jackpotTable = $$(`#configuration-currency-default-jackpot-settings-table`);
+    let jackpotTable = $$(`#configuration-currency-default-jackpot-settings-list`);
+    let converstionTable = $$(`#configuration-currency-conversion-table`);
 
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
@@ -220,14 +226,20 @@ let configuration = function () {
 
     //Currency right side view
     function showCurrencyView(result) {
+        removeTableData();
         $$('#configuration-currency-games-table-wrapper').classList.remove('hidden');
         $$('#configuration-currency-option-wrapper').classList.remove('hidden');
         let currencyWithBetGroup = result.currencyWithBetGroup;
         $$('#configuration-currency-code').value = currencyWithBetGroup.currencyCode;
         $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
         $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
-        createTable(result.currencyGamesBet, 'gameName', 'games');
-        //createTable(result.currencyGamesBet, 'gameName', 'games');
+        createTable(result.currencyGamesBet, 'gameName', 'gameBetCurrencySteps', 'games');
+        for (let element of result.defaultJackpotSettings) {
+            element.name = jackpotTypes[`${element.jackpotTypeId}`];
+            element.id = element.jackpotTypeId;
+        }
+        $$('#configuration-currency-default-jackpot-settings-wrapper').classList.remove('hidden');
+        createList('currency-default-jackpot-settings-list', result.defaultJackpotSettings, 2);
     }
 
     // Generates modal checkbox list
@@ -268,7 +280,7 @@ let configuration = function () {
                 if (dataType === 0) {
                     trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
                 }
-                else {
+                else if (dataType === 1) {
                     addLoader(td);
                     trigger('comm/currency/readCurrency',
                         {
@@ -286,7 +298,14 @@ let configuration = function () {
                                 removeLoader(tr);
                             }
                         });
-
+                }
+                else {
+                    $$('#configuration-currency-default-jackpot-settings-options').classList.remove('hidden');
+                    $$('#configuration-currency-jackpot-bet-contribution').value = row.betContribution;
+                    $$('#configuration-currency-jackpot-min-bet').value = row.minBet;
+                    $$('#configuration-currency-jackpot-base-jackpot-value').value = row.baseJackpotValue;
+                    $$('#configuration-currency-jackpot-min-jackpot-value').value = row.minJackpotValue;
+                    $$('#configuration-currency-jackpot-max-jackpot-value').value = row.maxJackpotValue;
                 }
             };
             if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
@@ -297,7 +316,7 @@ let configuration = function () {
         actions.classList.remove('hidden');
     }
 
-    function createTable(data, dataName, section) {
+    function createTable(data, dataCaption = dataName, dataName, section) {
         let wrapperTable = $$(`#configuration-currency-${section}-table`).getElementsByTagName('table')[0];
         let body = document.createElement('tbody');
         wrapperTable.appendChild(body);
@@ -312,7 +331,7 @@ let configuration = function () {
             tr.appendChild(td);
             body.appendChild(tr);
             td.highlighted = false;
-            td.innerHTML = data[element][`${dataName}`];
+            td.innerHTML = data[element][`${dataCaption}`];
             td.onclick = () => {
                 if (td.highlighted) {
                     if (!td.created) {
@@ -542,11 +561,7 @@ let configuration = function () {
         }
     };
 
-    on('configuration/profile/loaded', function () {
-        // TODO
-    });
-
-    on('configuration/currency/loaded', function () {
+    function removeTableData() {
         let tbody = currencyTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
         if (tbody.length) {
             tbody[0].remove();
@@ -557,7 +572,28 @@ let configuration = function () {
             tbody[0].remove();
         }
 
-        $$('#configuration-currency-option-wrapper').classList.add('hidden');
+        if (converstionTable.getElementsByTagName('table')[0]) {
+            tbody = converstionTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+            if (tbody.length) {
+                tbody[0].remove();
+            }
+        }
+    }
+
+    on('configuration/profile/loaded', function () {
+        // TODO
+    });
+
+    on('configuration/currency/loaded', function () {
+        removeTableData();
+        if (!$$('#configuration-currency-option-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-option-wrapper').classList.add('hidden');
+        }
+
+        if (!$$('#configuration-currency-default-jackpot-settings-options').classList.contains('hidden')) {
+            $$('#configuration-currency-default-jackpot-settings-options').classList.add('hidden');
+        }
+
         addLoader($$('#sidebar-configuration'));
         trigger('comm/currency/getCurrencies', {
             success: function (response) {
