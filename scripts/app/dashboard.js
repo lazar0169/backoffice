@@ -6,7 +6,10 @@ let dashboard = function () {
     let filters = $$('#dashboard-players-filter');
     let portalListener;
     let refreshButton = $$('#refresh-button');
-    refreshButton.addEventListener('click', getDashboard);
+    refreshButton.addEventListener('click', () => {
+        refreshButton.classList.add('hidden');
+        getDashboard();
+    });
     
     let chart = new Chart($$('#dashboard-pie-chart').getContext('2d'), {
         type: 'pie',
@@ -257,7 +260,9 @@ let dashboard = function () {
     });
 
     function getDashboard() {
-        main.innerHTML = '';
+        if(main.children.length > 1){
+            main.children[0].remove();
+        }
         addLoader($$('#sidebar-dashboard'));
         trigger('comm/dashboard/get', {
             success: function (response) {
@@ -272,6 +277,7 @@ let dashboard = function () {
                         stickyCol: true
                     }), main.firstChild);
                     table.preserveHeight(main);
+                    refreshButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }

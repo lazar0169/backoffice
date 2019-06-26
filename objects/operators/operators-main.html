@@ -28,7 +28,7 @@
                     <div id="operators-games-wrapper"></div>
                     <div id="operators-portals"></div>
                     <div id="operators-operator-enabled-wrapper">
-                        <input type="checkbox" id="operators-operator-enabled">
+                        <input type="checkbox" id="operators-operator-enabled" checked/>
                         <label for="operators-operator-enabled">Enabled</label>
                     </div>
                     <button class="save" id="operators-form-create">CREATE NEW PORTAL</button>
@@ -46,18 +46,23 @@
                     <h2>Portal details</h2>
                 </div>
                 <div class="operators-form-inputs">
+                    <div class="legend">Game Launch URL</div>
                     <input type="url" id="operator-game-launch-url" placeholder="Game Launch URL">
                     <div id="operator-integration-type"></div>
+                    <div class="legend">Username</div>
                     <input type="text" id="operator-user-name" placeholder="User Name">
+                    <div class="legend">Password</div>
                     <input type="password" id="operator-password" placeholder="Password">
                     <div id="operators-portal-currency"></div>
+                    <div class="legend">Warning Active Credit</div>
                     <input type="number" id="operator-warning-active-credit" placeholder="Warning Active Credit">
+                    <div class="legend">Blocking Active Credit</div>
                     <input type="number" id="operator-blocking-active-credit" placeholder="Blocking Active Credit">
                     <button data-jackpot="platinum" class="config operators-form-jackpot-button"><span class="icon-7"></span><span>Platinum jackpot settings</span></button>
                     <button data-jackpot="diamond" class="config operators-form-jackpot-button"><span class="icon-7"></span><span>Diamond jackpot settings</span></button>
                 </div>
                 <div id="operators-operator-form-enabled-wrapper">
-                    <input type="checkbox" id="operators-operator-form-enabled">
+                    <input type="checkbox" id="operators-operator-form-enabled" checked/>
                     <label for="operators-operator-form-enabled">Enabled</label>
                 </div>
                 <button id="operators-form-portal-save" class="save">SAVE</button>
