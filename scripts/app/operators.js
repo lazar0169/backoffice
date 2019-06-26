@@ -238,6 +238,7 @@ let operators = function () {
                     integrationTypeWrapper.children[0].classList.add('disabled');
                     $$('#operators-operator-form-enabled').checked = element.enabled;
                 } else {
+                    $$('#operators-operator-form-enabled').checked = true;
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
                     if (currencyId && $$('#operator-timezone-code').children[0].dataset.value) {
