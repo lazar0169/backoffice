@@ -41,6 +41,8 @@ let operators = function () {
 
     on('operators/main/loaded', function () {
         addLoader($$('#sidebar-operators'));
+        let input = $$('#operators-main-search');
+        input.value = '';
         let operatorsList;
         trigger('comm/operators/get', {
             success: function (response) {
@@ -134,7 +136,7 @@ let operators = function () {
 
             $$('#operator-name').value = '';
             $$('#operators-form-button-wrapper').classList.add('edit');
-            $$('#operators-operator-enabled').checked = false;
+            $$('#operators-operator-enabled').checked = true;
         }
 
         $$('#operators-form-save').onclick = function () {
@@ -185,7 +187,7 @@ let operators = function () {
             };
         });
 
-        gamesWrapper.appendChild(dropdown.generate(games, 'operators-games', 'Select categories', true));
+        gamesWrapper.appendChild(dropdown.generate(games, 'operators-games', 'Select games', true));
         portalsWrapper.appendChild(generatePortalsTable(operatorData.portalSettingsList));
 
         $$('#operators-black-overlay').style.display = 'block';
@@ -202,7 +204,9 @@ let operators = function () {
         }
         portalModal.hide();
         jackpotModal.hide();
-        selectedRow.classList.remove('hover');
+        if(selectedRow){
+            selectedRow.classList.remove('hover');
+        }
         editMode = false;
     }
 
@@ -220,7 +224,6 @@ let operators = function () {
                 operatorsCurrencyWrapper.innerHTML = '';
                 integrationTypeWrapper.innerHTML = '';
                 integrationTypeWrapper.appendChild(dropdown.generate(integrationTypes, 'operator-integration-type', 'Integration Type'));
-                $$('#operators-form-portal-button-wrapper').classList[editModePortal ? 'remove' : 'add']('edit');
                 if (editModePortal) {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(currencies, 'operator-portal-currency-code', 'Select currency'));
                     openedPortalData = element;
@@ -235,6 +238,7 @@ let operators = function () {
                     operatorsCurrencyWrapper.children[0].children[0].dataset.value = element.currencyId;
                     operatorsCurrencyWrapper.children[0].classList.add('disabled');
                     integrationTypeWrapper.children[0].classList.add('disabled');
+                    $$('#operators-operator-form-enabled').checked = element.enabled;
                 } else {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
@@ -287,7 +291,8 @@ let operators = function () {
                     openedPortalData.warningActiveCredit = Number(warningActiveCredit.value);
                     openedPortalData.blockingActiveCredit = Number(blockingActiveCredit.value);
                     openedPortalData.currencyId = Number(operatorsCurrencyWrapper.children[0].children[0].dataset.value);
-                    openedPortalData.portal.name = `${$$('#operator-name').value} ${$$('#operator-portal-currency-code').children[0].innerText}`;
+                    openedPortalData.portal.name = `${$$('#operator-name').value}-${$$('#operator-portal-currency-code').children[0].innerText}`;
+                    openedPortalData.enabled = $$('#operators-operator-form-enabled').checked;
                     if (editModePortal) {
                         operatorData.portalSettingsList[index] = openedPortalData;
                     } else {
@@ -299,12 +304,6 @@ let operators = function () {
                     }
                     portalModal.hide();
                 }
-
-                $$('#operators-form-portal-remove').onclick = function () {
-                    operatorData.portalSettingsList.splice(index, 1);
-                    refreshPortalList();
-                    portalModal.hide();
-                };
 
                 modal.classList.add('show');
                 isModalOpened = true;
@@ -421,6 +420,9 @@ let operators = function () {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
             td.innerHTML = element.portal.name;
+            if (!element.enabled) {
+                td.style.color = '#ff7373';
+            }
             let index = Number(i);
             td.onclick = function () {
                 editModePortal = true;
@@ -433,7 +435,7 @@ let operators = function () {
         }
         return table;
     }
-    
+
     function searchOperators(element, term) {
         for (let tableRow of element.getElementsByTagName('tr')) {
             if (tableRow.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {

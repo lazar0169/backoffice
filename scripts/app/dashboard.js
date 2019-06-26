@@ -5,6 +5,12 @@ let dashboard = function () {
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
     let portalListener;
+    let refreshButton = $$('#refresh-button');
+    refreshButton.addEventListener('click', () => {
+        refreshButton.classList.add('hidden');
+        getDashboard();
+    });
+    
     let chart = new Chart($$('#dashboard-pie-chart').getContext('2d'), {
         type: 'pie',
         data: {
@@ -254,21 +260,24 @@ let dashboard = function () {
     });
 
     function getDashboard() {
-        main.innerHTML = '';
+        if(main.children.length > 1){
+            main.children[0].remove();
+        }
         addLoader($$('#sidebar-dashboard'));
         trigger('comm/dashboard/get', {
             success: function (response) {
                 removeLoader($$('#sidebar-dashboard'));
                 if (response.responseCode === message.codes.success) {
                     dashboardData = response.result;
-                    main.appendChild(table.generate({
+                    main.insertBefore(table.generate({
                         data: parseData(dashboardData.activities.activities),
                         id: 'dashboard-table',
                         dynamic: false,
                         sticky: true,
                         stickyCol: true
-                    }));
+                    }), main.firstChild);
                     table.preserveHeight(main);
+                    refreshButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }

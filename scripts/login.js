@@ -108,6 +108,9 @@ const login = function () {
                     $$('#login-password').value = '';
                     $$('#login-pin').focus();
                 }
+                else {
+                    trigger('message', message.codes.userAlreadyLoggedIn);
+                }
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');
