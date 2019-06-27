@@ -17,6 +17,7 @@ let configuration = function () {
     let currencyTable = $$(`#configuration-currency-games-table`);
     let jackpotTable = $$(`#configuration-currency-default-jackpot-settings-list`);
     let converstionTable = $$(`#configuration-currency-conversion-table`);
+    let jackpotOptions = $$('#configuration-currency-default-jackpot-settings-options');
 
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
@@ -289,6 +290,17 @@ let configuration = function () {
                             },
                             success: function (response) {
                                 if (response.responseCode === message.codes.success) {
+                                    let tbody = currencyTable.getElementsByTagName('table')[1];
+                                    if (tbody) {
+                                        tbody.remove();
+                                    }
+                                    tbody = jackpotTable.getElementsByTagName('table')[1];
+                                    if (tbody) {
+                                        tbody.remove();
+                                    }
+                                    if (!jackpotOptions.classList.contains('hidden')) {
+                                        jackpotOptions.classList.add('hidden');
+                                    }
                                     showCurrencyView(response.result);
                                 }
                                 trigger('message', response.responseCode);
