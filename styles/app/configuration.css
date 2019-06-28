@@ -182,20 +182,16 @@
 }
 
 .configuration-form-table,
-.configuration-form-inputs {
+.configuration-form-bet-group-wrapper {
     width: 100%;
     overflow: auto;
     flex: 1;
     margin: 1em 0;
 }
 
-.configuration-form-inputs {
+.configuration-form-bet-group-wrapper {
     display: flex;
     flex-direction: column;
-}
-
-.configuration-form-inputs input {
-    margin: 0.3em 0;
 }
 
 #configuration-form table {
@@ -498,47 +494,39 @@
     display: none;
 }
 
-#accounting-setup-form-button-wrapper {
+#configuration-currency-form-button-wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 0.3em;
 }
 
-#accounting-setup-form-button-wrapper.scaled {
-    grid-template-columns: 1fr 1fr;
-}
-
-#accounting-setup-form-button-wrapper.scaled #accounting-setup-form-create-tax {
-    display: block;
-}
-
-#accounting-setup-form-button-wrapper button,
-#accounting-setup-form-tax-button-wrapper button {
+#configuration-currency-form-button-wrapper button,
+#configuration-currency-form-create-button-wrapper button {
     margin: 0.3em 0;
     width: 100%;
 }
 
 /* Tax */
 
-#accounting-setup-form-tax-button-wrapper {
+#configuration-currency-form-create-button-wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 0.3em;
 }
 
-#accounting-setup-form-tax-button-wrapper.edit {
+#configuration-currency-form-create-button-wrapper.edit {
     grid-template-columns: 1fr 1fr;
 }
 
-#accounting-setup-form-tax-button-wrapper #accounting-setup-form-tax-remove {
+#configuration-currency-form-create-button-wrapper #configuration-currency-form-create-remove {
     display: none;
 }
 
-#accounting-setup-form-tax-button-wrapper.edit #accounting-setup-form-tax-remove {
+#configuration-currency-form-create-button-wrapper.edit #configuration-currency-form-create-remove {
     display: block;
 }
 
-#accounting-setup-form-tax {
+#configuration-currency-form-create {
     position: absolute;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background-color: #434a5c;
@@ -546,20 +534,20 @@
     transform: translate3d(100%, 0, 0);
 }
 
-#accounting-setup-form-tax-back {
+#configuration-currency-form-create-back {
     margin-right: 2em;
     height: 2.5em;
     align-self: center;
 }
 
-#accounting-setup-form-tax.show {
+#configuration-currency-form-create.show {
     box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
 }
 
 /* Buttons end */
 
-#accounting-setup-form {
+#configuration-currency-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -574,13 +562,13 @@
     transition: transform 0.3s, opacity 0.3s;
 }
 
-#accounting-setup-form.show {
+#configuration-currency-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
 }
 
-.accounting-setup-form-wrapper {
+.configuration-currency-form-wrapper {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -595,15 +583,23 @@
     box-sizing: border-box;
 }
 
-.accounting-setup-form-wrapper h2 {
+.configuration-currency-form-wrapper h2 {
     margin: 0.5em 0;
+}
+
+#configuration-currency-form-bet-group-table table{
+    width: 100%;
+}
+
+#configuration-currency-form-bet-group-table caption{
+    display: table-caption;
 }
 
 /* END FORM*/
 
 /* MOBILE */
 
-.mobile #configuration-form-users .configuration-form-inputs {
+.mobile #configuration-form-users .configuration-form-bet-group-wrapper {
     margin-top: 0;
 }
 

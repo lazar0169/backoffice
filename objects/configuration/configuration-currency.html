@@ -36,14 +36,14 @@
                 <!-- <div id="configuration-currency-conversion-table">
 
                 </div> -->
-                <div class="accounting-setup-form-wrapper" id="accounting-setup-form-main">
-                    <div class="configuration-currency-form-title">
-                        <h2>Game bet groups</h2>
-                        <button class="config" id="configuration-currency-form-cancel"></button>
-                    </div>
-                    <div class="accounting-setup-form-inputs">
-                        <div id="accounting-setup-form-inputs-scaled" class="">
-                            <div id="accounting-setup-scaled-table">
+                <div id="configuration-currency-form">
+                    <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main">
+                        <div class="configuration-currency-form-title">
+                            <h2>Game bet groups</h2>
+                            <button class="config" id="configuration-currency-form-cancel"></button>
+                        </div>
+                        <div class="configuration-currency-form-bet-group-wrapper">
+                            <div id="configuration-currency-form-bet-group-table">
                                 <table>
                                     <caption>
                                         <div class="caption-title">Bet Groups</div>
@@ -51,10 +51,25 @@
                                 </table>
                             </div>
                         </div>
+                        <div id="configuration-currency-form-button-wrapper">
+                            <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
+                            <button id="configuration-currency-form-save" class="save">SAVE</button>
+                        </div>
                     </div>
-                    <div id="accounting-setup-form-button-wrapper" class="scaled">
-                        <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
-                        <button id="accounting-setup-form-save" class="save">SAVE</button>
+                    <div class="configuration-currency-form-wrapper" id="configuration-currency-form-create">
+                        <div class="configuration-currency-form-create-title">
+                            <button class="config" id="configuration-currency-form-create-back">&#9668; BACK</button>
+                            <h2>Currency values</h2>
+                        </div>
+                        <div id="configuration-currency-form-create-inputs">
+                            <div class="legend">Euro value: </div>
+                            <input id="configuration-currency-eur-value" placeholder="EUR">
+                            <div class="legend">Currency value: </div>
+                            <input id="configuration-currency-currency-value" placeholder="Selected currency">
+                        </div>
+                        <div id="configuration-currency-form-button-wrapper">
+                            <button id="configuration-currency-form-save" class="save">SAVE</button>
+                        </div>
                     </div>
                 </div>
             </div>
