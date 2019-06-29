@@ -490,14 +490,19 @@
     transform: rotate(45deg);
 }
 
-#configuration-currency-form-create-bet-group {
-    display: none;
+#configuration-currency-form-bet-group-table-wrapper {
+    overflow: auto;
+}
+
+#configuration-currency-form-bet-group-table{
+    margin: 1em;
 }
 
 #configuration-currency-form-button-wrapper {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 0.3em;
+    margin: 1em;
 }
 
 #configuration-currency-form-button-wrapper button,

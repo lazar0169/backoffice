@@ -1,7 +1,7 @@
 {
     "development": true,
     "local": false,
-    "api": "http://192.168.88.219",
-    "port": 8885,
+    "api": "http://192.168.88.241",
+    "port": 8884,
     "obfuscate": false
 }
