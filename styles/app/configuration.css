@@ -309,9 +309,13 @@
 }
 
 #configuration-currency-list-wrapper{
+    position: absolute;
     display: flex;
     flex-wrap: wrap;
-    flex: 1;
+    max-height: 100%;
+    overflow: auto;
+    left: 0;
+    margin-right: 10em;
 }
 
 #configuration-currency-option-wrapper{
@@ -319,6 +323,8 @@
     flex-wrap: wrap;
     flex: 80%;
     flex-direction: column;
+    left: 0;
+    margin-left: 20%; 
 }
 
 #configuration-currency-option-wrapper.hidden{
@@ -344,6 +350,7 @@
     overflow: auto;
     max-height: 66%;
     margin-top: 5em;
+    height: 25vw;
 }
 
 #configuration-currency-games-table-wrapper.hidden{
@@ -412,6 +419,7 @@
     overflow: auto;
     max-height: 66%;
     margin-top: 1.5em;
+    display: flex;
 }
 
 #configuration-currency-default-jackpot-settings-wrapper.hidden{

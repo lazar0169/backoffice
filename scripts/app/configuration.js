@@ -11,6 +11,7 @@ let configuration = function () {
     let isModalOpened = false;
     let isBetGroupModalOpened = false;
     let betGroupEditMode = false;
+    let activeData = undefined;
 
     const jackpotTypes = {
         '1': 'Platinum',
@@ -422,7 +423,7 @@ let configuration = function () {
         let body = document.createElement('tbody');
         wrapperTable.appendChild(body);
         hideAllRows(wrapperTable);
-
+        activeData = data;
         for (let element in data) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
@@ -441,12 +442,12 @@ let configuration = function () {
                     tr.classList.add('highlighted');
                     td.highlighted = true;
                 }
-                showCurrencyModal(data[element][`${dataName}`]);
+                showCurrencyModal(data[element][`${dataName}`], element, dataName);
             }
         }
     }
 
-    function createBetGroupList(data) {
+    function createBetGroupList(data, element, dataName) {
         let actions = $$(`#configuration-currency-form-bet-group-table`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
@@ -655,9 +656,9 @@ let configuration = function () {
         });
     }
 
-    function showCurrencyModal(data) {
+    function showCurrencyModal(data, element, dataName) {
 
-        createBetGroupList(data);
+        createBetGroupList(data, element, dataName);
 
         $$('#configuration-currency-form-save').onclick = () => {
             //TODO : save betGroup

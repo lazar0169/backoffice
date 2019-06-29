@@ -10,6 +10,42 @@
             </div>
         </div>
         <div id="configuration-currency-black-overlay"></div>
+        <div id="configuration-currency-form">
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main">
+                <div class="configuration-currency-form-title">
+                    <h2>Game bet groups</h2>
+                    <button class="config" id="configuration-currency-form-cancel"></button>
+                </div>
+                <div class="configuration-currency-form-bet-group-wrapper" id="configuration-currency-form-bet-group-table-wrapper">
+                    <div id="configuration-currency-form-bet-group-table">
+                        <table>
+                            <caption>
+                                <div class="caption-title">Bet Groups</div>
+                            </caption>
+                        </table>
+                    </div>
+                </div>
+                <div id="configuration-currency-form-button-wrapper">
+                    <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
+                    <button id="configuration-currency-form-save" class="save">SAVE</button>
+                </div>
+            </div>
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-create">
+                <div class="configuration-currency-form-create-title">
+                    <button class="config" id="configuration-currency-form-create-back">&#9668; BACK</button>
+                    <h2>Currency values</h2>
+                </div>
+                <div id="configuration-currency-form-create-inputs">
+                    <div class="legend">Euro value: </div>
+                    <input id="configuration-currency-eur-value" placeholder="EUR">
+                    <div class="legend">Currency value: </div>
+                    <input id="configuration-currency-currency-value" placeholder="Selected currency">
+                </div>
+                <div id="configuration-currency-form-button-wrapper">
+                    <button id="configuration-currency-form-save" class="save">SAVE</button>
+                </div>
+            </div>
+        </div>
         <div id="configuration-currency-option-wrapper" class="hidden">
             <div id="configuration-currency-main-options">
                 <fieldset>
@@ -36,42 +72,7 @@
                 <!-- <div id="configuration-currency-conversion-table">
 
                 </div> -->
-                <div id="configuration-currency-form">
-                    <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main">
-                        <div class="configuration-currency-form-title">
-                            <h2>Game bet groups</h2>
-                            <button class="config" id="configuration-currency-form-cancel"></button>
-                        </div>
-                        <div class="configuration-currency-form-bet-group-wrapper" id="configuration-currency-form-bet-group-table-wrapper">
-                            <div id="configuration-currency-form-bet-group-table">
-                                <table>
-                                    <caption>
-                                        <div class="caption-title">Bet Groups</div>
-                                    </caption>
-                                </table>
-                            </div>
-                        </div>
-                        <div id="configuration-currency-form-button-wrapper">
-                            <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
-                            <button id="configuration-currency-form-save" class="save">SAVE</button>
-                        </div>
-                    </div>
-                    <div class="configuration-currency-form-wrapper" id="configuration-currency-form-create">
-                        <div class="configuration-currency-form-create-title">
-                            <button class="config" id="configuration-currency-form-create-back">&#9668; BACK</button>
-                            <h2>Currency values</h2>
-                        </div>
-                        <div id="configuration-currency-form-create-inputs">
-                            <div class="legend">Euro value: </div>
-                            <input id="configuration-currency-eur-value" placeholder="EUR">
-                            <div class="legend">Currency value: </div>
-                            <input id="configuration-currency-currency-value" placeholder="Selected currency">
-                        </div>
-                        <div id="configuration-currency-form-button-wrapper">
-                            <button id="configuration-currency-form-save" class="save">SAVE</button>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div id="configuration-currency-default-jackpot-settings-wrapper" class="hidden">
                 <div id="configuration-currency-default-jackpot-settings-list">
@@ -82,21 +83,26 @@
                     </table>
                 </div>
                 <div id="configuration-currency-default-jackpot-settings-options" class="hidden">
-                    <fieldset>
+                    <!-- <fieldset> -->
+                        <div class="legend">Bet Contribution: </div>
                         <input id="configuration-currency-jackpot-bet-contribution" type="number" step="0.01" placeholder="Bet Contribution" />
-                    </fieldset>
-                    <fieldset>
+                    <!-- </fieldset>
+                    <fieldset> -->
+                        <div class="legend">Min Bet: </div>
                         <input id="configuration-currency-jackpot-min-bet" type="number" placeholder="Min Bet" />
-                    </fieldset>
-                    <fieldset>
+                    <!-- </fieldset>
+                    <fieldset> -->
+                        <div class="legend">Base Jackpot: </div>
                         <input id="configuration-currency-jackpot-base-jackpot-value" type="number" placeholder="Base Jackpot" />
-                    </fieldset>
-                    <fieldset>
+                    <!-- </fieldset>
+                    <fieldset> -->
+                        <div class="legend">Min Jackpot: </div>
                         <input id="configuration-currency-jackpot-min-jackpot-value" type="number" placeholder="Min Jackpot" />
-                    </fieldset>
-                    <fieldset>
+                    <!-- </fieldset>
+                    <fieldset> -->
+                        <div class="legend">Max Jackpot: </div>
                         <input id="configuration-currency-jackpot-max-jackpot-value" type="number" placeholder="Max Jackpot" />
-                    </fieldset>
+                    <!-- </fieldset> -->
                 </div>
             </div>
         </div>
