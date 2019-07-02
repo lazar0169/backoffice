@@ -39,10 +39,7 @@ let advanceAccounting = function () {
     let isPerNumberOfHandsSelected = false;
     const secondFilterButton = $$('#management-get-bets-percentage');
     let betsCheckbox = $$('#management-bets-checkbox');
-
-
-
-
+    
     $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
     betsCheckbox.addEventListener('change', function () {

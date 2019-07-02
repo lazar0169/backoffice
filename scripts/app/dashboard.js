@@ -5,6 +5,12 @@ let dashboard = function () {
     let playersWrapper = $$('#dashboard-players-wrapper');
     let filters = $$('#dashboard-players-filter');
     let portalListener;
+    let refreshButton = $$('#refresh-button');
+    refreshButton.addEventListener('click', () => {
+        refreshButton.classList.add('hidden');
+        getDashboard();
+    });
+
     let chart = new Chart($$('#dashboard-pie-chart').getContext('2d'), {
         type: 'pie',
         data: {
@@ -195,22 +201,25 @@ let dashboard = function () {
         let wrapperTable = portalTable.getElementsByTagName('table')[0];
         let input = $$('#dashboard-portals-search');
 
-        input.addEventListener('input', function () {
+        input.oninput = () => {
             search(wrapperTable, input.value);
-        });
+        };
 
-        input.addEventListener('keyup', function (e) {
+        input.onkeyup = (e) => {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
                 search(wrapperTable, '');
             }
-        });
+        };
 
         $$('#dashboard-portals-remove-search').onclick = function () {
             input.value = '';
             search(wrapperTable, '');
         };
 
+        if (wrapperTable.getElementsByTagName('tbody').length !== 0) {
+            wrapperTable.getElementsByTagName('tbody')[0].remove();
+        }
         input.value = '';
         search(wrapperTable, '');
         let body = document.createElement('tbody');
@@ -254,21 +263,24 @@ let dashboard = function () {
     });
 
     function getDashboard() {
-        main.innerHTML = '';
+        if (main.children.length > 1) {
+            main.children[0].remove();
+        }
         addLoader($$('#sidebar-dashboard'));
         trigger('comm/dashboard/get', {
             success: function (response) {
                 removeLoader($$('#sidebar-dashboard'));
                 if (response.responseCode === message.codes.success) {
                     dashboardData = response.result;
-                    main.appendChild(table.generate({
+                    main.insertBefore(table.generate({
                         data: parseData(dashboardData.activities.activities),
                         id: 'dashboard-table',
                         dynamic: false,
                         sticky: true,
                         stickyCol: true
-                    }));
+                    }), main.firstChild);
                     table.preserveHeight(main);
+                    refreshButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }

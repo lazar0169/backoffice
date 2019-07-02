@@ -136,7 +136,7 @@ let operators = function () {
 
             $$('#operator-name').value = '';
             $$('#operators-form-button-wrapper').classList.add('edit');
-            $$('#operators-operator-enabled').checked = false;
+            $$('#operators-operator-enabled').checked = true;
         }
 
         $$('#operators-form-save').onclick = function () {
@@ -204,7 +204,9 @@ let operators = function () {
         }
         portalModal.hide();
         jackpotModal.hide();
-        selectedRow.classList.remove('hover');
+        if(selectedRow){
+            selectedRow.classList.remove('hover');
+        }
         editMode = false;
     }
 

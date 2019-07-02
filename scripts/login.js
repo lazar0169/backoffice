@@ -108,6 +108,9 @@ const login = function () {
                     $$('#login-password').value = '';
                     $$('#login-pin').focus();
                 }
+                else {
+                    trigger('message', response.responseCode);
+                }
             },
             fail: function () {
                 $$('#login-form').classList.remove('disabled');

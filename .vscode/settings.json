@@ -9,6 +9,8 @@
     "css.lint.universalSelector": "warning",
     "html.format.wrapLineLength": 0,
     "cSpell.words": [
-        "Pikaday"
+        "Pikaday",
+        "SPLM",
+        "datepicker"
     ]
 }

@@ -44,6 +44,7 @@ let dropdown = function () {
                     option.children[0].checked = mode;
                 }
                 selected.innerHTML = readCheck(dropdown, placeholder);
+                trigger(`${dropdown.id}/selected`, dropdown.getSelected());
             };
             dropdown.prevCollapsed = true;
 
