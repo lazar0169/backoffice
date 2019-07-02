@@ -136,22 +136,23 @@
     background-color: transparent;
 }
 
-#refresh-button-wrapper{
+#refresh-button-wrapper {
     display: flex;
     justify-content: center;
 }
 
-#refresh-button{
+#refresh-button {
     margin: 1em;
     float: right;
 }
 
-#refresh-button.hidden{
+#refresh-button.hidden {
     display: none;
 }
 
-.refresh-image{
+.refresh-image {
     margin-left: 0.5em;
+    filter: invert(1);
 }
 
 /* MOBILE */
@@ -187,6 +188,6 @@
     margin-left: -2.4em;
 }
 
-.mobile #refresh-button{
+.mobile #refresh-button {
     width: 90%;
 }
