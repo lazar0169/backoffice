@@ -109,7 +109,7 @@ const login = function () {
                     $$('#login-pin').focus();
                 }
                 else {
-                    trigger('message', message.codes.userAlreadyLoggedIn);
+                    trigger('message', response.responseCode);
                 }
             },
             fail: function () {

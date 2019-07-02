@@ -42,11 +42,11 @@
 
 /* SEARCH BAR */
 
-#operators-main-search-wrapper{
+#operators-main-search-wrapper {
     position: absolute;
 }
 
-#operators-main-search-wrapper.hidden{
+#operators-main-search-wrapper.hidden {
     display: none;
 }
 
@@ -166,7 +166,7 @@
 /* Buttons end */
 
 #operators-form {
-    position: absolute;
+    position: fixed;
     width: 35em;
     height: 50em;
     max-height: 100%;
@@ -248,6 +248,7 @@
 #operators-games-wrapper>.select>.selected {
     width: 100%;
 }
+
 /* TODO */
 #operators-form-button-wrapper,
 #operators-form-portal-button-wrapper {
