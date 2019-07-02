@@ -290,16 +290,16 @@ let accounting = function () {
 
         let input = $$('#accounting-setup-search');
 
-        input.addEventListener('input', function () {
+        input.oninput = () => {
             searchOperators(body, input.value);
-        });
+        };
 
-        input.addEventListener('keyup', function (e) {
+        input.onkeyup = (e) => {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
                 searchOperators(body, '');
             }
-        });
+        };
 
         $$('#accounting-setup-remove-search').onclick = function () {
             input.value = '';
