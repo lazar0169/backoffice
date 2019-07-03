@@ -85,7 +85,7 @@
 .currency>.currency-wrapper {
     position: absolute;
     top: 2.3em;
-    width: 33%;
+    width: 100%;
     max-height: 15em;
     overflow: auto;
     background-color: #313c4a;
