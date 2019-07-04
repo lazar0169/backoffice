@@ -608,7 +608,25 @@
     display: table-caption;
 }
 
+
 /* END FORM*/
+
+/* jackpot style */
+#configuration-jackpot>.page-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+#jackpot-get-time{
+    display: flex;
+    align-items: center;
+}
+#jackpot-get-time>button{
+    margin: 1%;
+}
+.jackpot-time-legend{
+    margin: 1%
+}
+/* jackpot end */
 
 /* MOBILE */
 
@@ -644,18 +662,3 @@
     width: 100%;
 }
 
-/* jackpot style */
-#configuration-jackpot>.page-content-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-}
-#jackpot-get-time{
-    display: flex;
-    align-items: center;
-}
-#jackpot-get-time>button{
-    margin: 1%;
-}
-.jackpot-time-legend{
-    margin: 1%
-}
