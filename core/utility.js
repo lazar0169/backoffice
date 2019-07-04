@@ -253,3 +253,11 @@ function convertToNumber(value) {
 function getCopy(data) {
     return JSON.parse(JSON.stringify(data));
 }
+
+function saveBase64(reportName, byte) {
+    var link = document.createElement('a');
+    link.href = byte;
+    var fileName = reportName;
+    link.download = fileName;
+    link.click();
+};

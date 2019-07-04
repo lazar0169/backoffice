@@ -95,14 +95,6 @@ let accounting = function () {
         return headline;
     }
 
-    function saveBase64(reportName, byte) {
-        var link = document.createElement('a');
-        link.href = byte;
-        var fileName = reportName;
-        link.download = fileName;
-        link.click();
-    };
-
     function downloadExcel() {
         addLoader($$('#accounting-reports-download-excel'));
         trigger('comm/accounting/excel/get', {

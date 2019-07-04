@@ -365,6 +365,12 @@
     margin: 2em 0 1.5em 0;
 }
 
+#management-excel-total.hidden,
+#management-excel-portals.hidden,
+#management-excel-players.hidden{
+    display: none;
+}
+
 /* MOBILE */
 
 .mobile #management-total-filter>*,
