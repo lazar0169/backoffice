@@ -42,6 +42,8 @@ let advanceAccounting = function () {
     let selectedRowId = null;
     let isPortalPoupOpened = false;
     let portalsSelected = [];
+    let portalsDataList = undefined
+    let portalGameName = undefined;
 
     let totalData;
     let portalsData;
@@ -683,6 +685,7 @@ let advanceAccounting = function () {
         let isMultiple = undefined;
         if (tab == 'portals') {
             isMultiple = true;
+            portalsDataList = data.result;
         }
         let portalsDropdown = dropdown.generate(data.result, `management-${tab}-portals-list`, 'Select portal', isMultiple);
         $$(`#management-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
@@ -734,36 +737,26 @@ let advanceAccounting = function () {
         players.children[0].style.overflow = 'hidden';
     };
 
-    function showPlayersPopup(rowData, rowId) {
-        if (popupHidden) {
-            hidePopup();
-            return;
-        }
-        popupHidden = !popupHidden;
-        playersFormTable.innerHTML = '';
-        let form = $$(`#players-form`);
-        selectedRowId = rowId;
-        let sumRow = makePlayerGamesSumRow(rowData);
-
-        trigger('comm/management/playerGames/get', {
+    function showPortalPlayerPopup(rowData) {
+        trigger('comm/management/gamePerPlayersOfPortal/get', {
             body: {
-                player: rowData.Player,
+                gameName: portalGameName,
+                portalId: getPortalId(rowData['Portal']),
                 firstPeriod: {
-                    fromTime: playersFirstPeriodFrom,
-                    toTime: playersFirstPeriodTo,
+                    fromTime: portalsFirstPeriodFrom,
+                    toTime: portalsFirstPeriodTo,
                 },
                 secondPeriod: {
-                    fromTime: playersSecondPeriodFrom,
-                    toTime: playersSecondPeriodTo,
+                    fromTime: portalsSecondPeriodFrom,
+                    toTime: portalsSecondPeriodTo,
                 },
             },
             success: function (response) {
+                debugger;
                 if (response.responseCode === message.codes.success) {
-                    playerData = response.result;
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div', sumRow, true);
-                    // highlightRow();
-                    $$('#players-form-title-player-id').innerHTML = rowData.Player;
-                    $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
+                    fillTable(portalFormTable, parseGameData(response.result, `Portal`), undefined, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    $$('#portals-form-title-game-id').innerHTML = rowData.Player;
+                    // $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -773,57 +766,14 @@ let advanceAccounting = function () {
             }
         });
 
-        $$('#players-black-overlay').style.display = 'block';
-        form.classList.add('show');
-        players.children[0].style.overflow = 'hidden';
     };
-
-    // let portalPopup = function () {
-    //     const cancelButton = $$('#portals-form-cancel');
-    //     let from = $$('#accounting-setup-tax-from');
-    //     let to = $$('#accounting-setup-tax-to');
-    //     let fee = $$('#accounting-setup-tax-fee');
-    //     let wrapper = $$('#accounting-setup-form-tax-button-wrapper');
-    //     $$('#accounting-setup-form-tax-button-wrapper').classList[taxEditMode ? 'add' : 'remove']('edit');
-
-    //     function show(element, index) {
-    //         if (taxEditMode) {
-    //             element = getCopy(element);
-    //             from.value = index === 0 ? 0 : element.stepFrom;
-    //             to.value = element.stepTo;
-    //             fee.set(Number(element.fee));
-    //             wrapper.classList.add('edit');
-    //             console.log(element, index);
-    //         } else {
-    //             from.value = operatorData.scaledTax.length === 0 ? 0 : Number(operatorData.scaledTax[operatorData.scaledTax.length - 1].stepTo) + 0.01;
-    //             to.value = '';
-    //             fee.set(0);
-    //             wrapper.classList.remove('edit');
-    //         }
-
-    //         modal.classList.add('show');
-
-    //     }
-
-    //     cancelButton.addEventListener('click', hide);
-
-    //     function hide() {
-    //         taxEditMode = false;
-    //         modal.classList.remove('show');
-    //     }
-
-    //     return {
-    //         show: show,
-    //         hide: hide,
-    //     }
-    // }();
 
     function showPortalPopup(rowData) {
         portalFormTable.innerHTML = '';
-
+        portalGameName = rowData['Game'];
         trigger('comm/management/gamePerPortal/get', {
             body: {
-                gameName: rowData['Game'],
+                gameName: portalGameName,
                 portals: portalsSelected,
                 firstPeriod: {
                     fromTime: portalsFirstPeriodFrom,
@@ -836,8 +786,7 @@ let advanceAccounting = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    playerData = response.result;
-                    fillTable(portalFormTable, parseGameData(response.result, `Portal`), undefined, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalFormTable, parseGameData(response.result, `Portal`), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-form-title-game-id').innerHTML = rowData.Player;
                     // $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                 } else {
@@ -919,6 +868,16 @@ let advanceAccounting = function () {
     //     }
     // };
 
+    function getPortalId(portalName) {
+        debugger;
+        let realPortalName = portalName.substring(portalName.indexOf('-') + 1, portalName.length);
+        for (let portal of portalsDataList) {
+            if (portal.name === realPortalName) {
+                return portal.id;
+            }
+        }
+    }
+
     function makePlayerGamesSumRow(data) {
         let sumObject = {};
         sumObject['Game'] = 'SUM';
@@ -938,7 +897,7 @@ let advanceAccounting = function () {
         return sumData;
     };
 
-    function getPortalSumData(data, firstColName){
+    function getPortalSumData(data, firstColName) {
         let sumData = {};
         sumData[`${firstColName}`] = 'SUM';
         for (let element in data.managementItemsSum) {
