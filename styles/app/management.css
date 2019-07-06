@@ -365,11 +365,77 @@
     margin: 2em 0 1.5em 0;
 }
 
+#players-form-download-excel{
+    position: relative;
+    width: 9em;
+    height: 3em;
+    align-self: center;
+    margin-right: 1em;
+}
+
 #management-excel-total.hidden,
 #management-excel-portals.hidden,
 #management-excel-players.hidden{
     display: none;
 }
+
+/* PORTAL POPUP */
+
+#portals-form.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+#portals-form {
+    position: fixed;
+    width: 35em;
+    height: 35em;
+    max-height: 100%;
+    align-self: center;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.portals-form-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.portals-form-title {
+    display: flex;
+}
+
+.portals-form-title{
+    display: flex;
+}
+
+#protals-black-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+/* PORTAL POPUP END */
 
 /* MOBILE */
 
