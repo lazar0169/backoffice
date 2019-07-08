@@ -8,19 +8,23 @@
                 <input type="text" id="management-portals-first-period-time-span-from" class="datepicker" readonly>
                 <input type="text" id="management-portals-first-period-time-span-to" class="datepicker" readonly>
             </fieldset>
-            <fieldset>
+            <fieldset id="management-portals-second-period-wrapper">
                 <div class="legend">Second Period: </div>
                 <input type="text" id="management-portals-second-period-time-span-from" class="datepicker" readonly>
                 <input type="text" id="management-portals-second-period-time-span-to" class="datepicker" readonly>
             </fieldset>
+            <div class="management-period-checkbox-wrapper">
+                <input id="management-portals-period-checkbox" type="checkbox">
+                <label for="management-portals-period-checkbox">Second Period</label>
+            </div>
             <button id="management-get-portals" class="hidden">GET</button>
             <button id="management-excel-portals" class="save">GET EXCEL</button>
         </div>
 
-        <div id="portals-black-overlay"></div>
         <div id="management-portals-table"></div>
+        <div id="portals-black-overlay"></div>
         <div id="portals-form">
-            <div class="portals-form-wrapper">
+            <div class="portals-form-wrapper" id="protals-portal-from">
                 <div class="portals-form-title">
                     <h2>Game details</h2>
                     <h2 id='portals-form-title-game-id'></h2>
@@ -29,10 +33,8 @@
                 </div>
 
                 <div id="portals-form-table"></div>
-                <h3 id="portals-form-title-game-caption-mobile">Portals :</h3>
-                <h3 id='portals-form-title-game-id-mobile'></h3>
             </div>
-            <div class="portals-form-wrapper">
+            <div class="portals-form-wrapper" id="portals-player-from">
                 <div class="portals-form-title">
                     <h2>Player details</h2>
                     <h2 id='portals-player-form-title-player-id'></h2>
@@ -41,8 +43,6 @@
                 </div>
 
                 <div id="portals-player-form-table"></div>
-                <h3 id="portals-player-form-title-player-caption-mobile">Players :</h3>
-                <h3 id='portals-player-form-title-player-id-mobile'></h3>
             </div>
         </div>
     </div>
