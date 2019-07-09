@@ -424,6 +424,7 @@ fieldset.hidden{
     pointer-events: none;
     overflow: hidden;
     transition: transform 0.3s, opacity 0.3s;
+    z-index: 2;
 }
 
 .portals-form-wrapper {
@@ -470,11 +471,16 @@ fieldset.hidden{
     transform: translate3d(0, 0, 0);
 }
 
-/* #portals-form-cancel {
-    position: relative;
-    width: 3em;
-    height: 3em;
-} */
+.portals-form-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.management-title-form-wrapper,
+.management-form-buttons-wrapper{
+    display: flex;
+}
 
 #portals-player-form-back,
 #portals-player-form-download-excel,

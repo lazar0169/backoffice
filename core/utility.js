@@ -154,16 +154,21 @@ function clearElement(element) {
 }
 
 function transformCamelToRegular(string) {
-    let exceptions = [
-        'ggr',
-        'ngr',
-        'vat',
-        'MTD',
-        'SPLM'
-    ];
+    let exceptions = {
+        ggr: 'GGR',
+        ngr: 'NGR',
+        vat: 'VAT',
+        MTD: 'MTD',
+        SPLM: 'SPLM',
+        ggrFirst: 'GGR First',
+        ggrSecond: 'GGR Second',
+        ggrDifference: 'GGR Difference',
+        ggrTrend: 'GGR Trend'
+    };
+
     string = string.toString();
-    if (exceptions.includes(string)) {
-        return string.toUpperCase();
+    if (Object.keys(exceptions).includes(string)) {
+        return exceptions[`${string}`];
     } else {
         return string
             // insert a space before all caps

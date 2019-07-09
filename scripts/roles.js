@@ -18,7 +18,6 @@ let roles = function () {
         ],
         'Accounting': [
             '#sidebar-operators',
-            '#accounting-navbar-setup',
             '#configuration-actions',
             '#configuration-roles',
         ]

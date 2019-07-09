@@ -50,13 +50,14 @@ let advanceAccounting = function () {
     let portalsSelected = [];
     let portalsDataList = undefined
     let portalGameName = undefined;
+    let activeCategory = undefined;
 
     let totalData;
     let portalsData;
     let playersData;
     let playerData;
-    let portalFromData;
-    let portalPlayerFromData;
+    let portalFormData;
+    let portalPlayerFormData;
 
     let isPerNumberOfHandsSelected = false;
     const secondFilterButton = $$('#management-get-bets-percentage');
@@ -442,7 +443,8 @@ let advanceAccounting = function () {
             body: {
                 managementResult: totalData,
                 fileName: 'TotalPerGame',
-                itemType: 'game'
+                itemType: 'game',
+                singleOrCompared: !mainCheckbox.checked
             },
             success: function (response) {
                 removeLoader(getTotalExcelButton);
@@ -464,7 +466,8 @@ let advanceAccounting = function () {
             body: {
                 managementResult: portalsData,
                 fileName: 'PortalPerGame',
-                itemType: 'game'
+                itemType: 'game',
+                singleOrCompared: !portalCheckbox.checked
             },
             success: function (response) {
                 removeLoader(getPortalsExcelButton);
@@ -486,7 +489,8 @@ let advanceAccounting = function () {
             body: {
                 managementResult: playersData,
                 fileName: 'PlayersOfPortal',
-                itemType: 'player'
+                itemType: 'player',
+                singleOrCompared: !playerCheckbox.checked
             },
             success: function (response) {
                 removeLoader(getPlayersExcelButton);
@@ -508,7 +512,8 @@ let advanceAccounting = function () {
             body: {
                 managementResult: playerData,
                 fileName: 'PlayerPerGame',
-                itemType: 'player'
+                itemType: 'player',
+                singleOrCompared: !playerCheckbox.checked
             },
             success: function (response) {
                 removeLoader(getPlayerExcelButton);
@@ -528,9 +533,10 @@ let advanceAccounting = function () {
         addLoader(getPortalsFormExcelButton);
         trigger('comm/management/excel/get', {
             body: {
-                managementResult: portalFromData,
+                managementResult: portalFormData,
                 fileName: 'GamePerPortal',
-                itemType: 'game'
+                itemType: 'portal',
+                singleOrCompared: !portalCheckbox.checked
             },
             success: function (response) {
                 removeLoader(getPortalsFormExcelButton);
@@ -550,9 +556,10 @@ let advanceAccounting = function () {
         addLoader(getPortalsPlayersFormExcelButton);
         trigger('comm/management/excel/get', {
             body: {
-                managementResult: portalPlayerFromData,
+                managementResult: portalPlayerFormData,
                 fileName: 'GamePerPlayersOfPortal',
-                itemType: 'player'
+                itemType: 'player',
+                singleOrCompared: !portalCheckbox.checked
             },
             success: function (response) {
                 removeLoader(getPortalsPlayersFormExcelButton);
@@ -568,11 +575,30 @@ let advanceAccounting = function () {
         });
     };
 
+    on('currency/management', function () {
+        switch (activeCategory) {
+            case 'main':
+                getTotalPerGame();
+                break;
+            case 'portals':
+                getPortalsPerGame();
+                break;
+            case 'players':
+                getPlayersOfPortal();
+                break;
+            case 'bets':
+                getBetsOfPortal();
+                break;
+            default: return;
+        }
+    });
+
     on('management/main/loaded', function () {
         mainTable.innerHTML = '';
         mainTable.classList.add('hidden');
         getTotalExcelButton.classList.add('hidden');
         $$('#management-main-second-period-wrapper').classList.add('hidden');
+        activeCategory = `main`;
     });
 
     on('management/portals/loaded', function () {
@@ -583,6 +609,7 @@ let advanceAccounting = function () {
         clearElement($$('#management-portals-operators-list'));
         clearElement($$('#management-portals-portals-list'));
         $$('#management-get-portals').classList.add('hidden');
+        activeCategory = `portals`;
 
         addLoader($$('#sidebar-management'));
 
@@ -619,6 +646,7 @@ let advanceAccounting = function () {
         clearElement($$('#management-players-operators-list'));
         clearElement($$('#management-players-portals-list'));
         $$('#management-get-players').classList.add('hidden');
+        activeCategory = `players`;
 
         addLoader($$('#sidebar-management'));
 
@@ -652,6 +680,7 @@ let advanceAccounting = function () {
         betsResult = [];
         clearElement($$('#management-bets-operators-list'));
         clearElement($$('#management-bets-portals-list'));
+        activeCategory = `bets`;
 
         $$('#switch-and-search-wrapper').classList.add('hidden');
         $$('#bets-second-filter').classList.add('hidden');
@@ -775,10 +804,10 @@ let advanceAccounting = function () {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
                 },
-                secondPeriod: {
+                secondPeriod: !playerCheckbox ? {
                     fromTime: playersSecondPeriodFrom,
                     toTime: playersSecondPeriodTo,
-                },
+                } : null,
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
@@ -802,6 +831,9 @@ let advanceAccounting = function () {
     };
 
     function showPortalPlayerPopup(rowData) {
+        if (rowData['Portal'] === 'SUM') {
+            return;
+        }
         $$('#portals-player-from').classList.add('show');
         portalPlayerFormTable.innerHTML = '';
         trigger('comm/management/gamePerPlayersOfPortal/get', {
@@ -812,14 +844,14 @@ let advanceAccounting = function () {
                     fromTime: portalsFirstPeriodFrom,
                     toTime: portalsFirstPeriodTo,
                 },
-                secondPeriod: {
+                secondPeriod: portalCheckbox.checked ? {
                     fromTime: portalsSecondPeriodFrom,
                     toTime: portalsSecondPeriodTo,
-                },
+                } : null,
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    portalPlayerFromData = response.result;
+                    portalPlayerFormData = response.result;
                     fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-player-form-title-player-id').innerHTML = rowData['Portal'];
                 } else {
@@ -844,14 +876,14 @@ let advanceAccounting = function () {
                     fromTime: portalsFirstPeriodFrom,
                     toTime: portalsFirstPeriodTo,
                 },
-                secondPeriod: {
+                secondPeriod: portalCheckbox.checked ? {
                     fromTime: portalsSecondPeriodFrom,
                     toTime: portalsSecondPeriodTo,
-                },
+                } : null,
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    portalFromData = response.result;
+                    portalFormData = response.result;
                     fillTable(portalFormTable, parseGameData(response.result, `Portal`), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
                 } else {
