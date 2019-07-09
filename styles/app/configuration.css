@@ -616,11 +616,12 @@
     display: flex;
     flex-wrap: wrap;
 }
-#jackpot-get-time{
+.jackpot-get-time{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
-#jackpot-get-time>button{
+.jackpot-get-time>button{
     margin: 1%;
 }
 .jackpot-time-legend{
