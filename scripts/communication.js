@@ -97,6 +97,11 @@ let comm = function () {
         'comm/configuration/profile/get': '/Settings/GetProfile',
         'comm/configuration/profile/edit': '/Settings/UpdateProfile',
         'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
+
+        'comm/configuration/jackpot/portal/get':'/Jackpot/GetJackpotSettingsForPortal',
+        'comm/configuration/jackpot/active/get':'/Jackpot/GetActiveJackpots',
+        'comm/configuration/jackpot/activefromtime/get':'/Jackpot/GetJackpotsFromPeriod',
+
     };
 
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;

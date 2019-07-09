@@ -158,7 +158,7 @@ let configuration = function () {
             if (betGroupEditMode) {
                 activeData[activeElementIndex][activeElementDataName][index].eurBetStep = parseFloat(eur.value);
                 activeData[activeElementIndex][activeElementDataName][index].currencyBetStep = parseFloat(curr.value);
-                let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index+1];
+                let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
                 rowChanged.children[1].innerHTML = `${eur.value}`;
                 rowChanged.children[3].innerHTML = `${curr.value}`;
             }
@@ -399,7 +399,7 @@ let configuration = function () {
                                     }
                                     originalCurrencyData = response.result;
                                     showCurrencyView(response.result);
-                                    
+
                                 }
                                 trigger('message', response.responseCode);
                                 removeLoader(tr);
@@ -881,7 +881,38 @@ let configuration = function () {
         });
     });
 
+    on('configuration/jackpot/loaded', function(){
+        getActiveJackpots();
+    });
 
     $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
     $$('#configuration-currency-form-cancel').addEventListener('click', hideCurrencyModal);
 }();
+
+//activeJackpot table
+let activeJackpotData;
+function getActiveJackpots() {
+    trigger('comm/configuration/jackpot/active/get', {
+        success: function (response) {
+            if (response.responseCode === 1000) {
+                activeJackpotData = response.result;
+                $$('#activeJackpotTable').innerHTML = '';
+                $$('#activeJackpotTable').appendChild(table.generate({
+                    data: activeJackpotData,
+                    id: 'activeJackpotTable',
+                    dynamic: false,
+                    sticky: true,
+                    stickyCol: true
+                }));
+                table.preserveHeight($$('#activeJackpotTable'));
+            } else {
+                trigger('message', response.responseCode);
+            }
+
+        },
+        fail: function () {
+            alert('Something went wrong');
+        }
+
+    });
+}
