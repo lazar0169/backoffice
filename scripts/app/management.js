@@ -581,13 +581,19 @@ let advanceAccounting = function () {
                 getTotalPerGame();
                 break;
             case 'portals':
-                getPortalsPerGame();
+                if ($$('#management-portals-portals-list')) {
+                    getPortalsPerGame();
+                }
                 break;
             case 'players':
-                getPlayersOfPortal();
+                if ($$('#management-players-portals-list')) {
+                    getPlayersOfPortal();
+                }
                 break;
             case 'bets':
-                getBetsOfPortal();
+                if ($$('#management-bets-portals-list')) {
+                    getBetsOfPortal();
+                }
                 break;
             default: return;
         }
