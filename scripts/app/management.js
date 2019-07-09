@@ -113,11 +113,11 @@ let advanceAccounting = function () {
         }
     };
 
-    $$('#management-wanted-percentage').addEventListener('keydown', function (e) {
-        if (((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) && e.keyCode !== 190 && e.keyCode !== 8) {
-            e.preventDefault();
-        }
-    });
+    // $$('#management-wanted-percentage').addEventListener('keydown', function (e) {
+    //     if (((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) && e.keyCode !== 190 && e.keyCode !== 8) {
+    //         e.preventDefault();
+    //     }
+    // });
 
     function addGameToList(event) {
         const gameIndex = checkedGames.indexOf(event.target.innerHTML);
@@ -129,7 +129,7 @@ let advanceAccounting = function () {
             data: data,
             id: tableName,
             sum: sum,
-            // sticky: true,
+            sticky: true,
             stickyCol: false,
             options: {
                 onClick: callback
@@ -421,7 +421,7 @@ let advanceAccounting = function () {
         trigger('comm/management/RecommendBetLimit/get', {
             body: {
                 betRangesItems: selectedGames,
-                wantedPercentage: $$('#management-wanted-percentage').value,
+                wantedPercentage: $$('#management-wanted-percentage').get(),
             },
             success: function (response) {
                 removeLoader(secondFilterButton);

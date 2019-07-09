@@ -31,7 +31,7 @@
 #management-main-table,
 #management-portals-table,
 #management-players-table{
-    height: 92%;
+    height: 75%;
     margin-top: 1.5em
 }
 
@@ -294,7 +294,7 @@
 
 #management-bets-table-wrapper {
     overflow: auto;
-    max-height: 66%;
+    max-height: 60%;
     margin-top: 1.5em;
 }
 
