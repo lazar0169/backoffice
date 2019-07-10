@@ -113,12 +113,6 @@ let advanceAccounting = function () {
         }
     };
 
-    // $$('#management-wanted-percentage').addEventListener('keydown', function (e) {
-    //     if (((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) && e.keyCode !== 190 && e.keyCode !== 8) {
-    //         e.preventDefault();
-    //     }
-    // });
-
     function addGameToList(event) {
         const gameIndex = checkedGames.indexOf(event.target.innerHTML);
         gameIndex === -1 ? checkedGames.push(event.target.innerHTML) : checkedGames.splice(gameIndex, 1);
@@ -819,7 +813,6 @@ let advanceAccounting = function () {
                 if (response.responseCode === message.codes.success) {
                     playerData = response.result;
                     fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div', sumRow, true);
-                    // highlightRow();
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
                     $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                 } else {
@@ -933,7 +926,6 @@ let advanceAccounting = function () {
         $$('#players-form').classList.remove('show');
         players.children[0].style.overflow = 'auto';
         popupHidden = !popupHidden;
-        // removeHighlightRow();
     };
 
     function searchGames(element, term) {
@@ -952,28 +944,6 @@ let advanceAccounting = function () {
             tableRow.collapsed = true;
         }
     };
-
-    // function highlightRow() {
-    //     if (!selectedRowId) {
-    //         return;
-    //     }
-
-    //     let columns = $$(`.row-${selectedRowId}`);
-    //     for (let column of columns) {
-    //         column.classList.add('hover');
-    //     }
-    // };
-
-    // function removeHighlightRow() {
-    //     if (!selectedRowId) {
-    //         return;
-    //     }
-
-    //     let columns = $$(`.row-${selectedRowId}`);
-    //     for (let column of columns) {
-    //         column.classList.remove('hover');
-    //     }
-    // };
 
     function getPortalId(portalName) {
         let realPortalName = portalName.substring(portalName.indexOf('-') + 1, portalName.length);
