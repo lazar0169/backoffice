@@ -7,6 +7,7 @@ let roles = function () {
         ],
         'Manager': [
             '#sidebar-operators',
+            '#sidebar-management',
             '#accounting-navbar-setup',
             '#accounting-reports-download-excel',
             '#accounting-reports-bonus-rate',
@@ -17,7 +18,6 @@ let roles = function () {
         ],
         'Accounting': [
             '#sidebar-operators',
-            '#accounting-navbar-setup',
             '#configuration-actions',
             '#configuration-roles',
         ]
