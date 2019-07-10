@@ -253,3 +253,12 @@ function convertToNumber(value) {
 function getCopy(data) {
     return JSON.parse(JSON.stringify(data));
 }
+
+Object.prototype.isEmpty = function () {
+    for (let prop in this) {
+        if (this.hasOwnProperty(prop)) {
+            return false;
+        }
+    }
+    return true;
+}
