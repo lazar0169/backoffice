@@ -276,8 +276,6 @@ let operators = function () {
                 $$('#operators-form-portal-save').onclick = function () {
                     if (!gameLaunchURL.value ||
                         !integrationTypeWrapper.children[0].getSelected() ||
-                        !userName.value ||
-                        !password.value ||
                         !warningActiveCredit.value ||
                         !blockingActiveCredit.value ||
                         !operatorsCurrencyWrapper.children[0].children[0].dataset.value) {
