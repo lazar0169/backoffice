@@ -1,7 +1,7 @@
 {
     "development": true,
     "local": false,
-    "api": "http://backofficef1api.fazi.rs",
-    "port": 80,
+    "api": "http://192.168.88.219",
+    "port": 8885,
     "obfuscate": false
 }
