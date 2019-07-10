@@ -31,7 +31,7 @@
 #management-main-table,
 #management-portals-table,
 #management-players-table{
-    height: 92%;
+    height: 75%;
     margin-top: 1.5em
 }
 
@@ -294,7 +294,7 @@
 
 #management-bets-table-wrapper {
     overflow: auto;
-    max-height: 66%;
+    max-height: 60%;
     margin-top: 1.5em;
 }
 
@@ -364,6 +364,171 @@
     width: 100%;
     margin: 2em 0 1.5em 0;
 }
+
+#players-form-download-excel{
+    position: relative;
+    width: 9em;
+    height: 3em;
+    align-self: center;
+    margin-right: 1em;
+}
+
+#management-excel-total.hidden,
+#management-excel-portals.hidden,
+#management-excel-players.hidden{
+    display: none;
+}
+
+.management-period-checkbox-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    margin: 2em 0 1.5em 0;
+}
+
+/* #management-main-second-period-wrapper.hidden,
+#management-portals-second-period-wrapper.hidden,
+#management-players-second-period-wrapper.hidden{
+    display: hidden !important;
+} */
+
+fieldset.hidden{
+    display: none !important;
+}
+
+/* PORTAL POPUP */
+
+#portals-form.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+#portals-form {
+    position: fixed;
+    width: 80em;
+    height: 45em;
+    max-height: 100%;
+    top: 0;
+    right: 0;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    align-self: center;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+    z-index: 2;
+}
+
+.portals-form-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.portals-form-title {
+    display: flex;
+}
+
+.portals-form-title{
+    display: flex;
+}
+
+#portals-black-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+}
+
+#portals-player-from{
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+    z-index: 2;
+}
+
+#portals-player-from.show{
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+.portals-form-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.management-title-form-wrapper,
+.management-form-buttons-wrapper{
+    display: flex;
+}
+
+#portals-player-form-back,
+#portals-player-form-download-excel,
+#portals-form-download-excel,
+#portals-form-cancel{
+    height: 3.5em;
+    width: 5em;
+    margin: 0.5em;
+    position: relative;
+}
+
+#portals-form-cancel::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+#portals-form-cancel::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+#portals-form-title-game-id{
+    margin: 0.5em;
+}
+
+.portals-form-title h2{
+    margin: 0.5em;
+}
+
+/* PORTAL POPUP END */
 
 /* MOBILE */
 

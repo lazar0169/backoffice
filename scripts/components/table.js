@@ -16,11 +16,9 @@ let table = function () {
 
         function fixHeight(element) {
             for (let table of element.getElementsByClassName('table')) {
-                let rowCount = table.props.rowsCount;
-                if (rowCount < (isMobile() ? 8 : 14)) {
-                    table.style.height = table.children[0].clientHeight + (table.children[0].clientWidth > table.clientWidth ? 20 : 0) + 'px';
-                } else {
-                    table.style.height = '400px';
+                let rowCount = table.props.perPage || table.props.rowCount;
+                if (rowCount > (isMobile() ? 8 : 14)) {
+                    table.children[0].style.height = '400px';
                 }
             }
         }
@@ -33,23 +31,26 @@ let table = function () {
         params.stickyCol = params.stickyCol || false;
         params.headHidden = params.headHidden || false;
         params.sum = params.sum || false;
+        params.perPage = params.perPage ? params.data.length < params.perPage ? params.data.length : params.perPage : params.data.length;
+        params.page = params.page || 0;
         params.options = params.options || {};
 
         if (!params.data || params.data.length === 0) {
-            console.error('Failed to generate table! Invalid object passed!');
+            console.error('Failed to generate table', params);
             let obj = document.createElement('template');
             return obj;
         }
 
         let colsCount = Object.keys(params.data[0]).length;
         let tbody = document.createElement('div');
+        let pagination = document.createElement('div');
         let gridTemplateColumns = '';
         let gridTemplateRows = '';
         let numberOfRows = 0;
         for (let fr = 0; fr < colsCount; fr++) {
             gridTemplateColumns += '1fr ';
         }
-        for (let fr = params.headHidden ? 1 : 0; fr < params.data.length + 1; fr++) {
+        for (let fr = params.headHidden ? 1 : 0; fr < (params.perPage + 1 || params.data.length + 1); fr++) {
             numberOfRows++;
             gridTemplateRows += '1fr ';
         }
@@ -57,6 +58,7 @@ let table = function () {
         tbody.style.gridTemplateRows = `${gridTemplateRows}`;
         tbody.id = params.id;
         tbody.className = 'tbody';
+        pagination.className = 'pagination';
 
         let hiddenCols = {};
         let colIds = [];
@@ -67,6 +69,7 @@ let table = function () {
         t.props = {
             id: params.id,
             body: tbody,
+            pagination: pagination,
             data: params.data,
             colsCount: colsCount,
             rowsCount: numberOfRows,
@@ -76,6 +79,9 @@ let table = function () {
             sticky: params.sticky,
             stickyCol: params.stickyCol,
             options: params.options,
+            perPage: params.perPage,
+            page: params.page,
+            pageCount: Math.ceil(params.data.length / params.perPage),
             headers: [],
             gridTemplateColumns: gridTemplateColumns,
             gridTemplateRows: gridTemplateRows
@@ -86,6 +92,7 @@ let table = function () {
         };
 
         t.appendChild(tbody);
+        t.appendChild(pagination);
 
         t.getHiddenCols = function () {
             return hiddenCols;
@@ -95,13 +102,18 @@ let table = function () {
             return;
         };
 
-        t.update = function (data) {
+        t.update = function (data, reset = false) {
             let table = t;
+            if (data === undefined) {
+                data = table.props.data;
+            }
+            table.pageCount = Math.ceil(data.length / table.props.perPage);
             let gridTemplateRowsNew = '';
-            for (let fr = 0; fr < data.length + 1; fr++) {
+            for (let fr = 0; fr < (table.props.perPage + 1 || data.length + 1); fr++) {
                 gridTemplateRowsNew += '1fr ';
             }
             table.props.body.style.gridTemplateRows = `${gridTemplateRowsNew}`;
+            if (reset) setPage(0, table);
             generateBody(data, table);
         };
 
@@ -115,8 +127,17 @@ let table = function () {
                     return a[col] > b[col] ? order ? 1 : -1 : order ? -1 : 1;
                 }
             });
-            table.update(table.props.data);
+            setPage(0, table);
+            table.update();
         };
+
+        t.goToPage = function (pageNumber) {
+            let table = t;
+            if (pageNumber < table.props.pageCount) {
+                setPage(pageNumber, table);
+                table.update();
+            }
+        }
 
         t.showCol = function (id) {
             if (!hiddenCols[id]) return;
@@ -178,28 +199,32 @@ let table = function () {
         }
 
         generateBody(params.data, t);
+        setPage(0, t);
 
         function generateBody(data, table) {
             while (table.props.body.children.length > table.props.colsCount) {
                 table.props.body.children[table.props.body.children.length - 1].remove();
             }
+            generatePagination(table);
             table.props.data = getCopy(data);
             if (table.props.sum) {
                 data.push(table.props.sum);
             }
-            for (let row = 0; row < data.length; row++) {
+            for (let row = table.props.page * table.props.perPage; row < (table.props.page + 1) * table.props.perPage; row++) {
                 let rowId = generateGuid();
                 for (let col = 0; col < colsCount; col++) {
                     let cell = document.createElement('div');
-                    let value = data[row][Object.keys(data[row])[col]];
+                    let value = '';
+                    if (data[row] === undefined) continue;
+                    value = data[row][Object.keys(data[row])[col]];
                     // options
                     let suffix = '';
                     let prefix = '';
                     if (table.props.options.suffix && table.props.options.suffix.text && table.props.options.suffix.col === Object.keys(params.data[row])[col]) {
-                        suffix = table.props.options.suffix.condition.test(convertToNumber(data[row][Object.keys(data[row])[col]])) ? options.suffix.text : '';
+                        suffix = table.props.options.suffix.condition.test(convertToNumber(value)) ? options.suffix.text : '';
                     }
                     if (table.props.options.prefix && table.props.options.prefix.text && table.props.options.prefix.col === Object.keys(data[row])[col]) {
-                        prefix = table.props.options.prefix.condition.test(convertToNumber(data[row][Object.keys(data[row])[col]])) ? table.props.options.prefix.text : '';
+                        prefix = table.props.options.prefix.condition.test(convertToNumber(value)) ? table.props.options.prefix.text : '';
                     }
                     if (table.props.options.onClick) {
                         cell.onclick = () => {
@@ -238,6 +263,32 @@ let table = function () {
             for (let element of document.getElementsByClassName(elements)) { element.classList[highlight ? "add" : "remove"]('hover'); }
         }
 
+        function generatePagination(table) {
+            table.props.pagination.innerHTML = '';
+            if (table.props.pageCount > 1) {
+                for (let i = 0; i < table.props.pageCount; ++i) {
+                    let page = document.createElement('a');
+                    page.innerText = i + 1;
+                    page.className = 'pagination-page';
+                    page.onclick = function () {
+                        table.goToPage(i);
+                    }
+                    table.props.pagination.appendChild(page);
+                }
+                setPage(table.props.page, table);
+            }
+        }
+
+        function setPage(page, table) {
+            let pagination = table.getElementsByClassName('pagination')[0];
+            for (let page of pagination.children) {
+                page.classList.remove('active');
+            }
+            if (table.props.pageCount > 1) {
+                pagination.children[page].classList.add('active');
+            }
+            table.props.page = page;
+        }
         return t;
     }
 

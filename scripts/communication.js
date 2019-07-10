@@ -57,11 +57,14 @@ let comm = function () {
 
         // Management
         'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
-        'comm/management/portalsPerGame/get': '/Management/GetPortalPerGame',
+        'comm/management/portalsPerGame/get': '/Management/GetPortalsPerGame',
+        'comm/management/gamePerPortal/get': '/Management/GetGamePerPortal',
+        'comm/management/gamePerPlayersOfPortal/get': '/Management/GetGamePerPlayersOfPortal',
         'comm/management/playersOfGame/get': '/Management/GetPlayersOfPortal',
         'comm/management/betsOfGame/get': '/Management/GetBetsOfPortal',
         'comm/management/RecommendBetLimit/get': '/Management/RecommendBetLimit',
         'comm/management/playerGames/get': '/Management/GetPlayerPerGame',
+        'comm/management/excel/get': '/Management/ToExcel',
 
         // Operators
         'comm/operators/get': '/Operator/GetOperators',

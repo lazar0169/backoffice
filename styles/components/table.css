@@ -1,7 +1,8 @@
 .table {
-    overflow: auto;
+    overflow: hidden;
+    display: contents;
     position: relative;
-    height: 400px;
+    flex-direction: column;
     width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -85,10 +86,10 @@
 
 .tbody {
     display: grid;
-    position: absolute;
-    min-width: 100%;
+    width: 100%;
     top: 0;
     left: 0;
+    overflow: auto;
 }
 
 .remove-btn {
@@ -138,6 +139,36 @@
 
 .remove-btn:active {
     transform: scale3d(0.9, 0.9, 0.9);
+}
+
+.pagination {
+    display: flex;
+    margin-top: 1em;
+    width: 100%;
+    overflow: auto;
+}
+
+.pagination>.pagination-page {
+    background-color: #313c4a;
+    padding: 0.5em 1em;
+    margin: 0 1px;
+}
+
+.pagination>.pagination-page:active {
+    filter: brightness(1.3);
+}
+
+.pagination>.pagination-page:hover {
+    background-color: #2d3844;
+    cursor: pointer;
+}
+
+.pagination>.pagination-page {
+    margin-left: 0;
+}
+
+.pagination>.pagination-page.active {
+    background-color: #259063;
 }
 
 table {

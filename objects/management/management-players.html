@@ -8,23 +8,29 @@
                 <input type="text" id="management-players-first-period-time-span-from" class="datepicker" readonly>
                 <input type="text" id="management-players-first-period-time-span-to" class="datepicker" readonly>
             </fieldset>
-            <fieldset>
+            <fieldset id="management-players-second-period-wrapper">
                 <div class="legend">Second Period: </div>
                 <input type="text" id="management-players-second-period-time-span-from" class="datepicker" readonly>
                 <input type="text" id="management-players-second-period-time-span-to" class="datepicker" readonly>
             </fieldset>
+            <div class="management-period-checkbox-wrapper">
+                <input id="management-players-period-checkbox" type="checkbox">
+                <label for="management-players-period-checkbox">Second Period</label>
+            </div>
             <button id="management-get-players">GET</button>
+            <button id="management-excel-players" class="save">GET EXCEL</button>
         </div>
 
 
 
-        <div id="management-players-table" class="hidden"></div>
         <div id="players-black-overlay"></div>
+        <div id="management-players-table" class="hidden"></div>
         <div id="players-form">
             <div class="players-form-wrapper">
                 <div class="players-form-title">
                     <h2>Player details</h2>
                     <h2 id='players-form-title-player-id'></h2>
+                    <button class="save" id="players-form-download-excel">GET EXCEL</button>
                     <button class="config" id="players-form-cancel"></button>
                 </div>
 
