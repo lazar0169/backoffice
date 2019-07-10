@@ -200,6 +200,8 @@ let statisticCompared = function () {
                     comparedTableWrapper.appendChild(headerPayout);
                     comparedTableWrapper.appendChild(tablePayout);
 
+                    table.preserveHeight(comparedTableWrapper);
+
                     tableBet.onChange = function () {
                         hiddenBet = tableBet.getHiddenCols();
                         $$('#compared-disabled-games-bet').innerHTML = '';
