@@ -907,7 +907,38 @@ let configuration = function () {
         });
     });
 
+    on('configuration/jackpot/loaded', function(){
+        getActiveJackpots();
+    });
 
     $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
     $$('#configuration-currency-form-cancel').addEventListener('click', hideCurrencyModal);
 }();
+
+//activeJackpot table
+let activeJackpotData;
+function getActiveJackpots() {
+    trigger('comm/configuration/jackpot/active/get', {
+        success: function (response) {
+            if (response.responseCode === 1000) {
+                activeJackpotData = response.result;
+                $$('#activeJackpotTable').innerHTML = '';
+                $$('#activeJackpotTable').appendChild(table.generate({
+                    data: activeJackpotData,
+                    id: 'activeJackpotTable',
+                    dynamic: false,
+                    sticky: true,
+                    stickyCol: true
+                }));
+                table.preserveHeight($$('#activeJackpotTable'));
+            } else {
+                trigger('message', response.responseCode);
+            }
+
+        },
+        fail: function () {
+            alert('Something went wrong');
+        }
+
+    });
+}
