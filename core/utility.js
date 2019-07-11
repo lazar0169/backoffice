@@ -259,14 +259,18 @@ function getCopy(data) {
     return JSON.parse(JSON.stringify(data));
 }
 
-Object.prototype.isEmpty = function () {
-    for (let prop in this) {
-        if (this.hasOwnProperty(prop)) {
-            return false;
+Object.defineProperty(Object.prototype, 'isEmpty', {
+    value: function () {
+        for (let prop in this) {
+            if (this.hasOwnProperty(prop)) {
+                return false;
+            }
         }
-    }
-    return true;
-}
+        return true;
+    },
+    enumerable: false, // default
+});
+
 function saveBase64(reportName, byte) {
     var link = document.createElement('a');
     link.href = byte;
