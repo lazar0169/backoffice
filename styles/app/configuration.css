@@ -611,25 +611,7 @@
 
 /* END FORM*/
 
-/* jackpot style */
-#configuration-jackpot>.page-content-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-}
-.jackpot-get-time{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.jackpot-get-time>button{
-    margin: 1%;
-}
-.jackpot-time-legend{
-    margin: 0.5em;
-}
 
-
-/* jackpot end */
 
 /* MOBILE */
 

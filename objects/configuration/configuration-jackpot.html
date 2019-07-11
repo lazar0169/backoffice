@@ -1,27 +1,6 @@
 <div id="configuration-jackpot" class="page-content">
     <div class="page-content-wrapper">
 
-      
-        <div class="configuration-section">
-                <div class="caption configuration-title">
-                        <div class="caption-title">History</div>
-                        <div class="caption configuration-title">
-                            <div class="caption-title">SearchHistory</div>
-                            <input data-section="actions" type="text" class="caption-search" placeholder="Search actions">
-                            <button class="save configuration-search"><img src="images/search.png" alt="search"></button>
-                        </div>
-                    </div>
-                <div class="jackpot-get-time">
-                    <div class="jackpot-time-legend">From Time:  </div>
-                    <input type="text" id="management-main-first-period-time-span-from" class="datepicker" readonly="" aria-label="Use the arrow keys to pick a date">
-                    <div class="jackpot-time-legend">To Time:  </div>
-                    <input type="text" id="management-main-first-period-time-span-to" class="datepicker" readonly="">
-                    <button id="configuration-jackpot-history">GET</button>
-                </div>     
-                <div class="jackpotsFrom" id="jackpotsFromPeriod">
-                </div>         
-        </div>
-      
         <div class="configuration-section">
             <div class="caption configuration-title">
                 <div class="caption-title">Active</div>
@@ -43,9 +22,36 @@
                     <input data-section="actions" type="text" class="caption-search" placeholder="Search actions">
                     <button class="save configuration-search"><img src="images/search.png" alt="search"></button>
                 </div>
-            </div>   
-            <div class="jackpotSettings" id="jackpotSettingsForPortal">
-            </div>        
+            </div>  
+            
+            <div class="jackpot-get-time">
+            <div id="configuration-jackpot-operators-list-wrapper"></div>
+            <div id="configuration-jackpot-portals-list-wrapper"></div> 
+            <button id="configuration-get-jackpot" class="">GET</button>
+           </div>
+            <div class="jackpotSettingsTable" id="jackpotPortalSettingsTable">
+            </div> 
+
+        </div>
+
+        <div class="configuration-section">
+            <div class="caption configuration-title">
+                    <div class="caption-title">History</div>
+                    <div class="caption configuration-title">
+                        <div class="caption-title">SearchHistory</div>
+                        <input data-section="actions" type="text" class="caption-search" placeholder="Search actions">
+                        <button class="save configuration-search"><img src="images/search.png" alt="search"></button>
+                    </div>
+                </div>
+            <div class="jackpot-get-time">
+                <div class="jackpot-time-legend">From Time:  </div>
+                <input type="text" id="management-main-first-period-time-span-from" class="datepicker" readonly="" aria-label="Use the arrow keys to pick a date">
+                <div class="jackpot-time-legend">To Time:  </div>
+                <input type="text" id="management-main-first-period-time-span-to" class="datepicker" readonly="">
+                <button id="configuration-jackpot-history">GET</button>
+            </div>     
+            <div class="jackpotsFrom" id="jackpotsFromPeriod">
+            </div>         
         </div>
 
     </div>
