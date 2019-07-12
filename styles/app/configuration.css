@@ -56,8 +56,18 @@
     border-radius: 0.2em;
 }
 
-#configuration-add-new-currency-button.hidden{
+#configuration-currency-navbar-buttons-wrapper.hidden,
+#configuration-update-currency-button.hidden{
     display: none;
+}
+
+#configuration-currency-navbar-buttons-wrapper{
+    display: flex;
+}
+
+#configuration-update-currency-button{
+    margin: 2px 2px 3px 0;
+    border-radius: 0.2em;
 }
 
 .configuration-search {
@@ -643,6 +653,12 @@
 
 #configuration-currency-form-bet-group-table caption{
     display: table-caption;
+}
+
+#configuration-currency-form-create-step-wrapper{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-evenly;
 }
 
 
