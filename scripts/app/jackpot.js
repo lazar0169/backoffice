@@ -4,8 +4,8 @@ let jackpot = function () {
     let jackpotHistoryDataTable;
     let jackpotHistoryFirstPeriodFrom = getToday();
     let jackpotHistorySecondPeriodFrom = getToday();
-
-    $$(`#configuration-get-jackpot`).style.display = "none"
+    let jackpotHistoryTable = $$('#jackpotHistoryTable');
+   
 
     function getActiveJackpotsTable() {
         trigger('comm/configuration/jackpot/active/get', {
@@ -101,10 +101,9 @@ let jackpot = function () {
         let portalsDropdown = dropdown.generate(data.result, `configuration-jackpot-portals-list`, 'Select portal');
         $$(`#configuration-jackpot-portals-list-wrapper`).appendChild(portalsDropdown);
         if (!data.result) $$(`#configuration-jackpot-portals-list-wrapper`).style.display = 'none';
-        $$(`#configuration-get-jackpot`).classList.remove('hidden');
+        $$(`#jackpot-get-settings`).classList.remove('hidden');
 
     };
-
 
     function getPortalSettingsTable() {
         trigger('comm/configuration/jackpot/portal/get', {
@@ -136,7 +135,6 @@ let jackpot = function () {
     };
 
     function parseGameData(data, firstColName) {
-        debugger;
         if (Object.getOwnPropertyNames(data).length === 0) {
             return [];
         }
@@ -157,7 +155,6 @@ let jackpot = function () {
 
     function getJackpotHistoryTable() {
         //addLoader(totalGetButton);
-        debugger
         trigger('comm/configuration/jackpot/activefromtime/get', {
             body: {
 
@@ -188,6 +185,31 @@ let jackpot = function () {
         });
     };
 
+    function historyJackpotFilter(){
+        let wrapperTable = $$('#jackpotHistoryTable');
+        let input = $$('#portals-history-search');
+        
+        input.oninput = () => {
+            search(wrapperTable, input.value);
+        };
+
+        input.onkeyup = (e) => {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                search(wrapperTable, '');
+            }
+        };
+    }
+    function search(element, term) {
+        for (let tableRow of element.getElementsByTagName('div')) {
+            if (tableRow.dataset.id.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                tableRow.style.display = 'table-row';
+            } else {
+                tableRow.style.display = 'none';
+            }
+        }
+    }
+
     $$('#jackpot-get-settings').addEventListener('click', getPortalSettingsTable);
 
     $$('#jackpot-get-history').addEventListener('click', getJackpotHistoryTable);
@@ -211,6 +233,9 @@ let jackpot = function () {
     });
 
     on('jackpot/history/loaded', function () {
+        historyJackpotFilter();
+
     });
+   
 
 }();

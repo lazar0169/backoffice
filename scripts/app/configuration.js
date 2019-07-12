@@ -881,11 +881,7 @@ let configuration = function () {
         });
     });
 
-    on('configuration/jackpot/loaded', function () {
-        addLoader($$('#sidebar-configuration'));
-        getActiveJackpotsTable();
-        getJackpotPortalSettings();
-    });
+    
 
 
     $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
