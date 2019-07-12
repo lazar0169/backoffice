@@ -56,6 +56,10 @@
     border-radius: 0.2em;
 }
 
+#configuration-add-new-currency-button.hidden{
+    display: none;
+}
+
 .configuration-search {
     position: relative;
 }
@@ -448,10 +452,19 @@
     display: flex;
     align-self: center;
     flex-direction: column;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
 }
 
 #configuration-currency-default-jackpot-settings-options.hidden{
     display: none;
+}
+
+#configuration-currency-default-jackpot-settings-options.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
 }
 
 /* FORM */ 

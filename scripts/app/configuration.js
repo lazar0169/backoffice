@@ -14,6 +14,7 @@ let configuration = function () {
     let activeData = undefined;
     let activeElementIndex = undefined;
     let activeElementDataName = undefined;
+    let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
 
     //currency props
     let originalCurrencyData = undefined;
@@ -36,6 +37,7 @@ let configuration = function () {
     let currencyJackpotSettingsOptions = $$('#configuration-currency-default-jackpot-settings-options');
 
     $$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
+    addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
 
     function hideActiveModal() {
         if (isBetGroupModalOpened) {
@@ -112,7 +114,33 @@ let configuration = function () {
         }
     });
 
+    function hideCurrencyView() {
+        if (!currencyMainOptionWrapper.classList.contains('hidden')) {
+            currencyMainOptionWrapper.classList.add('hidden');
+        }
+
+        if (!currencyTableWrapper.classList.contains('hidden')) {
+            currencyTableWrapper.classList.add('hidden');
+        }
+
+        if (!currencyJackpotOptionWrapper.classList.contains('hidden')) {
+            currencyJackpotOptionWrapper.classList.add('hidden');
+        }
+
+        if (currencyJackpotSettingsOptions.classList.contains('show')) {
+            currencyJackpotSettingsOptions.classList.remove('show');
+        }
+    }
+
+    function showCreateCurrencyView() {
+        hideCurrencyView();
+        $$('#configuration-currency-list-wrapper').classList.add('hidden');
+    }
+
     on('configuration/profile/loaded', function () {
+        if (!addNewCurrencyButton.classList.contains('hidden')) {
+            addNewCurrencyButton.classList.add('hidden');
+        }
         $$('#configuration-profile-old-password').value = '';
         $$('#configuration-profile-new-password').value = '';
         $$('#configuration-profile-repeat-password').value = '';
@@ -388,7 +416,9 @@ let configuration = function () {
                     trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
                 }
                 else {
-                    currencyJackpotSettingsOptions.classList.remove('hidden');
+                    if (!currencyJackpotSettingsOptions.classList.contains('show')) {
+                        currencyJackpotSettingsOptions.classList.add('show');
+                    }
                     currencyJackpotSettingsBetContribution.value = row.betContribution;
                     currencyJackpotSettingsMinBet.value = row.minBet;
                     currencyJackpotSettingsBaseValue.value = row.baseJackpotValue;
@@ -766,26 +796,20 @@ let configuration = function () {
     }
 
     on('configuration/profile/loaded', function () {
-        // TODO
+        if (!addNewCurrencyButton.classList.contains('hidden')) {
+            addNewCurrencyButton.classList.add('hidden');
+        }
     });
 
     on('configuration/currency/loaded', function () {
+        if (addNewCurrencyButton.classList.contains('hidden')) {
+            addNewCurrencyButton.classList.remove('hidden');
+        }
         removeTableData();
-        if (!currencyMainOptionWrapper.classList.contains('hidden')) {
-            currencyMainOptionWrapper.classList.add('hidden');
+        if ($$('#configuration-currency-list-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-list-wrapper').classList.remove('hidden');
         }
-
-        if (!currencyTableWrapper.classList.contains('hidden')) {
-            currencyTableWrapper.classList.add('hidden');
-        }
-
-        if (!currencyJackpotOptionWrapper.classList.contains('hidden')) {
-            currencyJackpotOptionWrapper.classList.add('hidden');
-        }
-        
-        if (!currencyJackpotSettingsOptions.classList.contains('hidden')) {
-            currencyJackpotSettingsOptions.classList.add('hidden');
-        }
+        hideCurrencyView();
 
         addLoader($$('#sidebar-configuration'));
         trigger('comm/currency/getCurrencies', {
@@ -807,6 +831,9 @@ let configuration = function () {
 
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
+        if (!addNewCurrencyButton.classList.contains('hidden')) {
+            addNewCurrencyButton.classList.add('hidden');
+        }
         addLoader($$('#sidebar-configuration'));
         let responses = 0;
         let asyncRequests = 4;
@@ -907,7 +934,7 @@ let configuration = function () {
         });
     });
 
-    on('configuration/jackpot/loaded', function(){
+    on('configuration/jackpot/loaded', function () {
         getActiveJackpots();
     });
 
