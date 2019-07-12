@@ -15,6 +15,7 @@ let configuration = function () {
     let activeElementIndex = undefined;
     let activeElementDataName = undefined;
     let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
+    let saveCurrencyButton = $$('#configuration-save-currency-button');
 
     //currency props
     let originalCurrencyData = undefined;
@@ -37,7 +38,7 @@ let configuration = function () {
     let currencyJackpotSettingsOptions = $$('#configuration-currency-default-jackpot-settings-options');
 
     $$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
-    addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
+
 
     function hideActiveModal() {
         if (isBetGroupModalOpened) {
@@ -135,6 +136,10 @@ let configuration = function () {
     function showCreateCurrencyView() {
         hideCurrencyView();
         $$('#configuration-currency-list-wrapper').classList.add('hidden');
+    }
+
+    function updateCurrency() {
+        //TODO:
     }
 
     on('configuration/profile/loaded', function () {
@@ -368,6 +373,15 @@ let configuration = function () {
         $$('#configuration-currency-code').value = currencyWithBetGroup.currencyCode;
         $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
         $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
+        if (!currencyWithBetGroup.realCurrency) {
+            $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
+
+            $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
+            $$('#configuration-currency-ratio').value = currencyWithBetGroup.realImaginaryCurrencyRatio;
+        }
+        else {
+            $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
+        }
         createTable(result.currencyGamesBet, 'gameName', 'gameBetCurrencySteps', 'games');
         for (let element of result.defaultJackpotSettings) {
             element.name = jackpotTypes[`${element.jackpotTypeId}`];
@@ -940,32 +954,6 @@ let configuration = function () {
 
     $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
     $$('#configuration-currency-form-cancel').addEventListener('click', hideCurrencyModal);
+    addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
+    saveCurrencyButton.addEventListener('click', updateCurrency);
 }();
-
-//activeJackpot table
-let activeJackpotData;
-function getActiveJackpots() {
-    trigger('comm/configuration/jackpot/active/get', {
-        success: function (response) {
-            if (response.responseCode === 1000) {
-                activeJackpotData = response.result;
-                $$('#activeJackpotTable').innerHTML = '';
-                $$('#activeJackpotTable').appendChild(table.generate({
-                    data: activeJackpotData,
-                    id: 'activeJackpotTable',
-                    dynamic: false,
-                    sticky: true,
-                    stickyCol: true
-                }));
-                table.preserveHeight($$('#activeJackpotTable'));
-            } else {
-                trigger('message', response.responseCode);
-            }
-
-        },
-        fail: function () {
-            alert('Something went wrong');
-        }
-
-    });
-}

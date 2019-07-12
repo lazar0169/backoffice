@@ -6,9 +6,9 @@ let comm = function () {
         'comm/currency/get': '/Account/GetCurrency',
         
         'comm/currency/getCurrencies': '/Currency/get-currencies',
-        'comm/currency/readCurrency': '/Currency/read/0',
-        'comm/currency/updateCurrency': '/Currency/update/0',
-        'comm/currency/deleteCurrency': '/Currency/delete/0',
+        'comm/currency/readCurrency': '/Currency/read',
+        'comm/currency/updateCurrency': '/Currency/update',
+        'comm/currency/deleteCurrency': '/Currency/delete',
         'comm/currency/createCurrency': '/Currency/create',
         'comm/currency/getGames': '/Currency/get-games',
         

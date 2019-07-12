@@ -42,7 +42,7 @@
         <div id="configuration-currency-main-options">
             <fieldset>
                 <div class="legend">Currency code: </div>
-                <input type="text" id="configuration-currency-code">
+                <input type="text" id="configuration-currency-code" disabled>
             </fieldset>
             <fieldset>
                 <div class="legend">Denomination: </div>
@@ -52,6 +52,16 @@
                 <div class="legend">Bet group: </div>
                 <input type="text" id="configuration-currency-bet-group">
             </fieldset>
+            <div id="configuration-currency-imaginary-wrapper" class="hidden">
+                <fieldset>
+                    <div class="legend">Real currency code: </div>
+                    <input type="text" id="configuration-currency-real-currency-id" disabled>
+                </fieldset>
+                <fieldset>
+                    <div class="legend">Ratio: </div>
+                    <input type="text" id="configuration-currency-ratio">
+                </fieldset>
+            </div>
         </div>
         <div id="configuration-currency-games-table-wrapper" class="hidden">
             <div id="configuration-currency-games-table">

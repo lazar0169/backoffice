@@ -338,6 +338,15 @@
     flex: 1;
 }
 
+#configuration-currency-imaginary-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+#configuration-currency-imaginary-wrapper.hidden{
+    display: none;
+}
+
 #configuration-currency-main-options.hidden{
     display: none;
 }
