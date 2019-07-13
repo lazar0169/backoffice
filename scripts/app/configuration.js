@@ -22,6 +22,7 @@ let configuration = function () {
 
     //currency props
     let originalCurrencyData = undefined;
+    let currencyConvertValue = $$('#configuration-currency-bet-group-form-convert');
     let currencyJackpotSettingsBetContribution = $$('#configuration-currency-jackpot-bet-contribution');
     let currencyJackpotSettingsMinBet = $$('#configuration-currency-jackpot-min-bet');
     let currencyJackpotSettingsBaseValue = $$('#configuration-currency-jackpot-base-jackpot-value');
@@ -144,7 +145,37 @@ let configuration = function () {
     }
 
     function updateCurrency() {
-        //TODO:
+        let updateDataModel = {
+            id: originalCurrencyData.id,
+            createCurrencyModel: {
+                currencyCode: $$('#configuration-currency-code').value,
+                denomination: $$('#configuration-currency-denomination').value,
+                betGroupId: $$('#configuration-currency-bet-group').value,
+                realCurrency: originalCurrencyData.currencyWithBetGroup.realCurrency,
+                realCurrencyId: !originalCurrencyData.currencyWithBetGroup.realCurrency ? originalCurrencyData.currencyWithBetGroup.realCurrencyId : 0,
+                realImaginaryCurrencyRatio: !originalCurrencyData.currencyWithBetGroup.realCurrency ? $$('#configuration-currency-ratio').value : 0
+            },
+            currencyGameBetModel: {
+                currencyGamesBet: originalCurrencyData.currencyGamesBet
+            },
+            defaultJackpotSettingsModel: {
+                defaultJackpotSettings: originalCurrencyData.defaultJackpotSettings
+            },
+        };
+        addLoader(updateCurrencyButton);
+        trigger('comm/currency/updateCurrency', {
+            body: updateDataModel,
+            success: function (response) {
+                if (response.responseCode === message.success) {
+                    trigger('message', message.success);
+                }
+                removeLoader(updateCurrencyButton);
+            },
+            fail: function (response) {
+                removeLoader(updateCurrencyButton);
+                trigger('message', response.responseCode);
+            }
+        });
     }
 
     function startPopoupWizard() {
@@ -184,9 +215,9 @@ let configuration = function () {
     });
 
     let createBetGroup = function () {
-        let modal = $$('#configuration-currency-form-create');
-        let eur = $$('#configuration-currency-eur-value');
-        let curr = $$('#configuration-currency-currency-value');
+        let modal = $$('#configuration-currency-form-update');
+        let eur = $$('#configuration-currency-eur-update-value');
+        let curr = $$('#configuration-currency-currency-update-value');
         let index = undefined;
 
         const show = (element, ind) => {
@@ -206,60 +237,52 @@ let configuration = function () {
             modal.classList.remove('show');
         }
 
-        const saveOrEdit = () => {
-            if (betGroupEditMode) {
+        const updateCurrency = () => {
+            if (curr.value) {
                 activeData[activeElementIndex][activeElementDataName][index].eurBetStep = parseFloat(eur.value);
                 activeData[activeElementIndex][activeElementDataName][index].currencyBetStep = parseFloat(curr.value);
                 let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
                 rowChanged.children[1].innerHTML = `${eur.value}`;
                 rowChanged.children[3].innerHTML = `${curr.value}`;
+                createBetGroup.hide();
+            } else {
+                trigger('message', message.badParameter);
             }
-            else {
-                let rowAdded = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0];
-                let tr = document.createElement('tr');
-                let tdEurCode = document.createElement('td');
-                let tdEurValue = document.createElement('td');
-                let tdCurrCode = document.createElement('td');
-                let tdCurrValue = document.createElement('td');
-
-                tdEurCode.innerHTML = 'EUR';
-                tdEurValue.innerHTML = `${eur.value}`;
-                tdCurrCode.innerHTML = $$('#configuration-currency-code').value;
-                tdCurrValue.innerHTML = `${curr.value}`;
-
-                tr.appendChild(tdEurCode);
-                tr.appendChild(tdEurValue);
-                tr.appendChild(tdCurrCode);
-                tr.appendChild(tdCurrValue);
-
-                rowAdded.appendChild(tr);
-
-                let newData = {
-                    eurThreeLetterCode: 'EUR',
-                    eurBetStep: parseFloat(eur.value),
-                    currencyThreeLetterCode: $$('#configuration-currency-code').value,
-                    currencyBetStep: parseFloat(curr.value),
-                };
-                activeData[activeElementIndex][activeElementDataName].push(newData);
-            }
-            createBetGroup.hide();
         }
 
-        // function sort() {
-        //     if (operatorData.scaledTax.length > 0) {
-        //         operatorData.scaledTax.sort(sortByProperty('stepFrom'));
-        //     }
-        // }
+        $$('#configuration-currency-bet-group-form-delete').onclick = () => {
+            activeData[activeElementIndex][activeElementDataName].splice(index, 1);
+            let rowRemoved = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
+            rowRemoved.remove();
+            createBetGroup.hide();
+        };
 
-        //$$('#configuration-currency-bet-group-form-save').onclick = saveOrEdit;
-        createStepButton.onclick = saveOrEdit;
+        $$('#configuration-currency-form-update-back').onclick = hide;
+
+        $$('#configuration-currency-bet-group-form-save').onclick = updateCurrency;
+
+        currencyConvertValue.onclick = () => {
+            trigger('comm/currency/convertFromEurToCurrency', {
+                body: {
+                    currencyId: currencyIdSelected,
+                    eurBetStep: parseFloat(eur.value),
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        curr.value = parseFloat(response.result);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
 
         return {
             show: show,
             hide: hide,
             index: index,
             saveOrEdit: saveOrEdit
-            //sort: sort
         }
     }();
 
@@ -319,7 +342,7 @@ let configuration = function () {
                     trigger('message', response.responseCode);
                     removeLoader(createStepButton);
                 }
-            })
+            });
         }
     }
 
@@ -551,7 +574,7 @@ let configuration = function () {
                 //     tr.classList.add('highlighted');
                 //     td.highlighted = true;
                 // }
-                showCurrencyModal(data[index][`${dataName}`], data[index][`${dataCaption}`], index, dataName);
+                showCurrencyModal(activeData[index][`${dataName}`], activeData[index][`${dataCaption}`], index, dataName);
             }
         }
     }
@@ -596,7 +619,7 @@ let configuration = function () {
             tr.appendChild(tdCurrStep);
             tr.onclick = function () {
                 betGroupEditMode = true;
-                createBetGroup.show(element, data.indexOf(element));
+                createBetGroup.show(element, activeData[activeElementIndex][activeElementDataName].indexOf(element));
             };
             body.appendChild(tr);
         }
@@ -811,6 +834,7 @@ let configuration = function () {
         activeElementIndex = index;
         activeElementDataName = dataName;
         $$('#game-bet-group-title').innerHTML = `${gameName} bet groups`;
+        $$('#configuration-currency-eur-value').value = '';
         createBetGroupList(data);
 
         $$('#configuration-currency-form-save').onclick = () => {
