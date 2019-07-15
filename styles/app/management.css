@@ -101,7 +101,7 @@
 
 #players-form {
     position: fixed;
-    width: 70em;
+    width: 50%;
     height: 35em;
     max-height: 100%;
     align-self: center;
@@ -408,7 +408,7 @@ fieldset.hidden{
 
 #portals-form {
     position: fixed;
-    width: 80em;
+    width: 50%;
     height: 45em;
     max-height: 100%;
     top: 0;

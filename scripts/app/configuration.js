@@ -14,7 +14,20 @@ let configuration = function () {
     let activeData = undefined;
     let activeElementIndex = undefined;
     let activeElementDataName = undefined;
+    let editCurrencyMode = false;
+    let currencyIdSelected = undefined;
+    let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
+    let updateCurrencyButton = $$('#configuration-update-currency-button');
+    let createStepButton = $$('#configuration-currency-form-create-bet-group');
+
+    //currency props
     let originalCurrencyData = undefined;
+    let currencyConvertValue = $$('#configuration-currency-bet-group-form-convert');
+    let currencyJackpotSettingsBetContribution = $$('#configuration-currency-jackpot-bet-contribution');
+    let currencyJackpotSettingsMinBet = $$('#configuration-currency-jackpot-min-bet');
+    let currencyJackpotSettingsBaseValue = $$('#configuration-currency-jackpot-base-jackpot-value');
+    let currencyJackpotSettingsMinValue = $$('#configuration-currency-jackpot-min-jackpot-value');
+    let currencyJackpotSettingsMaxValue = $$('#configuration-currency-jackpot-max-jackpot-value');
 
     const jackpotTypes = {
         '1': 'Platinum',
@@ -23,9 +36,13 @@ let configuration = function () {
 
     let currencyTable = $$(`#configuration-currency-games-table`);
     let jackpotTable = $$(`#configuration-currency-default-jackpot-settings-list`);
-    let jackpotOptions = $$('#configuration-currency-default-jackpot-settings-options');
+    let currencyTableWrapper = $$('#configuration-currency-games-table-wrapper');
+    let currencyMainOptionWrapper = $$('#configuration-currency-main-options');
+    let currencyJackpotOptionWrapper = $$('#configuration-currency-default-jackpot-settings-wrapper');
+    let currencyJackpotSettingsOptions = $$('#configuration-currency-default-jackpot-settings-options');
 
     $$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
+
 
     function hideActiveModal() {
         if (isBetGroupModalOpened) {
@@ -102,7 +119,73 @@ let configuration = function () {
         }
     });
 
+    function hideCurrencyView() {
+        if (!currencyMainOptionWrapper.classList.contains('hidden')) {
+            currencyMainOptionWrapper.classList.add('hidden');
+        }
+
+        if (!currencyTableWrapper.classList.contains('hidden')) {
+            currencyTableWrapper.classList.add('hidden');
+        }
+
+        if (!currencyJackpotOptionWrapper.classList.contains('hidden')) {
+            currencyJackpotOptionWrapper.classList.add('hidden');
+        }
+
+        if (currencyJackpotSettingsOptions.classList.contains('show')) {
+            currencyJackpotSettingsOptions.classList.remove('show');
+        }
+    }
+
+    function showCreateCurrencyView() {
+        hideCurrencyView();
+        editCurrencyMode = false;
+        updateCurrencyNavbarButton();
+        startPopoupWizard();
+    }
+
+    function updateCurrency() {
+        let updateDataModel = {
+            id: originalCurrencyData.id,
+            createCurrencyModel: {
+                currencyCode: $$('#configuration-currency-code').value,
+                denomination: $$('#configuration-currency-denomination').value,
+                betGroupId: $$('#configuration-currency-bet-group').value,
+                realCurrency: originalCurrencyData.currencyWithBetGroup.realCurrency,
+                realCurrencyId: !originalCurrencyData.currencyWithBetGroup.realCurrency ? originalCurrencyData.currencyWithBetGroup.realCurrencyId : 0,
+                realImaginaryCurrencyRatio: !originalCurrencyData.currencyWithBetGroup.realCurrency ? $$('#configuration-currency-ratio').value : 0
+            },
+            currencyGameBetModel: {
+                currencyGamesBet: originalCurrencyData.currencyGamesBet
+            },
+            defaultJackpotSettingsModel: {
+                defaultJackpotSettings: originalCurrencyData.defaultJackpotSettings
+            },
+        };
+        addLoader(updateCurrencyButton);
+        trigger('comm/currency/updateCurrency', {
+            body: updateDataModel,
+            success: function (response) {
+                if (response.responseCode === message.success) {
+                    trigger('message', message.success);
+                }
+                removeLoader(updateCurrencyButton);
+            },
+            fail: function (response) {
+                removeLoader(updateCurrencyButton);
+                trigger('message', response.responseCode);
+            }
+        });
+    }
+
+    function startPopoupWizard() {
+        //TODO:
+    }
+
     on('configuration/profile/loaded', function () {
+        if (!$$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
+        }
         $$('#configuration-profile-old-password').value = '';
         $$('#configuration-profile-new-password').value = '';
         $$('#configuration-profile-repeat-password').value = '';
@@ -132,9 +215,9 @@ let configuration = function () {
     });
 
     let createBetGroup = function () {
-        let modal = $$('#configuration-currency-form-create');
-        let eur = $$('#configuration-currency-eur-value');
-        let curr = $$('#configuration-currency-currency-value');
+        let modal = $$('#configuration-currency-form-update');
+        let eur = $$('#configuration-currency-eur-update-value');
+        let curr = $$('#configuration-currency-currency-update-value');
         let index = undefined;
 
         const show = (element, ind) => {
@@ -154,61 +237,114 @@ let configuration = function () {
             modal.classList.remove('show');
         }
 
-        const saveOrEdit = () => {
-            if (betGroupEditMode) {
+        const updateCurrency = () => {
+            if (curr.value) {
                 activeData[activeElementIndex][activeElementDataName][index].eurBetStep = parseFloat(eur.value);
                 activeData[activeElementIndex][activeElementDataName][index].currencyBetStep = parseFloat(curr.value);
                 let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
                 rowChanged.children[1].innerHTML = `${eur.value}`;
                 rowChanged.children[3].innerHTML = `${curr.value}`;
+                createBetGroup.hide();
+            } else {
+                trigger('message', message.badParameter);
             }
-            else {
-                let rowAdded = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0];
-                let tr = document.createElement('tr');
-                let tdEurCode = document.createElement('td');
-                let tdEurValue = document.createElement('td');
-                let tdCurrCode = document.createElement('td');
-                let tdCurrValue = document.createElement('td');
-
-                tdEurCode.innerHTML = 'EUR';
-                tdEurValue.innerHTML = `${eur.value}`;
-                tdCurrCode.innerHTML = $$('#configuration-currency-code').value;
-                tdCurrValue.innerHTML = `${curr.value}`;
-
-                tr.appendChild(tdEurCode);
-                tr.appendChild(tdEurValue);
-                tr.appendChild(tdCurrCode);
-                tr.appendChild(tdCurrValue);
-
-                rowAdded.appendChild(tr);
-
-                let newData = {
-                    eurThreeLetterCode: 'EUR',
-                    eurBetStep: parseFloat(eur.value),
-                    currencyThreeLetterCode: $$('#configuration-currency-code').value,
-                    currencyBetStep: parseFloat(curr.value),
-                };
-                activeData[activeElementIndex][activeElementDataName].push(newData);
-            }
-            createBetGroup.hide();
         }
 
-        // function sort() {
-        //     if (operatorData.scaledTax.length > 0) {
-        //         operatorData.scaledTax.sort(sortByProperty('stepFrom'));
-        //     }
-        // }
+        $$('#configuration-currency-bet-group-form-delete').onclick = () => {
+            activeData[activeElementIndex][activeElementDataName].splice(index, 1);
+            let rowRemoved = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
+            rowRemoved.remove();
+            createBetGroup.hide();
+        };
 
-        $$('#configuration-currency-bet-group-form-save').onclick = saveOrEdit;
+        $$('#configuration-currency-form-update-back').onclick = hide;
+
+        $$('#configuration-currency-bet-group-form-save').onclick = updateCurrency;
+
+        currencyConvertValue.onclick = () => {
+            trigger('comm/currency/convertFromEurToCurrency', {
+                body: {
+                    currencyId: currencyIdSelected,
+                    eurBetStep: parseFloat(eur.value),
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        curr.value = parseFloat(response.result);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
 
         return {
             show: show,
             hide: hide,
             index: index,
             saveOrEdit: saveOrEdit
-            //sort: sort
         }
     }();
+
+    function saveOrEdit() {
+        let eur = $$('#configuration-currency-eur-value');
+
+        if (betGroupEditMode) {
+            activeData[activeElementIndex][activeElementDataName][index].eurBetStep = parseFloat(eur.value);
+            activeData[activeElementIndex][activeElementDataName][index].currencyBetStep = parseFloat(curr.value);
+            let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
+            rowChanged.children[1].innerHTML = `${eur.value}`;
+            rowChanged.children[3].innerHTML = `${curr.value}`;
+        }
+        else {
+            addLoader(createStepButton);
+            trigger('comm/currency/convertFromEurToCurrency', {
+                body: {
+                    currencyId: currencyIdSelected,
+                    eurBetStep: parseFloat(eur.value),
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        let rowAdded = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0];
+                        let tr = document.createElement('tr');
+                        let tdEurCode = document.createElement('td');
+                        let tdEurValue = document.createElement('td');
+                        let tdCurrCode = document.createElement('td');
+                        let tdCurrValue = document.createElement('td');
+
+                        tdEurCode.innerHTML = 'EUR';
+                        tdEurValue.innerHTML = `${eur.value}`;
+                        tdCurrCode.innerHTML = $$('#configuration-currency-code').value;
+                        tdCurrValue.innerHTML = `${response.result}`;
+
+                        tr.appendChild(tdEurCode);
+                        tr.appendChild(tdEurValue);
+                        tr.appendChild(tdCurrCode);
+                        tr.appendChild(tdCurrValue);
+
+                        rowAdded.appendChild(tr);
+
+                        let newData = {
+                            eurThreeLetterCode: 'EUR',
+                            eurBetStep: parseFloat(eur.value),
+                            currencyThreeLetterCode: $$('#configuration-currency-code').value,
+                            currencyBetStep: parseFloat(response.result),
+                        };
+                        activeData[activeElementIndex][activeElementDataName].push(newData);
+                        tr.onclick = () => {
+                            betGroupEditMode = true;
+                            createBetGroup.show(newData, activeData[activeElementIndex][activeElementDataName].indexOf(newData));
+                        };
+                    }
+                    removeLoader(createStepButton);
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                    removeLoader(createStepButton);
+                }
+            });
+        }
+    }
 
     // Shows modal with details for individual selection
     function showModal(section, data) {
@@ -321,15 +457,33 @@ let configuration = function () {
         $$('#configuration-main').children[0].style.overflow = 'hidden';
     }
 
+    function updateCurrencyNavbarButton() {
+        if (editCurrencyMode) {
+            updateCurrencyButton.classList.remove('hidden');
+        }
+        else {
+            updateCurrencyButton.classList.add('hidden');
+        }
+    }
+
     //Currency right side view
     function showCurrencyView(result) {
         removeTableData();
         $$('#configuration-currency-games-table-wrapper').classList.remove('hidden');
-        $$('#configuration-currency-option-wrapper').classList.remove('hidden');
+        $$('#configuration-currency-main-options').classList.remove('hidden');
         let currencyWithBetGroup = result.currencyWithBetGroup;
         $$('#configuration-currency-code').value = currencyWithBetGroup.currencyCode;
         $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
         $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
+        if (!currencyWithBetGroup.realCurrency) {
+            $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
+
+            $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
+            $$('#configuration-currency-ratio').value = currencyWithBetGroup.realImaginaryCurrencyRatio;
+        }
+        else {
+            $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
+        }
         createTable(result.currencyGamesBet, 'gameName', 'gameBetCurrencySteps', 'games');
         for (let element of result.defaultJackpotSettings) {
             element.name = jackpotTypes[`${element.jackpotTypeId}`];
@@ -377,45 +531,15 @@ let configuration = function () {
                 if (dataType === 0) {
                     trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
                 }
-                else if (dataType === 1) {
-                    addLoader(td);
-                    trigger('comm/currency/readCurrency',
-                        {
-                            body: {
-                                id: this.dataset.id,
-                            },
-                            success: function (response) {
-                                if (response.responseCode === message.codes.success) {
-                                    let tbody = currencyTable.getElementsByTagName('table')[1];
-                                    if (tbody) {
-                                        tbody.remove();
-                                    }
-                                    tbody = jackpotTable.getElementsByTagName('table')[1];
-                                    if (tbody) {
-                                        tbody.remove();
-                                    }
-                                    if (!jackpotOptions.classList.contains('hidden')) {
-                                        jackpotOptions.classList.add('hidden');
-                                    }
-                                    originalCurrencyData = response.result;
-                                    showCurrencyView(response.result);
-
-                                }
-                                trigger('message', response.responseCode);
-                                removeLoader(tr);
-                            },
-                            fail: function (response) {
-                                removeLoader(tr);
-                            }
-                        });
-                }
                 else {
-                    $$('#configuration-currency-default-jackpot-settings-options').classList.remove('hidden');
-                    $$('#configuration-currency-jackpot-bet-contribution').value = row.betContribution;
-                    $$('#configuration-currency-jackpot-min-bet').value = row.minBet;
-                    $$('#configuration-currency-jackpot-base-jackpot-value').value = row.baseJackpotValue;
-                    $$('#configuration-currency-jackpot-min-jackpot-value').value = row.minJackpotValue;
-                    $$('#configuration-currency-jackpot-max-jackpot-value').value = row.maxJackpotValue;
+                    if (!currencyJackpotSettingsOptions.classList.contains('show')) {
+                        currencyJackpotSettingsOptions.classList.add('show');
+                    }
+                    currencyJackpotSettingsBetContribution.value = row.betContribution;
+                    currencyJackpotSettingsMinBet.value = row.minBet;
+                    currencyJackpotSettingsBaseValue.value = row.baseJackpotValue;
+                    currencyJackpotSettingsMinValue.value = row.minJackpotValue;
+                    currencyJackpotSettingsMaxValue.value = row.maxJackpotValue;
                 }
             };
             if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
@@ -450,7 +574,7 @@ let configuration = function () {
                 //     tr.classList.add('highlighted');
                 //     td.highlighted = true;
                 // }
-                showCurrencyModal(data[index][`${dataName}`], data[index][`${dataCaption}`], index, dataName);
+                showCurrencyModal(activeData[index][`${dataName}`], activeData[index][`${dataCaption}`], index, dataName);
             }
         }
     }
@@ -495,12 +619,54 @@ let configuration = function () {
             tr.appendChild(tdCurrStep);
             tr.onclick = function () {
                 betGroupEditMode = true;
-                createBetGroup.show(element, data.indexOf(element));
+                createBetGroup.show(element, activeData[activeElementIndex][activeElementDataName].indexOf(element));
             };
             body.appendChild(tr);
         }
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
+    }
+
+    function populateCurrencyDropdown(data) {
+        clearElement($$(`#configuration-currency-list`));
+        let currencyDropdown = dropdown.generate(data.result, `configuration-currency-list`, 'Select currency');
+        $$(`#configuration-currency-list-wrapper`).appendChild(currencyDropdown);
+        if (!data.result) $$(`#configuration-currency-list-wrapper`).style.display = 'none';
+
+        on('configuration-currency-list/selected', selectedCurrency);
+    };
+
+    const selectedCurrency = (value) => {
+        editCurrencyMode = true;
+        currencyIdSelected = value;
+        updateCurrencyNavbarButton();
+        addLoader($$('#configuration-currency-list-wrapper'));
+        trigger('comm/currency/readCurrency', {
+            body: {
+                id: value,
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    let tbody = currencyTable.getElementsByTagName('table')[1];
+                    if (tbody) {
+                        tbody.remove();
+                    }
+                    tbody = jackpotTable.getElementsByTagName('table')[1];
+                    if (tbody) {
+                        tbody.remove();
+                    }
+
+                    originalCurrencyData = response.result;
+                    showCurrencyView(response.result);
+
+                }
+                trigger('message', response.responseCode);
+                removeLoader($$('#configuration-currency-list-wrapper'));
+            },
+            fail: function (response) {
+                removeLoader($$('#configuration-currency-list-wrapper'));
+            }
+        });
     }
 
     for (let cancelBtn of $$('.configuration-form-cancel')) {
@@ -668,6 +834,7 @@ let configuration = function () {
         activeElementIndex = index;
         activeElementDataName = dataName;
         $$('#game-bet-group-title').innerHTML = `${gameName} bet groups`;
+        $$('#configuration-currency-eur-value').value = '';
         createBetGroupList(data);
 
         $$('#configuration-currency-form-save').onclick = () => {
@@ -675,9 +842,13 @@ let configuration = function () {
             hideCurrencyModal();
         }
 
-        $$('#configuration-currency-form-create-bet-group').onclick = () => {
-            createBetGroup.show();
-        }
+        // $$('#configuration-currency-form-create-bet-group').onclick = () => {
+        //     createBetGroup.show();
+        // }
+        createStepButton.onclick = () => {
+            betGroupEditMode = false;
+            saveOrEdit();
+        };
 
         $$('#configuration-currency-black-overlay').style.display = 'block';
         $$('#configuration-currency-form').classList.add('show');
@@ -749,25 +920,30 @@ let configuration = function () {
     }
 
     on('configuration/profile/loaded', function () {
-        // TODO
+        if (!$$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
+        }
     });
 
     on('configuration/currency/loaded', function () {
+        if ($$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
+        }
         removeTableData();
-        if (!$$('#configuration-currency-option-wrapper').classList.contains('hidden')) {
-            $$('#configuration-currency-option-wrapper').classList.add('hidden');
+        if ($$('#configuration-currency-list-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-list-wrapper').classList.remove('hidden');
         }
-
-        if (!$$('#configuration-currency-default-jackpot-settings-options').classList.contains('hidden')) {
-            $$('#configuration-currency-default-jackpot-settings-options').classList.add('hidden');
-        }
+        editCurrencyMode = false;
+        updateCurrencyNavbarButton();
+        hideCurrencyView();
 
         addLoader($$('#sidebar-configuration'));
         trigger('comm/currency/getCurrencies', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     actions = response.result;
-                    createList('currency-list-table', response.result, 1);
+                    // createList('currency-list-table', response.result, 1);
+                    populateCurrencyDropdown(response);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -781,6 +957,9 @@ let configuration = function () {
 
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
+        if (!$$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
+        }
         addLoader($$('#sidebar-configuration'));
         let responses = 0;
         let asyncRequests = 4;
@@ -884,7 +1063,8 @@ let configuration = function () {
     
 
 
-    $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
+    // $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
     $$('#configuration-currency-form-cancel').addEventListener('click', hideCurrencyModal);
+    addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
+    updateCurrencyButton.addEventListener('click', updateCurrency);
 }();
-
