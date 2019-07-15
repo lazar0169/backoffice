@@ -1102,9 +1102,8 @@ let configuration = function () {
         });
     });
 
-    on('configuration/jackpot/loaded', function () {
-        getActiveJackpots();
-    });
+    
+
 
     // $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);
     $$('#configuration-currency-form-cancel').addEventListener('click', hideCurrencyModal);
