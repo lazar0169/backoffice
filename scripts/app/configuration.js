@@ -28,6 +28,7 @@ let configuration = function () {
     let currencyJackpotSettingsBaseValue = $$('#configuration-currency-jackpot-base-jackpot-value');
     let currencyJackpotSettingsMinValue = $$('#configuration-currency-jackpot-min-jackpot-value');
     let currencyJackpotSettingsMaxValue = $$('#configuration-currency-jackpot-max-jackpot-value');
+    let newCurrencyCheckbox = $$('#configuration-new-currency-checkbox');
 
     const jackpotTypes = {
         '1': 'Platinum',
@@ -41,17 +42,16 @@ let configuration = function () {
     let currencyJackpotOptionWrapper = $$('#configuration-currency-default-jackpot-settings-wrapper');
     let currencyJackpotSettingsOptions = $$('#configuration-currency-default-jackpot-settings-options');
 
-    $$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
+    //$$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
 
-
-    function hideActiveModal() {
-        if (isBetGroupModalOpened) {
-            createBetGroup.hide();
-        }
-        if (isModalOpened) {
-            hideCurrencyModal();
-        }
-    }
+    // function hideActiveModal() {
+    //     if (isBetGroupModalOpened) {
+    //         createBetGroup.hide();
+    //     }
+    //     if (isModalOpened) {
+    //         hideCurrencyModal();
+    //     }
+    // }
 
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
@@ -120,21 +120,11 @@ let configuration = function () {
     });
 
     function hideCurrencyView() {
-        if (!currencyMainOptionWrapper.classList.contains('hidden')) {
-            currencyMainOptionWrapper.classList.add('hidden');
-        }
+        currencyMainOptionWrapper.classList.add('hidden');
+        currencyTableWrapper.classList.add('hidden');
+        currencyJackpotOptionWrapper.classList.add('hidden');
+        currencyJackpotSettingsOptions.classList.remove('show');
 
-        if (!currencyTableWrapper.classList.contains('hidden')) {
-            currencyTableWrapper.classList.add('hidden');
-        }
-
-        if (!currencyJackpotOptionWrapper.classList.contains('hidden')) {
-            currencyJackpotOptionWrapper.classList.add('hidden');
-        }
-
-        if (currencyJackpotSettingsOptions.classList.contains('show')) {
-            currencyJackpotSettingsOptions.classList.remove('show');
-        }
     }
 
     function showCreateCurrencyView() {
@@ -183,9 +173,7 @@ let configuration = function () {
     }
 
     on('configuration/profile/loaded', function () {
-        if (!$$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
-            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
-        }
+        $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
         $$('#configuration-profile-old-password').value = '';
         $$('#configuration-profile-new-password').value = '';
         $$('#configuration-profile-repeat-password').value = '';
@@ -283,6 +271,70 @@ let configuration = function () {
             hide: hide,
             index: index,
             saveOrEdit: saveOrEdit
+        }
+    }();
+
+    let newCurrencyMain = function () {
+        let newCurrencyMainModal = $$('#configuration-currency-form-new-currency-main');
+        //TODO:
+        const show = (element, ind) => {
+            trigger('comm/currency/getExistingCurrencies', {
+                success: (response) => {
+                    if (response.responseCode === message.success) {
+                        populateNewCurrenciesDropdown(response);
+                        newCurrencyMainModal.classList.add('show');
+                    }
+                    else {
+                        trigger('message', response.responseCode)
+                    }
+                },
+                fail: (response) => {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+
+        const hide = () => {
+            newCurrencyMainModal.classList.remove('show');
+        };
+
+        const updateCurrency = () => {
+            if (curr.value) {
+                activeData[activeElementIndex][activeElementDataName][index].eurBetStep = parseFloat(eur.value);
+                activeData[activeElementIndex][activeElementDataName][index].currencyBetStep = parseFloat(curr.value);
+                let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
+                rowChanged.children[1].innerHTML = `${eur.value}`;
+                rowChanged.children[3].innerHTML = `${curr.value}`;
+                createBetGroup.hide();
+            } else {
+                trigger('message', message.badParameter);
+            }
+        };
+
+        newCurrencyCheckbox.addEventListener('click', () => {
+            isImaginaryCurrencySelected = !isImaginaryCurrencySelected;
+            updateNewCurrencyView();
+        });
+
+        const updateNewCurrencyView = () => {
+            if (isImaginaryCurrencySelected) {
+                $$('#configuration-new-currency-imaginary-wrapper').classList.remove('show');
+            }
+            else {
+                $$('#configuration-new-currency-imaginary-wrapper').classList.add('show');
+            }
+        };
+
+        const populateNewCurrenciesDropdown = (data) => {
+            clearElement('#configuration-currency-real-currency-list');
+            let dropdownCurrencies = dropdown.generate(response.result, 'configuration-currency-real-currency-list', 'Select currency');
+            $$('#configuration-currency-real-currency-list-wrapper').appendChild(dropdownCurrencies);
+            if (!data.result) $$(`#configuration-currency-real-currency-list-wrapper`).style.display = 'none';
+        };
+
+        return {
+            show: show,
+            hide: hide
         }
     }();
 
@@ -532,9 +584,7 @@ let configuration = function () {
                     trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
                 }
                 else {
-                    if (!currencyJackpotSettingsOptions.classList.contains('show')) {
-                        currencyJackpotSettingsOptions.classList.add('show');
-                    }
+                    currencyJackpotSettingsOptions.classList.add('show');
                     currencyJackpotSettingsBetContribution.value = row.betContribution;
                     currencyJackpotSettingsMinBet.value = row.minBet;
                     currencyJackpotSettingsBaseValue.value = row.baseJackpotValue;
@@ -920,19 +970,13 @@ let configuration = function () {
     }
 
     on('configuration/profile/loaded', function () {
-        if (!$$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
-            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
-        }
+        $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
     });
 
     on('configuration/currency/loaded', function () {
-        if ($$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
-            $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
-        }
+        $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
+        $$('#configuration-currency-list-wrapper').classList.remove('hidden');
         removeTableData();
-        if ($$('#configuration-currency-list-wrapper').classList.contains('hidden')) {
-            $$('#configuration-currency-list-wrapper').classList.remove('hidden');
-        }
         editCurrencyMode = false;
         updateCurrencyNavbarButton();
         hideCurrencyView();
@@ -957,9 +1001,7 @@ let configuration = function () {
 
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
-        if (!$$('#configuration-currency-navbar-buttons-wrapper').classList.contains('hidden')) {
-            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
-        }
+        $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
         addLoader($$('#sidebar-configuration'));
         let responses = 0;
         let asyncRequests = 4;

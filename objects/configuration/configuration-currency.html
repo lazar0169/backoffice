@@ -2,51 +2,6 @@
     <div class="page-content-wrapper">
         <div id="configuration-currency-list-wrapper"></div>
         <div id="configuration-currency-black-overlay"></div>
-        <div id="configuration-currency-form">
-            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main">
-                <div class="configuration-currency-form-title">
-                    <h2 id="game-bet-group-title">Game bet groups</h2>
-                    <button class="config" id="configuration-currency-form-cancel"></button>
-                </div>
-                <div class="configuration-currency-form-bet-group-wrapper" id="configuration-currency-form-bet-group-table-wrapper">
-                    <div id="configuration-currency-form-bet-group-table">
-                        <table>
-                            <caption>
-                                <div class="caption-title">Bet Groups</div>
-                            </caption>
-                        </table>
-                    </div>
-                </div>
-                <div id="configuration-currency-form-create-step-wrapper">
-                    <div id="configuration-currency-form-create-inputs">
-                        <div class="legend">Euro value: </div>
-                        <input id="configuration-currency-eur-value" placeholder="EUR">
-                    </div>
-                    <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
-                </div>
-                <div id="configuration-currency-form-button-wrapper">
-                    <button id="configuration-currency-form-save" class="save">SAVE</button>
-                </div>
-            </div>
-            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-update">
-                <div class="configuration-currency-form-upddate-title">
-                    <button class="config" id="configuration-currency-form-update-back">&#9668; BACK</button>
-                    <h2>Currency values</h2>
-                </div>
-                <div id="configuration-currency-form-update-inputs">
-                    <div class="legend">Euro value: </div>
-                    <input id="configuration-currency-eur-update-value" placeholder="EUR">
-                    <div class="legend">Currency value: </div>
-                    <input id="configuration-currency-currency-update-value" placeholder="Selected currency" disabled>
-                </div>
-                <div id="configuration-currency-form-button-wrapper">
-                    <button id="configuration-currency-bet-group-form-convert">CONVERT</button>
-                    <button id="configuration-currency-bet-group-form-save" class="save">SAVE</button>
-                    <button id="configuration-currency-bet-group-form-delete" class="cancel">REMOVE</button>
-                </div>
-            </div>
-        </div>
-        <!-- <div id="configuration-currency-option-wrapper" class="hidden"> -->
         <div id="configuration-currency-main-options">
             <fieldset>
                 <div class="legend">Currency code: </div>
@@ -79,10 +34,6 @@
                     </caption>
                 </table>
             </div>
-            <!-- <div id="configuration-currency-conversion-table">
-
-                </div> -->
-
         </div>
         <div id="configuration-currency-default-jackpot-settings-wrapper" class="hidden">
             <div id="configuration-currency-default-jackpot-settings-list">
@@ -93,28 +44,98 @@
                 </table>
             </div>
             <div id="configuration-currency-default-jackpot-settings-options">
-                <!-- <fieldset> -->
                 <div class="legend">Bet Contribution: </div>
                 <input id="configuration-currency-jackpot-bet-contribution" type="number" step="0.01" placeholder="Bet Contribution" />
-                <!-- </fieldset>
-                    <fieldset> -->
                 <div class="legend">Min Bet: </div>
                 <input id="configuration-currency-jackpot-min-bet" type="number" placeholder="Min Bet" />
-                <!-- </fieldset>
-                    <fieldset> -->
                 <div class="legend">Base Jackpot: </div>
                 <input id="configuration-currency-jackpot-base-jackpot-value" type="number" placeholder="Base Jackpot" />
-                <!-- </fieldset>
-                    <fieldset> -->
                 <div class="legend">Min Jackpot: </div>
                 <input id="configuration-currency-jackpot-min-jackpot-value" type="number" placeholder="Min Jackpot" />
-                <!-- </fieldset>
-                    <fieldset> -->
                 <div class="legend">Max Jackpot: </div>
                 <input id="configuration-currency-jackpot-max-jackpot-value" type="number" placeholder="Max Jackpot" />
-                <!-- </fieldset> -->
             </div>
         </div>
-        <!-- </div> -->
+        <div id="configuration-currency-form">
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main">
+                <div class="configuration-currency-form-title">
+                    <h2 id="game-bet-group-title">Game bet groups</h2>
+                    <button class="config" id="configuration-currency-form-cancel"></button>
+                </div>
+                <div class="configuration-currency-form-bet-group-wrapper" id="configuration-currency-form-bet-group-table-wrapper">
+                    <div id="configuration-currency-form-bet-group-table">
+                        <table>
+                            <caption>
+                                <div class="caption-title">Bet Groups</div>
+                            </caption>
+                        </table>
+                    </div>
+                </div>
+                <div id="configuration-currency-form-create-step-wrapper">
+                    <div id="configuration-currency-form-create-inputs">
+                        <div class="legend">Euro value: </div>
+                        <input id="configuration-currency-eur-value" placeholder="EUR">
+                    </div>
+                    <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
+                </div>
+                <div id="configuration-currency-form-button-wrapper">
+                    <button id="configuration-currency-form-save" class="save">SAVE</button>
+                </div>
+            </div>
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-update">
+                <div class="configuration-currency-form-update-title">
+                    <button class="config" id="configuration-currency-form-update-back">&#9668; BACK</button>
+                    <h2>Currency values</h2>
+                </div>
+                <div id="configuration-currency-form-update-inputs">
+                    <div class="legend">Euro value: </div>
+                    <input id="configuration-currency-eur-update-value" placeholder="EUR">
+                    <div class="legend">Currency value: </div>
+                    <input id="configuration-currency-currency-update-value" placeholder="Selected currency" disabled>
+                </div>
+                <div id="configuration-currency-form-button-wrapper">
+                    <button id="configuration-currency-bet-group-form-convert">CONVERT</button>
+                    <button id="configuration-currency-bet-group-form-save" class="save">SAVE</button>
+                    <button id="configuration-currency-bet-group-form-delete" class="cancel">REMOVE</button>
+                </div>
+            </div>
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-new-currency-main">
+                <div class="configuration-currency-form-new-currency-title">
+                    <!-- <button class="config" id="configuration-currency-form-new-currency-main-back">&#9668; BACK</button> -->
+                    <h2>Main option</h2>
+                    <button class="config" id="configuration-currency-form-cancel"></button>
+                </div>
+                <div id="configuration-currency-form-new-currency-inputs">
+                    <form>
+                        <label class="switch">
+                            <input id="configuration-new-currency-checkbox" type="checkbox"> <span></span>
+                            <div></div>
+                        </label>
+                        <label id="label-for-configuration-new-currency-checkbox" for="configuration-new-currency-checkbox">Imaginary currency</label>
+                    </form>
+                    <div class="legend">Currency code: </div>
+                    <input type="text" id="configuration-new-currency-code">
+                    <div class="legend">Denomination: </div>
+                    <input type="number" id="configuration-new-currency-denomination" step="0.01"></button>
+                    <div class="legend">Bet group: </div>
+                    <input type="text" id="configuration-new-currency-bet-group">
+                    <div id="configuration-new-currency-imaginary-wrapper" class="hidden">
+                        <fieldset>
+                            <div class="legend">Real currency: </div>
+                            <div type="text" id="configuration-currency-real-currency-list-wrapper"></div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="legend">Ratio: </div>
+                            <input type="text" id="configuration-currency-ratio">
+                        </fieldset>
+                    </div>
+                </div>
+                <div id="configuration-currency-form-new-currency-main-button-wrapper">
+                    <button id="configuration-currency-bet-group-form-convert">CONVERT</button>
+                    <button id="configuration-currency-bet-group-form-save" class="save">SAVE</button>
+                    <button id="configuration-currency-bet-group-form-delete" class="cancel">REMOVE</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

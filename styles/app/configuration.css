@@ -596,6 +596,25 @@
     transform: translate3d(0, 0, 0);
 }
 
+#configuration-currency-form-new-currency-main{
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#configuration-currency-form-new-currency-main.show{
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+#configuration-currency-form-new-currency-main-back {
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
 /* Buttons end */
 
 #configuration-currency-form {
@@ -652,28 +671,7 @@
     justify-content: space-evenly;
 }
 
-
-/* END FORM*/
-
-/* jackpot style */
-#configuration-jackpot>.page-content-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-}
-.jackpot-get-time{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.jackpot-get-time>button{
-    margin: 1%;
-}
-.jackpot-time-legend{
-    margin: 0.5em;
-}
-
-
-/* jackpot end */
+#
 
 /* MOBILE */
 
