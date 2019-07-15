@@ -12,6 +12,7 @@ let comm = function () {
         'comm/currency/createCurrency': '/Currency/create',
         'comm/currency/getGames': '/Currency/get-games',
         'comm/currency/getExistingCurrencies': '/Currency/get-existing-currency-codes',
+        'comm/currency/getRealCurrencies': '/Currency/get-real-currencies',
         'comm/currency/convertFromEurToCurrency': '/Currency/convert-step-from-eur-to-currency',
         
 

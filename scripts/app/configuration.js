@@ -16,12 +16,15 @@ let configuration = function () {
     let activeElementDataName = undefined;
     let editCurrencyMode = false;
     let currencyIdSelected = undefined;
+    let isImaginaryCurrencySelected = false;
     let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
     let updateCurrencyButton = $$('#configuration-update-currency-button');
     let createStepButton = $$('#configuration-currency-form-create-bet-group');
 
     //currency props
     let originalCurrencyData = undefined;
+    let newCurrencyData = {};
+    let dropdownAllExistingData = undefined;
     let currencyConvertValue = $$('#configuration-currency-bet-group-form-convert');
     let currencyJackpotSettingsBetContribution = $$('#configuration-currency-jackpot-bet-contribution');
     let currencyJackpotSettingsMinBet = $$('#configuration-currency-jackpot-min-bet');
@@ -156,8 +159,8 @@ let configuration = function () {
         trigger('comm/currency/updateCurrency', {
             body: updateDataModel,
             success: function (response) {
-                if (response.responseCode === message.success) {
-                    trigger('message', message.success);
+                if (response.responseCode === message.codes.success) {
+                    trigger('message', response.responseCode);
                 }
                 removeLoader(updateCurrencyButton);
             },
@@ -169,7 +172,10 @@ let configuration = function () {
     }
 
     function startPopoupWizard() {
-        //TODO:
+        $$('#configuration-currency-form-main').classList.add('hidden');
+        $$('#configuration-currency-black-overlay').style.display = 'block';
+        $$('#configuration-currency').children[0].style.overflow = 'hidden';
+        newCurrencyMain.show();
     }
 
     on('configuration/profile/loaded', function () {
@@ -276,13 +282,30 @@ let configuration = function () {
 
     let newCurrencyMain = function () {
         let newCurrencyMainModal = $$('#configuration-currency-form-new-currency-main');
-        //TODO:
-        const show = (element, ind) => {
+
+        const show = () => {
             trigger('comm/currency/getExistingCurrencies', {
                 success: (response) => {
-                    if (response.responseCode === message.success) {
-                        populateNewCurrenciesDropdown(response);
+                    if (response.responseCode === message.codes.success) {
+                        isImaginaryCurrencySelected = false;
+                        $$('#configuration-new-currency-checkbox').checked = false;
+                        $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
+                        populateAllExistingCurrenciesDropdown(response);
                         newCurrencyMainModal.classList.add('show');
+                        $$('#configuration-currency-form').classList.add('show');
+                    }
+                    else {
+                        trigger('message', response.responseCode)
+                    }
+                },
+                fail: (response) => {
+                    trigger('message', response.responseCode);
+                }
+            });
+            trigger('comm/currency/getRealCurrencies', {
+                success: (response) => {
+                    if (response.responseCode === message.codes.success) {
+                        populateAllRealCurrenciesDropdown(response);
                     }
                     else {
                         trigger('message', response.responseCode)
@@ -298,17 +321,52 @@ let configuration = function () {
             newCurrencyMainModal.classList.remove('show');
         };
 
-        const updateCurrency = () => {
-            if (curr.value) {
-                activeData[activeElementIndex][activeElementDataName][index].eurBetStep = parseFloat(eur.value);
-                activeData[activeElementIndex][activeElementDataName][index].currencyBetStep = parseFloat(curr.value);
-                let rowChanged = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[index + 1];
-                rowChanged.children[1].innerHTML = `${eur.value}`;
-                rowChanged.children[3].innerHTML = `${curr.value}`;
-                createBetGroup.hide();
-            } else {
-                trigger('message', message.badParameter);
+        const updateNewCurrencyView = () => {
+            if (isImaginaryCurrencySelected) {
+                $$('#configuration-new-currency-imaginary-wrapper').classList.add('show');
+                $$('#configuration-new-currency-imaginary-wrapper').classList.remove('hidden');
+                $$('#configuration-new-currency-code').classList.remove('hidden');
+                $$('#configuration-currency-existing-currency-list-wrapper').classList.add('hidden');
             }
+            else {
+                $$('#configuration-new-currency-imaginary-wrapper').classList.remove('show');
+                $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
+                $$('#configuration-currency-existing-currency-list-wrapper').classList.remove('hidden');
+                $$('#configuration-new-currency-code').classList.add('hidden');
+            }
+        };
+
+        const populateAllExistingCurrenciesDropdown = (data) => {
+            clearElement($$('#configuration-currency-existing-currency-list'));
+            dropdownAllExistingData = data.result;
+            let parsedData = parseAllExistingCurrenciesData(data.result);
+            let dropdownCurrencies = dropdown.generate(parsedData, 'configuration-currency-existing-currency-list', 'Select currency');
+            $$('#configuration-currency-existing-currency-list-wrapper').appendChild(dropdownCurrencies);
+            if (!data.result) $$(`#configuration-currency-existing-currency-list-wrapper`).style.display = 'none';
+        };
+
+        const populateAllRealCurrenciesDropdown = (data) => {
+            clearElement($$('#configuration-currency-real-currency-list'));
+            let dropdownCurrencies = dropdown.generate(data.result, 'configuration-currency-real-currency-list', 'Select currency');
+            $$('#configuration-currency-real-currency-list-wrapper').appendChild(dropdownCurrencies);
+            if (!data.result) $$(`#configuration-currency-real-currency-list-wrapper`).style.display = 'none';
+        };
+
+        const closeNewCurrencyPopup = () => {
+            hide();
+            hideCurrencyModal();
+            newCurrencyData = {};
+        };
+
+        const saveDataAndOpenNext = () => {
+            newCurrencyData.createCurrencyModel = {
+                currencyCode: isImaginaryCurrencySelected ? $$('#configuration-new-currency-code').value : dropdownAllExistingData[$$('#configuration-currency-existing-currency-list').getSelected()],
+                denomination: $$('#configuration-new-currency-denomination').value,
+                betGroupId: $$('#configuration-new-currency-bet-group').value,
+                realCurrency: !isImaginaryCurrencySelected,
+                realCurrencyId: isImaginaryCurrencySelected ? $$('#configuration-currency-real-currency-list').getSelected() : 0,
+                realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? $$('#configuration-new-currency-ratio').value : 0
+            };
         };
 
         newCurrencyCheckbox.addEventListener('click', () => {
@@ -316,27 +374,90 @@ let configuration = function () {
             updateNewCurrencyView();
         });
 
-        const updateNewCurrencyView = () => {
-            if (isImaginaryCurrencySelected) {
-                $$('#configuration-new-currency-imaginary-wrapper').classList.remove('show');
-            }
-            else {
-                $$('#configuration-new-currency-imaginary-wrapper').classList.add('show');
-            }
-        };
-
-        const populateNewCurrenciesDropdown = (data) => {
-            clearElement('#configuration-currency-real-currency-list');
-            let dropdownCurrencies = dropdown.generate(response.result, 'configuration-currency-real-currency-list', 'Select currency');
-            $$('#configuration-currency-real-currency-list-wrapper').appendChild(dropdownCurrencies);
-            if (!data.result) $$(`#configuration-currency-real-currency-list-wrapper`).style.display = 'none';
-        };
+        $$('#configuration-new-currency-form-main-cancel').addEventListener('click', closeNewCurrencyPopup);
+        $$('#configuration-new-currency-form-main-next').addEventListener('click', saveDataAndOpenNext);
 
         return {
             show: show,
             hide: hide
         }
     }();
+
+    // let newCurrencyBetStep = function () {
+    //     let newCurrencyMainModal = $$('#configuration-currency-form-new-currency-main');
+    //     //TODO:
+    //     const show = () => {
+    //         trigger('comm/currency/getExistingCurrencies', {
+    //             success: (response) => {
+    //                 if (response.responseCode === message.codes.success) {
+    //                     isImaginaryCurrencySelected = false;
+    //                     $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
+    //                     populateNewCurrenciesDropdown(response);
+    //                     newCurrencyMainModal.classList.add('show');
+    //                     $$('#configuration-currency-form').classList.add('show');
+    //                 }
+    //                 else {
+    //                     trigger('message', response.responseCode)
+    //                 }
+    //             },
+    //             fail: (response) => {
+    //                 trigger('message', response.responseCode);
+    //             }
+    //         });
+    //     };
+
+    //     const hide = () => {
+    //         newCurrencyMainModal.classList.remove('show');
+    //     };
+
+    //     const updateNewCurrencyView = () => {
+    //         if (isImaginaryCurrencySelected) {
+    //             $$('#configuration-new-currency-imaginary-wrapper').classList.add('show');
+    //             $$('#configuration-new-currency-imaginary-wrapper').classList.remove('hidden');
+    //         }
+    //         else {
+    //             $$('#configuration-new-currency-imaginary-wrapper').classList.remove('show');
+    //             $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
+    //         }
+    //     };
+
+    //     const populateNewCurrenciesDropdown = (data) => {
+    //         clearElement($$('#configuration-currency-real-currency-list'));
+    //         let dropdownCurrencies = dropdown.generate(data.result, 'configuration-currency-real-currency-list', 'Select currency');
+    //         $$('#configuration-currency-real-currency-list-wrapper').appendChild(dropdownCurrencies);
+    //         if (!data.result) $$(`#configuration-currency-real-currency-list-wrapper`).style.display = 'none';
+    //     };
+
+    //     const closeNewCurrencyPopup = () => {
+    //         hide();
+    //         hideCurrencyModal();
+    //         newCurrencyData = {};
+    //     };
+
+    //     const saveDataAndOpenNext = () => {
+    //         newCurrencyData.createCurrencyModel = {
+    //             currencyCode: $$('#configuration-new-currency-code').value,
+    //             denomination: $$('#configuration-new-currency-denomination').value,
+    //             betGroupId: $$('#configuration-new-currency-bet-group').value,
+    //             realCurrency: isImaginaryCurrencySelected,
+    //             realCurrencyId: isImaginaryCurrencySelected ? $$('#configuration-currency-real-currency-list').getSelected() : 0,
+    //             realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? $$('#configuration-currency-ratio').value : 0
+    //         };
+    //     };
+
+    //     newCurrencyCheckbox.addEventListener('click', () => {
+    //         isImaginaryCurrencySelected = !isImaginaryCurrencySelected;
+    //         updateNewCurrencyView();
+    //     });
+
+    //     $$('#configuration-new-currency-form-main-cancel').addEventListener('click', closeNewCurrencyPopup);
+    //     $$('#configuration-new-currency-form-main-next').addEventListener('click', saveDataAndOpenNext);
+
+    //     return {
+    //         show: show,
+    //         hide: hide
+    //     }
+    // }();
 
     function saveOrEdit() {
         let eur = $$('#configuration-currency-eur-value');
@@ -883,6 +1004,7 @@ let configuration = function () {
     function showCurrencyModal(data, gameName, index, dataName) {
         activeElementIndex = index;
         activeElementDataName = dataName;
+        $$('#configuration-currency-form-main').classList.remove('hidden');
         $$('#game-bet-group-title').innerHTML = `${gameName} bet groups`;
         $$('#configuration-currency-eur-value').value = '';
         createBetGroupList(data);
@@ -892,9 +1014,6 @@ let configuration = function () {
             hideCurrencyModal();
         }
 
-        // $$('#configuration-currency-form-create-bet-group').onclick = () => {
-        //     createBetGroup.show();
-        // }
         createStepButton.onclick = () => {
             betGroupEditMode = false;
             saveOrEdit();
@@ -967,6 +1086,18 @@ let configuration = function () {
         if (tbody.length) {
             tbody[0].remove();
         }
+    }
+
+    function parseAllExistingCurrenciesData(data) {
+        let result = [];
+        for (let index in data) {
+            let object = {
+                name: data[index],
+                id: index
+            };
+            result.push(object);
+        }
+        return result;
     }
 
     on('configuration/profile/loaded', function () {
@@ -1102,7 +1233,7 @@ let configuration = function () {
         });
     });
 
-    
+
 
 
     // $$('#configuration-currency-form-create-back').addEventListener('click', createBetGroup.hide);

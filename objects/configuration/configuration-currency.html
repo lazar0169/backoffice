@@ -9,7 +9,7 @@
             </fieldset>
             <fieldset>
                 <div class="legend">Denomination: </div>
-                <input type="number" id="configuration-currency-denomination" step="0.01"></button>
+                <input type="number" id="configuration-currency-denomination" step="0.01">
             </fieldset>
             <fieldset>
                 <div class="legend">Bet group: </div>
@@ -60,7 +60,7 @@
             <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main">
                 <div class="configuration-currency-form-title">
                     <h2 id="game-bet-group-title">Game bet groups</h2>
-                    <button class="config" id="configuration-currency-form-cancel"></button>
+                    <button class="config configuration-form-cancel" id="configuration-currency-form-cancel"></button>
                 </div>
                 <div class="configuration-currency-form-bet-group-wrapper" id="configuration-currency-form-bet-group-table-wrapper">
                     <div id="configuration-currency-form-bet-group-table">
@@ -101,9 +101,40 @@
             </div>
             <div class="configuration-currency-form-wrapper" id="configuration-currency-form-new-currency-main">
                 <div class="configuration-currency-form-new-currency-title">
-                    <!-- <button class="config" id="configuration-currency-form-new-currency-main-back">&#9668; BACK</button> -->
                     <h2>Main option</h2>
-                    <button class="config" id="configuration-currency-form-cancel"></button>
+                    <button class="config configuration-form-cancel" id="configuration-new-currency-form-main-cancel"></button>
+                </div>
+                <div id="configuration-currency-form-new-currency-inputs">
+                    <form>
+                        <label class="switch">
+                            <input id="configuration-new-currency-checkbox" type="checkbox"> <span></span>
+                            <div></div>
+                        </label>
+                        <label id="label-for-configuration-new-currency-checkbox" for="configuration-new-currency-checkbox">Imaginary currency</label>
+                    </form>
+                    <div class="legend">Currency code: </div>
+                    <input type="text" id="configuration-new-currency-code" class="hidden">
+                    <div type="text" id="configuration-currency-existing-currency-list-wrapper"></div>
+                    <div class="legend">Denomination: </div>
+                    <input type="number" id="configuration-new-currency-denomination" step="0.01">
+                    <div class="legend">Bet group: </div>
+                    <input type="text" id="configuration-new-currency-bet-group">
+                    <div id="configuration-new-currency-imaginary-wrapper">
+                        <div class="legend">Real currency: </div>
+                        <div type="text" id="configuration-currency-real-currency-list-wrapper"></div>
+                        <div class="legend">Ratio: </div>
+                        <input type="text" id="configuration-new-currency-ratio">
+                    </div>
+                </div>
+                <div id="configuration-currency-form-new-currency-main-button-wrapper">
+                    <button id="configuration-new-currency-form-main-next">NEXT</button>
+                </div>
+            </div>
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-new-currency-main">
+                <div class="configuration-currency-form-new-currency-title">
+                    <button class="config" id="configuration-currency-form-new-currency-main-back">&#9668; BACK</button>
+                    <h2>Main option</h2>
+                    <button class="config configuration-form-cancel" id="configuration-new-currency-form-main-cancel"></button>
                 </div>
                 <div id="configuration-currency-form-new-currency-inputs">
                     <form>
@@ -131,9 +162,8 @@
                     </div>
                 </div>
                 <div id="configuration-currency-form-new-currency-main-button-wrapper">
-                    <button id="configuration-currency-bet-group-form-convert">CONVERT</button>
+                    <button id="configuration-currency-bet-group-form-convert">NEXT</button>
                     <button id="configuration-currency-bet-group-form-save" class="save">SAVE</button>
-                    <button id="configuration-currency-bet-group-form-delete" class="cancel">REMOVE</button>
                 </div>
             </div>
         </div>
