@@ -25,6 +25,8 @@ let configuration = function () {
     let originalCurrencyData = undefined;
     let newCurrencyData = {};
     let dropdownAllExistingData = undefined;
+    let configurationCurrencyForm = $$('#configuration-currency-form');
+    let configurationNewCurrencyForm = $$('#configuration-new-currency-form');
     let currencyConvertValue = $$('#configuration-currency-bet-group-form-convert');
     let currencyJackpotSettingsBetContribution = $$('#configuration-currency-jackpot-bet-contribution');
     let currencyJackpotSettingsMinBet = $$('#configuration-currency-jackpot-min-bet');
@@ -291,8 +293,8 @@ let configuration = function () {
                         $$('#configuration-new-currency-checkbox').checked = false;
                         $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
                         populateAllExistingCurrenciesDropdown(response);
-                        newCurrencyMainModal.classList.add('show');
-                        $$('#configuration-currency-form').classList.add('show');
+                        newCurrencyMainModal.classList.remove('hidden')
+                        showNewCurrencyModal();
                     }
                     else {
                         trigger('message', response.responseCode)
@@ -318,7 +320,7 @@ let configuration = function () {
         };
 
         const hide = () => {
-            newCurrencyMainModal.classList.remove('show');
+            newCurrencyMainModal.classList.add('hidden');
         };
 
         const updateNewCurrencyView = () => {
@@ -353,8 +355,8 @@ let configuration = function () {
         };
 
         const closeNewCurrencyPopup = () => {
+            hideNewCurrencyModal();
             hide();
-            hideCurrencyModal();
             newCurrencyData = {};
         };
 
@@ -429,8 +431,8 @@ let configuration = function () {
     //     };
 
     //     const closeNewCurrencyPopup = () => {
+    //         hideNewCurrencyModal();
     //         hide();
-    //         hideCurrencyModal();
     //         newCurrencyData = {};
     //     };
 
@@ -1020,16 +1022,28 @@ let configuration = function () {
         };
 
         $$('#configuration-currency-black-overlay').style.display = 'block';
-        $$('#configuration-currency-form').classList.add('show');
+        configurationCurrencyForm.classList.add('show');
         $$('#configuration-currency').children[0].style.overflow = 'hidden';
         isModalOpened = true;
     }
 
+    function showNewCurrencyModal() {
+        $$('#configuration-currency-black-overlay').style.display = 'block';
+        configurationNewCurrencyForm.classList.add('show');
+        $$('#configuration-currency').children[0].style.overflow = 'hidden';
+    }
+
     function hideCurrencyModal() {
         $$('#configuration-currency-black-overlay').style.display = 'none';
-        $$('#configuration-currency-form').classList.remove('show');
+        configurationCurrencyForm.classList.remove('show');
         $$('#configuration-currency').children[0].style.overflow = 'auto';
         isModalOpened = false;
+    }
+
+    function hideNewCurrencyModal() {
+        $$('#configuration-currency-black-overlay').style.display = 'none';
+        configurationNewCurrencyForm.classList.remove('show');
+        $$('#configuration-currency').children[0].style.overflow = 'auto';
     }
 
     // SEARCH BUTTON
