@@ -65,6 +65,44 @@
     display: flex;
 }
 
+#configuration-add-new-currency-button {
+    width: 3em;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 2px 2px 3px 0;
+    border-radius: 0.2em;
+}
+
+#configuration-add-new-currency-button::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 0.7rem;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#configuration-add-new-currency-button::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 0.7rem;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
 #configuration-update-currency-button{
     margin: 2px 2px 3px 0;
     border-radius: 0.2em;
@@ -497,6 +535,10 @@
     left: 0;
 }
 
+#configuration-currency-form-main.hidden{
+    display: none;
+}
+
 /* Form */
 
 .configuration-currency-form-title {
@@ -508,42 +550,6 @@
 }
 
 /* Buttons */
-
-#configuration-currency-form-cancel {
-    align-self: center;
-    transition: all 0.3s;
-    position: relative;
-    width: 3em;
-    height: 3em;
-}
-
-#configuration-currency-form-cancel::after {
-    content: " ";
-    position: absolute;
-    background-color: #fff;
-    height: 1px;
-    width: 1.5em;
-    margin: auto;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    transform: rotate(45deg);
-}
-
-#configuration-currency-form-cancel::before {
-    content: " ";
-    position: absolute;
-    background-color: #fff;
-    width: 1px;
-    height: 1.5em;
-    margin: auto;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    transform: rotate(45deg);
-}
 
 #configuration-currency-form-bet-group-table-wrapper {
     overflow: auto;
@@ -568,8 +574,6 @@
     margin: 0.3em 0;
     width: 100%;
 }
-
-/* Tax */
 
 #configuration-currency-form-create-button-wrapper {
     display: grid;
@@ -596,28 +600,10 @@
     transform: translate3d(0, 0, 0);
 }
 
-#configuration-currency-form-new-currency-main{
-    position: absolute;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    background-color: #434a5c;
-    transition: transform 0.5s, box-shadow 0.1s;
-    transform: translate3d(100%, 0, 0);
-}
-
-#configuration-currency-form-new-currency-main.show{
-    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, 0, 0);
-}
-
-#configuration-currency-form-new-currency-main-back {
-    margin-right: 2em;
-    height: 2.5em;
-    align-self: center;
-}
-
 /* Buttons end */
 
-#configuration-currency-form {
+#configuration-currency-form,
+#configuration-new-currency-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -632,7 +618,8 @@
     transition: transform 0.3s, opacity 0.3s;
 }
 
-#configuration-currency-form.show {
+#configuration-currency-form.show,
+#configuration-new-currency-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
@@ -674,7 +661,164 @@
 
 /* END FORM*/
 
+/* NEW CURRENCY FORM */
 
+.configuration-currency-form-new-currency-title {
+    display: flex;
+}
+
+.configuration-currency-form-new-currency-title>h2 {
+    flex: 1;
+}
+
+/* SWITCH */
+
+.switch input {
+    position: absolute;
+    opacity: 0;
+}
+
+.switch {
+    display: inline-block;
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    background-color: #313c4a;
+    border-radius: 20px;
+    padding: 0 20px 0 0 !important;
+}
+
+.switch div {
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    background-color: #dd9853;
+    box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.3);
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    transition: all 300ms;
+}
+
+.switch span {
+    background: #c17743;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    opacity: 0;
+    transition: all 300ms;
+}
+
+.switch input:checked~div {
+    -webkit-transform: translate3d(100%, 0, 0);
+    -moz-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.switch input:checked+span {
+    opacity: 1;
+}
+
+.switch:before,
+.switch:after {
+    display: none !important;
+}
+
+#label-for-configuration-new-currency-checkbox {
+    padding: 0 0 0 1em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#label-for-configuration-new-currency-checkbox:before,
+#label-for-configuration-new-currency-checkbox::after{
+    display: none !important;
+}
+
+#configuration-currency-form-new-currency-inputs form{
+    display: flex;
+    justify-content: center;
+}
+
+/* END SWITCH */
+
+#configuration-currency-form-new-currency-main.hidden{
+    display: none;
+}
+
+#configuration-currency-form-new-currency-main-back {
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
+#configuration-new-currency-imaginary-wrapper{
+    opacity: 0;
+}
+
+#configuration-new-currency-imaginary-wrapper.hidden {
+    display: none;
+}
+
+#configuration-new-currency-imaginary-wrapper.show {
+    transition: opacity 1s;
+    opacity: 1;
+}
+
+#configuration-new-currency-code.hidden {
+    display: none;
+}
+
+#configuration-currency-existing-currency-list-wrapper.hidden {
+    display: none
+}
+
+#configuration-currency-form-new-currency-inputs .legend {
+    margin-bottom: 0.2em;
+    margin-top: 0.2em;
+}
+
+.configuration-currency-form-new-currency-button-wrapper {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2em;
+}
+
+#configuration-currency-real-currency-list-wrapper .option-wrapper {
+    max-height: 10em !important;
+}
+
+#configuration-new-currency-form-main-next {
+    width: 100%;
+}
+
+#configuration-currency-form-new-currency-games-bet-step {
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#configuration-currency-form-new-currency-games-bet-step.show {
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+#configuration-currency-form-new-currency-games-bet-step-back{
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
+#configuration-new-currency-form-bet-group-save {
+    width: 100%;
+}
+
+/* END NEW CURRENCY FORM */
 
 /* MOBILE */
 
