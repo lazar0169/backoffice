@@ -55,7 +55,7 @@ let table = function () {
             gridTemplateRows += '1fr ';
         }
         tbody.style.gridTemplateColumns = `${gridTemplateColumns}`;
-        tbody.style.gridTemplateRows = `${gridTemplateRows}`;
+        // tbody.style.gridTemplateRows = `${gridTemplateRows}`;
         tbody.id = params.id;
         tbody.className = 'tbody';
         pagination.className = 'pagination';
@@ -112,7 +112,7 @@ let table = function () {
             for (let fr = 0; fr < (table.props.perPage + 1 || data.length + 1); fr++) {
                 gridTemplateRowsNew += '1fr ';
             }
-            table.props.body.style.gridTemplateRows = `${gridTemplateRowsNew}`;
+            // table.props.body.style.gridTemplateRows = `${gridTemplateRowsNew}`;
             if (reset) setPage(0, table);
             generateBody(data, table);
         };
@@ -210,7 +210,7 @@ let table = function () {
             if (table.props.sum) {
                 data.push(table.props.sum);
             }
-            for (let row = table.props.page * table.props.perPage; row < (table.props.page + 1) * table.props.perPage; row++) {
+            for (let row = table.props.page * table.props.perPage; row <= (table.props.page + 1) * table.props.perPage; row++) {
                 let rowId = generateGuid();
                 for (let col = 0; col < colsCount; col++) {
                     let cell = document.createElement('div');
