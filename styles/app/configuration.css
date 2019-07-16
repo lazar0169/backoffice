@@ -795,6 +795,8 @@
     width: 100%;
 }
 
+/* BET STEP */
+
 #configuration-currency-form-new-currency-games-bet-step {
     position: absolute;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
@@ -817,6 +819,112 @@
 #configuration-new-currency-form-bet-group-save {
     width: 100%;
 }
+
+#configuration-new-currency-games-table-wrapper {
+    overflow: auto;
+    padding-bottom: 5%;
+}
+
+#configuration-new-currency-games-table {
+    margin: 1em;
+}
+
+#configuration-new-currency-games-table table {
+    width: 100%;
+}
+
+#configuration-new-currency-games-table caption {
+    display: table-caption;
+}
+
+/* END BET STEP */
+
+/* GAME BET STEP*/
+
+#configuration-currency-form-new-currency-game-options {
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#configuration-currency-form-new-currency-game-options.show {
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+#configuration-currency-form-new-currency-game-options-back{
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
+
+#configuration-new-currency-regular-games-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#configuration-new-currency-regular-games-wrapper.hidden,
+#configuration-new-currency-roulette-games-wrapper.hidden,
+#configuration-new-currency-roulette-type-one-inputs.hidden,
+#configuration-new-currency-roulette-type-two-inputs.hidden,
+#configuration-new-currency-switch-form.hidden {
+    display: none;
+}
+
+#configuration-new-currency-roulette-games-wrapper {
+    display: flex;
+}
+
+#configuration-new-currency-games-step-table-wrapper,
+#configuration-new-currency-games-roulette-step-table-wrapper {
+    overflow: auto;
+    padding-bottom: 5%;
+}
+
+#configuration-new-currency-games-step-table,
+#configuration-new-currency-games-roulette-step-table {
+    margin: 1em;
+}
+
+#configuration-new-currency-games-step-table table,
+#configuration-new-currency-games-roulette-step-table table {
+    width: 100%;
+}
+
+#configuration-new-currency-games-step-table caption,
+#configuration-new-currency-games-roulette-step-table caption {
+    display: table-caption;
+}
+
+#configuration-new-currency-switch-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+#label-for-configuration-new-currency-game-bet-group-checkbox {
+    padding: 0 0 0 1em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#label-for-configuration-new-currency-game-bet-group-checkbox:before,
+#label-for-configuration-new-currency-game-bet-group-checkbox::after {
+    display: none !important;
+}
+
+#configuration-new-currency-form-create-step-wrapper{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-evenly;
+}
+
+/* END GAME BET STEP */
 
 /* END NEW CURRENCY FORM */
 

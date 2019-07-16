@@ -10,10 +10,10 @@ let comm = function () {
         'comm/currency/updateCurrency': '/Currency/update',
         'comm/currency/deleteCurrency': '/Currency/delete',
         'comm/currency/createCurrency': '/Currency/create',
+        'comm/currency/convertFromEurToCurrency': '/Currency/convert-step-from-eur-to-currency',
         'comm/currency/getGames': '/Currency/get-games',
         'comm/currency/getExistingCurrencies': '/Currency/get-existing-currency-codes',
         'comm/currency/getRealCurrencies': '/Currency/get-real-currencies',
-        'comm/currency/convertFromEurToCurrency': '/Currency/convert-step-from-eur-to-currency',
         
 
         // Reset
