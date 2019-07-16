@@ -482,17 +482,14 @@ let configuration = function () {
                     if (response.responseCode === message.codes.success) {
                         let rowAdded = $$('#configuration-currency-form-bet-group-table').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0];
                         let tr = document.createElement('tr');
-                        let tdEurCode = document.createElement('td');
                         let tdEurValue = document.createElement('td');
                         let tdCurrCode = document.createElement('td');
                         let tdCurrValue = document.createElement('td');
 
-                        tdEurCode.innerHTML = 'EUR';
                         tdEurValue.innerHTML = `${eur.value}`;
                         tdCurrCode.innerHTML = $$('#configuration-currency-code').value;
                         tdCurrValue.innerHTML = `${response.result}`;
 
-                        tr.appendChild(tdEurCode);
                         tr.appendChild(tdEurValue);
                         tr.appendChild(tdCurrCode);
                         tr.appendChild(tdCurrValue);
@@ -500,7 +497,6 @@ let configuration = function () {
                         rowAdded.appendChild(tr);
 
                         let newData = {
-                            eurThreeLetterCode: 'EUR',
                             eurBetStep: parseFloat(eur.value),
                             currencyThreeLetterCode: $$('#configuration-currency-code').value,
                             currencyBetStep: parseFloat(response.result),
@@ -737,16 +733,29 @@ let configuration = function () {
             tr.dataset.id = index;
             tr.appendChild(td);
             body.appendChild(tr);
-            // td.highlighted = false;
             td.innerHTML = data[index][`${dataCaption}`];
             td.onclick = () => {
-                // if (td.highlighted) {
-                //     td.highlighted = false;
-                //     tr.classList.remove('highlighted');
-                // } else {
-                //     tr.classList.add('highlighted');
-                //     td.highlighted = true;
-                // }
+                showCurrencyModal(activeData[index][`${dataName}`], activeData[index][`${dataCaption}`], index, dataName);
+            }
+        }
+    }
+
+    function createNewCurrencyTable(data, dataCaption = dataName, dataName, section) {
+        let wrapperTable = $$(`#configuration-new-currency-${section}-table`).getElementsByTagName('table')[0];
+        let body = document.createElement('tbody');
+        wrapperTable.appendChild(body);
+        hideAllRows(wrapperTable);
+        activeData = data;
+        for (let index in data) {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+
+            td.className = 'collapsed';
+            tr.dataset.id = index;
+            tr.appendChild(td);
+            body.appendChild(tr);
+            td.innerHTML = data[index][`${dataCaption}`];
+            td.onclick = () => {
                 showCurrencyModal(activeData[index][`${dataName}`], activeData[index][`${dataCaption}`], index, dataName);
             }
         }
@@ -761,15 +770,12 @@ let configuration = function () {
 
         // Header
         let trHead = document.createElement('tr');
-        let thEuroCode = document.createElement('th');
         let thEurStep = document.createElement('th');
         let thCurrCode = document.createElement('th');
         let thCurrStep = document.createElement('th');
-        thEuroCode.innerHTML = 'EUR Code';
         thEurStep.innerHTML = 'EUR Step';
         thCurrCode.innerHTML = 'Currency Code';
         thCurrStep.innerHTML = 'Currency Step';
-        trHead.appendChild(thEuroCode);
         trHead.appendChild(thEurStep);
         trHead.appendChild(thCurrCode);
         trHead.appendChild(thCurrStep);
@@ -777,8 +783,6 @@ let configuration = function () {
 
         for (let element of data) {
             let tr = document.createElement('tr');
-            let tdEURCode = document.createElement('td');
-            tdEURCode.innerHTML = element.eurThreeLetterCode;
             let tdEurStep = document.createElement('td');
             tdEurStep.innerHTML = element.eurBetStep;
             let tdCurrCode = document.createElement('td');
@@ -786,7 +790,6 @@ let configuration = function () {
             let tdCurrStep = document.createElement('td');
             tdCurrStep.innerHTML = element.currencyBetStep;
 
-            tr.appendChild(tdEURCode);
             tr.appendChild(tdEurStep);
             tr.appendChild(tdCurrCode);
             tr.appendChild(tdCurrStep);
