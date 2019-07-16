@@ -17,4 +17,36 @@
     position: absolute;
 }
 
+#jackpotHistoryTable .cell{
+    display: block;
+}
+#activeJackpotTable{
+    margin-top: 0.1%;
+}
 
+/* mobile view */
+.mobile #jackpot-get-settings{
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.mobile #jackpot-get-history{
+    display: block;
+    
+}
+
+.mobile #hide-history-in-mobile{
+    display: none
+}
+
+.mobile #search-history-mobile-width{
+    width: 100%;
+}
+
+.mobile #hide-active-in-mobile{
+    display: none
+}
+.mobile #search-active-mobile-width{
+    width: 100%;
+}
