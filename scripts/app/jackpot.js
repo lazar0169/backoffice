@@ -78,7 +78,6 @@ let jackpot = function () {
                     success: function (response) {
                         if (response.responseCode === message.codes.success) {
                             loadJackpotPortals(response);
-                            $$(`#configuration-get-jackpot`).style.display = "block"
                         } else {
                             trigger('message', response.responseCode);
                         }
@@ -103,7 +102,7 @@ let jackpot = function () {
         let portalsDropdown = dropdown.generate(data.result, `configuration-jackpot-portals-list`, 'Select portal');
         $$(`#configuration-jackpot-portals-list-wrapper`).appendChild(portalsDropdown);
         if (!data.result) $$(`#configuration-jackpot-portals-list-wrapper`).style.display = 'none';
-        $$(`#jackpot-get-settings`).classList.remove('hidden');
+        $$(`#jackpot-get-settings-button`).classList.remove('hidden');
 
     };
 
@@ -136,7 +135,7 @@ let jackpot = function () {
         });
     };
 
-    function parseGameData(data, firstColName) {
+    function parseGameData(data) {
         if (Object.getOwnPropertyNames(data).length === 0) {
             return [];
         }
@@ -224,8 +223,7 @@ let jackpot = function () {
     //         }
     //     };
     // }
-    function search(elements, term, columnToSort) {
-
+    function search(elements, term) {
         let res = [];
 
         for (let el of elements) {
@@ -308,7 +306,7 @@ let jackpot = function () {
     //     divContainer.appendChild(table);
     // }
 
-    $$('#jackpot-get-settings').addEventListener('click', getPortalSettingsTable);
+    $$('#jackpot-get-settings-button').addEventListener('click', getPortalSettingsTable);
 
     $$('#jackpot-get-history').addEventListener('click', getJackpotHistoryTable);
 
