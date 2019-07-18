@@ -420,6 +420,12 @@ let configuration = function () {
 
     let newCurrencyMain = function () {
         let newCurrencyMainModal = $$('#configuration-currency-form-new-currency-main');
+        let denomination = $$('#configuration-new-currency-denomination');
+        let betGroup = $$('#configuration-new-currency-bet-group');
+        let ratio =  $$('#configuration-new-currency-ratio');
+        let currCode = $$('#configuration-new-currency-code');
+        let existingCurrencyList = $$('#configuration-currency-existing-currency-list');
+        let realCurrencyList = $$('#configuration-currency-real-currency-list');
 
         const show = () => {
             trigger('comm/currency/getExistingCurrencies', {
@@ -429,6 +435,7 @@ let configuration = function () {
                         $$('#configuration-new-currency-checkbox').checked = false;
                         $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
                         populateAllExistingCurrenciesDropdown(response);
+                        existingCurrencyList = $$('#configuration-currency-existing-currency-list');
                         newCurrencyMainModal.classList.remove('hidden')
                         showNewCurrencyModal();
                     }
@@ -444,6 +451,7 @@ let configuration = function () {
                 success: (response) => {
                     if (response.responseCode === message.codes.success) {
                         populateAllRealCurrenciesDropdown(response);
+                        realCurrencyList = $$('#configuration-currency-real-currency-list');
                     }
                     else {
                         trigger('message', response.responseCode)
@@ -495,20 +503,35 @@ let configuration = function () {
             hideNewCurrencyModal();
             hide();
             newCurrencyData = {};
-            $$('#configuration-new-currency-denomination').value = '';
-            $$('#configuration-new-currency-bet-group').value = '';
-            $$('#configuration-new-currency-ratio').value = '';
-            $$('#configuration-new-currency-code').value = '';
+            denomination.value = '';
+            betGroup.value = '';
+            ratio.value = '';
+            currCode.value = '';
         };
 
         const saveDataAndOpenNext = () => {
+            if (!denomination.value || !betGroup.value) {
+                trigger('message', message.codes.badParameter);
+                return;
+            }
+
+            if(isImaginaryCurrencySelected && (!currCode.value || !ratio.value || !realCurrencyList.getSelected())){
+                trigger('message', message.codes.badParameter);
+                return
+            }
+            
+            if(!isImaginaryCurrencySelected && !existingCurrencyList.getSelected()){
+                trigger('message', message.codes.badParameter);
+                return
+            }
+
             newCurrencyData.createCurrencyModel = {
-                currencyCode: isImaginaryCurrencySelected ? $$('#configuration-new-currency-code').value : dropdownAllExistingData[$$('#configuration-currency-existing-currency-list').getSelected()],
-                denomination: $$('#configuration-new-currency-denomination').value,
-                betGroupId: $$('#configuration-new-currency-bet-group').value,
+                currencyCode: isImaginaryCurrencySelected ? currCode.value : dropdownAllExistingData[existingCurrencyList.getSelected()],
+                denomination: denomination.value,
+                betGroupId: betGroup.value,
                 realCurrency: !isImaginaryCurrencySelected,
-                realCurrencyId: isImaginaryCurrencySelected ? $$('#configuration-currency-real-currency-list').getSelected() : 0,
-                realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? $$('#configuration-new-currency-ratio').value : 0
+                realCurrencyId: isImaginaryCurrencySelected ? realCurrencyList.getSelected() : 0,
+                realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? ratio.value : 0
             };
             newCurrencyBetStep.show();
         };
@@ -523,7 +546,9 @@ let configuration = function () {
 
         return {
             show: show,
-            hide: hide
+            hide: hide,
+            existingCurrencyList: existingCurrencyList,
+            realCurrencyList: existingCurrencyList
         }
     }();
 
@@ -555,24 +580,17 @@ let configuration = function () {
         };
 
         const saveData = () => {
-            newCurrencyData.createCurrencyModel = {
-                currencyCode: $$('#configuration-new-currency-code').value,
-                denomination: $$('#configuration-new-currency-denomination').value,
-                betGroupId: $$('#configuration-new-currency-bet-group').value,
-                realCurrency: isImaginaryCurrencySelected,
-                realCurrencyId: isImaginaryCurrencySelected ? $$('#configuration-currency-real-currency-list').getSelected() : 0,
-                realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? $$('#configuration-currency-ratio').value : 0
-            };
+
             trigger('comm/currency/createCurrency', {
                 body: newCurrencyData,
-                success: function(response) {
-                    if(response.responseCode === message.code.success){
+                success: function (response) {
+                    if (response.responseCode === message.code.success) {
                         //TODO: finish add new currency
                     }
-                        
+
                     trigger('message', response.responseCode)
                 },
-                fail: function(response){
+                fail: function (response) {
 
                 }
             });
@@ -669,6 +687,7 @@ let configuration = function () {
             $$('#configuration-new-currency-roulette-type-one-inputs').classList.add('hidden');
             $$('#configuration-new-currency-roulette-type-two-inputs').classList.add('hidden');
             $$('#configuration-new-currency-switch-form').classList.add('hidden');
+            $$('#configuration-new-currency-eur-value').value = '';
             modal.classList.remove('show');
         };
 
@@ -749,6 +768,12 @@ let configuration = function () {
                 tdPlay.innerHTML = rouletteOptions[key];
                 tdMin.innerHTML = existingElement ? existingElement.roulleteMinBetSettings[key] : '';
                 tdMax.innerHTML = existingElement ? existingElement.roulleteMaxBetSettings[key] : '';
+                tr.onclick = () => {
+                    existingElement ? newCurrencyRouletteOptions.show(gameId, {
+                        minSettings: existingElement.roulleteMinBetSettings,
+                        maxSettings: existingElement.roulleteMaxBetSettings
+                    }) : newCurrencyRouletteOptions.show(gameId);
+                };
             }
             if (existingElement) {
 
@@ -904,7 +929,123 @@ let configuration = function () {
             gameType: gameType,
             tableBody: tableBody,
             stepsToAdd: stepsToAdd,
-            isRouletteSelected: isRouletteSelected
+            isRouletteSelected: isRouletteSelected,
+            updateRouletteOptions: drawRouletteGameView
+        }
+    }();
+
+    let newCurrencyRouletteOptions = function () {
+        let modal = $$('#configuration-currency-form-new-currency-roulette-options');
+        let saveButton = $$('#configuration-new-currency-form-roulette-options-save');
+        let backButton = $$('#configuration-currency-form-new-currency-roulette-options-back');
+
+        let rouletteStraightMin = $$('#configuration-currency-roulette-straight-min');
+        let rouletteSplitMin = $$('#configuration-currency-roulette-split-min');
+        let rouletteStreetMin = $$('#configuration-currency-roulette-street-min');
+        let rouletteSquaretMin = $$('#configuration-currency-roulette-square-min');
+        let rouletteSixLineMin = $$('#configuration-currency-roulette-six-line-min');
+        let rouletteColumnAndDozenMin = $$('#configuration-currency-roulette-column-and-dozen-min');
+        let rouletteChancesMin = $$('#configuration-currency-roulette-chances-min');
+
+        let rouletteStraightMax = $$('#configuration-currency-roulette-straight-max');
+        let rouletteSplitMax = $$('#configuration-currency-roulette-split-max');
+        let rouletteStreetMax = $$('#configuration-currency-roulette-street-max');
+        let rouletteSquaretMax = $$('#configuration-currency-roulette-square-max');
+        let rouletteSixLineMax = $$('#configuration-currency-roulette-six-line-max');
+        let rouletteColumnAndDozenMax = $$('#configuration-currency-roulette-column-and-dozen-max');
+        let rouletteChancesMax = $$('#configuration-currency-roulette-chances-max');
+
+        let gameId = undefined;
+
+        const show = (id, existingData = undefined) => {
+            gameId = id;
+            if (existingData) {
+                fillInputs(existingData);
+            }
+            modal.classList.add('show');
+        };
+
+        const hide = () => {
+            clearData();
+            modal.classList.remove('show');
+        };
+
+        const saveData = () => {
+            let element = findRouletteElement();
+            if (element) {
+                newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[element].roulleteMinBetSettings = {
+                    straight: rouletteStraightMin.value,
+                    split: rouletteSplitMin.value,
+                    street: rouletteStreetMin.value,
+                    square: rouletteSquaretMin.value,
+                    sixLine: rouletteSixLineMin.value,
+                    columnAndDozen: rouletteColumnAndDozenMin.value,
+                    chances: rouletteChancesMin.value
+                };
+                newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[element].roulleteMaxBetSettings = {
+                    straight: rouletteStraightMax.value,
+                    split: rouletteSplitMax.value,
+                    street: rouletteStreetMax.value,
+                    square: rouletteSquaretMax.value,
+                    sixLine: rouletteSixLineMax.value,
+                    columnAndDozen: rouletteColumnAndDozenMax.value,
+                    chances: rouletteChancesMax.value
+                };
+                newCurrencyGameBetStep.updateRouletteOptions();
+                hide();
+            }
+        };
+
+        const fillInputs = (data) => {
+            rouletteStraightMin.value = data.minSettings.straight;
+            rouletteSplitMin.value = data.minSettings.split;
+            rouletteStreetMin.value = data.minSettings.street;
+            rouletteSquaretMin.value = data.minSettings.square;
+            rouletteSixLineMin.value = data.minSettings.sixLine;
+            rouletteColumnAndDozenMin.value = data.minSettings.columnAndDozen;
+            rouletteChancesMin.value = data.minSettings.chances;
+
+            rouletteStraightMax.value = data.maxSettings.straight;
+            rouletteSplitMax.value = data.maxSettings.split;
+            rouletteStreetMax.value = data.maxSettings.street;
+            rouletteSquaretMax.value = data.maxSettings.square;
+            rouletteSixLineMax.value = data.maxSettings.sixLine;
+            rouletteColumnAndDozenMax.value = data.maxSettings.columnAndDozen;
+            rouletteChancesMax.value = data.maxSettings.chances;
+        };
+
+        const clearData = () => {
+            rouletteStraightMin.value = '';
+            rouletteSplitMin.value = '';
+            rouletteStreetMin.value = '';
+            rouletteSquaretMin.value = '';
+            rouletteSixLineMin.value = '';
+            rouletteColumnAndDozenMin.value = '';
+            rouletteChancesMin.value = '';
+
+            rouletteStraightMax.value = '';
+            rouletteSplitMax.value = '';
+            rouletteStreetMax.value = '';
+            rouletteSquaretMax.value = '';
+            rouletteSixLineMax.value = '';
+            rouletteColumnAndDozenMax.value = '';
+            rouletteChancesMax.value = '';
+        };
+
+        const findRouletteElement = () => {
+            for (let element in newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet) {
+                if (newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[element].gameId === gameId) {
+                    return element;
+                }
+            }
+        };
+
+        saveButton.addEventListener('click', saveData);
+        backButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
         }
     }();
 

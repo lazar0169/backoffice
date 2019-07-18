@@ -919,11 +919,18 @@
     align-self: center;
 }
 
+#configuration-currency-form-new-currency-game-options-wrapper {
+    overflow: auto;
+}
 
 #configuration-new-currency-regular-games-wrapper {
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+#configuration-new-currency-form-game-options-save {
+    width: 90%
 }
 
 #configuration-new-currency-regular-games-wrapper.hidden,
@@ -986,6 +993,63 @@
 }
 
 /* END GAME BET STEP */
+
+/* ROULETTE OPTIONS */
+
+#configuration-currency-form-new-currency-roulette-options {
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#configuration-currency-form-new-currency-roulette-options.show {
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+#configuration-currency-form-new-currency-roulette-options-back {
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
+#configuration-new-currency-roulette-options-legend-wrapper {
+    display: flex;
+    padding-bottom: 2em;
+}
+
+#configuration-new-currency-roulette-options-legend-wrapper .legend {
+    flex: 1;
+}
+
+#configuration-new-currency-roulette-options-inputs-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+#configuration-new-currency-roulette-options-inputs-min,
+#configuration-new-currency-roulette-options-inputs-max,
+#configuration-new-currency-roulette-options-inputs-legends {
+    display: flex;
+    flex-direction: column;
+}
+
+#configuration-new-currency-roulette-options-inputs-min,
+#configuration-new-currency-roulette-options-inputs-max {
+    width: 35%;
+}
+
+#configuration-new-currency-roulette-options-inputs-wrapper div {
+    padding-bottom: 1em;
+}
+
+#configuration-new-currency-form-roulette-options-save {
+    width: 90%
+}
+
+/* END ROULETTE OPTIONS */
 
 /* END NEW CURRENCY FORM */
 
