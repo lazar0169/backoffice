@@ -56,8 +56,7 @@
     border-radius: 0.2em;
 }
 
-#configuration-currency-navbar-buttons-wrapper.hidden,
-#configuration-update-currency-button.hidden{
+#configuration-currency-navbar-buttons-wrapper.hidden {
     display: none;
 }
 
@@ -101,11 +100,6 @@
     left: 0;
     top: 0;
     bottom: 0;
-}
-
-#configuration-update-currency-button{
-    margin: 2px 2px 3px 0;
-    border-radius: 0.2em;
 }
 
 .configuration-search {
@@ -358,6 +352,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    flex-direction: column;
 }
 
 #configuration-currency-list-wrapper{
@@ -382,8 +377,18 @@
 
 #configuration-currency-main-options{
     display: flex;
-    flex-direction: column;
     flex: 1;
+}
+
+#configuration-currency-update-main-options {
+    max-height: 2em;
+    align-self: center;
+    margin: 1em;
+}
+
+#configuration-currency-options {
+    display: flex;
+    flex-direction: column;
 }
 
 #configuration-currency-imaginary-wrapper{
@@ -420,9 +425,6 @@
     display: none;
 }
 
-#configuration-currency-games-table{
-    width: 30%
-}
 #configuration-currency-games-table tr.highlighted{
     background: #76869b;
 }
@@ -478,33 +480,31 @@
     background-color: transparent;
 }
 
-#configuration-currency-default-jackpot-settings-wrapper{
-    overflow: auto;
+#configuration-currency-default-jackpot-settings-wrapper {
     max-height: 66%;
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-#configuration-currency-default-jackpot-settings-wrapper.hidden{
+#configuration-currency-default-jackpot-settings-wrapper.hidden {
     display: none
 }
 
-#configuration-currency-conversion-table{
+#configuration-currency-conversion-table {
     flex: 0.7;
     margin-left: 10em;
 }
 
-#configuration-currency-games-table caption{
+#configuration-currency-games-table caption {
     justify-content: center;
 }
 
-#configuration-currency-default-jackpot-settings-list{
+#configuration-currency-default-jackpot-settings-list {
     display: flex;
-    justify-content: center;
 }
 
-#configuration-currency-default-jackpot-settings-options{
+#configuration-currency-default-jackpot-settings-options {
     margin-top: 5em;
     display: flex;
     align-self: center;
@@ -514,7 +514,7 @@
     pointer-events: none;
 }
 
-#configuration-currency-default-jackpot-settings-options.hidden{
+#configuration-currency-default-jackpot-settings-options.hidden {
     display: none;
 }
 
@@ -553,11 +553,16 @@
 
 #configuration-currency-form-bet-group-table-wrapper {
     overflow: auto;
-    padding-bottom: 5%;
 }
 
 #configuration-currency-form-bet-group-table{
     margin: 1em;
+    overflow: auto;
+    max-height: 16em;
+}
+
+#configuration-currency-form-bet-group-table>table{
+    width: 99% !important;
 }
 
 #configuration-currency-form-button-wrapper {
@@ -569,7 +574,6 @@
     width: 100%;
 }
 
-#configuration-currency-form-button-wrapper button,
 #configuration-currency-form-create-button-wrapper button {
     margin: 0.3em 0;
     width: 100%;
@@ -581,23 +585,69 @@
     grid-gap: 0.3em;
 }
 
-#configuration-currency-form-update {
-    position: absolute;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    background-color: #434a5c;
-    transition: transform 0.5s, box-shadow 0.1s;
-    transform: translate3d(100%, 0, 0);
+#configuration-new-currency-regular-games-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
-#configuration-currency-form-update-back {
-    margin-right: 2em;
-    height: 2.5em;
-    align-self: center;
+#configuration-new-currency-regular-games-wrapper.hidden {
+    display: hidden;
 }
 
-#configuration-currency-form-update.show {
-    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, 0, 0);
+#configuration-currency-switch-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5em;
+}
+
+#configuration-currency-roulette-games-wrapper {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+#configuration-currency-games-roulette-step-table {
+    overflow: auto;
+    padding-bottom: 5%;
+}
+
+#configuration-currency-switch-form.hidden,
+#configuration-currency-roulette-games-wrapper.hidden,
+#configuration-currency-regular-games-wrapper.hidden,
+#configuration-currency-roulette-type-one-inputs.hidden,
+#configuration-currency-roulette-type-two-inputs.hidden {
+    display: none;
+}
+
+#configuration-currency-games-roulette-step-table {
+    margin: 1em;
+}
+
+#configuration-currency-games-roulette-step-table table {
+    width: 100%;
+}
+
+#configuration-currency-games-roulette-step-table caption {
+    display: table-caption;
+}
+
+#configuration-currency-roulette-inputs {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#label-for-configuration-currency-game-bet-group-checkbox {
+    padding: 0 0 0 1em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#label-for-configuration-currency-game-bet-group-checkbox:before,
+#label-for-configuration-currency-game-bet-group-checkbox::after {
+    display: none !important;
 }
 
 /* Buttons end */
@@ -656,6 +706,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
+    padding-bottom: 1em;
 }
 
 
@@ -816,17 +867,25 @@
     align-self: center;
 }
 
+#configuration-new-currency-games-search-wrapper {
+    display: flex;
+    justify-content: center
+}
+
+#configuration-new-currency-games-remove-search {
+    height: 2em;
+    width: 2em;
+    align-self: center;
+}
+
 #configuration-new-currency-form-bet-group-save {
     width: 100%;
 }
 
-#configuration-new-currency-games-table-wrapper {
-    overflow: auto;
-    padding-bottom: 5%;
-}
-
 #configuration-new-currency-games-table {
     margin: 1em;
+    overflow: auto;
+    max-height: 20em;
 }
 
 #configuration-new-currency-games-table table {
@@ -877,17 +936,14 @@
 
 #configuration-new-currency-roulette-games-wrapper {
     display: flex;
-}
-
-#configuration-new-currency-games-step-table-wrapper,
-#configuration-new-currency-games-roulette-step-table-wrapper {
-    overflow: auto;
-    padding-bottom: 5%;
+    flex-direction: column;
 }
 
 #configuration-new-currency-games-step-table,
 #configuration-new-currency-games-roulette-step-table {
     margin: 1em;
+    overflow: auto;
+    max-height: 16em;
 }
 
 #configuration-new-currency-games-step-table table,
@@ -898,6 +954,11 @@
 #configuration-new-currency-games-step-table caption,
 #configuration-new-currency-games-roulette-step-table caption {
     display: table-caption;
+}
+
+#configuration-new-currency-roulette-inputs {
+    display: flex;
+    justify-content: space-around;
 }
 
 #configuration-new-currency-switch-form {

@@ -7,10 +7,10 @@ let comm = function () {
         
         'comm/currency/getCurrencies': '/Currency/get-currencies',
         'comm/currency/readCurrency': '/Currency/read',
-        'comm/currency/updateCurrency': '/Currency/update',
+        'comm/currency/updateMainOptions': '/Currency/update-currency',
         'comm/currency/deleteCurrency': '/Currency/delete',
         'comm/currency/createCurrency': '/Currency/create',
-        'comm/currency/convertFromEurToCurrency': '/Currency/convert-step-from-eur-to-currency',
+        'comm/currency/convertFromEurToCurrency': '/Currency/add-game-bet',
         'comm/currency/getGames': '/Currency/get-games',
         'comm/currency/getExistingCurrencies': '/Currency/get-existing-currency-codes',
         'comm/currency/getRealCurrencies': '/Currency/get-real-currencies',
