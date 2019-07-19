@@ -64,6 +64,11 @@
     display: flex;
 }
 
+#configuration-delete-currency-button.hidden {
+    display: none;
+}
+
+#configuration-delete-currency-button,
 #configuration-add-new-currency-button {
     width: 3em;
     position: relative;
@@ -543,15 +548,6 @@
 
 #configuration-currency-form-bet-group-table>table{
     width: 99% !important;
-}
-
-#configuration-currency-form-button-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 0.3em;
-    margin: 1em;
-    margin: auto;
-    width: 100%;
 }
 
 #configuration-currency-form-create-button-wrapper button {

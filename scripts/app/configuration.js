@@ -12,6 +12,7 @@ let configuration = function () {
     let currencyIdSelected = undefined;
     let isImaginaryCurrencySelected = false;
     let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
+    let deleteCurrencyButton = $$('#configuration-delete-currency-button');
     let createCurrencyStepButton = $$('#configuration-currency-form-create-bet-group');
     let updateMainOptionsButton = $$('#configuration-currency-update-main-options');
 
@@ -124,8 +125,30 @@ let configuration = function () {
 
     function showCreateCurrencyView() {
         hideCurrencyView();
+        deleteCurrencyButton.classList.add('hidden');
         startPopoupWizard();
     }
+
+    function deleteCurrency() {
+        if (!currencyIdSelected) {
+            trigger('message', message.codes.badParameter);
+        }
+
+        trigger('comm/currency/deleteCurrency', {
+            body: {
+                id: currencyIdSelected
+            },
+            success: function (response) {
+                if(response.responseCode === message.codes.success){
+                    trigger('configuration/currency/loaded');
+                }
+                trigger('message', response.responseCode);
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        })
+    };
 
     function updateMainOptions() {
         addLoader(updateMainOptionsButton);
@@ -133,7 +156,7 @@ let configuration = function () {
             body: {
                 id: currencyIdSelected,
                 denomination: $$('#configuration-currency-denomination').value,
-                ratio: $$('#configuration-currency-ratio').value,
+                ratio: $$('#configuration-currency-ratio').value ? $$('#configuration-currency-ratio').value : 0,
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
@@ -367,7 +390,6 @@ let configuration = function () {
             if (isRouletteSelected) {
                 $$('#configuration-currency-regular-games-wrapper').classList.add('hidden');
                 $$('#configuration-currency-roulette-games-wrapper').classList.remove('hidden');
-                $$('#configuration-currency-form-save').style.display = 'none';
                 if (gameType === 2) {
                     $$('#configuration-currency-roulette-type-one-inputs').classList.remove('hidden');
                 }
@@ -380,13 +402,8 @@ let configuration = function () {
                 $$('#configuration-currency-roulette-games-wrapper').classList.add('hidden');
                 $$('#configuration-currency-roulette-type-one-inputs').classList.add('hidden');
                 $$('#configuration-currency-roulette-type-two-inputs').classList.add('hidden');
-                $$('#configuration-currency-form-save').style.display = 'flex';
             }
         };
-
-        $$('#configuration-currency-form-save').onclick = () => {
-            hide();
-        }
 
         $$('#configuration-currency-form-cancel').addEventListener('click', hide);
 
@@ -1344,6 +1361,7 @@ let configuration = function () {
     };
 
     const selectedCurrency = (value) => {
+        deleteCurrencyButton.classList.remove('hidden');
         currencyIdSelected = value;
         addLoader($$('#configuration-currency-list-wrapper'));
         trigger('comm/currency/readCurrency', {
@@ -1601,6 +1619,16 @@ let configuration = function () {
         }
     }
 
+    function closeAllPopups() {
+        newCurrencyRouletteOptions.hide();
+        newCurrencyGameBetStep.hide();
+        newCurrencyBetStep.hide();
+        newCurrencyMain.hide();
+
+        currencyJackpotModal.hide();
+        currencyUpdatePopup.hide();
+    };
+
     function parseAllExistingCurrenciesData(data) {
         let result = [];
         for (let index in data) {
@@ -1620,7 +1648,9 @@ let configuration = function () {
     on('configuration/currency/loaded', function () {
         $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
         $$('#configuration-currency-list-wrapper').classList.remove('hidden');
+        deleteCurrencyButton.classList.add('hidden');
         removeTableData();
+        closeAllPopups();
         hideCurrencyView();
 
         addLoader($$('#sidebar-configuration'));
@@ -1744,5 +1774,6 @@ let configuration = function () {
     });
 
     addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
+    deleteCurrencyButton.addEventListener('click', deleteCurrency);
     updateMainOptionsButton.addEventListener('click', updateMainOptions);
 }();
