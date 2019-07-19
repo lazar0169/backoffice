@@ -139,7 +139,7 @@ let configuration = function () {
                 id: currencyIdSelected
             },
             success: function (response) {
-                if(response.responseCode === message.codes.success){
+                if (response.responseCode === message.codes.success) {
                     trigger('configuration/currency/loaded');
                 }
                 trigger('message', response.responseCode);
@@ -599,7 +599,7 @@ let configuration = function () {
                     trigger('message', response.responseCode)
                 },
                 fail: function (response) {
-
+                    trigger('message', response.responseCode)
                 }
             });
             hide();
@@ -674,6 +674,12 @@ let configuration = function () {
         let gameType = undefined;
         let tableBody = undefined;
         let isRouletteSelected = false;
+        let rouletteMaxBet = $$('#configuration-new-currency-roulette-max-bet');
+        let rouletteMaxWin = $$('#configuration-new-currency-roulette-max-win');
+        let rouletteMaxTriplePokerBet = $$('#configuration-new-currency-roulette-triple-poker-max-bet');
+        let rouletteMinTriplePokerBet = $$('#configuration-new-currency-roulette-triple-poker-min-bet');
+        let rouletteMaxDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-max-bet');
+        let rouletteMinDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-min-bet');
         let stepsToAdd = [];
 
         const show = (id, name, type) => {
@@ -774,63 +780,37 @@ let configuration = function () {
                 tableBody.appendChild(tr);
 
                 tdPlay.innerHTML = rouletteOptions[key];
-                tdMin.innerHTML = existingElement ? existingElement.roulleteMinBetSettings[key] : '';
-                tdMax.innerHTML = existingElement ? existingElement.roulleteMaxBetSettings[key] : '';
+                tdMin.innerHTML = existingElement ? existingElement.hasOwnProperty('roulleteMinBetSettings') ? existingElement.roulleteMinBetSettings[key] : '' : '';
+                tdMax.innerHTML = existingElement ? existingElement.hasOwnProperty('roulleteMaxBetSettings') ? existingElement.roulleteMaxBetSettings[key] : '' : '';
                 tr.onclick = () => {
-                    existingElement ? newCurrencyRouletteOptions.show(gameId, {
+                    existingElement ? newCurrencyRouletteOptions.show(gameId, gameName, {
                         minSettings: existingElement.roulleteMinBetSettings,
                         maxSettings: existingElement.roulleteMaxBetSettings
-                    }) : newCurrencyRouletteOptions.show(gameId);
+                    }) : newCurrencyRouletteOptions.show(gameId, gameName);
                 };
             }
             if (existingElement) {
 
-                $$('#configuration-new-currency-roulette-max-bet').value = existingElement.maxBetPerTable;
-                $$('#configuration-new-currency-roulette-max-win').value = existingElement.maxWinPerTable;
+                rouletteMaxBet.value = existingElement.maxBetPerTable;
+                rouletteMaxWin.value = existingElement.maxWinPerTable;
 
                 if (gameType === 1) {
-                    $$('#configuration-new-currency-roulette-triple-poker-max-bet').value = existingElement.triplePokerMaxBet;
-                    $$('#configuration-new-currency-roulette-triple-poker-min-bet').value = existingElement.triplePokerMinBet;
+                    rouletteMaxTriplePokerBet.value = existingElement.triplePokerMaxBet;
+                    rouletteMinTriplePokerBet.value = existingElement.triplePokerMinBet;
                 }
 
                 if (gameType === 2) {
-                    $$('#configuration-new-currency-roulette-double-zero-max-bet').value = existingElement.doubleZeroMaxBet;
-                    $$('#configuration-new-currency-roulette-double-zero-min-bet').value = existingElement.doubleZeroMinBet
+                    rouletteMaxDoubleZeroBet.value = existingElement.doubleZeroMaxBet;
+                    rouletteMinDoubleZeroBet.value = existingElement.doubleZeroMinBet
                 }
             }
             else {
-                if (!newCurrencyData.hasOwnProperty('currencyRoulletteBetModel')) {
-                    newCurrencyData.currencyRoulletteBetModel = {};
-                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
-                }
-                newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet.push({
-                    gameId: gameId,
-                    gameName: gameName,
-                    roulleteMinBetSettings: {
-                        straight: 0,
-                        split: 0,
-                        street: 0,
-                        square: 0,
-                        sixLine: 0,
-                        columnAndDozen: 0,
-                        chances: 0
-                    },
-                    roulleteMaxBetSettings: {
-                        straight: 0,
-                        split: 0,
-                        street: 0,
-                        square: 0,
-                        sixLine: 0,
-                        columnAndDozen: 0,
-                        chances: 0
-                    },
-                    maxBetPerTable: 0,
-                    maxWinPerTable: 0,
-                    triplePokerMinBet: 0,
-                    triplePokerMaxBet: 0,
-                    doubleZeroMinBet: 0,
-                    doubleZeroMaxBet: 0
-                });
+                rouletteMaxBet.value = '';
+                rouletteMaxWin.value = '';
+                rouletteMaxTriplePokerBet.value = '';
+                rouletteMinTriplePokerBet.value = '';
+                rouletteMaxDoubleZeroBet.value = '';
+                rouletteMinDoubleZeroBet.value = '';
             }
         };
 
@@ -893,6 +873,13 @@ let configuration = function () {
             }
         };
 
+        const findCurrencyGamesBetIndex = () => {
+            let el = findCurrencyGamesBet();
+            if (el) {
+                return newCurrencyData.currencyGameBetModel.currencyGamesBet.indexOf(el);
+            }
+        };
+
         const findCurrencyRouletteGameBet = (id = gameId) => {
             for (let el of newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet) {
                 if (el.gameId === id) {
@@ -901,26 +888,81 @@ let configuration = function () {
             }
         };
 
+        const findCurrencyRouletteGameBetIndex = () => {
+            let el = findCurrencyGamesBet();
+            if (el) {
+                return newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet.indexOf(el);
+            }
+        };
+
         const saveGameOptions = () => {
+            //TODO: finish validation and sending correct data
+            if (gameType !== 0) {
+
+                if (rouletteMaxBet.value === '' || rouletteMaxWin.value === '') {
+                    trigger('message', message.codes.badParameter);
+                    return;
+                }
+
+                if (gameType === 2 && (rouletteMaxTriplePokerBet.value === '' || rouletteMinTriplePokerBet.value === '')) {
+                    trigger('message', message.codes.badParameter);
+                    return;
+                }
+
+                if (gameType === 3 && (rouletteMaxDoubleZeroBet === '' || rouletteMinDoubleZeroBet === '')) {
+                    trigger('message', message.codes.badParameter);
+                    return;
+                }
+
+                if (!newCurrencyData.hasOwnProperty('currencyRoulletteBetModel')) {
+                    newCurrencyData.currencyRoulletteBetModel = {};
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
+                }
+                let existingElementIndex = findCurrencyRouletteGameBetIndex();
+                if (existingElementIndex && existingElementIndex !== -1) {
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].maxBetPerTable = rouletteMaxBet.value ? rouletteMaxBet.value : 0;
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].maxWinPerTable = rouletteMaxWin.value ? rouletteMaxWin.value : 0;
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].triplePokerMinBet = rouletteMinTriplePokerBet.value ? rouletteMinTriplePokerBet.value : 0;
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].triplePokerMaxBet = rouletteMaxTriplePokerBet.value ? rouletteMaxTriplePokerBet.value : 0;
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].doubleZeroMinBet = rouletteMinDoubleZeroBet.value ? rouletteMinDoubleZeroBet.value : 0;
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].doubleZeroMaxBet = rouletteMaxDoubleZeroBet.value ? rouletteMaxDoubleZeroBet.value : 0;
+                }
+                else {
+                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet.push({
+                        gameId: gameId,
+                        gameName: gameName,
+                        maxBetPerTable: rouletteMaxBet.value ? rouletteMaxBet.value : 0,
+                        maxWinPerTable: rouletteMaxWin.value ? rouletteMaxWin.value : 0,
+                        triplePokerMaxBet: rouletteMinTriplePokerBet.value ? rouletteMinTriplePokerBet.value : 0,
+                        triplePokerMinBet: rouletteMaxTriplePokerBet.value ? rouletteMaxTriplePokerBet.value : 0,
+                        doubleZeroMaxBet: rouletteMinDoubleZeroBet.value ? rouletteMinDoubleZeroBet.value : 0,
+                        doubleZeroMinBet: rouletteMaxDoubleZeroBet.value ? rouletteMaxDoubleZeroBet.value : 0,
+                    });
+
+                }
+            }
+
             if (stepsToAdd.length > 0) {
                 if (!newCurrencyData.hasOwnProperty('currencyGameBetModel')) {
                     newCurrencyData.currencyGameBetModel = {};
                     newCurrencyData.currencyGameBetModel.currencyGamesBet = [];
                 }
-                newCurrencyData.currencyGameBetModel.currencyGamesBet.push({
-                    gameId: gameId,
-                    eurBetStep: []
-                });
-
-                let element = findCurrencyGamesBet();
-                for (let step of stepsToAdd) {
-                    element.eurBetStep.push(step);
+                let element = findCurrencyGamesBetIndex();
+                if (element) {
+                    for (let step of stepsToAdd) {
+                        newCurrencyData.currencyGameBetModel.currencyGamesBet[element].eurBetStep.push(step);
+                    }
                 }
-            }
-            //TODO: validation
-            if (gameType !== 0) {
+                else {
+                    newCurrencyData.currencyGameBetModel.currencyGamesBet.push({
+                        gameId: gameId,
+                        eurBetStep: stepsToAdd
+                    });
+                }
 
             }
+
+
             newCurrencyGameBetStep.hide();
         };
 
@@ -964,9 +1006,11 @@ let configuration = function () {
         let rouletteChancesMax = $$('#configuration-currency-roulette-chances-max');
 
         let gameId = undefined;
+        let gameName = undefined;
 
-        const show = (id, existingData = undefined) => {
+        const show = (id, name, existingData = undefined) => {
             gameId = id;
+            gameName = name;
             if (existingData) {
                 fillInputs(existingData);
             }
@@ -979,6 +1023,25 @@ let configuration = function () {
         };
 
         const saveData = () => {
+
+            if (!rouletteStraightMin.value ||
+                !rouletteSplitMin.value ||
+                !rouletteStreetMin.value ||
+                !rouletteSquaretMin.value ||
+                !rouletteSixLineMin.value ||
+                !rouletteColumnAndDozenMin.value ||
+                !rouletteChancesMin.value ||
+                !rouletteStraightMax.value ||
+                !rouletteSplitMax.value ||
+                !rouletteStreetMax.value ||
+                !rouletteSquaretMax.value ||
+                !rouletteSixLineMax.value ||
+                !rouletteColumnAndDozenMax.value ||
+                !rouletteChancesMax.value) {
+                trigger('message', message.codes.badParameter);
+                return
+            }
+
             let element = findRouletteElement();
             if (element) {
                 newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[element].roulleteMinBetSettings = {
@@ -999,9 +1062,37 @@ let configuration = function () {
                     columnAndDozen: rouletteColumnAndDozenMax.value,
                     chances: rouletteChancesMax.value
                 };
-                newCurrencyGameBetStep.updateRouletteOptions();
-                hide();
             }
+            else {
+                newCurrencyData.hasOwnProperty('currencyRoulletteBetModel');
+                newCurrencyData.currencyRoulletteBetModel = {};
+                newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
+
+                newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet.push({
+                    gameId: gameId,
+                    gameName: gameName,
+                    roulleteMinBetSettings: {
+                        straight: rouletteStraightMin.value,
+                        split: rouletteSplitMin.value,
+                        street: rouletteStreetMin.value,
+                        square: rouletteSquaretMin.value,
+                        sixLine: rouletteSixLineMin.value,
+                        columnAndDozen: rouletteColumnAndDozenMin.value,
+                        chances: rouletteChancesMin.value
+                    },
+                    roulleteMaxBetSettings: {
+                        straight: rouletteStraightMax.value,
+                        split: rouletteSplitMax.value,
+                        street: rouletteStreetMax.value,
+                        square: rouletteSquaretMax.value,
+                        sixLine: rouletteSixLineMax.value,
+                        columnAndDozen: rouletteColumnAndDozenMax.value,
+                        chances: rouletteChancesMax.value
+                    }
+                });
+            }
+            newCurrencyGameBetStep.updateRouletteOptions();
+            hide();
         };
 
         const fillInputs = (data) => {
