@@ -8,6 +8,7 @@ let comm = function () {
         'comm/currency/getCurrencies': '/Currency/get-currencies',
         'comm/currency/readCurrency': '/Currency/read',
         'comm/currency/updateMainOptions': '/Currency/update-currency',
+        'comm/currency/updateJackpotOptions': '/Currency/update-default-jackpot-settings',
         'comm/currency/deleteCurrency': '/Currency/delete',
         'comm/currency/createCurrency': '/Currency/create',
         'comm/currency/convertFromEurToCurrency': '/Currency/add-game-bet',

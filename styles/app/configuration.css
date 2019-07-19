@@ -504,26 +504,6 @@
     display: flex;
 }
 
-#configuration-currency-default-jackpot-settings-options {
-    margin-top: 5em;
-    display: flex;
-    align-self: center;
-    flex-direction: column;
-    transition: transform 0.3s, opacity 0.3s;
-    opacity: 0;
-    pointer-events: none;
-}
-
-#configuration-currency-default-jackpot-settings-options.hidden {
-    display: none;
-}
-
-#configuration-currency-default-jackpot-settings-options.show {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-    pointer-events: all;
-}
-
 /* FORM */ 
 
 #configuration-currency-black-overlay {
@@ -653,7 +633,8 @@
 /* Buttons end */
 
 #configuration-currency-form,
-#configuration-new-currency-form {
+#configuration-new-currency-form,
+#configuration-jackpot-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -669,7 +650,8 @@
 }
 
 #configuration-currency-form.show,
-#configuration-new-currency-form.show {
+#configuration-new-currency-form.show,
+#configuration-jackpot-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
@@ -1052,6 +1034,28 @@
 /* END ROULETTE OPTIONS */
 
 /* END NEW CURRENCY FORM */
+
+/* JACKPOT FORM */
+
+#configuration-currency-form-jackpot-main.hidden{
+    display: none;
+}
+
+#configuration-currency-form-jackpot-main-back {
+    margin-right: 2em;
+    height: 2.5em;
+    align-self: center;
+}
+
+#configuration-currency-jackpot-options-save {
+    width: 90%
+}
+
+#configuration-currency-jackpot-options-inputs *{
+    margin-bottom: 0.5em;
+}
+
+/* END JACKPOT FORM */
 
 /* MOBILE */
 

@@ -16,15 +16,9 @@ let configuration = function () {
     let updateMainOptionsButton = $$('#configuration-currency-update-main-options');
 
     //currency props
-    let originalCurrencyData = undefined;
     let newCurrencyData = {};
     let dropdownAllExistingData = undefined;
     let configurationNewCurrencyForm = $$('#configuration-new-currency-form');
-    let currencyJackpotSettingsBetContribution = $$('#configuration-currency-jackpot-bet-contribution');
-    let currencyJackpotSettingsMinBet = $$('#configuration-currency-jackpot-min-bet');
-    let currencyJackpotSettingsBaseValue = $$('#configuration-currency-jackpot-base-jackpot-value');
-    let currencyJackpotSettingsMinValue = $$('#configuration-currency-jackpot-min-jackpot-value');
-    let currencyJackpotSettingsMaxValue = $$('#configuration-currency-jackpot-max-jackpot-value');
     let newCurrencyCheckbox = $$('#configuration-new-currency-checkbox');
     let rouletteOptions = {
         straight: 'Straight',
@@ -46,7 +40,6 @@ let configuration = function () {
     let currencyTableWrapper = $$('#configuration-currency-games-table-wrapper');
     let currencyMainOptionWrapper = $$('#configuration-currency-main-options');
     let currencyJackpotOptionWrapper = $$('#configuration-currency-default-jackpot-settings-wrapper');
-    let currencyJackpotSettingsOptions = $$('#configuration-currency-default-jackpot-settings-options');
 
     //$$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
 
@@ -126,7 +119,6 @@ let configuration = function () {
         currencyMainOptionWrapper.classList.add('hidden');
         currencyTableWrapper.classList.add('hidden');
         currencyJackpotOptionWrapper.classList.add('hidden');
-        currencyJackpotSettingsOptions.classList.remove('show');
 
     }
 
@@ -146,8 +138,7 @@ let configuration = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     trigger('message', response.responseCode);
-                }
-                else {
+                } else {
                     trigger('message', response.responseCode);
                 }
                 removeLoader(updateMainOptionsButton);
@@ -422,7 +413,7 @@ let configuration = function () {
         let newCurrencyMainModal = $$('#configuration-currency-form-new-currency-main');
         let denomination = $$('#configuration-new-currency-denomination');
         let betGroup = $$('#configuration-new-currency-bet-group');
-        let ratio =  $$('#configuration-new-currency-ratio');
+        let ratio = $$('#configuration-new-currency-ratio');
         let currCode = $$('#configuration-new-currency-code');
         let existingCurrencyList = $$('#configuration-currency-existing-currency-list');
         let realCurrencyList = $$('#configuration-currency-real-currency-list');
@@ -515,12 +506,12 @@ let configuration = function () {
                 return;
             }
 
-            if(isImaginaryCurrencySelected && (!currCode.value || !ratio.value || !realCurrencyList.getSelected())){
+            if (isImaginaryCurrencySelected && (!currCode.value || !ratio.value || !realCurrencyList.getSelected())) {
                 trigger('message', message.codes.badParameter);
                 return
             }
-            
-            if(!isImaginaryCurrencySelected && !existingCurrencyList.getSelected()){
+
+            if (!isImaginaryCurrencySelected && !existingCurrencyList.getSelected()) {
                 trigger('message', message.codes.badParameter);
                 return
             }
@@ -1049,6 +1040,82 @@ let configuration = function () {
         }
     }();
 
+    let currencyJackpotModal = function () {
+        let modal = $$('#configuration-jackpot-form');
+        let saveButton = $$('#configuration-currency-jackpot-options-save');
+        let cancelButton = $$('#configuration-currency-jackpot-main-cancel');
+        let currencyJackpotSettingsBetContribution = $$('#configuration-currency-jackpot-bet-contribution');
+        let currencyJackpotSettingsMinBet = $$('#configuration-currency-jackpot-min-bet');
+        let currencyJackpotSettingsBaseValue = $$('#configuration-currency-jackpot-base-jackpot-value');
+        let currencyJackpotSettingsMinValue = $$('#configuration-currency-jackpot-min-jackpot-value');
+        let currencyJackpotSettingsMaxValue = $$('#configuration-currency-jackpot-max-jackpot-value');
+        let data = undefined;
+
+        const show = (selectedRow) => {
+            data = selectedRow;
+            fillInputs();
+
+            $$('#configuration-currency-black-overlay').style.display = 'block';
+            modal.classList.add('show');
+            $$('#configuration-currency').children[0].style.overflow = 'hidden';
+        };
+
+        const hide = () => {
+            $$('#configuration-currency-black-overlay').style.display = 'none';
+            modal.classList.remove('show');
+            $$('#configuration-currency').children[0].style.overflow = 'auto';
+        };
+
+        const fillInputs = () => {
+            currencyJackpotSettingsBetContribution.value = data.betContribution;
+            currencyJackpotSettingsMinBet.value = data.minBet;
+            currencyJackpotSettingsBaseValue.value = data.baseJackpotValue;
+            currencyJackpotSettingsMinValue.value = data.minJackpotValue;
+            currencyJackpotSettingsMaxValue.value = data.maxJackpotValue;
+        };
+
+        const updateData = () => {
+            if (!currencyJackpotSettingsBetContribution.value ||
+                !currencyJackpotSettingsMinBet.value ||
+                !currencyJackpotSettingsBaseValue.value ||
+                !currencyJackpotSettingsMinValue.value ||
+                !currencyJackpotSettingsMaxValue.value) {
+                trigger('message', message.codes.badParameter);
+                return;
+            }
+            let jackpotUpdateData = {
+                id: currencyIdSelected,
+                jackpotTypeId: data.id,
+                betContribution: currencyJackpotSettingsBetContribution.value,
+                minBet: currencyJackpotSettingsMinBet.value,
+                baseJackpotValue: currencyJackpotSettingsBaseValue.value,
+                minJackpotValue: currencyJackpotSettingsMinValue.value,
+                maxJackpotValue: currencyJackpotSettingsMaxValue.value
+            }
+            trigger('comm/currency/updateJackpotOptions', {
+                body: jackpotUpdateData,
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        selectedCurrency(currencyIdSelected);
+                        hide();
+                    }
+                    trigger('message', response.responseCode);
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+
+        cancelButton.addEventListener('click', hide);
+        saveButton.addEventListener('click', updateData);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
     // Shows modal with details for individual selection
     function showModal(section, data) {
         $$('#configuration-form-' + activeSection).classList.remove('active');
@@ -1226,12 +1293,7 @@ let configuration = function () {
                     trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
                 }
                 else {
-                    currencyJackpotSettingsOptions.classList.add('show');
-                    currencyJackpotSettingsBetContribution.value = row.betContribution;
-                    currencyJackpotSettingsMinBet.value = row.minBet;
-                    currencyJackpotSettingsBaseValue.value = row.baseJackpotValue;
-                    currencyJackpotSettingsMinValue.value = row.minJackpotValue;
-                    currencyJackpotSettingsMaxValue.value = row.maxJackpotValue;
+                    currencyJackpotModal.show(row);
                 }
             };
             if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
@@ -1298,10 +1360,7 @@ let configuration = function () {
                     if (tbody) {
                         tbody.remove();
                     }
-
-                    originalCurrencyData = response.result;
                     showCurrencyView(response.result);
-
                 }
                 trigger('message', response.responseCode);
                 removeLoader($$('#configuration-currency-list-wrapper'));
@@ -1484,6 +1543,7 @@ let configuration = function () {
         configurationNewCurrencyForm.classList.remove('show');
         $$('#configuration-currency').children[0].style.overflow = 'auto';
     }
+
 
     // SEARCH BUTTON
     for (let button of $$('.configuration-search')) {
