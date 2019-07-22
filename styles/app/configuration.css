@@ -70,7 +70,7 @@
 
 #configuration-delete-currency-button,
 #configuration-add-new-currency-button {
-    width: 3em;
+    width: 5em;
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -81,7 +81,7 @@
     border-radius: 0.2em;
 }
 
-#configuration-add-new-currency-button::after {
+/* #configuration-add-new-currency-button::after {
     content: " ";
     position: absolute;
     background-color: #fff;
@@ -105,7 +105,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-}
+} */
 
 .configuration-search {
     position: relative;
@@ -630,7 +630,9 @@
 
 #configuration-currency-form,
 #configuration-new-currency-form,
-#configuration-jackpot-form {
+#configuration-jackpot-form,
+#configuration-currency-main-otpions-form,
+#configuration-currency-delete-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -645,9 +647,20 @@
     transition: transform 0.3s, opacity 0.3s;
 }
 
+#configuration-currency-main-otpions-form {
+    width: 25m !important;
+    height: 24em !important;
+}
+
+#configuration-currency-delete-form {
+    height: 25em !important;
+}
+
 #configuration-currency-form.show,
 #configuration-new-currency-form.show,
-#configuration-jackpot-form.show {
+#configuration-jackpot-form.show,
+#configuration-currency-main-otpions-form.show,
+#configuration-currency-delete-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
@@ -1047,11 +1060,57 @@
     width: 90%
 }
 
+#configuration-currency-jackpot-options-inputs {
+    margin: auto;
+}
+
 #configuration-currency-jackpot-options-inputs *{
     margin-bottom: 0.5em;
 }
 
 /* END JACKPOT FORM */
+
+/* MAIN OPTIONS FORM */
+
+#configuration-currency-form-main-otpions.hidden {
+    display: none;
+}
+
+#configuration-currency-main-options-inputs {
+    margin: auto;
+}
+
+#configuration-currency-main-options-imaginary-wrapper.hidden {
+    display: none;
+}
+
+#configuration-currency-main-options-save {
+    margin: auto;
+}
+
+/* END MAIN OPTIONS FORM */
+
+/* DELETE FORM */
+
+#configuration-currency-form-main.hidden{
+    display: none;
+}
+
+#configuration-currency-form-delete-main {
+    display: flex;
+    flex-direction: column;
+}
+
+#configuration-currency-form-delete-main h1 {
+    margin: 2.5em;
+}
+
+#configuration-currency-delete-yes-button,
+#configuration-currency-delete-no-button {
+    width: 20%;
+}
+
+/* END DELETE FORM */
 
 /* MOBILE */
 

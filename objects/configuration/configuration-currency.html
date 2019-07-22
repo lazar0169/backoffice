@@ -4,14 +4,13 @@
         <div id="configuration-currency-black-overlay"></div>
         <div id="configuration-currency-main-options">
             <div id="configuration-currency-options">
-
                 <fieldset>
                     <div class="legend">Currency code: </div>
                     <input type="text" id="configuration-currency-code" disabled>
                 </fieldset>
                 <fieldset>
                     <div class="legend">Denomination: </div>
-                    <input type="number" id="configuration-currency-denomination">
+                    <input type="number" id="configuration-currency-denomination" disabled>
                 </fieldset>
                 <fieldset>
                     <div class="legend">Bet group: </div>
@@ -24,11 +23,10 @@
                     </fieldset>
                     <fieldset>
                         <div class="legend">Ratio: </div>
-                        <input type="text" id="configuration-currency-ratio">
+                        <input type="text" id="configuration-currency-ratio" disabled>
                     </fieldset>
                 </div>
             </div>
-            <button id="configuration-currency-update-main-options">UPDATE</button>
         </div>
         <div id="configuration-currency-games-table-wrapper" class="hidden">
             <div id="configuration-currency-games-table">
@@ -297,6 +295,33 @@
                 </div>
                 <div class="configuration-currency-form-new-currency-button-wrapper">
                     <button id="configuration-currency-jackpot-options-save" class="save">SAVE</button>
+                </div>
+            </div>
+        </div>
+        <div id="configuration-currency-main-otpions-form">
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-main-otpions">
+                <div class="configuration-currency-form-title">
+                    <h2>Main options</h2>
+                    <button class="config configuration-form-cancel" id="configuration-currency-main-options-cancel"></button>
+                </div>
+                <div id="configuration-currency-main-options-inputs">
+                    <div class="legend">Denomination: </div>
+                    <input type="number" id="configuration-currency-form-denomination">
+                    <div id="configuration-currency-main-options-imaginary-wrapper" class="hidden">
+                        <div class="legend">Ratio: </div>
+                        <input type="text" id="configuration-currency-form-ratio">
+                    </div>
+                </div>
+                <button id="configuration-currency-main-options-save" class="save">SAVE</button>
+
+            </div>
+        </div>
+        <div id="configuration-currency-delete-form">
+            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-delete-main">
+                <h1>Are you sure you want to delete selected currency?</h1>
+                <div class="configuration-currency-form-new-currency-button-wrapper">
+                    <button id="configuration-currency-delete-yes-button" class="save">YES</button>
+                    <button id="configuration-currency-delete-no-button" class="cancel">NO</button>
                 </div>
             </div>
         </div>
