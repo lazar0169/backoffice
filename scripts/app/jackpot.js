@@ -162,7 +162,7 @@ let jackpot = function () {
 
             },
             success: function (response) {
-                if (response.responseCode === message.codes.success) {
+                if (response.responseCode === message.codes.success && response.result.length > 0) {
                     jackpotHistoryDataTable = response.result;
                     $$('#jackpotHistoryTable').innerHTML = '';
                     currentHistoryTable = parseGameData(jackpotHistoryDataTable, '');
