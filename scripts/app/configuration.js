@@ -411,6 +411,7 @@ let configuration = function () {
                         populateAllExistingCurrenciesDropdown(response);
                         existingCurrencyList = $$('#configuration-currency-existing-currency-list');
                         newCurrencyMainModal.classList.remove('hidden')
+                        clearInputs();
                         showNewCurrencyModal();
                     }
                     else {
@@ -477,6 +478,9 @@ let configuration = function () {
             hideNewCurrencyModal();
             hide();
             newCurrencyData = {};
+        };
+
+        const clearInputs = () => {
             denomination.value = '';
             betGroup.value = '';
             ratio.value = '';
@@ -507,6 +511,10 @@ let configuration = function () {
                 realCurrencyId: isImaginaryCurrencySelected ? realCurrencyList.getSelected() : 0,
                 realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? ratio.value : 0
             };
+            newCurrencyData.currencyRoulletteBetModel = {};
+            newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
+            newCurrencyData.currencyGameBetModel = {};
+            newCurrencyData.currencyGameBetModel.currencyGamesBet = [];
             newCurrencyBetStep.show();
         };
 
@@ -559,7 +567,7 @@ let configuration = function () {
                 body: newCurrencyData,
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        //TODO: finish add new currency
+                        showCurrencyView(response.result);
                     }
 
                     trigger('message', response.responseCode)
@@ -697,7 +705,7 @@ let configuration = function () {
 
             let existingElement = newCurrencyData.hasOwnProperty('currencyGameBetModel') ? findCurrencyGamesBet() : undefined;
             if (existingElement) {
-                for (let step of existingElement.eurBetStep) {
+                for (let step of existingElement.eurBetSteps) {
                     let eurTr = document.createElement('tr');
                     let eurTd = document.createElement('td');
                     eurTd.style.textAlign = "center";
@@ -771,12 +779,12 @@ let configuration = function () {
                 }
             }
             else {
-                rouletteMaxBet.value = '';
-                rouletteMaxWin.value = '';
-                rouletteMaxTriplePokerBet.value = '';
-                rouletteMinTriplePokerBet.value = '';
-                rouletteMaxDoubleZeroBet.value = '';
-                rouletteMinDoubleZeroBet.value = '';
+                rouletteMaxBet.value = 0;
+                rouletteMaxWin.value = 0;
+                rouletteMaxTriplePokerBet.value = 0;
+                rouletteMinTriplePokerBet.value = 0;
+                rouletteMaxDoubleZeroBet.value = 0;
+                rouletteMinDoubleZeroBet.value = 0;
             }
         };
 
@@ -824,7 +832,7 @@ let configuration = function () {
 
         const removeElementFromData = (id, value) => {
             let element = findCurrencyGamesBet(id);
-            element.eurBetStep.splice(element.eurBetStep.indexOf(value), 1);
+            element.eurBetStep.splice(element.eurBetSteps.indexOf(value), 1);
         };
 
         const removeElement = (eur) => {
@@ -855,14 +863,13 @@ let configuration = function () {
         };
 
         const findCurrencyRouletteGameBetIndex = () => {
-            let el = findCurrencyGamesBet();
+            let el = findCurrencyRouletteGameBet();
             if (el) {
                 return newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet.indexOf(el);
             }
         };
 
         const saveGameOptions = () => {
-            //TODO: finish validation and sending correct data
             if (gameType !== 0) {
 
                 if (rouletteMaxBet.value === '' || rouletteMaxWin.value === '') {
@@ -879,13 +886,8 @@ let configuration = function () {
                     trigger('message', message.codes.badParameter);
                     return;
                 }
-
-                if (!newCurrencyData.hasOwnProperty('currencyRoulletteBetModel')) {
-                    newCurrencyData.currencyRoulletteBetModel = {};
-                    newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
-                }
                 let existingElementIndex = findCurrencyRouletteGameBetIndex();
-                if (existingElementIndex && existingElementIndex !== -1) {
+                if (existingElementIndex !== undefined && existingElementIndex !== -1) {
                     newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].maxBetPerTable = rouletteMaxBet.value ? rouletteMaxBet.value : 0;
                     newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].maxWinPerTable = rouletteMaxWin.value ? rouletteMaxWin.value : 0;
                     newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet[existingElementIndex].triplePokerMinBet = rouletteMinTriplePokerBet.value ? rouletteMinTriplePokerBet.value : 0;
@@ -909,20 +911,16 @@ let configuration = function () {
             }
 
             if (stepsToAdd.length > 0) {
-                if (!newCurrencyData.hasOwnProperty('currencyGameBetModel')) {
-                    newCurrencyData.currencyGameBetModel = {};
-                    newCurrencyData.currencyGameBetModel.currencyGamesBet = [];
-                }
                 let element = findCurrencyGamesBetIndex();
                 if (element) {
                     for (let step of stepsToAdd) {
-                        newCurrencyData.currencyGameBetModel.currencyGamesBet[element].eurBetStep.push(step);
+                        newCurrencyData.currencyGameBetModel.currencyGamesBet[element].eurBetSteps.push(step);
                     }
                 }
                 else {
                     newCurrencyData.currencyGameBetModel.currencyGamesBet.push({
                         gameId: gameId,
-                        eurBetStep: stepsToAdd
+                        eurBetSteps: stepsToAdd
                     });
                 }
 
@@ -970,6 +968,13 @@ let configuration = function () {
         let rouletteSixLineMax = $$('#configuration-currency-roulette-six-line-max');
         let rouletteColumnAndDozenMax = $$('#configuration-currency-roulette-column-and-dozen-max');
         let rouletteChancesMax = $$('#configuration-currency-roulette-chances-max');
+
+        let rouletteMaxBet = $$('#configuration-new-currency-roulette-max-bet');
+        let rouletteMaxWin = $$('#configuration-new-currency-roulette-max-win');
+        let rouletteMaxTriplePokerBet = $$('#configuration-new-currency-roulette-triple-poker-max-bet');
+        let rouletteMinTriplePokerBet = $$('#configuration-new-currency-roulette-triple-poker-min-bet');
+        let rouletteMaxDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-max-bet');
+        let rouletteMinDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-min-bet');
 
         let gameId = undefined;
         let gameName = undefined;
@@ -1030,9 +1035,6 @@ let configuration = function () {
                 };
             }
             else {
-                newCurrencyData.hasOwnProperty('currencyRoulletteBetModel');
-                newCurrencyData.currencyRoulletteBetModel = {};
-                newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
 
                 newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet.push({
                     gameId: gameId,
@@ -1054,7 +1056,13 @@ let configuration = function () {
                         sixLine: rouletteSixLineMax.value,
                         columnAndDozen: rouletteColumnAndDozenMax.value,
                         chances: rouletteChancesMax.value
-                    }
+                    },
+                    maxBetPerTable: rouletteMaxBet.value ? rouletteMaxBet.value : 0,
+                    maxWinPerTable: rouletteMaxWin.value ? rouletteMaxWin.value : 0,
+                    triplePokerMaxBet: rouletteMinTriplePokerBet.value ? rouletteMinTriplePokerBet.value : 0,
+                    triplePokerMinBet: rouletteMaxTriplePokerBet.value ? rouletteMaxTriplePokerBet.value : 0,
+                    doubleZeroMaxBet: rouletteMinDoubleZeroBet.value ? rouletteMinDoubleZeroBet.value : 0,
+                    doubleZeroMinBet: rouletteMaxDoubleZeroBet.value ? rouletteMaxDoubleZeroBet.value : 0,
                 });
             }
             newCurrencyGameBetStep.updateRouletteOptions();
@@ -1276,6 +1284,7 @@ let configuration = function () {
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
                         trigger('configuration/currency/loaded');
+                        hide();
                     }
                     trigger('message', response.responseCode);
                 },
@@ -1408,6 +1417,14 @@ let configuration = function () {
     //Currency right side view
     function showCurrencyView(result) {
         removeTableData();
+        let tbody = currencyTable.getElementsByTagName('table')[1];
+        if (tbody) {
+            tbody.remove();
+        }
+        tbody = jackpotTable.getElementsByTagName('table')[1];
+        if (tbody) {
+            tbody.remove();
+        }
         $$('#configuration-currency-games-table-wrapper').classList.remove('hidden');
         $$('#configuration-currency-main-options').classList.remove('hidden');
         let currencyWithBetGroup = result.currencyWithBetGroup;
@@ -1533,14 +1550,6 @@ let configuration = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    let tbody = currencyTable.getElementsByTagName('table')[1];
-                    if (tbody) {
-                        tbody.remove();
-                    }
-                    tbody = jackpotTable.getElementsByTagName('table')[1];
-                    if (tbody) {
-                        tbody.remove();
-                    }
                     showCurrencyView(response.result);
                 }
                 trigger('message', response.responseCode);
