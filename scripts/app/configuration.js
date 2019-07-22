@@ -10,11 +10,11 @@ let configuration = function () {
     let openedId;
     let activeData = undefined;
     let currencyIdSelected = undefined;
+    let isImaginaryCurrency = false;
     let isImaginaryCurrencySelected = false;
     let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
     let deleteCurrencyButton = $$('#configuration-delete-currency-button');
     let createCurrencyStepButton = $$('#configuration-currency-form-create-bet-group');
-    let updateMainOptionsButton = $$('#configuration-currency-update-main-options');
 
     //currency props
     let newCurrencyData = {};
@@ -50,6 +50,7 @@ let configuration = function () {
     //     }
     // }
 
+    currencyMainOptionWrapper.addEventListener('click', () => currencyMainOptionModal.show());
     $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
         e.preventDefault();
@@ -132,46 +133,11 @@ let configuration = function () {
     function deleteCurrency() {
         if (!currencyIdSelected) {
             trigger('message', message.codes.badParameter);
+            return;
         }
 
-        trigger('comm/currency/deleteCurrency', {
-            body: {
-                id: currencyIdSelected
-            },
-            success: function (response) {
-                if (response.responseCode === message.codes.success) {
-                    trigger('configuration/currency/loaded');
-                }
-                trigger('message', response.responseCode);
-            },
-            fail: function (response) {
-                trigger('message', response.responseCode);
-            }
-        })
+        currencyDeleteModal.show();
     };
-
-    function updateMainOptions() {
-        addLoader(updateMainOptionsButton);
-        trigger('comm/currency/updateMainOptions', {
-            body: {
-                id: currencyIdSelected,
-                denomination: $$('#configuration-currency-denomination').value,
-                ratio: $$('#configuration-currency-ratio').value ? $$('#configuration-currency-ratio').value : 0,
-            },
-            success: function (response) {
-                if (response.responseCode === message.codes.success) {
-                    trigger('message', response.responseCode);
-                } else {
-                    trigger('message', response.responseCode);
-                }
-                removeLoader(updateMainOptionsButton);
-            },
-            fail: function (response) {
-                removeLoader(updateMainOptionsButton);
-                trigger('message', response.responseCode);
-            }
-        });
-    }
 
     function startPopoupWizard() {
         $$('#configuration-currency-form-main').classList.add('hidden');
@@ -592,7 +558,7 @@ let configuration = function () {
             trigger('comm/currency/createCurrency', {
                 body: newCurrencyData,
                 success: function (response) {
-                    if (response.responseCode === message.code.success) {
+                    if (response.responseCode === message.codes.success) {
                         //TODO: finish add new currency
                     }
 
@@ -1224,6 +1190,110 @@ let configuration = function () {
         }
     }();
 
+    let currencyMainOptionModal = function () {
+        let modal = $$('#configuration-currency-main-otpions-form');
+        let mainModal = $$('#configuration-currency-form-main-otpions');
+        let saveButton = $$('#configuration-currency-main-options-save');
+        let cancelButton = $$('#configuration-currency-main-options-cancel');
+        let imaginaryWrapper = $$('#configuration-currency-main-options-imaginary-wrapper');
+        let denomination = $$('#configuration-currency-form-denomination');
+        let ratio = $$('#configuration-currency-form-ratio');
+
+        const show = () => {
+            mainModal.classList.remove('hidden');
+            $$('#configuration-currency-black-overlay').style.display = 'block';
+            $$('#configuration-currency').children[0].style.overflow = 'hidden';
+            modal.classList.add('show');
+            if (isImaginaryCurrency) {
+                imaginaryWrapper.classList.remove('hidden');
+            }
+        };
+
+        const hide = () => {
+            mainModal.classList.add('hidden');
+            $$('#configuration-currency-black-overlay').style.display = 'none';
+            modal.classList.remove('show');
+            $$('#configuration-currency').children[0].style.overflow = 'auto';
+            imaginaryWrapper.classList.add('hidden');
+        };
+
+        const save = () => {
+            trigger('comm/currency/updateMainOptions', {
+                body: {
+                    id: currencyIdSelected,
+                    denomination: denomination.value,
+                    ratio: isImaginaryCurrency ? ratio.value : 0,
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        $$('#configuration-currency-denomination').value = denomination.value;
+                        $$('#configuration-currency-ratio').value = ratio.value;
+                        hide();
+                    }
+                    trigger('message', response.responseCode);
+
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+
+        saveButton.addEventListener('click', save);
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
+    let currencyDeleteModal = function () {
+        let modal = $$('#configuration-currency-delete-form');
+        let deleteModal = $$('#configuration-currency-form-delete-main');
+        let yesButton = $$('#configuration-currency-delete-yes-button');
+        let noButton = $$('#configuration-currency-delete-no-button');
+
+        const show = () => {
+            deleteModal.classList.remove('hidden');
+            $$('#configuration-currency-black-overlay').style.display = 'block';
+            $$('#configuration-currency').children[0].style.overflow = 'hidden';
+            modal.classList.add('show');
+        };
+
+        const hide = () => {
+            deleteModal.classList.add('hidden');
+            $$('#configuration-currency-black-overlay').style.display = 'none';
+            modal.classList.remove('show');
+            $$('#configuration-currency').children[0].style.overflow = 'auto';
+        };
+
+        const removeCurrency = () => {
+            trigger('comm/currency/deleteCurrency', {
+                body: {
+                    id: currencyIdSelected
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        trigger('configuration/currency/loaded');
+                    }
+                    trigger('message', response.responseCode);
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            })
+        };
+
+        yesButton.addEventListener('click', removeCurrency);
+        noButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
     // Shows modal with details for individual selection
     function showModal(section, data) {
         $$('#configuration-form-' + activeSection).classList.remove('active');
@@ -1345,6 +1415,7 @@ let configuration = function () {
         $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
         $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
         if (!currencyWithBetGroup.realCurrency) {
+            isImaginaryCurrency = true;
             $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
 
             $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
@@ -1352,6 +1423,7 @@ let configuration = function () {
         }
         else {
             $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
+            isImaginaryCurrency = false;
         }
         createTable(result);
         for (let element of result.defaultJackpotSettings) {
@@ -1866,5 +1938,4 @@ let configuration = function () {
 
     addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
     deleteCurrencyButton.addEventListener('click', deleteCurrency);
-    updateMainOptionsButton.addEventListener('click', updateMainOptions);
 }();
