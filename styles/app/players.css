@@ -1,3 +1,11 @@
 #players-get-players-button{
     display: none
 }
+
+/* PLAYER TAB */
+
+#players-player .page-content-wrapper {
+    display: flex;
+}
+
+/* END PLAYER TAB */
