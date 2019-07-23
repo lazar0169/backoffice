@@ -110,7 +110,8 @@ let comm = function () {
         'comm/configuration/jackpot/activefromtime/get':'/Jackpot/GetJackpotsFromPeriod',
 
         //Players
-        
+        'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
+        'comm/players/getPlayerData':'/Player/GetPlayer',
     };
 
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;

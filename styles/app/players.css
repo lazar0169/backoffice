@@ -6,6 +6,63 @@
 
 #players-player .page-content-wrapper {
     display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+#players-get-player.hidden,
+#players-player-players-search-wrapper.hidden,
+#players-player-players-table-wrapper.hidden {
+    display: none;
+}
+
+#players-player-main-wrapper {
+    width: 100%;
+    flex: 1;
+}
+
+#players-player-players-wrapper {
+    width: 8%;
+    height: 95%;
+}
+
+#players-player-players-table-wrapper {
+    height: 95%;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+
+#players-player-players-table-wrapper table {
+    width: 100%;
+}
+
+#players-player-players-table-wrapper table tbody tr {
+    text-align: center;
+}
+
+#players-player-options-wrapper,
+#players-player-players-search-wrapper {
+    display: flex;
+}
+
+#players-player-players-search-wrapper,
+#players-player-players-table-wrapper {
+    margin-top: 0.5em;
+}
+
+#players-player-operators-list-wrapper,
+#players-player-portals-list-wrapper {
+    padding-right: 1em;
+}
+
+#players-player-players-remove-search {
+    background: transparent;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    border-radius: 2px;
+    margin-left: -1em;
+    align-self: center;
 }
 
 /* END PLAYER TAB */
