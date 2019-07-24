@@ -1,13 +1,13 @@
 <div id="players-player" class="page-content">
     <div class="page-content-wrapper">
-        <div id="players-player-options-wrapper">
+        <div id="players-player-options-wrapper" class="players-flex-wrapper">
             <div id="players-player-operators-list-wrapper"></div>
             <div id="players-player-portals-list-wrapper"></div>
             <button id="players-get-player">GET</button>
         </div>
-        <div id="players-player-main-wrapper">
+        <div id="players-player-main-wrapper" class="players-flex-wrapper">
             <div id="players-player-players-wrapper">
-                <div id="players-player-players-search-wrapper">
+                <div id="players-player-players-search-wrapper" class="players-flex-wrapper">
                     <input type="text" id="players-player-players-search" placeholder="Search players">
                     <button id="players-player-players-remove-search" class="cancel">X</button>
                 </div>
@@ -19,7 +19,68 @@
                     </table>
                 </div>
             </div>
-            <div id="players-player-data-wrapper"></div>
+            <div id="players-player-data-wrapper">
+                <div id="players-player-data-header-wrapper" class="players-flex-wrapper">
+                    <h2 id="players-player-data-id" class="players-flex-one-wrapper"></h2>
+                    <div id="players-player-data-flgas-wrapper" class="players-flex-one-wrapper">
+                        <input id="player-flag-interesting" type="checkbox">
+                        <label for="player-flag-interesting">Interesting</label>
+                        <input id="player-flag-suspicious" type="checkbox">
+                        <label for="player-flag-suspicious">Suspicious</label>
+                        <input id="player-flag-disable" type="checkbox">
+                        <label for="player-flag-disable">Disable</label>
+                        <input id="player-flag-test" type="checkbox">
+                        <label for="player-flag-test">Disable</label>
+                    </div>
+                    <div id="players-player-data-online-status-wrapper" class="players-flex-one-wrapper"></div>
+                </div>
+                <div id="players-player-data-main-wrapper" class="players-flex-wrapper">
+                    <div id="players-player-data-groups-and-dashboard-wrapper" class="players-flex-one-wrapper">
+                        <div id="players-player-data-dashboard-wrapper"></div>
+                        <div id="players-player-data-groups-wrapper"></div>
+                    </div>
+                    <div id="players-player-data-summary-wrapper" class="player-flex-column-wrapper players-flex-one-wrapper">
+                        <div class="players-flex-wrapper players-aligin-center">
+                            <h1>Total summary</h1>
+                        </div>
+                        <div id="players-player-data-summary-info-wrapper" class="player-flex-column-wrapper">
+                            <div class="players-flex-wrapper">
+                                <h2>Info</h2>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-id">Id: </h3>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-name">Name: </h3>
+                            </div>
+                        </div>
+                        <div id="players-player-data-summary-total-wrapper" class="players-flex-column-wrapper">
+                            <div class="players-flex-wrapper">
+                                <h2>Totals</h2>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-avg-bet">Avg Bet:</h3>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-bet">Bet: </h3>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-ggr">GGR: </h3>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-rounds">Rounds: </h3>
+                            </div>
+                            <div class="player-flex-wrapper">
+                                <h3 class="legend" id="players-player-data-summary-win">Win: </h3>
+                            </div>
+                        </div>
+                        <div id="players-player-data-summary-section-wrapper" class="players-flex-wrapper">
+
+                        </div>
+                    </div>
+                    <div id="players-player-data-periods-wrapper" class="players-flex-one-wrapper"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
