@@ -10,6 +10,9 @@ let players = function () {
     let playerDataFlagTest = $$('#player-flag-test');
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
 
+    let getPlayersButton = $$('#players-get-main');
+
+
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
@@ -48,10 +51,10 @@ let players = function () {
     };
 
     const showPlayerDashboardData = (data) => {
-        if(playerDashboardWrapper.children.length > 0){
+        if (playerDashboardWrapper.children.length > 0) {
             playerDashboardWrapper.children[0].remove();
         }
-        
+
         let tableNode = table.generate({
             data: parsePlayerDashboardData(data),
             id: 'playerDashboardData',
@@ -126,7 +129,7 @@ let players = function () {
                     }
                     removeLoader($$(`#players-navbar-${tab}`));
                 },
-                fail: function () {
+                fail: function (response) {
                     trigger('message', response.responseCode);
                     removeLoader($$(`#players-navbar-${tab}`));
                 }
@@ -316,6 +319,9 @@ let players = function () {
     };
 
     on('players/main/loaded', function () {
+        getPlayersButton.classList.add('hidden');
+        afterLoad(`main`);
+       
 
     });
 
@@ -338,5 +344,6 @@ let players = function () {
     playerDataFlagDisable.addEventListener('click', playerFlagChanged);
     playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
-    
+
+    //  getPlayersButton.addEventListener('click',getPlayers)
 }();
