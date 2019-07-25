@@ -2,7 +2,7 @@ let players = function () {
 
 
     on('players/main/loaded', function () {
-
+        afterLoad(main);
     });
 
     on('players/groups/loaded', function () {
