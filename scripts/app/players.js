@@ -5,10 +5,23 @@ let players = function () {
     let playersListWrapper = $$('#players-player-players-table-wrapper');
     let playerDataWrapper = $$('#players-player-data-wrapper');
     let playerDataFlagInteresting = $$('#player-flag-interesting');
-    let playerDataFlagSuspicious = $$('#player-flag-interesting');
-    let playerDataFlagDisable = $$('#player-flag-interesting');
+    let playerDataFlagSuspicious = $$('#player-flag-suspicious');
+    let playerDataFlagDisable = $$('#player-flag-disable');
     let playerDataFlagTest = $$('#player-flag-test');
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
+    let playerBetGraph = graph.generate($$(`#player-player-data-bet-graph-wrapper`).children[0], 'line');
+    let playerRoundsGraph = graph.generate($$(`#player-player-data-rounds-graph-wrapper`).children[0], 'line');
+
+    let timePeriods = [
+        { name: `MTD`, id: 0 },
+        { name: `Month`, id: 1 },
+        { name: `Quarter`, id: 2 },
+        { name: `SPLM`, id: 3 },
+        { name: `ThreeDays`, id: 4 },
+        { name: `Today`, id: 5 },
+        { name: `Week`, id: 6 },
+        { name: `Yesterday`, id: 7 }
+    ];
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
@@ -16,7 +29,7 @@ let players = function () {
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
         showPlayerSummaryData(data.info, data.totalStats);
-        // showPlayerPeriodData();
+        showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
 
@@ -48,10 +61,10 @@ let players = function () {
     };
 
     const showPlayerDashboardData = (data) => {
-        if(playerDashboardWrapper.children.length > 0){
+        if (playerDashboardWrapper.children.length > 0) {
             playerDashboardWrapper.children[0].remove();
         }
-        
+
         let tableNode = table.generate({
             data: parsePlayerDashboardData(data),
             id: 'playerDashboardData',
@@ -104,6 +117,62 @@ let players = function () {
         totalAvgBet.innerHTML += total.avgBet;
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
+    };
+
+    const showPeriodData = (bet, rounds, tab, type) => {
+        // type param: 0-for player tab, 1-for player group tab
+        let periodWrapper = $$(`#players-${tab}-periods-list-wrapper`);
+        clearElement($$(`#players-${tab}-periods-list`));
+        let operatorsDropdown = dropdown.generate(timePeriods, `players-${tab}-periods-list`, 'Select period');
+        periodWrapper.appendChild(operatorsDropdown);
+
+        on(`players-${tab}-periods-list/selected`, (id) => {
+            showPeriodsGraphs($$(`#players-${tab}-periods-list`).getSelectedName(), bet, rounds, type);
+        });
+    };
+
+    const showPeriodsGraphs = (period, bet, rounds, type) => {
+        if (type === 0) {
+            playerBetGraph.data.datasets.length = 0;
+            playerRoundsGraph.data.datasets.length = 0;
+
+            playerBetGraph.options.legend.position = 'right';
+            playerRoundsGraph.options.legend.position = 'right';
+
+            playerBetGraph.options.title = { display: true, text: 'Total Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            playerRoundsGraph.options.title = { display: true, text: 'Avg Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+
+            playerBetGraph.data.labels = ['0', 'time'];
+            playerRoundsGraph.data.labels = ['0', 'time'];
+
+            let color = generateColor();
+            playerBetGraph.data.datasets.push({
+                data: bet[period],
+                // label: games[i],
+                backgroundColor: color,
+                fontColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 2,
+                borderColor: color,
+                fill: false,
+            });
+
+            playerRoundsGraph.data.datasets.push({
+                data: rounds[period],
+                // label: games[i],
+                backgroundColor: color,
+                fontColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 2,
+                borderColor: color,
+                fill: false,
+            });
+
+            playerBetGraph.update();
+            playerRoundsGraph.update();
+        }
+
+        if (type === 1) {
+
+        }
     };
 
     const getOperators = (data, tab) => {
@@ -285,32 +354,32 @@ let players = function () {
         totalGgr.innerHTML = 'GGR; ';
     };
 
-    const playerFlagChanged = () => {
-        if (playerDataFlagInteresting.checked) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagDisable.checked = false;
-            playerDataFlagTest.checked = false;
-            return;
-        }
-
-        if (playerDataFlagSuspicious.checked) {
+    const playerFlagChanged = (event) => {
+        if (event.target === playerDataFlagSuspicious) {
             playerDataFlagInteresting.checked = false;
             playerDataFlagDisable.checked = false;
             playerDataFlagTest.checked = false;
             return;
         }
 
-        if (playerDataFlagDisable.checked) {
+        if (event.target === playerDataFlagDisable) {
             playerDataFlagSuspicious.checked = false;
             playerDataFlagInteresting.checked = false;
             playerDataFlagTest.checked = false;
             return;
         }
 
-        if (playerDataFlagTest.checked) {
+        if (event.target === playerDataFlagTest) {
             playerDataFlagSuspicious.checked = false;
             playerDataFlagInteresting.checked = false;
             playerDataFlagDisable.checked = false;
+            return;
+        }
+
+        if (event.target === playerDataFlagInteresting) {
+            playerDataFlagSuspicious.checked = false;
+            playerDataFlagDisable.checked = false;
+            playerDataFlagTest.checked = false;
             return;
         }
     };
@@ -338,5 +407,5 @@ let players = function () {
     playerDataFlagDisable.addEventListener('click', playerFlagChanged);
     playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
-    
+
 }();
