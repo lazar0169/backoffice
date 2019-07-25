@@ -1,5 +1,18 @@
-#players-get-players-button{
-    display: none
+.players-flex-wrapper {
+    display: flex;
+}
+
+.player-flex-column-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.players-flex-one-wrapper {
+    flex: 1;
+}
+
+.players-aligin-center {
+    align-self: center;
 }
 
 /* PLAYER TAB */
@@ -43,23 +56,6 @@
 
 #players-player-players-table-wrapper table tbody tr {
     text-align: center;
-}
-
-.players-flex-wrapper {
-    display: flex;
-}
-
-.player-flex-column-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-.players-flex-one-wrapper {
-    flex: 1;
-}
-
-.players-aligin-center {
-    align-self: center;
 }
 
 #players-player-players-search-wrapper,
@@ -116,17 +112,25 @@
     align-self: center;
 }
 
-/* END PLAYER TAB */
-
-/* PLAYERSTAB */
-
-#players-get-main.hidden{
-    display: none;
-}
-
-/*END PLAYERSTAB */
 #players-player-data-periods-wrapper {
     justify-content: space-around;
 }
 
 /* END PLAYER TAB */
+
+/* PLAYERS TAB */
+
+#players-get-main.hidden{
+    display: none;
+}
+
+/*END PLAYERS TAB */
+
+/* PLAYER GROUP TAB */
+
+#players-groups-operators-list-wrapper,
+#players-groups-portals-list-wrapper {
+    padding-right: 1em
+}
+
+/* END PLAYER GROUP TAB */

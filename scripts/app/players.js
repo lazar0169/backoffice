@@ -26,6 +26,8 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
 
+    let getGroupsButton = $$('#players-get-groups')
+
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
@@ -247,6 +249,34 @@ let players = function () {
         });
     };
 
+    const getPlayerGroups = () => {
+        // let portalId = $$('#players-player-groups-portals-list').getSelected();
+
+        // if (!portalId) {
+        //     trigger('message', message.codes.badParameters);
+        //     return;
+        // }
+        // addLoader(getPlayerGroupsButton);
+        // trigger('comm/players/getPlayerForPortal', {
+        //     body: {
+        //         id: portalId
+        //     },
+        //     success: function (response) {
+        //         if (response.responseCode === message.codes.success) {
+        //             createList(response.result, `player-players`, getPlayerData);
+        //         }
+        //         else {
+        //             trigger('message', response.responseCode);
+        //         }
+        //         removeLoader(getPlayerGroupsButton);
+        //     },
+        //     fail: function (response) {
+        //         trigger('message', response.responseCode);
+        //         removeLoader(getPlayerGroupsButton);
+        //     }
+        // });
+    }
+
     const getPlayerData = (id) => {
         trigger('comm/players/getPlayerData', {
             body: {
@@ -390,12 +420,13 @@ let players = function () {
     on('players/main/loaded', function () {
         getPlayersButton.classList.add('hidden');
         afterLoad(`main`);
-       
+
 
     });
 
     on('players/groups/loaded', function () {
-
+        getPlayerButton.classList.add('hidden');
+        afterLoad('groups');
     });
 
     on('players/player/loaded', function () {
@@ -413,6 +444,6 @@ let players = function () {
     playerDataFlagDisable.addEventListener('click', playerFlagChanged);
     playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
-
+    getGroupsButton.addEventListener('click', getPlayerGroups);
     //  getPlayersButton.addEventListener('click',getPlayers)
 }();
