@@ -125,3 +125,8 @@
 }
 
 /*END PLAYERSTAB */
+#players-player-data-periods-wrapper {
+    justify-content: space-around;
+}
+
+/* END PLAYER TAB */
