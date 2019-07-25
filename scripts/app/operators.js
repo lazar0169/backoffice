@@ -241,6 +241,8 @@ let operators = function () {
                     $$('#operators-operator-form-enabled').checked = element.enabled;
                 } else {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
+                    //TODO: if no games selected throw error 
+                    //$$('#operators-games-wrapper').childredn[0].getSelectedObject()
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
                     if (currencyId && $$('#operator-timezone-code').children[0].dataset.value) {
                         openedPortalData = {

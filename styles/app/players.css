@@ -6,6 +6,114 @@
 
 #players-player .page-content-wrapper {
     display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+#players-get-player.hidden,
+#players-player-players-search-wrapper.hidden,
+#players-player-players-table-wrapper.hidden,
+#players-player-data-wrapper.hidden {
+    display: none;
+}
+
+#players-player-main-wrapper {
+    width: 100%;
+    flex: 1;
+}
+
+#players-player-players-wrapper {
+    width: 8%;
+    height: 95%;
+}
+
+#players-player-data-main-wrapper {
+    height: 80%;
+}
+
+#players-player-players-table-wrapper {
+    height: 95%;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+
+#players-player-players-table-wrapper table {
+    width: 100%;
+}
+
+#players-player-players-table-wrapper table tbody tr {
+    text-align: center;
+}
+
+.players-flex-wrapper {
+    display: flex;
+}
+
+.player-flex-column-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.players-flex-one-wrapper {
+    flex: 1;
+}
+
+.players-aligin-center {
+    align-self: center;
+}
+
+#players-player-players-search-wrapper,
+#players-player-players-table-wrapper {
+    margin-top: 0.5em;
+}
+
+#players-player-operators-list-wrapper,
+#players-player-portals-list-wrapper {
+    padding-right: 1em;
+}
+
+#players-player-players-remove-search {
+    background: transparent;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    border-radius: 2px;
+    margin-left: -1em;
+    align-self: center;
+}
+
+#players-player-data-groups-and-dashboard-wrapper,
+#players-player-data-summary-wrapper,
+#players-player-data-periods-wrapper {
+    padding-right: 3em;
+    padding-top: 2em;
+    padding-left: 2em;
+}
+
+#players-player-data-summary-wrapper {
+    background-color: #313c4a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1em;
+}
+
+#players-player-data-summary-wrapper h3 {
+    margin: 0;
+    padding-left: 1em;
+}
+
+#players-player-data-wrapper,
+#players-player-data-groups-and-dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+#players-player-data-wrapper {
+    margin-left: 5em;
+    width: 92%;
+}
+
+#players-player-data-flgas-wrapper {
+    align-self: center;
 }
 
 /* END PLAYER TAB */
