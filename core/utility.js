@@ -158,6 +158,8 @@ function transformCamelToRegular(string) {
         ggr: 'GGR',
         ngr: 'NGR',
         vat: 'VAT',
+        mtd: 'MTD',
+        splm: 'SPLM',
         MTD: 'MTD',
         SPLM: 'SPLM',
         ggrFirst: 'GGR First',
