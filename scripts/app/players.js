@@ -49,6 +49,7 @@ let players = function () {
         groupsDataWrapper.classList.remove('hidden');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
+        showGroupsSuggestedPlayersData(data.suggestedPlayers);
         console.log(data);
     };
 
@@ -165,6 +166,11 @@ let players = function () {
         totalAvgBet.innerHTML += total.avgBet;
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
+    };
+
+    const showGroupsSuggestedPlayersData = (players) => {
+        // TODO: implmenet this function with pagination
+        //createSuggestePlayersList(players);
     };
 
     const showPeriodData = (bet, rounds, tab, type) => {
@@ -320,7 +326,7 @@ let players = function () {
         });
     }
 
-    const getPlayerData = (id, name) => {
+    const getPlayerData = (id) => {
         trigger('comm/players/getPlayerData', {
             body: {
                 id: id
@@ -338,7 +344,7 @@ let players = function () {
         });
     };
 
-    const getGroupData = (id, name) => {
+    const getGroupData = (id) => {
         trigger('comm/playerGroups/getCompleteGroup', {
             body: {
                 id: id
@@ -354,7 +360,47 @@ let players = function () {
                 trigger('message', response.responseCode);
             }
         });
-    }
+    };
+
+    // const createSuggestePlayersList = (data) => {
+    //     let actions = $$(`#players-groups-suggested-players-list-wrapper`);
+    //     let serachBar = $$(`#players-${section}-search-wrapper`);
+    //     if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+    //         actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+    //     }
+    //     let body = document.createElement('tbody');
+    //     for (let row of data) {
+    //         let tr = document.createElement('tr');
+    //         let td = document.createElement('td');
+    //         td.innerHTML = row.playerId;
+    //         tr.dataset.id = row.playerId;
+    //         tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
+    //         tr.appendChild(td);
+    //         body.appendChild(tr);
+    //     }
+
+    //     actions.getElementsByTagName('table')[0].appendChild(body);
+    //     actions.classList.remove('hidden');
+    //     serachBar.classList.remove('hidden');
+
+    //     let input = $$(`#players-${section}-search`);
+
+    //     input.addEventListener('input', function () {
+    //         searchData(body, input.value);
+    //     });
+
+    //     input.addEventListener('keyup', function (e) {
+    //         if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+    //             input.value = '';
+    //             searchData(body, '');
+    //         }
+    //     });
+
+    //     $$(`#players-${section}-remove-search`).onclick = function () {
+    //         input.value = '';
+    //         searchData(body, '');
+    //     };
+    // };
 
     const createList = (data, section, callback) => {
         let actions = $$(`#players-${section}-table-wrapper`);
@@ -366,10 +412,9 @@ let players = function () {
         for (let row of data) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
-            //TODO: add name to callback paramas
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { callback(row.id, row.name) };
+            tr.onclick = function () { callback(row.id) };
             tr.appendChild(td);
             body.appendChild(tr);
         }
@@ -414,7 +459,7 @@ let players = function () {
         let resultData = [];
         for (let key of colsKeys) {
             let row = {
-                ' ': transformCamelToRegular(key)//key.charAt(0).toLocaleUpperCase() + key.slice(1)
+                ' ': transformCamelToRegular(key)
             };
             for (let firstKey of firstColKeys) {
                 row[firstKey] = data[firstKey][key];

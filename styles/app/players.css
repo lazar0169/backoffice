@@ -146,7 +146,8 @@
     margin-top: 0.5em;
 }
 
-#players-groups-groups-remove-search {
+#players-groups-groups-remove-search,
+#players-groups-suggested-players-remove-search {
     background: transparent;
     height: 1.5em;
     padding: 0;
