@@ -18,9 +18,7 @@
 /* PLAYER TAB */
 
 #players-player .page-content-wrapper {
-    display: flex;
     justify-content: flex-start;
-    flex-direction: column;
 }
 
 #players-get-player.hidden,
@@ -97,12 +95,6 @@
     padding-left: 1em;
 }
 
-#players-player-data-wrapper,
-#players-player-data-groups-and-dashboard-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
 #players-player-data-wrapper {
     margin-left: 5em;
     width: 92%;
@@ -131,6 +123,63 @@
 #players-groups-operators-list-wrapper,
 #players-groups-portals-list-wrapper {
     padding-right: 1em
+}
+
+#players-groups-main-wrapper {
+    height: 95%;
+}
+
+#players-groups-groups-wrapper {
+    width: 8%;
+    height: 95%;
+}
+
+#players-get-groups.hidden,
+#players-groups-groups-search-wrapper.hidden,
+#players-groups-groups-table-wrapper.hidden,
+#players-groups-data-wrapper.hidden {
+    display: none;
+}
+
+#players-groups-groups-search-wrapper,
+#players-groups-groups-table-wrapper {
+    margin-top: 0.5em;
+}
+
+#players-groups-groups-remove-search {
+    background: transparent;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    border-radius: 2px;
+    margin-left: -1em;
+    align-self: center;
+}
+
+#players-groups-groups-table-wrapper {
+    height: 95%;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+
+#players-groups-groups-table-wrapper table {
+    width: 100%;
+}
+
+#players-groups-groups-table-wrapper table tbody tr {
+    text-align: center;
+}
+
+#players-groups-dashboard-and-players-wrapper,
+#players-groups-suggested-players-wrapper,
+#players-groups-period-graphs-wrapper {
+    padding-right: 3em;
+    padding-top: 2em;
+    padding-left: 2em;
+}
+
+#players-groups-players-table-wrapper {
+    overflow: auto;
 }
 
 /* END PLAYER GROUP TAB */

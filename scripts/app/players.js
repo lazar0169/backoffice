@@ -26,7 +26,14 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
 
-    let getGroupsButton = $$('#players-get-groups')
+    let getGroupsButton = $$('#players-get-groups');
+    let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
+    let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
+    let groupsDataWrapper = $$('#players-groups-data-wrapper');
+    let groupsDashboardWrapper = $$('#players-groups-dashboard-table-wrapper');
+    let groupsPlayersWrapper = $$('#players-groups-players-table-wrapper');
+    let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
+    let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
@@ -37,6 +44,14 @@ let players = function () {
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
+
+    const showGroupData = (data) => {
+        groupsDataWrapper.classList.remove('hidden');
+        showGroupsDashboardData(data.dashboard);
+        showGroupsPlayersData(data.players);
+        console.log(data);
+    };
+
 
     const showPlayerHeaderData = (id, flags, status) => {
         $$('#players-player-data-id').innerHTML = id;
@@ -79,9 +94,37 @@ let players = function () {
         playerDashboardWrapper.appendChild(tableNode);
     };
 
+    const showGroupsDashboardData = (data) => {
+        if (groupsDashboardWrapper.children.length > 0) {
+            groupsDashboardWrapper.children[0].remove();
+        }
+
+        let tableNode = table.generate({
+            data: parsePlayerDashboardData(data),
+            id: 'groupsDashboardData',
+            sticky: true,
+            stickyCol: false
+        });
+        groupsDashboardWrapper.appendChild(tableNode);
+    };
+
+    const showGroupsPlayersData = (data) => {
+        if (groupsPlayersWrapper.children.length > 0) {
+            groupsPlayersWrapper.children[0].remove();
+        }
+
+        let tableNode = table.generate({
+            data: parseGroupsPlayersData(data),
+            id: 'groupsDashboardData',
+            sticky: true,
+            stickyCol: false
+        });
+        groupsPlayersWrapper.appendChild(tableNode);
+    };
+
     const afterLoad = (tab) => {
         addLoader($$(`#players-navbar-${tab}`));
-        trigger('comm/accounting/operators/get', {
+        trigger('comm/playerGroups/getOperators', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
@@ -188,7 +231,7 @@ let players = function () {
 
         on(`players-${tab}-operators-list/selected`, function (value) {
             addLoader($$(`#players-navbar-${tab}`));
-            trigger('comm/accounting/portals/get', {
+            trigger('comm/playerGroups/getPortals', {
                 body: {
                     id: value
                 },
@@ -250,34 +293,34 @@ let players = function () {
     };
 
     const getPlayerGroups = () => {
-        // let portalId = $$('#players-player-groups-portals-list').getSelected();
+        let portalId = $$('#players-groups-portals-list').getSelected();
 
-        // if (!portalId) {
-        //     trigger('message', message.codes.badParameters);
-        //     return;
-        // }
-        // addLoader(getPlayerGroupsButton);
-        // trigger('comm/players/getPlayerForPortal', {
-        //     body: {
-        //         id: portalId
-        //     },
-        //     success: function (response) {
-        //         if (response.responseCode === message.codes.success) {
-        //             createList(response.result, `player-players`, getPlayerData);
-        //         }
-        //         else {
-        //             trigger('message', response.responseCode);
-        //         }
-        //         removeLoader(getPlayerGroupsButton);
-        //     },
-        //     fail: function (response) {
-        //         trigger('message', response.responseCode);
-        //         removeLoader(getPlayerGroupsButton);
-        //     }
-        // });
+        if (!portalId) {
+            trigger('message', message.codes.badParameters);
+            return;
+        }
+        addLoader(getGroupsButton);
+        trigger('comm/playerGroups/get', {
+            body: {
+                id: portalId
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    createList(response.result, `groups-groups`, getGroupData);
+                }
+                else {
+                    trigger('message', response.responseCode);
+                }
+                removeLoader(getGroupsButton);
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+                removeLoader(getGroupsButton);
+            }
+        });
     }
 
-    const getPlayerData = (id) => {
+    const getPlayerData = (id, name) => {
         trigger('comm/players/getPlayerData', {
             body: {
                 id: id
@@ -285,6 +328,24 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     showPlayerData(response.result, id);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+    };
+
+    const getGroupData = (id, name) => {
+        trigger('comm/playerGroups/getCompleteGroup', {
+            body: {
+                id: id
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    showGroupData(response.result);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -305,9 +366,10 @@ let players = function () {
         for (let row of data) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
+            //TODO: add name to callback paramas
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { callback(row.id) };
+            tr.onclick = function () { callback(row.id, row.name) };
             tr.appendChild(td);
             body.appendChild(tr);
         }
@@ -360,7 +422,21 @@ let players = function () {
             resultData.push(row);
         }
         return resultData;
-    }
+    };
+
+    const parseGroupsPlayersData = (data) => {
+        let keys = Object.keys(data[0]);
+
+        let resultData = [];
+        for (let element of data) {
+            let row = {};
+            for (let key of keys) {
+                row[key] = element[key];
+            }
+            resultData.push(row);
+        }
+        return resultData;
+    };
 
     const clearPlayerFlags = () => {
         playerDataFlagInteresting.checked = false;
@@ -420,12 +496,14 @@ let players = function () {
     on('players/main/loaded', function () {
         getPlayersButton.classList.add('hidden');
         afterLoad(`main`);
-
-
     });
 
     on('players/groups/loaded', function () {
         getPlayerButton.classList.add('hidden');
+        groupsSearchWrapper.classList.add('hidden');
+        groupsListWrapper.classList.add('hidden');
+        groupsDataWrapper.classList.add('hidden');
+        clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
     });
 
