@@ -5,6 +5,7 @@
             <div id="players-groups-portals-list-wrapper"></div>
             <button id="players-get-groups" class="hidden">GET</button>
         </div>
+        <div id="players-groups-black-overlay"></div>
         <div id="players-groups-main-wrapper" class="players-flex-wrapper">
             <div id="players-groups-groups-wrapper">
                 <div id="players-groups-groups-search-wrapper" class="players-flex-wrapper">
@@ -25,7 +26,7 @@
                     <div id="players-groups-players-table-wrapper" class="players-flex-one-wrapper"></div>
                 </div>
                 <div id="players-groups-suggested-players-wrapper" class="players-flex-one-wrapper">
-                    <!-- <div id="players-groups-suggested-players-search-wrapper" class="players-flex-wrapper">
+                    <div id="players-groups-suggested-players-search-wrapper" class="players-flex-wrapper">
                         <input type="text" id="players-groups-suggested-players-search" placeholder="Search players">
                         <button id="players-groups-suggested-players-remove-search" class="cancel">X</button>
                     </div>
@@ -35,7 +36,7 @@
                                 <div class="caption-title">Player Groups</div>
                             </caption>
                         </table>
-                    </div> -->
+                    </div>
                 </div>
                 <div id="players-groups-period-graphs-wrapper" class="players-flex-one-wrapper player-flex-column-wrapper">
                     <div id="players-groups-data-periods-list-wrapper"></div>
@@ -46,6 +47,27 @@
                         <canvas></canvas>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="players-groups-form">
+            <div class="players-form-wrapper" id="players-groups-criteria-form">
+                <div class="players-form-title">
+                    <h2>Criteria</h2>
+                    <button class="config players-form-cancel" id="players-groups-criteria-form-cancel"></button>
+                </div>
+                <div id="players-groups-criteria-inputs-wrapper" class="player-flex-column-wrapper">
+                    <div class="legend">Name: </div>
+                    <input id="players-groups-criteria-name" type="text" disabled />
+                    <div class="legend">Player Value: </div>
+                    <input id="players-groups-criteria-player-value" type="number" disabled />
+                    <div class="legend">Group Value: </div>
+                    <input id="players-groups-criteria-group-value" type="number" disabled />
+                    <div class="legend">Similarity: </div>
+                    <input id="players-groups-criteria-similarity" type="number" disabled />
+                </div>
+                <!-- <div class="players-groups-form-new-groups-button-wrapper">
+                    <button id="players-new-groups-form-main-next">NEXT</button>
+                </div> -->
             </div>
         </div>
     </div>

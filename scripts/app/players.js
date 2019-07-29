@@ -1,9 +1,11 @@
 let players = function () {
+    let blackOverlay = $$('#players-groups-black-overlay');
 
     let getPlayerButton = $$('#players-get-player');
     let playersSearchWrapper = $$('#players-player-players-search-wrapper');
     let playersListWrapper = $$('#players-player-players-table-wrapper');
     let playerDataWrapper = $$('#players-player-data-wrapper');
+    let playerPeriodWrapper = $$('#players-player-data-periods-wrapper');
     let playerDataFlagInteresting = $$('#player-flag-interesting');
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
@@ -32,6 +34,7 @@ let players = function () {
     let groupsDataWrapper = $$('#players-groups-data-wrapper');
     let groupsDashboardWrapper = $$('#players-groups-dashboard-table-wrapper');
     let groupsPlayersWrapper = $$('#players-groups-players-table-wrapper');
+    let groupsPeriodWrapper = $$('#players-groups-period-graphs-wrapper');
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
 
@@ -41,7 +44,7 @@ let players = function () {
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
         showPlayerSummaryData(data.info, data.totalStats);
-        showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
+        //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
 
@@ -50,6 +53,7 @@ let players = function () {
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showGroupsSuggestedPlayersData(data.suggestedPlayers);
+        //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 1); //change to adapt to groups
         console.log(data);
     };
 
@@ -170,7 +174,10 @@ let players = function () {
 
     const showGroupsSuggestedPlayersData = (players) => {
         // TODO: implmenet this function with pagination
-        //createSuggestePlayersList(players);
+        if (players.length > 1000) {
+            players = players.splice(0, 1000);
+        }
+        createSuggestePlayersList(players);
     };
 
     const showPeriodData = (bet, rounds, tab, type) => {
@@ -362,45 +369,84 @@ let players = function () {
         });
     };
 
-    // const createSuggestePlayersList = (data) => {
-    //     let actions = $$(`#players-groups-suggested-players-list-wrapper`);
-    //     let serachBar = $$(`#players-${section}-search-wrapper`);
-    //     if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
-    //         actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
-    //     }
-    //     let body = document.createElement('tbody');
-    //     for (let row of data) {
-    //         let tr = document.createElement('tr');
-    //         let td = document.createElement('td');
-    //         td.innerHTML = row.playerId;
-    //         tr.dataset.id = row.playerId;
-    //         tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
-    //         tr.appendChild(td);
-    //         body.appendChild(tr);
-    //     }
+    let suggestedPlayersPopup = function () {
+        let criteria = undefined;
+        let cancelButton = $$('#players-groups-criteria-form-cancel');
+        let modal = $$('#players-groups-form');
+        let nameInput = $$('#players-groups-criteria-name');
+        let playerValueInput = $$('#players-groups-criteria-player-value');
+        let groupValueInput = $$('#players-groups-criteria-group-value');
+        let similarityInput = $$('#players-groups-criteria-similarity');
 
-    //     actions.getElementsByTagName('table')[0].appendChild(body);
-    //     actions.classList.remove('hidden');
-    //     serachBar.classList.remove('hidden');
+        const show = (crit) => {
+            //TODO : change to work for array
+            criteria = crit[0];
+            createList();
+            blackOverlay.style.display = 'block';
+            modal.classList.add('show');
+            $$('#players-groups').children[0].style.overflow = 'hidden';
+        };
 
-    //     let input = $$(`#players-${section}-search`);
+        const hide = () => {
+            blackOverlay.style.display = 'none';
+            modal.classList.remove('show');
+            $$('#players-groups').children[0].style.overflow = 'auto';
+        };
 
-    //     input.addEventListener('input', function () {
-    //         searchData(body, input.value);
-    //     });
+        const createList = () => {
+            nameInput.value = criteria.name;
+            playerValueInput.value = criteria.playerValue;
+            groupValueInput.value = criteria.groupValue;
+            similarityInput.value = criteria.similarity;
+        };
 
-    //     input.addEventListener('keyup', function (e) {
-    //         if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-    //             input.value = '';
-    //             searchData(body, '');
-    //         }
-    //     });
+        cancelButton.addEventListener('click', hide);
 
-    //     $$(`#players-${section}-remove-search`).onclick = function () {
-    //         input.value = '';
-    //         searchData(body, '');
-    //     };
-    // };
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
+    const createSuggestePlayersList = (data) => {
+        let actions = $$(`#players-groups-suggested-players-list-wrapper`);
+        let serachBar = $$(`#players-groups-suggested-players-search-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+        for (let row of data) {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            td.innerHTML = row.playerId;
+            tr.dataset.id = row.playerId;
+            tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
+            tr.appendChild(td);
+            body.appendChild(tr);
+        }
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+        actions.classList.remove('hidden');
+        serachBar.classList.remove('hidden');
+
+        let input = $$(`#players-groups-suggested-players-search`);
+
+        input.addEventListener('input', function () {
+            searchData(body, input.value);
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchData(body, '');
+            }
+        });
+
+        $$(`#players-groups-suggested-players-remove-search`).onclick = function () {
+            input.value = '';
+            searchData(body, '');
+        };
+    };
 
     const createList = (data, section, callback) => {
         let actions = $$(`#players-${section}-table-wrapper`);
@@ -548,6 +594,7 @@ let players = function () {
         groupsSearchWrapper.classList.add('hidden');
         groupsListWrapper.classList.add('hidden');
         groupsDataWrapper.classList.add('hidden');
+        groupsPeriodWrapper.classList.add('hidden');
         clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
     });
@@ -557,6 +604,7 @@ let players = function () {
         playersSearchWrapper.classList.add('hidden');
         playersListWrapper.classList.add('hidden');
         playerDataWrapper.classList.add('hidden');
+        playerPeriodWrapper.classList.add('hidden');
         clearElement($$(`#players-player-portals-list`));
         clearPlayerFlags();
         afterLoad(`player`);
