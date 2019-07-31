@@ -308,7 +308,7 @@
     pointer-events: all;
 }
 
-/* #configuration-currency-form-new-currency-roulette-options {
+#players-groups-criteria-details-form {
     position: absolute;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background-color: #434a5c;
@@ -316,10 +316,10 @@
     transform: translate3d(100%, 0, 0);
 }
 
-#configuration-currency-form-new-currency-roulette-options.show {
+#players-groups-criteria-details-form.show {
     box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
-} */
+}
 
 /* END PLAYER GROUP FORM */
 

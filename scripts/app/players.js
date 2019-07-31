@@ -37,6 +37,7 @@ let players = function () {
     let groupsPeriodWrapper = $$('#players-groups-period-graphs-wrapper');
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
+    let searchTimeoutId = undefined;
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
@@ -174,9 +175,6 @@ let players = function () {
 
     const showGroupsSuggestedPlayersData = (players) => {
         // TODO: implmenet this function with pagination
-        if (players.length > 1000) {
-            players = players.splice(0, 1000);
-        }
         createSuggestePlayersList(players);
     };
 
@@ -373,14 +371,11 @@ let players = function () {
         let criteria = undefined;
         let cancelButton = $$('#players-groups-criteria-form-cancel');
         let modal = $$('#players-groups-form');
-        let nameInput = $$('#players-groups-criteria-name');
-        let playerValueInput = $$('#players-groups-criteria-player-value');
-        let groupValueInput = $$('#players-groups-criteria-group-value');
-        let similarityInput = $$('#players-groups-criteria-similarity');
+
 
         const show = (crit) => {
             //TODO : change to work for array
-            criteria = crit[0];
+            criteria = crit;
             createList();
             blackOverlay.style.display = 'block';
             modal.classList.add('show');
@@ -394,13 +389,60 @@ let players = function () {
         };
 
         const createList = () => {
-            nameInput.value = criteria.name;
-            playerValueInput.value = criteria.playerValue;
-            groupValueInput.value = criteria.groupValue;
-            similarityInput.value = criteria.similarity;
+            let actions = $$(`#players-groups-criteria-list-wrapper`);
+            if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+                actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+            }
+            let body = document.createElement('tbody');
+            for (let row of criteria) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.innerHTML = row.name;
+                tr.dataset.id = row.playerId;
+                tr.onclick = function () { criteriaPlayersPopup.show({name: row.name, playerValue: row.playerValue, groupValue: row.groupValue, similarity: row.similarity}) };
+                tr.appendChild(td);
+                body.appendChild(tr);
+            }
+    
+            actions.getElementsByTagName('table')[0].appendChild(body);
+            actions.classList.remove('hidden');
         };
 
         cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
+    let criteriaPlayersPopup = function () {
+        let modal = $$('#players-groups-criteria-details-form');
+        let criteriaData = undefined;
+        let nameInput = $$('#players-groups-criteria-name');
+        let playerValueInput = $$('#players-groups-criteria-player-value');
+        let groupValueInput = $$('#players-groups-criteria-group-value');
+        let similarityInput = $$('#players-groups-criteria-similarity');
+        let backButton = $$('#players-groups-criteria-details-form-back');
+
+        const show = (data) => {
+            criteriaData = data;
+            fillInputs();
+            modal.classList.add('show');
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+        };
+
+        const fillInputs = () => {
+            nameInput.value = criteriaData.name;
+            playerValueInput.value = criteriaData.playerValue;
+            groupValueInput.value = criteriaData.groupValue;
+            similarityInput.value = criteriaData.similarity;
+        };
+
+        backButton.addEventListener('click', hide);
 
         return {
             show: show,
@@ -418,7 +460,7 @@ let players = function () {
         for (let row of data) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
-            td.innerHTML = row.playerId;
+            td.innerHTML = `${row.playerId} <span>${row.averageSimilarityOfCriteria}% similarity</span>`;
             tr.dataset.id = row.playerId;
             tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
             tr.appendChild(td);
