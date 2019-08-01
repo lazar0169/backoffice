@@ -29,6 +29,8 @@ let players = function () {
     let largestWinsData;
     let winnersAndLosersFromLast24HoursData;
     let getPlayersButton = $$('#players-get-main');
+    let playersPlayersWraper = $$('#players-main-settings-wrapper');
+    let playersPlayersPopupWraper = $$('#players-main-form');
 
 
     let getGroupsButton = $$('#players-get-groups');
@@ -133,7 +135,7 @@ let players = function () {
 
     const afterLoad = (tab) => {
         addLoader($$(`#players-navbar-${tab}`));
-        trigger('comm/playerGroups/getOperators', {
+        trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
@@ -245,7 +247,7 @@ let players = function () {
 
         on(`players-${tab}-operators-list/selected`, function (value) {
             addLoader($$(`#players-navbar-${tab}`));
-            trigger('comm/playerGroups/getPortals', {
+            trigger('comm/accounting/portals/get', {
                 body: {
                     id: value
                 },
@@ -370,6 +372,49 @@ let players = function () {
         });
     };
 
+    let mainForm = function () {
+        let modal = $$('#players-main-form');
+        let playersMainBlackOveraly = $$('#players-main-black-overlay');
+        let tableWrapper = $$('#players-main-criteria-table-wrapper');
+        let data = undefined;
+        let cancelButton = $$('#players-main-criteria-form-cancel');
+
+        const show = (tableData) => {
+            data = tableData;
+            makeTable();
+            playersMainBlackOveraly.style.display = 'block';
+            modal.classList.add('show');
+            $$('#players-main').children[0].style.overflow = 'hidden';
+        };
+
+        const hide = () => {
+            playersMainBlackOveraly.style.display = 'none';
+            modal.classList.remove('show');
+            $$('#players-main').children[0].style.overflow = 'auto';
+        };
+
+        const makeTable = () => {
+            
+            tableWrapper.innerHTML = '';
+            tableWrapper.appendChild(table.generate({
+                data: data,
+                id: 'table-data',
+                dynamic: false,
+                sticky: true,
+                stickyCol: true,
+
+            }))
+            table.preserveHeight(tableWrapper);
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
     let suggestedPlayersPopup = function () {
         let criteria = undefined;
         let cancelButton = $$('#players-groups-criteria-form-cancel');
@@ -402,11 +447,11 @@ let players = function () {
                 let td = document.createElement('td');
                 td.innerHTML = row.name;
                 tr.dataset.id = row.playerId;
-                tr.onclick = function () { criteriaPlayersPopup.show({name: row.name, playerValue: row.playerValue, groupValue: row.groupValue, similarity: row.similarity}) };
+                tr.onclick = function () { criteriaPlayersPopup.show({ name: row.name, playerValue: row.playerValue, groupValue: row.groupValue, similarity: row.similarity }) };
                 tr.appendChild(td);
                 body.appendChild(tr);
             }
-    
+
             actions.getElementsByTagName('table')[0].appendChild(body);
             actions.classList.remove('hidden');
         };
@@ -630,19 +675,13 @@ let players = function () {
     };
 
     const parsePlayersMainData = (data, parameterYesterday, firstColName) => {
-
-
-
         if (Object.getOwnPropertyNames(data).length === 0) {
             return [];
         }
-
         let keys = Object.keys(data);
         let rowKeys = Object.keys(data[keys[0]]);
         let rowKeys1 = Object.keys(data[keys[0]][rowKeys[0]]);
         let tableData = [];
-
-
 
         for (let key of keys) {
             let row = {};
@@ -695,20 +734,20 @@ let players = function () {
 
     const showPopUpTable = (rowData) => {
         
-         let playerId = rowData.Player;
-         
+        let playerId = rowData.Player;
         let popUpData = interestingPlayersData[playerId];
-                    $$('#popUpTable').innerHTML = '';
-                    $$('#popUpTable').appendChild(table.generate({
-                        data: parsePlayersMainData(popUpData,false,`Activity`),
-                        id: 'popUpData',
-                        dynamic: false,
-                        sticky: true,
-                        stickyCol: true,
-                       
-                    }))
-                    table.preserveHeight($$('#popUpTable'));
-           
+        mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        // $$('#popUpTable').innerHTML = '';
+        // $$('#popUpTable').appendChild(table.generate({
+        //     data: parsePlayersMainData(popUpData, false, `Activity`),
+        //     id: 'popUpData',
+        //     dynamic: false,
+        //     sticky: true,
+        //     stickyCol: true,
+
+        // }))
+        // table.preserveHeight($$('#popUpTable'));
+
     }
     const getPlayers = () => {
 
@@ -723,7 +762,7 @@ let players = function () {
                     interestingPlayersData = response.result.interestingPlayers;
                     $$('#interestingPlayersTable').innerHTML = '';
                     $$('#interestingPlayersTable').appendChild(table.generate({
-                        data: parseData(interestingPlayersData,`Player`),
+                        data: parseData(interestingPlayersData, `Player`),
                         id: 'interestingPlayersData',
                         dynamic: false,
                         sticky: true,
@@ -804,7 +843,7 @@ let players = function () {
     }
 
     on('players/main/loaded', function () {
-        getPlayersButton.classList.add('hidden');
+        // getPlayersButton.classList.add('hidden');
         clearElement($$(`#players-main-portals-list`));
         afterLoad(`main`);
     });
