@@ -123,14 +123,58 @@
 #players-get-main.hidden{
     display: none;
 }
+#players-get-main{
+    padding-right: 1em;
+    margin-bottom: 1em;
+}
 
+#players-main-options-wrapper ,#players-main-settings-wrapper {
+    display: flex;
+}
+
+#players-main-operators-list-wrapper,
+#players-main-portals-list-wrapper{
+    padding-right: 1em;
+    margin-bottom: 1em;
+}
+.column {
+    flex: 50%;
+    margin-left: 0.5%;
+  }
+  #players-interesting-players-title,
+  #players-latest-players-title,
+  #players-players-groups-title,
+  #players-largest-bets-title,
+  #players-largest-wins-title,
+  #players-winners-losers-title{
+      display: none;
+      /* width: 20em; */
+      /* margin-bottom: 0.5em; */
+  }
+  
+  #interestingPlayersData,
+  #latestPlayersTable,
+  /* #interestingPlayersData, */
+  #largestBets,
+  #largestWins,
+  #winnersAndLosersFromLast24Hours{
+      min-height: 20em;
+  }
+
+  
+  
 /*END PLAYERS TAB */
 
 /* PLAYER GROUP TAB */
 
+#players-main-options-wrapper{
+    display: flex;
+}
 #players-groups-operators-list-wrapper,
 #players-groups-portals-list-wrapper {
     padding-right: 1em
 }
+
+
 
 /* END PLAYER GROUP TAB */

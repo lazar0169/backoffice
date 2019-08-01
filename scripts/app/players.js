@@ -11,7 +11,6 @@ let players = function () {
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
     let playerBetGraph = graph.generate($$(`#player-player-data-bet-graph-wrapper`).children[0], 'line');
     let playerRoundsGraph = graph.generate($$(`#player-player-data-rounds-graph-wrapper`).children[0], 'line');
-
     let timePeriods = [
         { name: `MTD`, id: 0 },
         { name: `Month`, id: 1 },
@@ -22,7 +21,11 @@ let players = function () {
         { name: `Week`, id: 6 },
         { name: `Yesterday`, id: 7 }
     ];
-
+    let interestingPlayersData;
+    let latestPlayersData;
+    let largestBetsData;
+    let largestWinsData;
+    let winnersAndLosersFromLast24HoursData;
     let getPlayersButton = $$('#players-get-main');
 
 
@@ -417,8 +420,183 @@ let players = function () {
         }
     };
 
+    const parsePlayersMainData = (data, parameterYesterday, firstColName) => {
+
+
+
+        if (Object.getOwnPropertyNames(data).length === 0) {
+            return [];
+        }
+
+        let keys = Object.keys(data);
+        let rowKeys = Object.keys(data[keys[0]]);
+        let rowKeys1 = Object.keys(data[keys[0]][rowKeys[0]]);
+        let tableData = [];
+
+
+
+        for (let key of keys) {
+            let row = {};
+            row[firstColName] = key;
+
+            for (let rowKey of rowKeys) {
+
+                row[rowKey] = data[key][rowKey];
+            }
+            if (parameterYesterday === true) {
+                tableData.push(row.Change);
+            }
+            else {
+                tableData.push(row);
+
+            }
+        }
+        return tableData;
+    };
+
+    const parseData = (data, firstColName) => {
+
+
+
+        if (Object.getOwnPropertyNames(data).length === 0) {
+            return [];
+        }
+
+        let keys = Object.keys(data);//players id
+        let rowKeys = Object.keys(data[keys[0]]);//CHANGE,today,yesterday...
+        let rowKeys1 = Object.keys(data[keys[0]][rowKeys[0]]);//bet,win,ggr...
+        let tableData = [];
+
+        for (let key of keys) {
+            let row = {};
+            row[firstColName] = key;
+
+            for (let rowKey of rowKeys) {
+
+                for (let fieldKey of rowKeys1) {
+                    // row[fieldKey] = data[key][rowKey][fieldKey];
+                    row[fieldKey] = data[key][`Change`][fieldKey];
+                }
+
+            }
+            tableData.push(row);
+        }
+        return tableData;
+    };
+
+    const showPopUpTable = (rowData) => {
+        
+         let playerId = rowData.Player;
+         
+        let popUpData = interestingPlayersData[playerId];
+                    $$('#popUpTable').innerHTML = '';
+                    $$('#popUpTable').appendChild(table.generate({
+                        data: parsePlayersMainData(popUpData,false,`Activity`),
+                        id: 'popUpData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true,
+                       
+                    }))
+                    table.preserveHeight($$('#popUpTable'));
+           
+    }
+    const getPlayers = () => {
+
+        let portalId = $$('#players-main-portals-list').getSelected();
+        trigger('comm/players/getPlayersForPortal', {
+            body: {
+                id: portalId
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+
+                    interestingPlayersData = response.result.interestingPlayers;
+                    $$('#interestingPlayersTable').innerHTML = '';
+                    $$('#interestingPlayersTable').appendChild(table.generate({
+                        data: parseData(interestingPlayersData,`Player`),
+                        id: 'interestingPlayersData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true,
+                        options: {
+                            onClick: showPopUpTable
+                        }
+                    }))
+                    table.preserveHeight($$('#interestingPlayersTable'));
+                    $$(`#players-interesting-players-title`).style.display = 'block';
+
+                    latestPlayersData = response.result.latestPlayers;
+                    $$('#latestPlayersTable').innerHTML = '';
+                    $$('#latestPlayersTable').appendChild(table.generate({
+                        data: parseData(latestPlayersData, `Player`),
+                        id: 'latestPlayersData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true,
+                        options: {
+                            onClick: showPopUpTable
+                        }
+                    }))
+                    table.preserveHeight($$('#latestPlayersTable'));
+                    $$(`#players-latest-players-title`).style.display = 'block';
+
+
+                    //Player Groups TO DO, because in response getting empty object
+
+
+
+                    largestBetsData = response.result.largestBets;
+                    $$('#largestBets').innerHTML = '';
+                    $$('#largestBets').appendChild(table.generate({
+                        data: parsePlayersMainData(largestBetsData, false, `Player`),
+                        id: 'largestBetsData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true
+                    }))
+                    table.preserveHeight($$('#largestBets'));
+                    $$(`#players-largest-bets-title`).style.display = 'block';
+
+                    largestWinsData = response.result.largestWins;
+                    $$('#largestWins').innerHTML = '';
+                    $$('#largestWins').appendChild(table.generate({
+                        data: parsePlayersMainData(largestWinsData, false, `Player`),
+                        id: 'largestWinsData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true
+                    }))
+                    table.preserveHeight($$('#largestWins'));
+                    $$(`#players-largest-wins-title`).style.display = 'block';
+
+
+                    winnersAndLosersFromLast24HoursData = response.result.winnersAndLosersFromLast24Hours;
+                    $$('#winnersAndLosersFromLast24Hours').innerHTML = '';
+                    $$('#winnersAndLosersFromLast24Hours').appendChild(table.generate({
+                        data: parsePlayersMainData(winnersAndLosersFromLast24HoursData, false, `Player`),
+                        id: 'winnersAndLosersFromLast24HoursData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true
+                    }))
+                    table.preserveHeight($$('#winnersAndLosersFromLast24Hours'));
+                    $$(`#players-winners-losers-title`).style.display = 'block';
+
+
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+    }
+
     on('players/main/loaded', function () {
         getPlayersButton.classList.add('hidden');
+        clearElement($$(`#players-main-portals-list`));
         afterLoad(`main`);
 
 
@@ -445,5 +623,7 @@ let players = function () {
     playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
     getGroupsButton.addEventListener('click', getPlayerGroups);
-    //  getPlayersButton.addEventListener('click',getPlayers)
+
+    getPlayersButton.addEventListener('click', getPlayers);
+
 }();

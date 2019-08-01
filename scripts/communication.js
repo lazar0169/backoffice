@@ -112,6 +112,7 @@ let comm = function () {
         //Players
         'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
         'comm/players/getPlayerData':'/Player/GetPlayer',
+        'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
     };
 
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;
