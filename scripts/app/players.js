@@ -1,9 +1,11 @@
 let players = function () {
+    let blackOverlay = $$('#players-groups-black-overlay');
 
     let getPlayerButton = $$('#players-get-player');
     let playersSearchWrapper = $$('#players-player-players-search-wrapper');
     let playersListWrapper = $$('#players-player-players-table-wrapper');
     let playerDataWrapper = $$('#players-player-data-wrapper');
+    let playerPeriodWrapper = $$('#players-player-data-periods-wrapper');
     let playerDataFlagInteresting = $$('#player-flag-interesting');
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
@@ -29,7 +31,16 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
 
-    let getGroupsButton = $$('#players-get-groups')
+    let getGroupsButton = $$('#players-get-groups');
+    let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
+    let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
+    let groupsDataWrapper = $$('#players-groups-data-wrapper');
+    let groupsDashboardWrapper = $$('#players-groups-dashboard-table-wrapper');
+    let groupsPlayersWrapper = $$('#players-groups-players-table-wrapper');
+    let groupsPeriodWrapper = $$('#players-groups-period-graphs-wrapper');
+    let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
+    let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
+    let searchTimeoutId = undefined;
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
@@ -37,9 +48,19 @@ let players = function () {
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
         showPlayerSummaryData(data.info, data.totalStats);
-        showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
+        //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
+
+    const showGroupData = (data) => {
+        groupsDataWrapper.classList.remove('hidden');
+        showGroupsDashboardData(data.dashboard);
+        showGroupsPlayersData(data.players);
+        showGroupsSuggestedPlayersData(data.suggestedPlayers);
+        //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 1); //change to adapt to groups
+        console.log(data);
+    };
+
 
     const showPlayerHeaderData = (id, flags, status) => {
         $$('#players-player-data-id').innerHTML = id;
@@ -82,9 +103,37 @@ let players = function () {
         playerDashboardWrapper.appendChild(tableNode);
     };
 
+    const showGroupsDashboardData = (data) => {
+        if (groupsDashboardWrapper.children.length > 0) {
+            groupsDashboardWrapper.children[0].remove();
+        }
+
+        let tableNode = table.generate({
+            data: parsePlayerDashboardData(data),
+            id: 'groupsDashboardData',
+            sticky: true,
+            stickyCol: false
+        });
+        groupsDashboardWrapper.appendChild(tableNode);
+    };
+
+    const showGroupsPlayersData = (data) => {
+        if (groupsPlayersWrapper.children.length > 0) {
+            groupsPlayersWrapper.children[0].remove();
+        }
+
+        let tableNode = table.generate({
+            data: parseGroupsPlayersData(data),
+            id: 'groupsDashboardData',
+            sticky: true,
+            stickyCol: false
+        });
+        groupsPlayersWrapper.appendChild(tableNode);
+    };
+
     const afterLoad = (tab) => {
         addLoader($$(`#players-navbar-${tab}`));
-        trigger('comm/accounting/operators/get', {
+        trigger('comm/playerGroups/getOperators', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
@@ -125,6 +174,11 @@ let players = function () {
         totalAvgBet.innerHTML += total.avgBet;
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
+    };
+
+    const showGroupsSuggestedPlayersData = (players) => {
+        // TODO: implmenet this function with pagination
+        createSuggestePlayersList(players);
     };
 
     const showPeriodData = (bet, rounds, tab, type) => {
@@ -191,7 +245,7 @@ let players = function () {
 
         on(`players-${tab}-operators-list/selected`, function (value) {
             addLoader($$(`#players-navbar-${tab}`));
-            trigger('comm/accounting/portals/get', {
+            trigger('comm/playerGroups/getPortals', {
                 body: {
                     id: value
                 },
@@ -253,31 +307,31 @@ let players = function () {
     };
 
     const getPlayerGroups = () => {
-        // let portalId = $$('#players-player-groups-portals-list').getSelected();
+        let portalId = $$('#players-groups-portals-list').getSelected();
 
-        // if (!portalId) {
-        //     trigger('message', message.codes.badParameters);
-        //     return;
-        // }
-        // addLoader(getPlayerGroupsButton);
-        // trigger('comm/players/getPlayerForPortal', {
-        //     body: {
-        //         id: portalId
-        //     },
-        //     success: function (response) {
-        //         if (response.responseCode === message.codes.success) {
-        //             createList(response.result, `player-players`, getPlayerData);
-        //         }
-        //         else {
-        //             trigger('message', response.responseCode);
-        //         }
-        //         removeLoader(getPlayerGroupsButton);
-        //     },
-        //     fail: function (response) {
-        //         trigger('message', response.responseCode);
-        //         removeLoader(getPlayerGroupsButton);
-        //     }
-        // });
+        if (!portalId) {
+            trigger('message', message.codes.badParameters);
+            return;
+        }
+        addLoader(getGroupsButton);
+        trigger('comm/playerGroups/get', {
+            body: {
+                id: portalId
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    createList(response.result, `groups-groups`, getGroupData);
+                }
+                else {
+                    trigger('message', response.responseCode);
+                }
+                removeLoader(getGroupsButton);
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+                removeLoader(getGroupsButton);
+            }
+        });
     }
 
     const getPlayerData = (id) => {
@@ -296,7 +350,148 @@ let players = function () {
                 trigger('message', response.responseCode);
             }
         });
-    }
+    };
+
+    const getGroupData = (id) => {
+        trigger('comm/playerGroups/getCompleteGroup', {
+            body: {
+                id: id
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    showGroupData(response.result);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+    };
+
+    let suggestedPlayersPopup = function () {
+        let criteria = undefined;
+        let cancelButton = $$('#players-groups-criteria-form-cancel');
+        let modal = $$('#players-groups-form');
+
+
+        const show = (crit) => {
+            //TODO : change to work for array
+            criteria = crit;
+            createList();
+            blackOverlay.style.display = 'block';
+            modal.classList.add('show');
+            $$('#players-groups').children[0].style.overflow = 'hidden';
+        };
+
+        const hide = () => {
+            blackOverlay.style.display = 'none';
+            modal.classList.remove('show');
+            $$('#players-groups').children[0].style.overflow = 'auto';
+        };
+
+        const createList = () => {
+            let actions = $$(`#players-groups-criteria-list-wrapper`);
+            if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+                actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+            }
+            let body = document.createElement('tbody');
+            for (let row of criteria) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.innerHTML = row.name;
+                tr.dataset.id = row.playerId;
+                tr.onclick = function () { criteriaPlayersPopup.show({name: row.name, playerValue: row.playerValue, groupValue: row.groupValue, similarity: row.similarity}) };
+                tr.appendChild(td);
+                body.appendChild(tr);
+            }
+    
+            actions.getElementsByTagName('table')[0].appendChild(body);
+            actions.classList.remove('hidden');
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
+    let criteriaPlayersPopup = function () {
+        let modal = $$('#players-groups-criteria-details-form');
+        let criteriaData = undefined;
+        let nameInput = $$('#players-groups-criteria-name');
+        let playerValueInput = $$('#players-groups-criteria-player-value');
+        let groupValueInput = $$('#players-groups-criteria-group-value');
+        let similarityInput = $$('#players-groups-criteria-similarity');
+        let backButton = $$('#players-groups-criteria-details-form-back');
+
+        const show = (data) => {
+            criteriaData = data;
+            fillInputs();
+            modal.classList.add('show');
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+        };
+
+        const fillInputs = () => {
+            nameInput.value = criteriaData.name;
+            playerValueInput.value = criteriaData.playerValue;
+            groupValueInput.value = criteriaData.groupValue;
+            similarityInput.value = criteriaData.similarity;
+        };
+
+        backButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
+    const createSuggestePlayersList = (data) => {
+        let actions = $$(`#players-groups-suggested-players-list-wrapper`);
+        let serachBar = $$(`#players-groups-suggested-players-search-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+        for (let row of data) {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            td.innerHTML = `${row.playerId} <span>${row.averageSimilarityOfCriteria}% similarity</span>`;
+            tr.dataset.id = row.playerId;
+            tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
+            tr.appendChild(td);
+            body.appendChild(tr);
+        }
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+        actions.classList.remove('hidden');
+        serachBar.classList.remove('hidden');
+
+        let input = $$(`#players-groups-suggested-players-search`);
+
+        input.addEventListener('input', function () {
+            searchData(body, input.value);
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchData(body, '');
+            }
+        });
+
+        $$(`#players-groups-suggested-players-remove-search`).onclick = function () {
+            input.value = '';
+            searchData(body, '');
+        };
+    };
 
     const createList = (data, section, callback) => {
         let actions = $$(`#players-${section}-table-wrapper`);
@@ -355,7 +550,7 @@ let players = function () {
         let resultData = [];
         for (let key of colsKeys) {
             let row = {
-                ' ': transformCamelToRegular(key)//key.charAt(0).toLocaleUpperCase() + key.slice(1)
+                ' ': transformCamelToRegular(key)
             };
             for (let firstKey of firstColKeys) {
                 row[firstKey] = data[firstKey][key];
@@ -363,7 +558,21 @@ let players = function () {
             resultData.push(row);
         }
         return resultData;
-    }
+    };
+
+    const parseGroupsPlayersData = (data) => {
+        let keys = Object.keys(data[0]);
+
+        let resultData = [];
+        for (let element of data) {
+            let row = {};
+            for (let key of keys) {
+                row[key] = element[key];
+            }
+            resultData.push(row);
+        }
+        return resultData;
+    };
 
     const clearPlayerFlags = () => {
         playerDataFlagInteresting.checked = false;
@@ -598,12 +807,15 @@ let players = function () {
         getPlayersButton.classList.add('hidden');
         clearElement($$(`#players-main-portals-list`));
         afterLoad(`main`);
-
-
     });
 
     on('players/groups/loaded', function () {
         getPlayerButton.classList.add('hidden');
+        groupsSearchWrapper.classList.add('hidden');
+        groupsListWrapper.classList.add('hidden');
+        groupsDataWrapper.classList.add('hidden');
+        groupsPeriodWrapper.classList.add('hidden');
+        clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
     });
 
@@ -612,6 +824,7 @@ let players = function () {
         playersSearchWrapper.classList.add('hidden');
         playersListWrapper.classList.add('hidden');
         playerDataWrapper.classList.add('hidden');
+        playerPeriodWrapper.classList.add('hidden');
         clearElement($$(`#players-player-portals-list`));
         clearPlayerFlags();
         afterLoad(`player`);

@@ -15,18 +15,92 @@
     align-self: center;
 }
 
+.players-form-title {
+    display: flex;
+}
+
+.players-form-title>h2 {
+    flex: 1;
+}
+
+.players-form-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.players-form-wrapper h2 {
+    margin: 0.5em 0;
+}
+
+.players-form-cancel {
+    align-self: center;
+    transition: all 0.3s;
+    position: relative;
+    width: 3em;
+    height: 3em;
+}
+
+.players-form-cancel::after {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    height: 1px;
+    width: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+.players-form-cancel::before {
+    content: " ";
+    position: absolute;
+    background-color: #fff;
+    width: 1px;
+    height: 1.5em;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+.players-form-cancel {
+    width: 3em;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 2px 2px 3px 0;
+    border-radius: 0.2em;
+}
+
 /* PLAYER TAB */
 
 #players-player .page-content-wrapper {
-    display: flex;
     justify-content: flex-start;
-    flex-direction: column;
 }
 
 #players-get-player.hidden,
 #players-player-players-search-wrapper.hidden,
 #players-player-players-table-wrapper.hidden,
-#players-player-data-wrapper.hidden {
+#players-player-data-wrapper.hidden,
+#players-player-data-periods-wrapper.hidden {
     display: none;
 }
 
@@ -95,12 +169,6 @@
 #players-player-data-summary-wrapper h3 {
     margin: 0;
     padding-left: 1em;
-}
-
-#players-player-data-wrapper,
-#players-player-data-groups-and-dashboard-wrapper {
-    display: flex;
-    flex-direction: column;
 }
 
 #players-player-data-wrapper {
@@ -175,6 +243,127 @@
     padding-right: 1em
 }
 
+#players-groups-main-wrapper {
+    height: 95%;
+}
 
+#players-groups-groups-wrapper {
+    width: 10.5%;
+    height: 95%;
+}
+
+#players-get-groups.hidden,
+#players-groups-groups-search-wrapper.hidden,
+#players-groups-groups-table-wrapper.hidden,
+#players-groups-data-wrapper.hidden,
+#players-groups-period-graphs-wrapper.hidden {
+    display: none;
+}
+
+#players-groups-groups-search-wrapper,
+#players-groups-groups-table-wrapper {
+    margin-top: 0.5em;
+}
+
+#players-groups-groups-remove-search,
+#players-groups-suggested-players-remove-search {
+    background: transparent;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    border-radius: 2px;
+    margin-left: -1em;
+    align-self: center;
+}
+
+#players-groups-groups-table-wrapper {
+    height: 95%;
+    overflow: auto;
+    margin-top: 0.5em;
+}
+
+#players-groups-groups-table-wrapper table {
+    width: 100%;
+}
+
+#players-groups-groups-table-wrapper table tbody tr {
+    text-align: center;
+}
+
+#players-groups-dashboard-and-players-wrapper,
+#players-groups-suggested-players-wrapper,
+#players-groups-period-graphs-wrapper {
+    padding-right: 3em;
+    padding-top: 2em;
+    padding-left: 2em;
+}
+
+#players-groups-players-table-wrapper {
+    overflow: auto;
+}
+
+#players-groups-suggested-players-list-wrapper {
+    height: 85%;
+    overflow: auto;
+    margin-top: 2em; 
+}
+
+/* PLAYER GROUP FORM */ 
+
+#players-groups-black-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+}
+
+#players-groups-form {
+    position: fixed;
+    width: 35em;
+    height: 35em;
+    max-height: 100%;
+    align-self: center;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+#players-groups-criteria-form.hidden{
+    display: none;
+}
+
+#players-groups-form.show {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+#players-groups-criteria-details-form {
+    position: absolute;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: #434a5c;
+    transition: transform 0.5s, box-shadow 0.1s;
+    transform: translate3d(100%, 0, 0);
+}
+
+#players-groups-criteria-details-form.show {
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, 0, 0);
+}
+
+/* END PLAYER GROUP FORM */
 
 /* END PLAYER GROUP TAB */
+

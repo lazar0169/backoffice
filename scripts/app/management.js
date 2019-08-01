@@ -616,14 +616,6 @@ let advanceAccounting = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-
-                    // Prevent operator change
-                    if (roles.getRole() === 'Manager') {
-                        response = {
-                            responseCode: 1000
-                        };
-                    }
-
                     afterLoad(response, `portals`);
                 } else {
                     trigger('message', response.responseCode);
@@ -653,14 +645,6 @@ let advanceAccounting = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-
-                    // Prevent operator change
-                    if (roles.getRole() === 'Manager') {
-                        response = {
-                            responseCode: 1000
-                        };
-                    }
-
                     afterLoad(response, `players`);
                 } else {
                     trigger('message', response.responseCode);
@@ -697,14 +681,6 @@ let advanceAccounting = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-
-                    // Prevent operator change
-                    if (roles.getRole() === 'Manager') {
-                        response = {
-                            responseCode: 1000
-                        };
-                    }
-
                     afterLoad(response, `bets`);
                 } else {
                     trigger('message', response.responseCode);
@@ -762,11 +738,6 @@ let advanceAccounting = function () {
                     }
                 });
             });
-
-            // Prevent operator change
-            if (roles.getRole() === 'Manager') {
-                trigger('accounting-operators-list/selected', 0);
-            }
 
         } else {
             trigger('message', response.responseCode);

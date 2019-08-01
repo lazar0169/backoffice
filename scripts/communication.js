@@ -113,6 +113,14 @@ let comm = function () {
         'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
         'comm/players/getPlayerData':'/Player/GetPlayer',
         'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
+
+        'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
+        'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
+        'comm/playerGroups/get' : '/PlayerGroup/get-player-groups',
+        'comm/playerGroups/getGroup' : '/PlayerGroup/read',
+        'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
+        'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
+        'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
     };
 
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;
