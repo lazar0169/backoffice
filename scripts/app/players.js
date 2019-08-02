@@ -751,6 +751,7 @@ let players = function () {
     }
     const getPlayers = () => {
 
+        $$('#players-main-settings-wrapper').style.display = 'flex'
         let portalId = $$('#players-main-portals-list').getSelected();
         trigger('comm/players/getPlayersForPortal', {
             body: {
@@ -843,7 +844,8 @@ let players = function () {
     }
 
     on('players/main/loaded', function () {
-        // getPlayersButton.classList.add('hidden');
+        getPlayersButton.classList.add('hidden');
+        $$('#players-main-settings-wrapper').style.display = 'none'
         clearElement($$(`#players-main-portals-list`));
         afterLoad(`main`);
     });
