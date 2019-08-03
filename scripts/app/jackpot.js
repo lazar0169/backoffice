@@ -103,10 +103,14 @@ let jackpot = function () {
         $$(`#configuration-jackpot-portals-list-wrapper`).appendChild(portalsDropdown);
         if (!data.result) $$(`#configuration-jackpot-portals-list-wrapper`).style.display = 'none';
         $$(`#jackpot-get-settings-button`).classList.remove('hidden');
+        $$('#jackpot-get-settings-button').style.display = 'block'
+
 
     };
 
     function getPortalSettingsTable() {
+        $$('#jackpotPortalSettingsTable').style.display = 'block'
+
         trigger('comm/configuration/jackpot/portal/get', {
             body: {
                 id: $$('#configuration-jackpot-portals-list').getSelected(),
@@ -154,6 +158,7 @@ let jackpot = function () {
     };
 
     function getJackpotHistoryTable() {
+        $$('#jackpotHistoryTable').style.display = 'block'
         trigger('comm/configuration/jackpot/activefromtime/get', {
             body: {
 
@@ -324,12 +329,16 @@ let jackpot = function () {
     });
 
     on('jackpot/settings/loaded', function () {
+        $$('#jackpot-get-settings-button').style.display = 'none'
+        $$('#jackpotPortalSettingsTable').style.display = 'none'
         addLoader($$('#sidebar-jackpot'));
+        clearElement($$(`#configuration-jackpot-portals-list`));
         getJackpotPortalSettings();
+        
     });
 
     on('jackpot/history/loaded', function () {
-
+        $$('#jackpotHistoryTable').style.display = 'none'
     });
 
 

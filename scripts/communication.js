@@ -112,6 +112,7 @@ let comm = function () {
         //Players
         'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
         'comm/players/getPlayerData':'/Player/GetPlayer',
+        'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
 
         'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
         'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
