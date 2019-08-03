@@ -266,6 +266,10 @@
     margin-top: 2em; 
 }
 
+#players-groups-suggested-players-list-wrapper table {
+    width: 100%;
+}
+
 /* PLAYER GROUP FORM */ 
 
 #players-groups-black-overlay {
@@ -319,6 +323,16 @@
 #players-groups-criteria-details-form.show {
     box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
+}
+
+#players-groups-criteria-detailsinputs-wrapper,
+#players-groups-criteria-list-wrapper {
+    margin-top: 1em;
+}
+
+#players-groups-criteria-list-wrapper {
+    height: 100%;
+    overflow: auto;
 }
 
 /* END PLAYER GROUP FORM */
