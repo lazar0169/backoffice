@@ -24,9 +24,9 @@
 }
 
 .players-form-wrapper {
-    position: absolute;
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: fit-content;
     top: 0;
     right: 0;
     display: flex;
@@ -187,6 +187,9 @@
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
+#players-main .page-content-wrapper{
+    overflow-x: hidden;
+}
 
 #players-get-main.hidden{
     display: none;
@@ -222,7 +225,7 @@
   
   #interestingPlayersData,
   #latestPlayersTable,
-  /* #interestingPlayersData, */
+  #PlayersGroupsTable,
   #largestBets,
   #largestWins,
   #winnersAndLosersFromLast24Hours{
@@ -230,7 +233,9 @@
   }
 
   
-  
+  #players-main-settings-wrapper > .tbody{
+      height: 312px;
+  }
 /*END PLAYERS TAB */
 
 /* PLAYER GROUP TAB */
@@ -326,9 +331,9 @@
 
 #players-groups-form,
 #players-main-form {
-    position: fixed;
+    position: absolute;
     width: 35em;
-    height: 35em;
+    height: fit-content;
     max-height: 100%;
     align-self: center;
     background-color: #434a5c;

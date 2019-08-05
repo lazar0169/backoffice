@@ -833,7 +833,21 @@ let players = function () {
 
 
                     //Player Groups TO DO, because in response getting empty object
-
+                    interestingPlayersData = response.result.interestingPlayers;
+                    $$('#PlayersGroupsTable').innerHTML = '';
+                    $$('#PlayersGroupsTable').appendChild(table.generate({
+                        data: parseData(interestingPlayersData, `Player`),
+                        id: 'interestingPlayersData',
+                        dynamic: false,
+                        sticky: true,
+                        stickyCol: true,
+                        options: {
+                            onClick: showPopUpTable
+                        }
+                    }))
+                    table.preserveHeight($$('#PlayersGroupsTable'));
+                    $$(`#players-players-groups-title`).style.display = 'block';
+                     //Player Groups TO DO, because in response getting empty object
 
 
                     largestBetsData = response.result.largestBets;
