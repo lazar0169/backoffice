@@ -508,7 +508,7 @@ let players = function () {
         for (let row of data) {
             let tr = document.createElement('tr');
             let td = document.createElement('td');
-            td.innerHTML = `${row.playerId} <span>${row.averageSimilarityOfCriteria}% similarity</span>`;
+            td.innerHTML = `${row.playerId} <span style="float: right;">${row.averageSimilarityOfCriteria}% similarity</span>`;
             tr.dataset.id = row.playerId;
             tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
             tr.appendChild(td);
