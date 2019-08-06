@@ -229,7 +229,7 @@
   #largestBets,
   #largestWins,
   #winnersAndLosersFromLast24Hours{
-      min-height: 20em;
+      /* min-height: 20em; */
   }
 
   

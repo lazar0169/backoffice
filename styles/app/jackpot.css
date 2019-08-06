@@ -25,6 +25,23 @@
 .jackpot-get-time #configuration-jackpot-operators-list-wrapper{
     margin-right: 1%;
 }
+.configuration-section > #search-active-mobile-width,#search-history-mobile-width{
+    display: flex;
+    color: white;
+    background-color: #313c4a;
+    border-bottom: none;
+    height: 2.5em;
+    float: right;
+}
+/* .configuration-section > #search-history-mobile-width
+{
+    display: flex;
+    color: white;
+    background-color: #313c4a;
+    border-bottom: none;
+    height: 2.5em;
+    float: right;
+} */
 
 /* mobile view */
 .mobile #jackpot-get-settings{
