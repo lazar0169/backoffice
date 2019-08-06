@@ -121,6 +121,7 @@ let comm = function () {
         'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
         'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
         'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
+        'comm/playerGroups/getGroupsBySubstring': '/PlayerGroup/get-suggested-players-by-substring',
     };
 
     let apiUrl = _config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`;

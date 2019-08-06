@@ -54,11 +54,11 @@ let players = function () {
         console.log(data);
     };
 
-    const showGroupData = (data) => {
+    const showGroupData = (data, id) => {
         groupsDataWrapper.classList.remove('hidden');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
-        showGroupsSuggestedPlayersData(data.suggestedPlayers);
+        showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
         //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 1); //change to adapt to groups
         console.log(data);
     };
@@ -178,9 +178,9 @@ let players = function () {
         totalGgr.innerHTML += total.ggr;
     };
 
-    const showGroupsSuggestedPlayersData = (players) => {
+    const showGroupsSuggestedPlayersData = (players, id) => {
         // TODO: implmenet this function with pagination
-        createSuggestePlayersList(players);
+        createSuggestePlayersList(players, id);
     };
 
     const showPeriodData = (bet, rounds, tab, type) => {
@@ -361,7 +361,7 @@ let players = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    showGroupData(response.result);
+                    showGroupData(response.result, id);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -422,7 +422,6 @@ let players = function () {
 
 
         const show = (crit) => {
-            //TODO : change to work for array
             criteria = crit;
             createList();
             blackOverlay.style.display = 'block';
@@ -498,7 +497,7 @@ let players = function () {
         }
     }();
 
-    const createSuggestePlayersList = (data) => {
+    const createSuggestePlayersList = (data, id) => {
         let actions = $$(`#players-groups-suggested-players-list-wrapper`);
         let serachBar = $$(`#players-groups-suggested-players-search-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
@@ -522,7 +521,13 @@ let players = function () {
         let input = $$(`#players-groups-suggested-players-search`);
 
         input.addEventListener('input', function () {
-            searchData(body, input.value);
+            if (searchTimeoutId) {
+                clearTimeout(searchTimeoutId);
+                searchTimeoutId = setTimeout(() => { searchDataBySubstring(input.value, id) }, 800);
+            }
+            else {
+                searchTimeoutId = setTimeout(() => { searchDataBySubstring(input.value, id) }, 800);
+            }
         });
 
         input.addEventListener('keyup', function (e) {
@@ -534,7 +539,7 @@ let players = function () {
 
         $$(`#players-groups-suggested-players-remove-search`).onclick = function () {
             input.value = '';
-            searchData(body, '');
+            searchDataBySubstring(input.value, id)
         };
     };
 
@@ -586,6 +591,42 @@ let players = function () {
                 tableRow.style.display = 'none';
             }
         }
+    };
+
+    const searchDataBySubstring = (term, id) => {
+        let actions = $$(`#players-groups-suggested-players-list-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+
+        trigger('comm/playerGroups/getGroupsBySubstring', {
+            body: {
+                playerGroupId: id,
+                substring: term
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    for (let row of response.result) {
+                        let tr = document.createElement('tr');
+                        let td = document.createElement('td');
+                        td.innerHTML = `${row.playerId} <span style="float: right;">${row.averageSimilarityOfCriteria}% similarity</span>`;
+                        tr.dataset.id = row.playerId;
+                        tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
+                        tr.appendChild(td);
+                        body.appendChild(tr);
+                    }
+                }
+                else {
+                    trigger('message', message.codes.success);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
     };
 
     const parsePlayerDashboardData = (data) => {
