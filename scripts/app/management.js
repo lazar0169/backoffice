@@ -69,23 +69,7 @@ let advanceAccounting = function () {
     $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
 
-    mainCheckbox.addEventListener('change', function () {
-        mainCheckbox.checked ? $$('#management-main-second-period-wrapper').classList.remove('hidden') : $$('#management-main-second-period-wrapper').classList.add('hidden');
-    });
-
-    portalCheckbox.addEventListener('change', function () {
-        portalCheckbox.checked ? $$('#management-portals-second-period-wrapper').classList.remove('hidden') : $$('#management-portals-second-period-wrapper').classList.add('hidden');
-    });
-
-    playerCheckbox.addEventListener('change', function () {
-        playerCheckbox.checked ? $$('#management-players-second-period-wrapper').classList.remove('hidden') : $$('#management-players-second-period-wrapper').classList.add('hidden');
-    });
-
-    betsCheckbox.addEventListener('change', function () {
-        isPerNumberOfHandsSelected = !isPerNumberOfHandsSelected;
-        changePerNumberOfView();
-    });
-
+    
     function changePerNumberOfView() {
         if (isPerNumberOfHandsSelected) {
             for (let game in betsResult.perNumberOfHands) {
@@ -597,13 +581,14 @@ let advanceAccounting = function () {
         mainTable.innerHTML = '';
         mainTable.classList.add('hidden');
         getTotalExcelButton.classList.add('hidden');
-        $$('#management-main-second-period-wrapper').classList.add('hidden');
+        // $$('#management-main-second-period-wrapper').classList.add('hidden');
+        //  $$('#management-main-second-period-wrapper').style.display = "none";
         activeCategory = `main`;
     });
 
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
-        $$('#management-portals-second-period-wrapper').classList.add('hidden');
+        // $$('#management-portals-second-period-wrapper').classList.add('hidden');
         portalsTable.classList.add('hidden');
         getPortalsExcelButton.classList.add('hidden');
         clearElement($$('#management-portals-operators-list'));
@@ -631,7 +616,7 @@ let advanceAccounting = function () {
     on('management/players/loaded', function () {
         hidePopup();
         playersTable.innerHTML = '';
-        $$('#management-players-second-period-wrapper').classList.add('hidden');
+        // $$('#management-players-second-period-wrapper').classList.add('hidden');
         playersTable.classList.add('hidden');
         getPlayersExcelButton.classList.add('hidden');
         playersFormTable.innerHTML = '';
@@ -952,6 +937,23 @@ let advanceAccounting = function () {
         }
         return sumData;
     }
+
+    mainCheckbox.addEventListener('change', function () {
+        mainCheckbox.checked ? $$('#management-main-second-period-wrapper').style.display = "inline" : $$('#management-main-second-period-wrapper').style.display = "none";
+    });
+
+    portalCheckbox.addEventListener('change', function () {
+        portalCheckbox.checked ? $$('#management-portals-second-period-wrapper').style.display = 'inline' : $$('#management-portals-second-period-wrapper').style.display = "none";
+    });
+
+    playerCheckbox.addEventListener('change', function () {
+        playerCheckbox.checked ? $$('#management-players-second-period-wrapper').style.display = 'inline' : $$('#management-players-second-period-wrapper').style.display = "none";
+    });
+
+    betsCheckbox.addEventListener('change', function () {
+        isPerNumberOfHandsSelected = !isPerNumberOfHandsSelected;
+        changePerNumberOfView();
+    });
 
     //buttons events
     totalGetButton.addEventListener('click', getTotalPerGame);
