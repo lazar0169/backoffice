@@ -393,7 +393,12 @@
 #management-players-second-period-wrapper.hidden{
     display: hidden !important;
 } */
-
+#management-main-second-period-wrapper,
+#management-portals-second-period-wrapper,
+#management-players-second-period-wrapper
+{
+    display: none;
+}
 fieldset.hidden{
     display: none !important;
 }
