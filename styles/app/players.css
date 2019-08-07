@@ -26,7 +26,7 @@
 .players-form-wrapper {
     position: relative;
     width: 100%;
-    height: fit-content;
+    height: 35em;
     top: 0;
     right: 0;
     display: flex;
@@ -317,6 +317,10 @@
     width: 100%;
 }
 
+#players-groups-suggested-players-list-wrapper table caption {
+    display: table-caption;
+}
+
 /* PLAYER GROUP FORM */ 
 
 #players-groups-black-overlay,
@@ -331,9 +335,9 @@
 
 #players-groups-form,
 #players-main-form {
-    position: absolute;
+    position: fixed;
     width: 35em;
-    height: fit-content;
+    height: 35em;
     max-height: 100%;
     align-self: center;
     background-color: #434a5c;

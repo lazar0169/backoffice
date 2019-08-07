@@ -504,13 +504,25 @@ let players = function () {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
         let body = document.createElement('tbody');
+        let thPlayerId = document.createElement('th');
+        let thSimilarity = document.createElement('th');
+        thPlayerId.innerHTML = 'Player Id';
+        thSimilarity.innerHTML = 'Similarity';
+        let trHead = document.createElement('tr');
+        trHead.appendChild(thPlayerId);
+        trHead.appendChild(thSimilarity);
+        body.appendChild(trHead);
         for (let row of data) {
             let tr = document.createElement('tr');
-            let td = document.createElement('td');
-            td.innerHTML = `${row.playerId} <span style="float: right;">${row.averageSimilarityOfCriteria}% similarity</span>`;
+            let tdId = document.createElement('td');
+            let tdSimilarity = document.createElement('td');
+            // td.innerHTML = `${row.playerId} <span style="float: right;">${row.averageSimilarityOfCriteria}% similarity</span>`;
+            tdId.innerHTML = row.playerId;
+            tdSimilarity.innerHTML = row.averageSimilarityOfCriteria;
             tr.dataset.id = row.playerId;
             tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
-            tr.appendChild(td);
+            tr.appendChild(tdId);
+            tr.appendChild(tdSimilarity);
             body.appendChild(tr);
         }
 
