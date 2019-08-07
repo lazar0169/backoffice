@@ -805,7 +805,6 @@ let players = function () {
                 if (response.responseCode === message.codes.success) {
 
                     interestingPlayersData = response.result.interestingPlayers;
-
                     $$('#interestingPlayersTable').innerHTML = '';
                     $$('#interestingPlayersTable').appendChild(table.generate({
                         data: parseData(interestingPlayersData, `Player`),
@@ -860,10 +859,10 @@ let players = function () {
                     }))
                     table.preserveHeight($$('#PlayersGroupsTable'));
                     if (isEmpty(interestingPlayersData) === true) {
-                        $$(`#players-interesting-players-title`).style.display = 'none';
+                        $$(`#players-players-groups-title`).style.display = 'none';
 
                     } else {
-                        $$(`#players-interesting-players-title`).style.display = 'block';
+                        $$(`#players-players-groups-title`).style.display = 'block';
                     }
                     //Player Groups TO DO, because in response getting empty object
 

@@ -26,6 +26,8 @@ let jackpot = function () {
                     });
                     $$('#activeJackpotTable').appendChild(activeTable);
                     table.preserveHeight($$('#activeJackpotTable'));
+                    $$('#search-active-mobile-width').style.display = 'flex'; 
+                    
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -127,6 +129,7 @@ let jackpot = function () {
                         stickyCol: true
                     }));
                     table.preserveHeight($$('#portalJackpotSettingsTable'));
+
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -180,6 +183,7 @@ let jackpot = function () {
                     });
                     $$('#jackpotHistoryTable').appendChild(historyTable);
                     table.preserveHeight($$('#jackpotHistoryTable'));
+                    $$('#search-history-mobile-width').style.display = 'flex'; 
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -324,6 +328,7 @@ let jackpot = function () {
     });
 
     on('jackpot/active/loaded', function () {
+        $$('#search-active-mobile-width').style.display = 'none'; 
         addLoader($$('#sidebar-jackpot'));
         getActiveJackpotsTable();
     });
@@ -338,6 +343,7 @@ let jackpot = function () {
     });
 
     on('jackpot/history/loaded', function () {
+        $$('#search-history-mobile-width').style.display = 'none'; 
         $$('#jackpotHistoryTable').style.display = 'none'
     });
 
