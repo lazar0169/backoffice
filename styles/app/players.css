@@ -100,7 +100,7 @@
 #players-player-players-search-wrapper.hidden,
 #players-player-players-table-wrapper.hidden,
 #players-player-data-wrapper.hidden,
-#players-player-data-periods-wrapper.hidden {
+#players-player-periods-canvas-wrapper.hidden {
     display: none;
 }
 
@@ -261,7 +261,7 @@
 #players-groups-groups-search-wrapper.hidden,
 #players-groups-groups-table-wrapper.hidden,
 #players-groups-data-wrapper.hidden,
-#players-groups-period-graphs-wrapper.hidden {
+#players-groups-period-canvas-wrapper.hidden {
     display: none;
 }
 

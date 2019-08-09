@@ -5,7 +5,7 @@ let players = function () {
     let playersSearchWrapper = $$('#players-player-players-search-wrapper');
     let playersListWrapper = $$('#players-player-players-table-wrapper');
     let playerDataWrapper = $$('#players-player-data-wrapper');
-    let playerPeriodWrapper = $$('#players-player-data-periods-wrapper');
+    let playerPeriodWrapper = $$('#players-player-periods-canvas-wrapper');
     let playerDataFlagInteresting = $$('#player-flag-interesting');
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
@@ -39,7 +39,7 @@ let players = function () {
     let groupsDataWrapper = $$('#players-groups-data-wrapper');
     let groupsDashboardWrapper = $$('#players-groups-dashboard-table-wrapper');
     let groupsPlayersWrapper = $$('#players-groups-players-table-wrapper');
-    let groupsPeriodWrapper = $$('#players-groups-period-graphs-wrapper');
+    let groupsPeriodWrapper = $$('#players-groups-period-canvas-wrapper');
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
     let searchTimeoutId = undefined;
@@ -50,7 +50,7 @@ let players = function () {
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
         showPlayerSummaryData(data.info, data.totalStats);
-        //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
+        showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
 
@@ -59,8 +59,7 @@ let players = function () {
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
-        //showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 1); //change to adapt to groups
-        console.log(data);
+        showPeriodData(data.avgBetPerHour, data.roundsPerHour, `groups-data`, 1);
     };
 
 
@@ -192,6 +191,12 @@ let players = function () {
 
         on(`players-${tab}-periods-list/selected`, (id) => {
             showPeriodsGraphs($$(`#players-${tab}-periods-list`).getSelectedName(), bet, rounds, type);
+            if (type === 0) {
+                playerPeriodWrapper.classList.remove('hidden');
+            }
+            if (type === 1) {
+                groupsPeriodWrapper.classList.remove('hidden');
+            }
         });
     };
 
@@ -206,13 +211,26 @@ let players = function () {
             playerBetGraph.options.title = { display: true, text: 'Total Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
             playerRoundsGraph.options.title = { display: true, text: 'Avg Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
 
-            playerBetGraph.data.labels = ['0', 'time'];
-            playerRoundsGraph.data.labels = ['0', 'time'];
+            let labelsBet = [];
+            let labelsRounds = [];
+            let dataBet = [];
+            let dataRounds = [];
+            for (let element of bet[period]) {
+                labelsBet.push(element.hour);
+                dataBet.push(element.averageBet);
+            }
+            for (let element of rounds[period]) {
+                labelsRounds.push(element.hour);
+                dataRounds.push(element.numberOfRounds);
+            }
+
+            playerBetGraph.data.labels = labelsBet;
+            playerRoundsGraph.data.labels = labelsRounds;
 
             let color = generateColor();
             playerBetGraph.data.datasets.push({
-                data: bet[period],
-                // label: games[i],
+                data: dataBet,
+                label: 'bet',
                 backgroundColor: color,
                 fontColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 2,
@@ -221,8 +239,8 @@ let players = function () {
             });
 
             playerRoundsGraph.data.datasets.push({
-                data: rounds[period],
-                // label: games[i],
+                data: dataRounds,
+                label: 'rounds',
                 backgroundColor: color,
                 fontColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 2,
@@ -235,7 +253,55 @@ let players = function () {
         }
 
         if (type === 1) {
+            debugger;
+            groupsBetGraph.data.datasets.length = 0;
+            groupsRoundsGraph.data.datasets.length = 0;
 
+            groupsBetGraph.options.legend.position = 'right';
+            groupsRoundsGraph.options.legend.position = 'right';
+
+            groupsBetGraph.options.title = { display: true, text: 'Total Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            groupsRoundsGraph.options.title = { display: true, text: 'Avg Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+
+            let labelsBet = [];
+            let labelsRounds = [];
+            let dataBet = [];
+            let dataRounds = [];
+            for (let element of bet[period]) {
+                labelsBet.push(element.hour);
+                dataBet.push(element.averageBet);
+            }
+            for (let element of rounds[period]) {
+                labelsRounds.push(element.hour);
+                dataRounds.push(element.numberOfRounds);
+            }
+
+            groupsBetGraph.data.labels = labelsBet;
+            groupsRoundsGraph.data.labels = labelsRounds;
+
+            let color = generateColor();
+            groupsBetGraph.data.datasets.push({
+                data: dataBet,
+                label: 'bet',
+                backgroundColor: color,
+                fontColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 2,
+                borderColor: color,
+                fill: false,
+            });
+
+            groupsRoundsGraph.data.datasets.push({
+                data: dataRounds,
+                label: 'rounds',
+                backgroundColor: color,
+                fontColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 2,
+                borderColor: color,
+                fill: false,
+            });
+
+            groupsBetGraph.update();
+            groupsRoundsGraph.update();
         }
     };
 
@@ -889,12 +955,12 @@ let players = function () {
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#largestBets'));
-                    
-                    
+
+
                     if (isEmpty(largestBetsData) === true) {
                         $$(`#players-largest-bets-title`).style.display = 'none';
                     } else {
-                        $$(`#players-largest-bets-title`).style.display = 'block';        
+                        $$(`#players-largest-bets-title`).style.display = 'block';
                     }
 
                     largestWinsData = response.result.largestWins;
@@ -924,9 +990,9 @@ let players = function () {
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#winnersAndLosersFromLast24Hours'));
-                                       $$(`#players-largest-wins-title`).style.display = 'block';
+                    $$(`#players-largest-wins-title`).style.display = 'block';
 
-                     if (isEmpty(largestBetsData) === true) {
+                    if (isEmpty(largestBetsData) === true) {
                         $$(`#players-winners-losers-title`).style.display = 'none';
                     } else {
                         $$(`#players-winners-losers-title`).style.display = 'block';
