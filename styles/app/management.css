@@ -375,7 +375,8 @@
 
 #management-excel-total.hidden,
 #management-excel-portals.hidden,
-#management-excel-players.hidden{
+#management-excel-players.hidden,
+#players-form-download-excel.hidden{
     display: none;
 }
 

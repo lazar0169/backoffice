@@ -3,6 +3,7 @@ let advanceAccounting = function () {
     let portals = $$('#management-portals');
     let players = $$('#management-players');
     let bets = $$('#management-bets');
+
     //main tab
     const totalGetButton = $$('#management-get-total');
     const getTotalExcelButton = $$('#management-excel-total');
@@ -69,7 +70,7 @@ let advanceAccounting = function () {
     $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
 
-    
+
     function changePerNumberOfView() {
         if (isPerNumberOfHandsSelected) {
             for (let game in betsResult.perNumberOfHands) {
@@ -280,9 +281,9 @@ let advanceAccounting = function () {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
                     totalData = response.result;
-                    fillTable(mainTable, parseGameData(response.result, `Game`), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
+                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
                     mainTable.classList.remove('hidden');
-                    getTotalExcelButton.classList.remove('hidden');
+                    // getTotalExcelButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -296,6 +297,7 @@ let advanceAccounting = function () {
     function getPortalsPerGame() {
         portalsTable.innerHTML = "";
         portalsSelected = $$('#management-portals-portals-list').getSelected();
+
         addLoader(portalsGetButton);
         trigger('comm/management/portalsPerGame/get', {
             body: {
@@ -313,9 +315,10 @@ let advanceAccounting = function () {
                 removeLoader(portalsGetButton);
                 if (response.responseCode === message.codes.success) {
                     portalsData = response.result;
-                    fillTable(portalsTable, parseGameData(response.result, `Game`), showPortalPopup, 'management-portals-table-div', getGameSumData(response.result, `Game`));
+                    fillTable(portalsTable, parseGameData(response.result, `Game`, getPortalsExcelButton, portalsSelected), showPortalPopup, 'management-portals-table-div', getGameSumData(response.result, `Game`));
                     portalsTable.classList.remove('hidden');
-                    getPortalsExcelButton.classList.remove('hidden');
+                    // getPortalsExcelButton.classList.remove('hidden');
+
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -328,10 +331,12 @@ let advanceAccounting = function () {
 
     function getPlayersOfPortal() {
         playersTable.innerHTML = "";
+        let playerPortal = $$('#management-players-portals-list').getSelected();
         addLoader(playersGetButton);
+
         trigger('comm/management/playersOfGame/get', {
             body: {
-                portalId: $$('#management-players-portals-list').getSelected(),
+                playerPortal,
                 firstPeriod: {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
@@ -345,9 +350,9 @@ let advanceAccounting = function () {
                 removeLoader(playersGetButton);
                 if (response.responseCode === message.codes.success) {
                     playersData = response.result;
-                    fillTable(playersTable, parseGameData(response.result, `Player`), showPlayersPopup, 'management-players-table-div', getGameSumData(response.result, `Player`));
+                    fillTable(playersTable, parseGameData(response.result, `Player`, getPlayersExcelButton, playerPortal), showPlayersPopup, 'management-players-table-div', getGameSumData(response.result, `Player`));
                     playersTable.classList.remove('hidden');
-                    getPlayersExcelButton.classList.remove('hidden');
+                    // getPlayersExcelButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -678,8 +683,14 @@ let advanceAccounting = function () {
         });
     });
 
-    function parseGameData(data, firstColName) {
+    function parseGameData(data, firstColName, excelBtn, noPortalselected = undefined) {
+        if (!noPortalselected || noPortalselected.length === 0) {
+            trigger('message', message.codes.badParameter);
+            return [];
+        }
         if (Object.getOwnPropertyNames(data.managementItems).length === 0) {
+            excelBtn.classList.add('hidden');
+            trigger('message', message.codes.noData);
             return [];
         }
         let keys = Object.keys(data.managementItems);
@@ -694,7 +705,9 @@ let advanceAccounting = function () {
             }
             tableData.push(row);
         }
+        excelBtn.classList.remove('hidden');
         return tableData;
+
     };
 
     function afterLoad(response, tab) {
@@ -743,6 +756,7 @@ let advanceAccounting = function () {
     };
 
     function showPlayersPopup(rowData, rowId) {
+        getPlayerExcelButton.classList.add('hidden');
         if (popupHidden) {
             hidePopup();
             return;
@@ -768,7 +782,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     playerData = response.result;
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`), undefined, 'management-players-form-table-div', sumRow, true);
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton), undefined, 'management-players-form-table-div', sumRow, true);
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
                     $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                 } else {
@@ -807,7 +821,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     portalPlayerFormData = response.result;
-                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-player-form-title-player-id').innerHTML = rowData['Portal'];
                 } else {
                     trigger('message', response.responseCode);
@@ -839,7 +853,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     portalFormData = response.result;
-                    fillTable(portalFormTable, parseGameData(response.result, `Portal`), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
                 } else {
                     trigger('message', response.responseCode);

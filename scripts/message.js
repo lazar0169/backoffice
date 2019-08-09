@@ -82,7 +82,7 @@ const message = function () {
         4001: 'A portal with this currency exists. Please choose another one or contact your administrator.',
         5001: 'Tax configuration is missing for selected operator.',
         6003: 'Authentication error, please log in again.',
-        7001: 'No date for selected parameters.',
+        7001: 'No data for selected parameters.',
     };
 
     const type = {
