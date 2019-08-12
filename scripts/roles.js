@@ -7,7 +7,7 @@ let roles = function () {
         ],
         'Manager': [
             '#sidebar-operators',
-            '#sidebar-management',
+            '#sidebar-accounting',
             '#accounting-navbar-setup',
             '#accounting-reports-download-excel',
             '#accounting-reports-bonus-rate',
