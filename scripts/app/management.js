@@ -331,12 +331,12 @@ let advanceAccounting = function () {
 
     function getPlayersOfPortal() {
         playersTable.innerHTML = "";
-        let playerPortal = $$('#management-players-portals-list').getSelected();
+        let playerPortalId = $$('#management-players-portals-list').getSelected();
         addLoader(playersGetButton);
 
         trigger('comm/management/playersOfGame/get', {
             body: {
-                playerPortal,
+                portalId: playerPortalId,
                 firstPeriod: {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
@@ -350,7 +350,7 @@ let advanceAccounting = function () {
                 removeLoader(playersGetButton);
                 if (response.responseCode === message.codes.success) {
                     playersData = response.result;
-                    fillTable(playersTable, parseGameData(response.result, `Player`, getPlayersExcelButton, playerPortal), showPlayersPopup, 'management-players-table-div', getGameSumData(response.result, `Player`));
+                    fillTable(playersTable, parseGameData(response.result, `Player`, getPlayersExcelButton, playerPortalId), showPlayersPopup, 'management-players-table-div', getGameSumData(response.result, `Player`));
                     playersTable.classList.remove('hidden');
                     // getPlayersExcelButton.classList.remove('hidden');
                 } else {
@@ -775,7 +775,7 @@ let advanceAccounting = function () {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
                 },
-                secondPeriod: !playerCheckbox ? {
+                secondPeriod: playerCheckbox ? {
                     fromTime: playersSecondPeriodFrom,
                     toTime: playersSecondPeriodTo,
                 } : null,
