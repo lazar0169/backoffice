@@ -1,5 +1,7 @@
 let players = function () {
-    let blackOverlay = $$('#players-groups-black-overlay');
+    let playersGroupsBlackOverlay = $$('#players-groups-black-overlay');
+    let playersMainBlackOveraly = $$('#players-main-black-overlay');
+    let playersPlayerBlackOveraly = $$('#players-player-black-overlay');
 
     let getPlayerButton = $$('#players-get-player');
     let playersSearchWrapper = $$('#players-player-players-search-wrapper');
@@ -176,13 +178,13 @@ let players = function () {
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
 
-        if(jackpots.length === 0){
+        if (jackpots.length === 0) {
             playerSummaryJackpotButton.classList.add('cancel');
             playerSummaryJackpotButton.disabled = true;
         }
-        else{
-            //TODO: implement popup and add in HTML
-            // playerSummaryJackpotButton.onClick = playerJackpotPopup.show(jackpots);
+        else {
+            playerSummaryJackpotButton.classList.remove('cancel');
+            playerSummaryJackpotButton.onclick = () => { playerJackpotPopup.show(jackpots) };
         }
     };
 
@@ -453,7 +455,6 @@ let players = function () {
 
     let mainForm = function () {
         let modal = $$('#players-main-form');
-        let playersMainBlackOveraly = $$('#players-main-black-overlay');
         let tableWrapper = $$('#players-main-criteria-table-wrapper');
         let data = undefined;
         let cancelButton = $$('#players-main-criteria-form-cancel');
@@ -461,15 +462,13 @@ let players = function () {
         const show = (tableData) => {
             data = tableData;
             makeTable();
-            playersMainBlackOveraly.style.display = 'block';
             modal.classList.add('show');
-            $$('#players-main').children[0].style.overflow = 'hidden';
+            showPopup('main');
         };
 
         const hide = () => {
-            playersMainBlackOveraly.style.display = 'none';
             modal.classList.remove('show');
-            $$('#players-main').children[0].style.overflow = 'auto';
+            hidePopup('main');
         };
 
         const makeTable = () => {
@@ -503,15 +502,13 @@ let players = function () {
         const show = (crit) => {
             criteria = crit;
             createList();
-            blackOverlay.style.display = 'block';
             modal.classList.add('show');
-            $$('#players-groups').children[0].style.overflow = 'hidden';
+            showPopup('groups');
         };
 
         const hide = () => {
-            blackOverlay.style.display = 'none';
             modal.classList.remove('show');
-            $$('#players-groups').children[0].style.overflow = 'auto';
+            hidePopup('groups');
         };
 
         const createList = () => {
@@ -844,6 +841,67 @@ let players = function () {
         });
     };
 
+    let playerJackpotPopup = function () {
+        let jackpotData = undefined;
+        let modal = $$('#players-player-jackpot-form');
+        let cancelButton = $$('#players-player-jackpot-main-form-cancel');
+
+        const show = (data) => {
+            jackpotData = data;
+            populateJackpotTable();
+            modal.classList.add('show');
+            showPopup('player');
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('player');
+        };
+
+        const populateJackpotTable = () => {
+            //TODO: implement this function
+            console.log(jackpotData);
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
+    const showPopup = (tab) => {
+        switch (tab) {
+            case 'main':
+                playersMainBlackOveraly.style.display = 'block';
+                break;
+            case 'player':
+                playersPlayerBlackOveraly.style.display = 'block';
+                break;
+            case 'groups':
+                playersGroupsBlackOverlay.style.display = 'block';
+                break;
+        }
+
+        $$(`#players-${tab}`).children[0].style.overflow = 'hidden';
+    };
+
+    const hidePopup = (tab) => {
+        switch (tab) {
+            case 'main':
+                playersMainBlackOveraly.style.display = 'none';
+                break;
+            case 'player':
+                playersPlayerBlackOveraly.style.display = 'none';
+                break;
+            case 'groups':
+                playersGroupsBlackOverlay.style.display = 'none';
+                break;
+        }
+        $$(`#players-${tab}`).children[0].style.overflow = 'auto';
+    };
+
     const parsePlayersMainData = (data, parameterYesterday, firstColName) => {
         if (Object.getOwnPropertyNames(data).length === 0) {
             return [];
@@ -873,9 +931,6 @@ let players = function () {
     };
 
     const parseData = (data, firstColName) => {
-
-
-
         if (Object.getOwnPropertyNames(data).length === 0) {
             return [];
         }
@@ -919,9 +974,11 @@ let players = function () {
         // table.preserveHeight($$('#popUpTable'));
 
     }
-    function isEmpty(obj) {
+
+    const isEmpty = (obj) => {
         return Object.keys(obj).length === 0;
     }
+
     const getPlayers = () => {
 
         $$('#players-main-settings-wrapper').style.display = 'flex'

@@ -336,7 +336,8 @@
 /* PLAYER GROUP FORM */ 
 
 #players-groups-black-overlay,
-#players-main-black-overlay {
+#players-main-black-overlay, 
+#players-player-black-overlay {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -346,7 +347,8 @@
 }
 
 #players-groups-form,
-#players-main-form {
+#players-main-form,
+#players-player-jackpot-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -372,7 +374,8 @@
 }
 
 #players-groups-form.show,
-#players-main-form.show {
+#players-main-form.show,
+#players-player-jackpot-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
