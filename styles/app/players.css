@@ -111,7 +111,7 @@
 
 #players-player-players-wrapper {
     width: 8%;
-    height: 95%;
+    height: 70em;
 }
 
 #players-player-data-main-wrapper {
@@ -135,6 +135,18 @@
 #players-player-players-search-wrapper,
 #players-player-players-table-wrapper {
     margin-top: 0.5em;
+}
+
+#players-player-data-summary-info-wrapper,
+#players-player-data-summary-total-wrapper,
+#players-player-data-summary-section-wrapper {
+    padding-bottom: 5em;
+}
+
+#players-player-data-summary-section-wrapper button {
+    border-radius: 5em;
+    width: 90%;
+    margin: 1em;
 }
 
 #players-player-operators-list-wrapper,

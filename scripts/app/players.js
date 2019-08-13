@@ -10,6 +10,10 @@ let players = function () {
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
     let playerDataFlagTest = $$('#player-flag-test');
+    let playerSummaryJackpotButton = $$('#players-player-data-jackpot');
+    let playerSummaryTransactionButton = $$('#players-player-data-transaction');
+    let playerSummaryHistoryButton = $$('#players-player-data-history');
+    let playerSummaryUnresolvedButton = $$('#players-player-data-unresolved');
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
     let playerBetGraph = graph.generate($$(`#player-player-data-bet-graph-wrapper`).children[0], 'line');
     let playerRoundsGraph = graph.generate($$(`#player-player-data-rounds-graph-wrapper`).children[0], 'line');
@@ -51,7 +55,7 @@ let players = function () {
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
-        showPlayerSummaryData(data.info, data.totalStats);
+        showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
@@ -154,7 +158,7 @@ let players = function () {
         });
     };
 
-    const showPlayerSummaryData = (info, total) => {
+    const showPlayerSummaryData = (info, total, jackpots) => {
         clearSummaryData();
         let infoId = $$('#players-player-data-summary-id');
         let infoName = $$('#players-player-data-summary-name');
@@ -172,7 +176,14 @@ let players = function () {
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
 
-
+        if(jackpots.length === 0){
+            playerSummaryJackpotButton.classList.add('cancel');
+            playerSummaryJackpotButton.disabled = true;
+        }
+        else{
+            //TODO: implement popup and add in HTML
+            // playerSummaryJackpotButton.onClick = playerJackpotPopup.show(jackpots);
+        }
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
@@ -346,9 +357,11 @@ let players = function () {
 
     const getPlayer = () => {
         let portalId = $$('#players-player-portals-list').getSelected();
+        playerDataWrapper.classList.add('hidden');
+        playerPeriodWrapper.classList.add('hidden');
 
         if (!portalId) {
-            trigger('message', message.codes.badParameters);
+            trigger('message', message.codes.badParameter);
             return;
         }
         addLoader(getPlayerButton);
@@ -374,9 +387,11 @@ let players = function () {
 
     const getPlayerGroups = () => {
         let portalId = $$('#players-groups-portals-list').getSelected();
+        groupsDataWrapper.classList.add('hidden');
+        groupsPeriodWrapper.classList.add('hidden');
 
         if (!portalId) {
-            trigger('message', message.codes.badParameters);
+            trigger('message', message.codes.badParameter);
             return;
         }
         addLoader(getGroupsButton);
