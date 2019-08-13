@@ -310,8 +310,14 @@ let advanceAccounting = function () {
     };
 
     function getPortalsPerGame() {
-        portalsTable.innerHTML = "";
         portalsSelected = $$('#management-portals-portals-list').getSelected();
+       
+        if(!portalsSelected.length){
+            trigger('message', message.codes.badParameter);
+            return;
+        }
+
+        portalsTable.innerHTML = "";
         addLoader(portalsGetButton);
         trigger('comm/management/portalsPerGame/get', {
             body: {
@@ -343,6 +349,11 @@ let advanceAccounting = function () {
     };
 
     function getPlayersOfPortal() {
+        if(!$$('#management-players-portals-list').getSelected()){
+            trigger('message', message.codes.badParameter);
+            return;
+        }
+
         playersTable.innerHTML = "";
         addLoader(playersGetButton);
         trigger('comm/management/playersOfGame/get', {
@@ -381,6 +392,11 @@ let advanceAccounting = function () {
         let tbody = betsTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
         if (tbody.length) {
             tbody[0].remove();
+        }
+
+        if(!$$('#management-bets-portals-list').getSelected()){
+            trigger('message', message.codes.badParameter);
+            return;
         }
 
         addLoader(betsGetButton);
