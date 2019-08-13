@@ -28,6 +28,7 @@ let players = function () {
     let largestBetsData;
     let largestWinsData;
     let winnersAndLosersFromLast24HoursData;
+    let playerIdSelected;
     let getPlayersButton = $$('#players-get-main');
     let playersPlayersWraper = $$('#players-main-settings-wrapper');
     let playersPlayersPopupWraper = $$('#players-main-form');
@@ -46,6 +47,7 @@ let players = function () {
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
+        playerIdSelected = playerId;
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
@@ -65,6 +67,7 @@ let players = function () {
 
     const showPlayerHeaderData = (id, flags, status) => {
         $$('#players-player-data-id').innerHTML = id;
+        clearPlayerFlags();
         showPlayerFlagData(flags);
     };
 
@@ -84,10 +87,10 @@ let players = function () {
             return;
         }
 
-        if (flags.test) {
-            playerDataFlagTest.checked = true;
-            return;
-        }
+        // if (flags.test) {
+        //     playerDataFlagTest.checked = true;
+        //     return;
+        // }
     };
 
     const showPlayerDashboardData = (data) => {
@@ -138,13 +141,6 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
-                    // Prevent operator change
-                    // if (roles.getRole() === 'Manager') {
-                    //     response = {
-                    //         responseCode: 1000
-                    //     };
-                    // }
-
                     getOperators(response.result, tab);
                 } else {
                     trigger('message', response.responseCode);
@@ -175,6 +171,8 @@ let players = function () {
         totalAvgBet.innerHTML += total.avgBet;
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
+
+
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
@@ -742,7 +740,7 @@ let players = function () {
         playerDataFlagInteresting.checked = false;
         playerDataFlagSuspicious.checked = false;
         playerDataFlagDisable.checked = false;
-        playerDataFlagTest.checked = false;
+        // playerDataFlagTest.checked = false;
     };
 
     const clearSummaryData = () => {
@@ -765,32 +763,70 @@ let players = function () {
 
     const playerFlagChanged = (event) => {
         if (event.target === playerDataFlagSuspicious) {
-            playerDataFlagInteresting.checked = false;
-            playerDataFlagDisable.checked = false;
-            playerDataFlagTest.checked = false;
+            updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: true, disabled: false, test: false, wasDisabled: playerDataFlagDisable.checked });
             return;
         }
 
         if (event.target === playerDataFlagDisable) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagInteresting.checked = false;
-            playerDataFlagTest.checked = false;
+            updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: false, disabled: true, test: false, wasDisabled: false });
             return;
         }
 
-        if (event.target === playerDataFlagTest) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagInteresting.checked = false;
-            playerDataFlagDisable.checked = false;
-            return;
-        }
+        // if (event.target === playerDataFlagTest) {
+        //     updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: false, disabled: false, test: true, wasDisabled: playerDataFlagDisable.checked });
+        //     return;
+        // }
 
         if (event.target === playerDataFlagInteresting) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagDisable.checked = false;
-            playerDataFlagTest.checked = false;
+            updatePlayerFlagsAndDisabledStatus({ interesting: true, suspicious: false, disabled: false, test: false, wasDisabled: playerDataFlagDisable.checked });
             return;
         }
+    };
+
+    const updatePlayerFlagsAndDisabledStatus = (flags) => {
+        if (flags.wasDisabled || flags.disabled) {
+            trigger('comm/players/EnableOrDisable', {
+                body: {
+                    id: playerIdSelected
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        updatePlayerFlags(flags);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        }
+        else {
+            updatePlayerFlags(flags);
+        }
+    };
+
+    const updatePlayerFlags = (flags) => {
+        trigger('comm/players/setPlayerFlags', {
+            body: {
+                playerId: playerIdSelected,
+                interesting: flags.interesting,
+                suspicious: flags.suspicious
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    clearPlayerFlags();
+                    showPlayerFlagData(flags);
+                }
+                else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
     };
 
     const parsePlayersMainData = (data, parameterYesterday, firstColName) => {
