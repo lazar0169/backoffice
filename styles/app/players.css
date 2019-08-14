@@ -348,7 +348,8 @@
 
 #players-groups-form,
 #players-main-form,
-#players-player-jackpot-form {
+#players-player-jackpot-form,
+#players-player-transaction-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -375,7 +376,8 @@
 
 #players-groups-form.show,
 #players-main-form.show,
-#players-player-jackpot-form.show {
+#players-player-jackpot-form.show,
+#players-player-transaction-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;

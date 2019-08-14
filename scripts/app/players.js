@@ -183,6 +183,7 @@ let players = function () {
             playerSummaryJackpotButton.disabled = true;
         }
         else {
+            playerSummaryJackpotButton.disabled = false;
             playerSummaryJackpotButton.classList.remove('cancel');
             playerSummaryJackpotButton.onclick = () => { playerJackpotPopup.show(jackpots) };
         }
@@ -845,6 +846,7 @@ let players = function () {
         let jackpotData = undefined;
         let modal = $$('#players-player-jackpot-form');
         let cancelButton = $$('#players-player-jackpot-main-form-cancel');
+        let tableWrapper = $$('#players-player-jackpot-table-wrapper');
 
         const show = (data) => {
             jackpotData = data;
@@ -859,9 +861,54 @@ let players = function () {
         };
 
         const populateJackpotTable = () => {
-            //TODO: implement this function
-            console.log(jackpotData);
+            tableWrapper.innerHTML = '';
+            tableWrapper.appendChild(table.generate({
+                data: jackpotData,
+                id: 'playerJackpotData',
+                dynamic: false,
+                sticky: true,
+                stickyCol: true,
+            }));
+            table.preserveHeight(tableWrapper);
         };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
+    let playerJackpotPopup = function () {
+        // let jackpotData = undefined;
+        let modal = $$('#players-player-transaction-form');
+        let cancelButton = $$('#players-player-transaction-main-form-cancel');
+        // let tableWrapper = $$('#players-player-jackpot-table-wrapper');
+
+        const show = (data) => {
+            // jackpotData = data;
+            // populateJackpotTable();
+            modal.classList.add('show');
+            showPopup('player');
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('player');
+        };
+
+        // const populateJackpotTable = () => {
+        //     tableWrapper.innerHTML = '';
+        //     tableWrapper.appendChild(table.generate({
+        //         data: jackpotData,
+        //         id: 'playerJackpotData',
+        //         dynamic: false,
+        //         sticky: true,
+        //         stickyCol: true,
+        //     }));
+        //     table.preserveHeight(tableWrapper);
+        // };
 
         cancelButton.addEventListener('click', hide);
 
