@@ -4,6 +4,7 @@ let advanceAccounting = function () {
     let players = $$('#management-players');
     let bets = $$('#management-bets');
     let helpArr = [1,2];
+    let isSecondPeriodChecked = false;
     //main tab
     const totalGetButton = $$('#management-get-total');
     const getTotalExcelButton = $$('#management-excel-total');
@@ -13,6 +14,7 @@ let advanceAccounting = function () {
     let mainFirstPeriodTo = getToday();
     let mainSecondPeriodFrom = getToday();
     let mainSecondPeriodTo = getToday();
+   
     //portals tab 
     const portalsGetButton = $$('#management-get-portals');
     const portalCheckbox = $$('#management-portals-period-checkbox');
@@ -303,6 +305,7 @@ let advanceAccounting = function () {
 
         portalsTable.innerHTML = "";
         addLoader(portalsGetButton);
+        isSecondPeriodChecked = portalCheckbox.checked;
         trigger('comm/management/portalsPerGame/get', {
             body: {
                 portals: portalsSelected,
@@ -310,7 +313,7 @@ let advanceAccounting = function () {
                     fromTime: portalsFirstPeriodFrom,
                     toTime: portalsFirstPeriodTo,
                 },
-                secondPeriod: portalCheckbox.checked ? {
+                secondPeriod: isSecondPeriodChecked ? {
                     fromTime: portalsSecondPeriodFrom,
                     toTime: portalsSecondPeriodTo,
                 } : null,
@@ -342,7 +345,8 @@ let advanceAccounting = function () {
         playersTable.innerHTML = "";
         let playerPortalId = $$('#management-players-portals-list').getSelected();
         addLoader(playersGetButton);
-
+        isSecondPeriodChecked = playerCheckbox.checked;
+        
         trigger('comm/management/playersOfGame/get', {
             body: {
                 portalId: playerPortalId,
@@ -350,7 +354,7 @@ let advanceAccounting = function () {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
                 },
-                secondPeriod: playerCheckbox.checked ? {
+                secondPeriod: isSecondPeriodChecked ? {
                     fromTime: playersSecondPeriodFrom,
                     toTime: playersSecondPeriodTo,
                 } : null,
@@ -788,7 +792,7 @@ let advanceAccounting = function () {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
                 },
-                secondPeriod: playerCheckbox.checked ? {
+                secondPeriod: isSecondPeriodChecked ? {
                     fromTime: playersSecondPeriodFrom,
                     toTime: playersSecondPeriodTo,
                 } : null,
@@ -828,7 +832,7 @@ let advanceAccounting = function () {
                     fromTime: portalsFirstPeriodFrom,
                     toTime: portalsFirstPeriodTo,
                 },
-                secondPeriod: portalCheckbox.checked ? {
+                secondPeriod: isSecondPeriodChecked ? {
                     fromTime: portalsSecondPeriodFrom,
                     toTime: portalsSecondPeriodTo,
                 } : null,
@@ -860,7 +864,7 @@ let advanceAccounting = function () {
                     fromTime: portalsFirstPeriodFrom,
                     toTime: portalsFirstPeriodTo,
                 },
-                secondPeriod: portalCheckbox.checked ? {
+                secondPeriod: isSecondPeriodChecked ? {
                     fromTime: portalsSecondPeriodFrom,
                     toTime: portalsSecondPeriodTo,
                 } : null,
