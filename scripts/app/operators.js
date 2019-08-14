@@ -46,36 +46,41 @@ let operators = function () {
         let operatorsList;
         trigger('comm/operators/get', {
             success: function (response) {
-                operatorsList = response.result;
-                trigger('comm/operators/parameters/get', {
-                    success: function (response) {
-                        removeLoader($$('#sidebar-operators'));
-                        if (response.responseCode === message.codes.success) {
-                            templateOperatorData.games = response.result.games;
-                            timeZones = response.result.timeZones;
-                            currencies = response.result.currencies;
-                            defaultCurrencies = response.result.defaultCurrencies;
-                            if (defaultCurrencies.length === 0) defaultCurrencies = currencies;
-                            currenciesModel = {};
-                            for (let currency of currencies) {
-                                currenciesModel[currency.id] = currency.name;
-                            }
-                            defaultJackpotSettings = response.result.defaultJackpotSettings;
-                            integrationTypes = response.result.integrationTypes.map(integration => {
-                                return {
-                                    name: integration,
-                                    id: integration
+                if (response.responseCode === message.codes.success) {
+                    operatorsList = response.result;
+                    trigger('comm/operators/parameters/get', {
+                        success: function (response) {
+                            removeLoader($$('#sidebar-operators'));
+                            if (response.responseCode === message.codes.success) {
+                                templateOperatorData.games = response.result.games;
+                                timeZones = response.result.timeZones;
+                                currencies = response.result.currencies;
+                                defaultCurrencies = response.result.defaultCurrencies;
+                                if (defaultCurrencies.length === 0) defaultCurrencies = currencies;
+                                currenciesModel = {};
+                                for (let currency of currencies) {
+                                    currenciesModel[currency.id] = currency.name;
                                 }
-                            });
-                            createList(operatorsList);
-                        } else {
-                            trigger('message', response.responseCode);
+                                defaultJackpotSettings = response.result.defaultJackpotSettings;
+                                integrationTypes = response.result.integrationTypes.map(integration => {
+                                    return {
+                                        name: integration,
+                                        id: integration
+                                    }
+                                });
+                                createList(operatorsList);
+                            } else {
+                                trigger('message', response.responseCode);
+                            }
+                        },
+                        fail: function () {
+                            removeLoader($$('#sidebar-operators'));
                         }
-                    },
-                    fail: function () {
-                        removeLoader($$('#sidebar-operators'));
-                    }
-                });
+                    });
+                }
+                else{
+                    trigger('message', response.responseCode);
+                }
             },
             fail: function () {
                 removeLoader($$('#sidebar-operators'));
@@ -204,7 +209,7 @@ let operators = function () {
         }
         portalModal.hide();
         jackpotModal.hide();
-        if(selectedRow){
+        if (selectedRow) {
             selectedRow.classList.remove('hover');
         }
         editMode = false;

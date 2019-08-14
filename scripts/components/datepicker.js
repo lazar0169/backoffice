@@ -31,7 +31,6 @@ let datepicker = function () {
                     if (isRange) {
                         setRange();
                     }
-                    log(this.toString());
                 }
             });
 
@@ -78,7 +77,8 @@ let datepicker = function () {
                 if (isStart) {
                     firstPicker.setStart(picker.getDate());
                     secondPicker.setStart(picker.getDate());
-                    if (!secondPicker.isRangeSet) {
+                    secondPicker.setMin(picker.getDate());
+                    if (!secondPicker.isRangeSet || secondPicker.getDate() < firstPicker.getDate()) {
                         secondPicker.setDate(firstPicker.getDate());
                     }
                 } else {
