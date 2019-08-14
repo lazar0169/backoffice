@@ -1,5 +1,7 @@
 let players = function () {
-    let blackOverlay = $$('#players-groups-black-overlay');
+    let playersGroupsBlackOverlay = $$('#players-groups-black-overlay');
+    let playersMainBlackOveraly = $$('#players-main-black-overlay');
+    let playersPlayerBlackOveraly = $$('#players-player-black-overlay');
 
     let getPlayerButton = $$('#players-get-player');
     let playersSearchWrapper = $$('#players-player-players-search-wrapper');
@@ -10,6 +12,10 @@ let players = function () {
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
     let playerDataFlagTest = $$('#player-flag-test');
+    let playerSummaryJackpotButton = $$('#players-player-data-jackpot');
+    let playerSummaryTransactionButton = $$('#players-player-data-transaction');
+    let playerSummaryHistoryButton = $$('#players-player-data-history');
+    let playerSummaryUnresolvedButton = $$('#players-player-data-unresolved');
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
     let playerBetGraph = graph.generate($$(`#player-player-data-bet-graph-wrapper`).children[0], 'line');
     let playerRoundsGraph = graph.generate($$(`#player-player-data-rounds-graph-wrapper`).children[0], 'line');
@@ -28,6 +34,7 @@ let players = function () {
     let largestBetsData;
     let largestWinsData;
     let winnersAndLosersFromLast24HoursData;
+    let playerIdSelected;
     let getPlayersButton = $$('#players-get-main');
     let playersPlayersWraper = $$('#players-main-settings-wrapper');
     let playersPlayersPopupWraper = $$('#players-main-form');
@@ -46,10 +53,11 @@ let players = function () {
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
+        playerIdSelected = playerId;
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
-        showPlayerSummaryData(data.info, data.totalStats);
+        showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         console.log(data);
     };
@@ -65,6 +73,7 @@ let players = function () {
 
     const showPlayerHeaderData = (id, flags, status) => {
         $$('#players-player-data-id').innerHTML = id;
+        clearPlayerFlags();
         showPlayerFlagData(flags);
     };
 
@@ -84,10 +93,10 @@ let players = function () {
             return;
         }
 
-        if (flags.test) {
-            playerDataFlagTest.checked = true;
-            return;
-        }
+        // if (flags.test) {
+        //     playerDataFlagTest.checked = true;
+        //     return;
+        // }
     };
 
     const showPlayerDashboardData = (data) => {
@@ -138,13 +147,6 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
-                    // Prevent operator change
-                    // if (roles.getRole() === 'Manager') {
-                    //     response = {
-                    //         responseCode: 1000
-                    //     };
-                    // }
-
                     getOperators(response.result, tab);
                 } else {
                     trigger('message', response.responseCode);
@@ -158,7 +160,7 @@ let players = function () {
         });
     };
 
-    const showPlayerSummaryData = (info, total) => {
+    const showPlayerSummaryData = (info, total, jackpots) => {
         clearSummaryData();
         let infoId = $$('#players-player-data-summary-id');
         let infoName = $$('#players-player-data-summary-name');
@@ -175,6 +177,15 @@ let players = function () {
         totalAvgBet.innerHTML += total.avgBet;
         totalRounds.innerHTML += total.rounds;
         totalGgr.innerHTML += total.ggr;
+
+        if (jackpots.length === 0) {
+            playerSummaryJackpotButton.classList.add('cancel');
+            playerSummaryJackpotButton.disabled = true;
+        }
+        else {
+            playerSummaryJackpotButton.classList.remove('cancel');
+            playerSummaryJackpotButton.onclick = () => { playerJackpotPopup.show(jackpots) };
+        }
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
@@ -348,9 +359,11 @@ let players = function () {
 
     const getPlayer = () => {
         let portalId = $$('#players-player-portals-list').getSelected();
+        playerDataWrapper.classList.add('hidden');
+        playerPeriodWrapper.classList.add('hidden');
 
         if (!portalId) {
-            trigger('message', message.codes.badParameters);
+            trigger('message', message.codes.badParameter);
             return;
         }
         addLoader(getPlayerButton);
@@ -376,9 +389,11 @@ let players = function () {
 
     const getPlayerGroups = () => {
         let portalId = $$('#players-groups-portals-list').getSelected();
+        groupsDataWrapper.classList.add('hidden');
+        groupsPeriodWrapper.classList.add('hidden');
 
         if (!portalId) {
-            trigger('message', message.codes.badParameters);
+            trigger('message', message.codes.badParameter);
             return;
         }
         addLoader(getGroupsButton);
@@ -440,7 +455,6 @@ let players = function () {
 
     let mainForm = function () {
         let modal = $$('#players-main-form');
-        let playersMainBlackOveraly = $$('#players-main-black-overlay');
         let tableWrapper = $$('#players-main-criteria-table-wrapper');
         let data = undefined;
         let cancelButton = $$('#players-main-criteria-form-cancel');
@@ -448,15 +462,13 @@ let players = function () {
         const show = (tableData) => {
             data = tableData;
             makeTable();
-            playersMainBlackOveraly.style.display = 'block';
             modal.classList.add('show');
-            $$('#players-main').children[0].style.overflow = 'hidden';
+            showPopup('main');
         };
 
         const hide = () => {
-            playersMainBlackOveraly.style.display = 'none';
             modal.classList.remove('show');
-            $$('#players-main').children[0].style.overflow = 'auto';
+            hidePopup('main');
         };
 
         const makeTable = () => {
@@ -490,15 +502,13 @@ let players = function () {
         const show = (crit) => {
             criteria = crit;
             createList();
-            blackOverlay.style.display = 'block';
             modal.classList.add('show');
-            $$('#players-groups').children[0].style.overflow = 'hidden';
+            showPopup('groups');
         };
 
         const hide = () => {
-            blackOverlay.style.display = 'none';
             modal.classList.remove('show');
-            $$('#players-groups').children[0].style.overflow = 'auto';
+            hidePopup('groups');
         };
 
         const createList = () => {
@@ -742,7 +752,7 @@ let players = function () {
         playerDataFlagInteresting.checked = false;
         playerDataFlagSuspicious.checked = false;
         playerDataFlagDisable.checked = false;
-        playerDataFlagTest.checked = false;
+        // playerDataFlagTest.checked = false;
     };
 
     const clearSummaryData = () => {
@@ -765,32 +775,131 @@ let players = function () {
 
     const playerFlagChanged = (event) => {
         if (event.target === playerDataFlagSuspicious) {
-            playerDataFlagInteresting.checked = false;
-            playerDataFlagDisable.checked = false;
-            playerDataFlagTest.checked = false;
+            updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: true, disabled: false, test: false, wasDisabled: playerDataFlagDisable.checked });
             return;
         }
 
         if (event.target === playerDataFlagDisable) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagInteresting.checked = false;
-            playerDataFlagTest.checked = false;
+            updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: false, disabled: true, test: false, wasDisabled: false });
             return;
         }
 
-        if (event.target === playerDataFlagTest) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagInteresting.checked = false;
-            playerDataFlagDisable.checked = false;
-            return;
-        }
+        // if (event.target === playerDataFlagTest) {
+        //     updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: false, disabled: false, test: true, wasDisabled: playerDataFlagDisable.checked });
+        //     return;
+        // }
 
         if (event.target === playerDataFlagInteresting) {
-            playerDataFlagSuspicious.checked = false;
-            playerDataFlagDisable.checked = false;
-            playerDataFlagTest.checked = false;
+            updatePlayerFlagsAndDisabledStatus({ interesting: true, suspicious: false, disabled: false, test: false, wasDisabled: playerDataFlagDisable.checked });
             return;
         }
+    };
+
+    const updatePlayerFlagsAndDisabledStatus = (flags) => {
+        if (flags.wasDisabled || flags.disabled) {
+            trigger('comm/players/EnableOrDisable', {
+                body: {
+                    id: playerIdSelected
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        updatePlayerFlags(flags);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        }
+        else {
+            updatePlayerFlags(flags);
+        }
+    };
+
+    const updatePlayerFlags = (flags) => {
+        trigger('comm/players/setPlayerFlags', {
+            body: {
+                playerId: playerIdSelected,
+                interesting: flags.interesting,
+                suspicious: flags.suspicious
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    clearPlayerFlags();
+                    showPlayerFlagData(flags);
+                }
+                else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+    };
+
+    let playerJackpotPopup = function () {
+        let jackpotData = undefined;
+        let modal = $$('#players-player-jackpot-form');
+        let cancelButton = $$('#players-player-jackpot-main-form-cancel');
+
+        const show = (data) => {
+            jackpotData = data;
+            populateJackpotTable();
+            modal.classList.add('show');
+            showPopup('player');
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('player');
+        };
+
+        const populateJackpotTable = () => {
+            //TODO: implement this function
+            console.log(jackpotData);
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
+    const showPopup = (tab) => {
+        switch (tab) {
+            case 'main':
+                playersMainBlackOveraly.style.display = 'block';
+                break;
+            case 'player':
+                playersPlayerBlackOveraly.style.display = 'block';
+                break;
+            case 'groups':
+                playersGroupsBlackOverlay.style.display = 'block';
+                break;
+        }
+
+        $$(`#players-${tab}`).children[0].style.overflow = 'hidden';
+    };
+
+    const hidePopup = (tab) => {
+        switch (tab) {
+            case 'main':
+                playersMainBlackOveraly.style.display = 'none';
+                break;
+            case 'player':
+                playersPlayerBlackOveraly.style.display = 'none';
+                break;
+            case 'groups':
+                playersGroupsBlackOverlay.style.display = 'none';
+                break;
+        }
+        $$(`#players-${tab}`).children[0].style.overflow = 'auto';
     };
 
     const parsePlayersMainData = (data, parameterYesterday, firstColName) => {
@@ -822,9 +931,6 @@ let players = function () {
     };
 
     const parseData = (data, firstColName) => {
-
-
-
         if (Object.getOwnPropertyNames(data).length === 0) {
             return [];
         }
@@ -868,9 +974,11 @@ let players = function () {
         // table.preserveHeight($$('#popUpTable'));
 
     }
-    function isEmpty(obj) {
+
+    const isEmpty = (obj) => {
         return Object.keys(obj).length === 0;
     }
+
     const getPlayers = () => {
 
         $$('#players-main-settings-wrapper').style.display = 'flex'

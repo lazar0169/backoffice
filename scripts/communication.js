@@ -113,6 +113,8 @@ let comm = function () {
         'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
         'comm/players/getPlayerData':'/Player/GetPlayer',
         'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
+        'comm/players/EnableOrDisable' : '/Player/EnableDisablePlayer',
+        'comm/players/setPlayerFlags' : '/Player/SetPlayerFlags',
 
         'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
         'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
