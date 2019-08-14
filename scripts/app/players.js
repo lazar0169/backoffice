@@ -16,6 +16,8 @@ let players = function () {
     let playerSummaryTransactionButton = $$('#players-player-data-transaction');
     let playerSummaryHistoryButton = $$('#players-player-data-history');
     let playerSummaryUnresolvedButton = $$('#players-player-data-unresolved');
+    let playerTransactionFrom = getToday();
+    let playerTransactionTo = getToday();
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
     let playerBetGraph = graph.generate($$(`#player-player-data-bet-graph-wrapper`).children[0], 'line');
     let playerRoundsGraph = graph.generate($$(`#player-player-data-rounds-graph-wrapper`).children[0], 'line');
@@ -50,6 +52,14 @@ let players = function () {
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
     let searchTimeoutId = undefined;
+
+    on('date/players-player-transaction-time-span-from', function (data) {
+        playerTransactionFrom = data;
+    });
+
+    on('date/players-player-transaction-time-span-to', function (data) {
+        playerTransactionTo = data;
+    });
 
     const showPlayerData = (data, playerId) => {
         playerDataWrapper.classList.remove('hidden');
@@ -187,6 +197,8 @@ let players = function () {
             playerSummaryJackpotButton.classList.remove('cancel');
             playerSummaryJackpotButton.onclick = () => { playerJackpotPopup.show(jackpots) };
         }
+
+        playerSummaryTransactionButton.onclick = playerTransactionPopup.show;
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
@@ -881,14 +893,12 @@ let players = function () {
     }();
 
     let playerTransactionPopup = function () {
-        // let jackpotData = undefined;
         let modal = $$('#players-player-transaction-form');
         let cancelButton = $$('#players-player-transaction-main-form-cancel');
-        // let tableWrapper = $$('#players-player-jackpot-table-wrapper');
+        let tableWrapper = $$('#players-player-transaction-table-wrapper');
+        let getButton = $$('#players-player-transaction-get');
 
-        const show = (data) => {
-            // jackpotData = data;
-            // populateJackpotTable();
+        const show = () => {
             modal.classList.add('show');
             showPopup('player');
         };
@@ -898,19 +908,41 @@ let players = function () {
             hidePopup('player');
         };
 
-        // const populateJackpotTable = () => {
-        //     tableWrapper.innerHTML = '';
-        //     tableWrapper.appendChild(table.generate({
-        //         data: jackpotData,
-        //         id: 'playerJackpotData',
-        //         dynamic: false,
-        //         sticky: true,
-        //         stickyCol: true,
-        //     }));
-        //     table.preserveHeight(tableWrapper);
-        // };
+        const getTransactions = () => {
+            trigger('comm/players/getTransactions', {
+                body: {
+                    fromTime: playerTransactionFrom,
+                    toTime: playerTransactionTo,
+                    playerId: playerIdSelected
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        if(response.result.length === 0){
+                            trigger('message', message.codes.noData);
+                            return;
+                        }
+                        tableWrapper.innerHTML = '';
+                        tableWrapper.appendChild(table.generate({
+                            data: response.result,
+                            id: 'playerTransactionData',
+                            dynamic: false,
+                            sticky: true,
+                            stickyCol: true,
+                        }));
+                        table.preserveHeight(tableWrapper);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
 
         cancelButton.addEventListener('click', hide);
+        getButton.addEventListener('click', getTransactions);
 
         return {
             show: show,

@@ -196,6 +196,19 @@
     justify-content: space-around;
 }
 
+#players-player-jackpot-main-wrapper,
+#players-player-transaction-table-wrapper {
+    margin-top: 2em;
+}
+
+#players-player-transaction-get {
+    height: 2.5em;
+}
+
+#players-player-transaction-header-wrapper {
+    justify-content: space-between;
+}
+
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
@@ -223,31 +236,21 @@
 .column {
     flex: 50%;
     margin-left: 0.5%;
-  }
-  #players-interesting-players-title,
-  #players-latest-players-title,
-  #players-players-groups-title,
-  #players-largest-bets-title,
-  #players-largest-wins-title,
-  #players-winners-losers-title{
-      display: none;
-      /* width: 20em; */
-      /* margin-bottom: 0.5em; */
-  }
-  
-  #interestingPlayersData,
-  #latestPlayersTable,
-  #PlayersGroupsTable,
-  #largestBets,
-  #largestWins,
-  #winnersAndLosersFromLast24Hours{
-      /* min-height: 20em; */
-  }
+}
 
-  
-  #players-main-settings-wrapper > .tbody{
-      height: 312px;
-  }
+#players-interesting-players-title,
+#players-latest-players-title,
+#players-players-groups-title,
+#players-largest-bets-title,
+#players-largest-wins-title,
+#players-winners-losers-title{
+    display: none;
+}
+
+#players-main-settings-wrapper > .tbody{
+    height: 312px;
+}
+
 /*END PLAYERS TAB */
 
 /* PLAYER GROUP TAB */
