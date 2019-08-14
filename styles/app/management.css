@@ -101,7 +101,7 @@
 
 #players-form {
     position: fixed;
-    width: 70em;
+    width: 50%;
     height: 35em;
     max-height: 100%;
     align-self: center;
@@ -375,7 +375,8 @@
 
 #management-excel-total.hidden,
 #management-excel-portals.hidden,
-#management-excel-players.hidden{
+#management-excel-players.hidden,
+#players-form-download-excel.hidden{
     display: none;
 }
 
@@ -388,12 +389,12 @@
     margin: 2em 0 1.5em 0;
 }
 
-/* #management-main-second-period-wrapper.hidden,
-#management-portals-second-period-wrapper.hidden,
-#management-players-second-period-wrapper.hidden{
-    display: hidden !important;
-} */
-
+#management-main-second-period-wrapper,
+#management-portals-second-period-wrapper,
+#management-players-second-period-wrapper
+{
+    display: none;
+}
 fieldset.hidden{
     display: none !important;
 }
@@ -408,7 +409,7 @@ fieldset.hidden{
 
 #portals-form {
     position: fixed;
-    width: 80em;
+    width: 50%;
     height: 45em;
     max-height: 100%;
     top: 0;
