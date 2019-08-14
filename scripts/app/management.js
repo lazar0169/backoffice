@@ -788,7 +788,7 @@ let advanceAccounting = function () {
                     fromTime: playersFirstPeriodFrom,
                     toTime: playersFirstPeriodTo,
                 },
-                secondPeriod: playerCheckbox ? {
+                secondPeriod: playerCheckbox.checked ? {
                     fromTime: playersSecondPeriodFrom,
                     toTime: playersSecondPeriodTo,
                 } : null,
