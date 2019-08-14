@@ -880,7 +880,7 @@ let players = function () {
         }
     }();
 
-    let playerJackpotPopup = function () {
+    let playerTransactionPopup = function () {
         // let jackpotData = undefined;
         let modal = $$('#players-player-transaction-form');
         let cancelButton = $$('#players-player-transaction-main-form-cancel');
