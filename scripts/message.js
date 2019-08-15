@@ -38,6 +38,7 @@ const message = function () {
         duplicatedActions: 3010,
         portalsWithSameCurrency: 4001,
         missingTax: 5001,
+        timeoutExpired: 6002,
         invalidToken: 6003,
         noData: 7001,
     };
@@ -81,6 +82,7 @@ const message = function () {
         3010: 'Something wenp\'t wrong. Duplicated actions found. Please contact your administrator.',
         4001: 'A portal with this currency exists. Please choose another one or contact your administrator.',
         5001: 'Tax configuration is missing for selected operator.',
+        6002: 'Timeout expired.',
         6003: 'Authentication error, please log in again.',
         7001: 'No date for selected parameters.',
     };
@@ -122,6 +124,7 @@ const message = function () {
         3008: 3,
         4001: 3,
         5001: 3,
+        6002: 3,
         6003: 3,
         7001: 1,
     };
