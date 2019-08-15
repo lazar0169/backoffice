@@ -282,7 +282,9 @@ let operators = function () {
                     if (!gameLaunchURL.value ||
                         !integrationTypeWrapper.children[0].getSelected() ||
                         !warningActiveCredit.value ||
+                        parseInt(warningActiveCredit.value) < 0 ||
                         !blockingActiveCredit.value ||
+                        parseInt(blockingActiveCredit.value) < 0 ||
                         !operatorsCurrencyWrapper.children[0].children[0].dataset.value) {
                         trigger('message', message.codes.badParameter);
                         return;
