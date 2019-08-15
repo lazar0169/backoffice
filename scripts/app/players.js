@@ -15,7 +15,7 @@ let players = function () {
     let playerSummaryJackpotButton = $$('#players-player-data-jackpot');
     let playerSummaryTransactionButton = $$('#players-player-data-transaction');
     let playerSummaryHistoryButton = $$('#players-player-data-history');
-    let playerSummaryUnresolvedButton = $$('#players-player-data-unresolved');
+    let playerSummaryUnresolvedButton = $$('#players-player-data-usresloved');
     let playerTransactionFrom = getToday();
     let playerTransactionTo = getToday();
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
@@ -37,6 +37,7 @@ let players = function () {
     let largestWinsData;
     let winnersAndLosersFromLast24HoursData;
     let playerIdSelected;
+    let playerNameSelected;
     let getPlayersButton = $$('#players-get-main');
     let playersPlayersWraper = $$('#players-main-settings-wrapper');
     let playersPlayersPopupWraper = $$('#players-main-form');
@@ -61,9 +62,10 @@ let players = function () {
         playerTransactionTo = data;
     });
 
-    const showPlayerData = (data, playerId) => {
+    const showPlayerData = (data, playerId, name) => {
         playerDataWrapper.classList.remove('hidden');
         playerIdSelected = playerId;
+        playerNameSelected = name;
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
@@ -199,6 +201,7 @@ let players = function () {
         }
 
         playerSummaryTransactionButton.onclick = playerTransactionPopup.show;
+        playerSummaryUnresolvedButton.onclick = playerUnresolvedPopup.show;
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
@@ -430,14 +433,14 @@ let players = function () {
         });
     }
 
-    const getPlayerData = (id) => {
+    const getPlayerData = (id, name) => {
         trigger('comm/players/getPlayerData', {
             body: {
                 id: id
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    showPlayerData(response.result, id);
+                    showPlayerData(response.result, id, name);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -448,7 +451,7 @@ let players = function () {
         });
     };
 
-    const getGroupData = (id) => {
+    const getGroupData = (id, name) => {
         trigger('comm/playerGroups/getCompleteGroup', {
             body: {
                 id: id
@@ -656,7 +659,7 @@ let players = function () {
             let td = document.createElement('td');
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { callback(row.id) };
+            tr.onclick = function () { callback(row.id, row.name) };
             tr.appendChild(td);
             body.appendChild(tr);
         }
@@ -917,7 +920,7 @@ let players = function () {
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        if(response.result.length === 0){
+                        if (response.result.length === 0) {
                             trigger('message', message.codes.noData);
                             return;
                         }
@@ -943,6 +946,126 @@ let players = function () {
 
         cancelButton.addEventListener('click', hide);
         getButton.addEventListener('click', getTransactions);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
+    let playerUnresolvedPopup = function () {
+        let modal = $$('#players-player-unresolved-wins-form');
+        let cancelButton = $$('#players-player-unresolved-wins-main-form-cancel');
+        let listWrapper = $$('#players-player-unresolved-wins-main-wrapper');
+
+        const show = () => {
+            getGames();
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('player');
+        };
+
+        const getGames = () => {
+            addLoader(playerSummaryUnresolvedButton);
+            trigger('comm/currency/getGames', {
+                body: {
+
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        populateGameTable(response.result);
+                        modal.classList.add('show');
+                        showPopup('player');
+                        removeLoader(playerSummaryUnresolvedButton);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                        removeLoader(playerSummaryUnresolvedButton);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                    removeLoader(playerSummaryUnresolvedButton);
+                }
+            })
+        };
+
+        const populateGameTable = (data) => {
+            if (listWrapper.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+                listWrapper.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+            }
+            let body = document.createElement('tbody');
+            for (let row of data) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.innerHTML = row.name;
+                tr.dataset.id = row.id;
+                tr.onclick = function () { playerUnresolvedWinsPopup.show(row.id, td) };
+                tr.appendChild(td);
+                body.appendChild(tr);
+            }
+
+            listWrapper.getElementsByTagName('table')[0].appendChild(body);
+            listWrapper.classList.remove('hidden');
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
+    let playerUnresolvedWinsPopup = function () {
+        let modal = $$('#players-player-unresolved-wins-specific-game-form');
+        let backButton = $$('#players-player-unresolved-wins-specific-game-form-back');
+        let gameId = undefined;
+        let loaderElement = undefined;
+
+        const show = (id, element) => {
+            loaderElement = element;
+            gameId = id;
+            getWins();
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+        };
+
+        const getWins = () => {
+            addLoader(loaderElement);
+            trigger('comm/playerGroups/getGroupsBySubstring', {
+                body: {
+                    caption: playerNameSelected,
+                    gameId: gameId,
+                    playerId: playerIdSelected
+                },
+                success: function (response) {
+                    if(response.responseCode === message.codes.success){
+                        populateTable(response.result);
+                        modal.classList.add('show');
+                        removeLoader(loaderElement);
+                    }
+                    else{
+                        trigger('message', response.responseCode);
+                        removeLoader(loaderElement);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                    removeLoader(loaderElement);
+                }
+            });
+        };
+
+        const populateTable = (data) => {
+            console.log(data);
+        };
+
+        backButton.addEventListener('click', hide);
 
         return {
             show: show,
@@ -1230,7 +1353,6 @@ let players = function () {
     playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
     getGroupsButton.addEventListener('click', getPlayerGroups);
-
     getPlayersButton.addEventListener('click', getPlayers);
 
 }();
