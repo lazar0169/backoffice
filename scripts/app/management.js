@@ -266,6 +266,8 @@ let advanceAccounting = function () {
     });
 
     function getTotalPerGame() {
+        isSecondPeriodChecked = mainCheckbox.checked;
+
         mainTable.innerHTML = "";
         addLoader(totalGetButton);
         trigger('comm/management/totalPerGame/get', {
@@ -445,7 +447,7 @@ let advanceAccounting = function () {
                 managementResult: totalData,
                 fileName: 'TotalPerGame',
                 itemType: 'game',
-                singleOrCompared: !mainCheckbox.checked
+                singleOrCompared: !isSecondPeriodChecked
             },
             success: function (response) {
                 removeLoader(getTotalExcelButton);
@@ -468,7 +470,7 @@ let advanceAccounting = function () {
                 managementResult: portalsData,
                 fileName: 'PortalPerGame',
                 itemType: 'game',
-                singleOrCompared: !portalCheckbox.checked
+                singleOrCompared: !isSecondPeriodChecked
             },
             success: function (response) {
                 removeLoader(getPortalsExcelButton);
@@ -491,7 +493,7 @@ let advanceAccounting = function () {
                 managementResult: playersData,
                 fileName: 'PlayersOfPortal',
                 itemType: 'player',
-                singleOrCompared: !playerCheckbox.checked
+                singleOrCompared: !isSecondPeriodChecked
             },
             success: function (response) {
                 removeLoader(getPlayersExcelButton);
@@ -514,7 +516,7 @@ let advanceAccounting = function () {
                 managementResult: playerData,
                 fileName: 'PlayerPerGame',
                 itemType: 'player',
-                singleOrCompared: !playerCheckbox.checked
+                singleOrCompared: !isSecondPeriodChecked
             },
             success: function (response) {
                 removeLoader(getPlayerExcelButton);
@@ -537,7 +539,7 @@ let advanceAccounting = function () {
                 managementResult: portalFormData,
                 fileName: 'GamePerPortal',
                 itemType: 'portal',
-                singleOrCompared: !portalCheckbox.checked
+                singleOrCompared: !isSecondPeriodChecked
             },
             success: function (response) {
                 removeLoader(getPortalsFormExcelButton);
@@ -560,7 +562,7 @@ let advanceAccounting = function () {
                 managementResult: portalPlayerFormData,
                 fileName: 'GamePerPlayersOfPortal',
                 itemType: 'player',
-                singleOrCompared: !portalCheckbox.checked
+                singleOrCompared: !isSecondPeriodChecked
             },
             success: function (response) {
                 removeLoader(getPortalsPlayersFormExcelButton);
