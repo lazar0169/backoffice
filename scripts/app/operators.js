@@ -284,7 +284,12 @@ let operators = function () {
                     if (!gameLaunchURL.value ||
                         !integrationTypeWrapper.children[0].getSelected() ||
                         !warningActiveCredit.value ||
+                        parseInt(warningActiveCredit.value) < 0 ||
+                        parseInt(warningActiveCredit.value) > 18000000 ||
                         !blockingActiveCredit.value ||
+                        parseInt(blockingActiveCredit.value) < 0 ||
+                        parseInt(blockingActiveCredit.value) > 21000000 ||
+                        parseInt(blockingActiveCredit.value) < parseInt(warningActiveCredit.value) ||
                         !operatorsCurrencyWrapper.children[0].children[0].dataset.value) {
                         trigger('message', message.codes.badParameter);
                         return;

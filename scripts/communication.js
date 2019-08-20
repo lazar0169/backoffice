@@ -116,6 +116,8 @@ let comm = function () {
         'comm/players/EnableOrDisable' : '/Player/EnableDisablePlayer',
         'comm/players/setPlayerFlags' : '/Player/SetPlayerFlags',
         'comm/players/getTransactions' : '/Player/GetPlayerTransactions',
+        'comm/players/getUnresolvedWins' : '/Player/GetPlayerUnresolvedWins',
+        'comm/players/resolveUnresolvedWins' : '/Player/ResolveWinForPlayerGameAndRound',
 
         'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
         'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
