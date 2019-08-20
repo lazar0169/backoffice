@@ -78,7 +78,7 @@ let operators = function () {
                         }
                     });
                 }
-                else{
+                else {
                     trigger('message', response.responseCode);
                 }
             },
@@ -253,8 +253,8 @@ let operators = function () {
                                 id: 0,
                                 name: ''
                             },
-                            diamond: defaultJackpotSettings[currencyId].defaultDiamond,
-                            platinum: defaultJackpotSettings[currencyId].defaultPlatinum
+                            diamond: defaultJackpotSettings[currencyId] ? defaultJackpotSettings[currencyId].defaultDiamond ? defaultJackpotSettings[currencyId].defaultDiamond : undefined : undefined,
+                            platinum: defaultJackpotSettings[currencyId] ? defaultJackpotSettings[currencyId].defaultPlatinum ? defaultJackpotSettings[currencyId].defaultPlatinum : undefined : undefined
                         };
                     } else {
                         trigger('message', message.codes.invalidCurrencyAndTimeZone);
@@ -265,6 +265,11 @@ let operators = function () {
                     password.value = '';
                     warningActiveCredit.value = '';
                     blockingActiveCredit.value = '';
+
+                    on(`operator-portal-currency-code/selected`, function (value) {
+                        openedPortalData.diamond = defaultJackpotSettings[value] ? defaultJackpotSettings[value].defaultDiamond ? defaultJackpotSettings[value].defaultDiamond : undefined : undefined;
+                        openedPortalData.platinum = defaultJackpotSettings[value] ? defaultJackpotSettings[value].defaultPlatinum ? defaultJackpotSettings[value].defaultPlatinum : undefined : undefined;
+                    });
                 }
                 for (let button of $$('.operators-form-jackpot-button')) {
                     button.onclick = function () {
@@ -344,11 +349,19 @@ let operators = function () {
         let maxJackpotValue = $$('#operator-max-jackpot-value');
         return {
             show: function (element, jackpot) {
-                betContribution.value = element.betContribution;
-                minBet.value = element.minBet;
-                baseJackpotValue.value = element.baseJackpotValue;
-                minJackpotValue.value = element.minJackpotValue;
-                maxJackpotValue.value = element.maxJackpotValue;
+                if (element) {
+                    betContribution.value = element.betContribution;
+                    minBet.value = element.minBet;
+                    baseJackpotValue.value = element.baseJackpotValue;
+                    minJackpotValue.value = element.minJackpotValue;
+                    maxJackpotValue.value = element.maxJackpotValue;
+                } else {
+                    betContribution.value = 0;
+                    minBet.value = 0;
+                    baseJackpotValue.value = 0;
+                    minJackpotValue.value = 0;
+                    maxJackpotValue.value = 0;
+                }
 
                 $$('#operators-form-jackpots-save').onclick = function () {
                     openedPortalData[jackpot].betContribution = betContribution.value;
