@@ -209,6 +209,12 @@
     justify-content: space-between;
 }
 
+#players-player-unresolved-wins-main-wrapper,
+#players-player-unresolved-wins-specific-game-wrapper {
+    margin: 2em;
+    overflow: auto;
+}
+
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */

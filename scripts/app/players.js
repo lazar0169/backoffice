@@ -1022,6 +1022,7 @@ let players = function () {
     let playerUnresolvedWinsPopup = function () {
         let modal = $$('#players-player-unresolved-wins-specific-game-form');
         let backButton = $$('#players-player-unresolved-wins-specific-game-form-back');
+        let tableWrapper = $$('#players-player-unresolved-wins-specific-game-wrapper');
         let gameId = undefined;
         let loaderElement = undefined;
 
@@ -1037,19 +1038,24 @@ let players = function () {
 
         const getWins = () => {
             addLoader(loaderElement);
-            trigger('comm/playerGroups/getGroupsBySubstring', {
+            trigger('comm/players/getUnresolvedWins', {
                 body: {
                     caption: playerNameSelected,
                     gameId: gameId,
                     playerId: playerIdSelected
                 },
                 success: function (response) {
-                    if(response.responseCode === message.codes.success){
+                    if (response.responseCode === message.codes.success) {
+                        if (response.result.length === 0) {
+                            removeLoader(loaderElement);
+                            trigger('message', message.codes.noData);
+                            return;
+                        }
                         populateTable(response.result);
                         modal.classList.add('show');
                         removeLoader(loaderElement);
                     }
-                    else{
+                    else {
                         trigger('message', response.responseCode);
                         removeLoader(loaderElement);
                     }
@@ -1062,7 +1068,15 @@ let players = function () {
         };
 
         const populateTable = (data) => {
-            console.log(data);
+            tableWrapper.innerHTML = '';
+            tableWrapper.appendChild(table.generate({
+                data: data,
+                id: 'playerUnresolvedWinsData',
+                dynamic: false,
+                sticky: true,
+                stickyCol: true,
+            }));
+            table.preserveHeight(tableWrapper);
         };
 
         backButton.addEventListener('click', hide);
