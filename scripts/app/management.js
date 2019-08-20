@@ -14,7 +14,6 @@ let advanceAccounting = function () {
     let mainFirstPeriodTo = getToday();
     let mainSecondPeriodFrom = getToday();
     let mainSecondPeriodTo = getToday();
-
     //portals tab 
     const portalsGetButton = $$('#management-get-portals');
     const portalCheckbox = $$('#management-portals-period-checkbox');
@@ -348,7 +347,6 @@ let advanceAccounting = function () {
         let playerPortalId = $$('#management-players-portals-list').getSelected();
         addLoader(playersGetButton);
         isSecondPeriodChecked = playerCheckbox.checked;
-
         trigger('comm/management/playersOfGame/get', {
             body: {
                 portalId: playerPortalId,
@@ -786,11 +784,12 @@ let advanceAccounting = function () {
             hidePopup();
             return;
         }
-        popupHidden = !popupHidden;
+       
         playersFormTable.innerHTML = '';
         let form = $$(`#players-form`);
         selectedRowId = rowId;
         let sumRow = makePlayerGamesSumRow(rowData);
+        isSecondPeriodChecked = playerCheckbox.checked;
 
         trigger('comm/management/playerGames/get', {
             body: {
@@ -806,22 +805,28 @@ let advanceAccounting = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
+                    if (response.result.managementItems.length === 0) {
+                        trigger('message', message.codes.noData);
+                        return;
+                    }
                     playerData = response.result;
                     fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton, helpArr), undefined, 'management-players-form-table-div', sumRow, true);
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
                     $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
+                    $$('#players-black-overlay').style.display = 'block';
+                    form.classList.add('show');
+                    players.children[0].style.overflow = 'hidden';
+                    popupHidden = !popupHidden;
                 } else {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
-                console.error('Failed to get row data!');
+            fail: function (response) {
+                 trigger('message', response.responseCode);
             }
         });
 
-        $$('#players-black-overlay').style.display = 'block';
-        form.classList.add('show');
-        players.children[0].style.overflow = 'hidden';
+       
     };
 
     function showPortalPlayerPopup(rowData) {
@@ -831,6 +836,7 @@ let advanceAccounting = function () {
 
         $$('#portals-player-from').classList.add('show');
         portalPlayerFormTable.innerHTML = '';
+        isSecondPeriodChecked =  portalCheckbox.checked;
         trigger('comm/management/gamePerPlayersOfPortal/get', {
             body: {
                 gameName: portalGameName,
@@ -861,8 +867,12 @@ let advanceAccounting = function () {
     };
 
     function showPortalPopup(rowData) {
+        if (rowData.Game === "SUM") {
+            return;
+        }
         portalFormTable.innerHTML = '';
         portalGameName = rowData['Game'];
+        isSecondPeriodChecked = portalCheckbox.checked;
         trigger('comm/management/gamePerPortal/get', {
             body: {
                 gameName: portalGameName,
@@ -878,22 +888,27 @@ let advanceAccounting = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
+                    if (response.result.managementItems.length === 0) {
+                        trigger('message', message.codes.noData);
+                        return;
+                    }
                     portalFormData = response.result;
                     fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton, helpArr), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
+                    $$('#portals-black-overlay').style.display = 'block';
+                    $$('#portals-form').classList.add('show');
+                    $$('#management-portals').children[0].style.overflow = 'hidden';
+                    isPortalPoupOpened = true;
                 } else {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
-                console.error('Failed to get row data!');
+            fail: function (response) {
+                trigger('message', response.responseCode);
             }
         });
 
-        $$('#portals-black-overlay').style.display = 'block';
-        $$('#portals-form').classList.add('show');
-        $$('#management-portals').children[0].style.overflow = 'hidden';
-        isPortalPoupOpened = true;
+       
     }
 
     function hidePortalPopup() {
