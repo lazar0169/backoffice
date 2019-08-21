@@ -779,6 +779,9 @@ let advanceAccounting = function () {
     };
 
     function showPlayersPopup(rowData, rowId) {
+        if (rowData['Player'] === 'SUM') {
+            return;
+        }
         getPlayerExcelButton.classList.add('hidden');
         if (popupHidden) {
             hidePopup();
@@ -805,7 +808,7 @@ let advanceAccounting = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    if (response.result.managementItems.length === 0) {
+                    if ((response.result.managementItems.length) === 0) {
                         trigger('message', message.codes.noData);
                         return;
                     }
