@@ -1,8 +1,6 @@
 let advanceAccounting = function () {
-    let main = $$('#management-main');
     let portals = $$('#management-portals');
     let players = $$('#management-players');
-    let bets = $$('#management-bets');
     let helpArr = [1, 2];
     let isSecondPeriodChecked = false;
     //main tab
@@ -286,7 +284,6 @@ let advanceAccounting = function () {
                     totalData = response.result;
                     fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton, helpArr), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
                     mainTable.classList.remove('hidden');
-                    // getTotalExcelButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -325,7 +322,6 @@ let advanceAccounting = function () {
                     portalsData = response.result;
                     fillTable(portalsTable, parseGameData(response.result, `Game`, getPortalsExcelButton, portalsSelected), showPortalPopup, 'management-portals-table-div', getGameSumData(response.result, `Game`));
                     portalsTable.classList.remove('hidden');
-                    // getPortalsExcelButton.classList.remove('hidden');
 
                 } else {
                     trigger('message', response.responseCode);
@@ -365,7 +361,6 @@ let advanceAccounting = function () {
                     playersData = response.result;
                     fillTable(playersTable, parseGameData(response.result, `Player`, getPlayersExcelButton, playerPortalId), showPlayersPopup, 'management-players-table-div', getGameSumData(response.result, `Player`));
                     playersTable.classList.remove('hidden');
-                    // getPlayersExcelButton.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -609,14 +604,11 @@ let advanceAccounting = function () {
         mainTable.innerHTML = '';
         mainTable.classList.add('hidden');
         getTotalExcelButton.classList.add('hidden');
-        // $$('#management-main-second-period-wrapper').classList.add('hidden');
-        //  $$('#management-main-second-period-wrapper').style.display = "none";
         activeCategory = `main`;
     });
 
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
-        // $$('#management-portals-second-period-wrapper').classList.add('hidden');
         portalsTable.classList.add('hidden');
         getPortalsExcelButton.classList.add('hidden');
         clearElement($$('#management-portals-operators-list'));
@@ -644,7 +636,6 @@ let advanceAccounting = function () {
     on('management/players/loaded', function () {
         hidePopup();
         playersTable.innerHTML = '';
-        // $$('#management-players-second-period-wrapper').classList.add('hidden');
         playersTable.classList.add('hidden');
         getPlayersExcelButton.classList.add('hidden');
         playersFormTable.innerHTML = '';
@@ -706,12 +697,7 @@ let advanceAccounting = function () {
         });
     });
 
-    function parseGameData(data, firstColName, excelBtn, noPortalselected) {
-        if (!noPortalselected || noPortalselected.length === 0) {
-            excelBtn.classList.add('hidden');
-            trigger('message', message.codes.badParameter);
-            return [];
-        }
+    function parseGameData(data, firstColName, excelBtn) {
         if (Object.getOwnPropertyNames(data.managementItems).length === 0) {
             excelBtn.classList.add('hidden');
             trigger('message', message.codes.noData);
@@ -900,7 +886,7 @@ let advanceAccounting = function () {
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
                     $$('#portals-black-overlay').style.display = 'block';
                     $$('#portals-form').classList.add('show');
-                    $$('#management-portals').children[0].style.overflow = 'hidden';
+                    portals.children[0].style.overflow = 'hidden';
                     isPortalPoupOpened = true;
                 } else {
                     trigger('message', response.responseCode);
@@ -918,7 +904,7 @@ let advanceAccounting = function () {
         $$('#portals-black-overlay').style.display = 'none';
         $$('#portals-form').classList.remove('show');
         $$('#portals-player-from').classList.remove('show');
-        $$('#management-portals').children[0].style.overflow = 'auto';
+        portals.children[0].style.overflow = 'auto';
         isPortalPoupOpened = false;
     }
 
