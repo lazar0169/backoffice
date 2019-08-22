@@ -109,6 +109,7 @@ let advanceAccounting = function () {
             sum: sum,
             sticky: true,
             stickyCol: false,
+            perPage: data.length > 500 ? 19 : 0, //perPage displays +1 row
             options: {
                 onClick: callback
             }
@@ -773,7 +774,7 @@ let advanceAccounting = function () {
             hidePopup();
             return;
         }
-       
+
         playersFormTable.innerHTML = '';
         let form = $$(`#players-form`);
         selectedRowId = rowId;
@@ -811,11 +812,11 @@ let advanceAccounting = function () {
                 }
             },
             fail: function (response) {
-                 trigger('message', response.responseCode);
+                trigger('message', response.responseCode);
             }
         });
 
-       
+
     };
 
     function showPortalPlayerPopup(rowData) {
@@ -825,7 +826,7 @@ let advanceAccounting = function () {
 
         $$('#portals-player-from').classList.add('show');
         portalPlayerFormTable.innerHTML = '';
-        isSecondPeriodChecked =  portalCheckbox.checked;
+        isSecondPeriodChecked = portalCheckbox.checked;
         trigger('comm/management/gamePerPlayersOfPortal/get', {
             body: {
                 gameName: portalGameName,
@@ -897,7 +898,7 @@ let advanceAccounting = function () {
             }
         });
 
-       
+
     }
 
     function hidePortalPopup() {
