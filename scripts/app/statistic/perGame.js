@@ -168,7 +168,7 @@ let statisticPerGame = function () {
                 removeLoader(perGameButton);
                 if (response.responseCode === message.codes.success) {
                     let summary = getCopy(response.result.gameStatisticsPerDate);
-                    perGameHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
+                    perGameHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',

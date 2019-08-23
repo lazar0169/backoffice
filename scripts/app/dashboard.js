@@ -303,17 +303,18 @@ let dashboard = function () {
 
     function parseData(data) {
         let keys = Object.keys(data);
+        let keysWithArrows = keys.filter((element) => element === 'Change' || element === 'ChangeExpectation');
         let tableData = [];
         let rows = Object.keys(data[keys[0]]);
         for (let i = 0; i < rows.length; i++) {
             let row = {};
             for (let j = 0; j < keys.length; j++) {
                 row['Activity'] = transformCamelToRegular(rows[i]);
-                if (j === keys.length - 1 && convertToNumber(data[keys[j]][rows[i]]) > 0) {
+                if (keysWithArrows.includes(keys[j]) && convertToNumber(data[keys[j]][rows[i]]) > 0) {
                     row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + `<span style="color: limegreen;float: right; margin-left: 0.8em;">${ARROW_UP}</span>`; //If change is positive
-                } else if (j === keys.length - 1 && convertToNumber(data[keys[j]][rows[i]]) < 0) {
+                } else if (keysWithArrows.includes(keys[j]) && convertToNumber(data[keys[j]][rows[i]]) < 0) {
                     row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + `<span style="color: red;float: right; margin-left: 0.8em;">${ARROW_DOWN}</span>`; //If change is negative
-                } else if (j === keys.length - 1 && convertToNumber(data[keys[j]][rows[i]]) == 0) {
+                } else if (keysWithArrows.includes(keys[j]) && convertToNumber(data[keys[j]][rows[i]]) == 0) {
                     row[keys[j]] = (data[keys[j]][rows[i]].includes('%') ? data[keys[j]][rows[i]] : data[keys[j]][rows[i]] + '%') + `<span style="color: sandybrown;float: right; margin-left: 0.8em;">${NEUTRAL_LINE}</span>`; //If no change 
                 } else {
                     row[keys[j]] = data[keys[j]][rows[i]];
