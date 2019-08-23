@@ -4,6 +4,18 @@ const actions = Object.freeze({
     'comm/currency/set': '/Account/SetCurrency',
     'comm/currency/get': '/Account/GetCurrency',
 
+    'comm/currency/getCurrencies': '/Currency/get-currencies',
+    'comm/currency/readCurrency': '/Currency/read',
+    'comm/currency/updateMainOptions': '/Currency/update-currency',
+    'comm/currency/updateJackpotOptions': '/Currency/update-default-jackpot-settings',
+    'comm/currency/deleteCurrency': '/Currency/delete',
+    'comm/currency/createCurrency': '/Currency/create',
+    'comm/currency/convertFromEurToCurrency': '/Currency/add-game-bet',
+    'comm/currency/getGames': '/Currency/get-games',
+    'comm/currency/getExistingCurrencies': '/Currency/get-existing-currency-codes',
+    'comm/currency/getRealCurrencies': '/Currency/get-real-currencies',
+
+
     // Reset
     'comm/reset': '/Account/ChangePassword',
 
@@ -91,4 +103,27 @@ const actions = Object.freeze({
     'comm/configuration/profile/get': '/Settings/GetProfile',
     'comm/configuration/profile/edit': '/Settings/UpdateProfile',
     'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
+
+    'comm/configuration/jackpot/portal/get':'/Jackpot/GetJackpotSettingsForPortal',
+    'comm/configuration/jackpot/active/get':'/Jackpot/GetActiveJackpots',
+    'comm/configuration/jackpot/activefromtime/get':'/Jackpot/GetJackpotsFromPeriod',
+
+    //Players
+    'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
+    'comm/players/getPlayerData':'/Player/GetPlayer',
+    'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
+    'comm/players/EnableOrDisable' : '/Player/EnableDisablePlayer',
+    'comm/players/setPlayerFlags' : '/Player/SetPlayerFlags',
+    'comm/players/getTransactions' : '/Player/GetPlayerTransactions',
+    'comm/players/getUnresolvedWins' : '/Player/GetPlayerUnresolvedWins',
+    'comm/players/resolveUnresolvedWins' : '/Player/ResolveWinForPlayerGameAndRound',
+
+    'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
+    'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
+    'comm/playerGroups/get' : '/PlayerGroup/get-player-groups',
+    'comm/playerGroups/getGroup' : '/PlayerGroup/read',
+    'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
+    'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
+    'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
+    'comm/playerGroups/getGroupsBySubstring': '/PlayerGroup/get-suggested-players-by-substring',
 });
