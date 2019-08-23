@@ -433,6 +433,7 @@ let configuration = function () {
             search(table, input.value);
         });
         input.addEventListener('keyup', function (e) {
+            input.parentNode.classList[input.value !== '' ? 'add' : 'remove']('typed');
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
                 search(table, '');
@@ -440,8 +441,8 @@ let configuration = function () {
             }
         });
         input.addEventListener('blur', function () {
-            input.value = '';
-            search(table, '');
+            // input.value = '';
+            // search(table, '');
             input.parentNode.classList.remove('search');
         });
     }
@@ -465,6 +466,10 @@ let configuration = function () {
         addLoader($$('#sidebar-configuration'));
         let responses = 0;
         let asyncRequests = 4;
+        for (let input of $$('.caption-search')) {
+            input.value = '';
+            input.parentNode.classList.remove('typed');
+        }
         trigger('comm/configuration/actions/get', {
             success: function (response) {
                 responses++;

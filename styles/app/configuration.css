@@ -60,6 +60,17 @@
     position: relative;
 }
 
+.typed .configuration-search:after {
+    content: "";
+    background-color: red;
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    border-radius: 50%;
+    top: -2px;
+    left: -2px;
+}
+
 .configuration-search img {
     position: absolute;
     height: 50%;
