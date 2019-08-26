@@ -160,7 +160,7 @@ let statisticCompared = function () {
                     headerRounds.innerHTML = '<h2>Table Rounds:</h2> <div id="compared-disabled-games-rounds" class="header-games-list"></div>';
                     headerPayout.innerHTML = '<h2>Table Payout:</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
-                    comparedHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.resultForPeriod}`;
+                    comparedHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.resultForPeriod}`;
 
                     let tableBet = table.generate({
                         data: tables.gamesBet,

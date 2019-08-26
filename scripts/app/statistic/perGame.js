@@ -82,7 +82,7 @@ let statisticPerGame = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-operators', 'Select operater'), $$('#statistic-per-game-categories'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-operators', 'Select operator'), $$('#statistic-per-game-categories'));
                     on('statistic-per-game-operators/selected', function (value) {
                         selectedOperator = value;
                         getPortals(value);
