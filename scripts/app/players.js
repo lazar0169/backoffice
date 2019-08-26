@@ -280,7 +280,6 @@ let players = function () {
         }
 
         if (type === 1) {
-            debugger;
             groupsBetGraph.data.datasets.length = 0;
             groupsRoundsGraph.data.datasets.length = 0;
 
@@ -1068,6 +1067,12 @@ let players = function () {
         };
 
         const populateTable = (data) => {
+            for (let element of data) {
+                let resolveButton = document.createElement('button');
+                resolveButton.id = `${element.caption}-${element.gameRoundId}`;
+                resolveButton.innerHTML = 'Resolve';
+                element['Resolve'] = resolveButton.outerHTML;
+            }
             tableWrapper.innerHTML = '';
             tableWrapper.appendChild(table.generate({
                 data: data,
@@ -1077,6 +1082,34 @@ let players = function () {
                 stickyCol: true,
             }));
             table.preserveHeight(tableWrapper);
+
+            for (let element of data) {
+                $$(`#${element.caption}-${element.gameRoundId}`).onclick = () => {
+                    addLoader($$(`#${element.caption}-${element.gameRoundId}`));
+                    trigger('comm/players/resolveUnresolvedWins', {
+                        body: {
+                            gameRoundId: element.gameRoundId,
+                            playerId: playerIdSelected,
+                            gameId: gameId,
+                        },
+                        success: function (response) {
+                            if (response.responseCode === message.codes.success) {
+                                $$(`#${element.caption}-${element.gameRoundId}`).innerHTML = 'Resolved';
+                                $$(`#${element.caption}-${element.gameRoundId}`).classList.add('save');
+                                $$(`#${element.caption}-${element.gameRoundId}`).disabled = true;
+                            }
+                            else {
+                                trigger('message', response.responseCode);
+                            }
+                            removeLoader($$(`#${element.caption}-${element.gameRoundId}`));
+                        },
+                        fail: function (response) {
+                            trigger('message', response.responseCode);
+                            removeLoader($$(`#${element.caption}-${element.gameRoundId}`));
+                        }
+                    });
+                }
+            }
         };
 
         backButton.addEventListener('click', hide);
