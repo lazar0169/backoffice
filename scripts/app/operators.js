@@ -295,6 +295,7 @@ let operators = function () {
                         parseInt(blockingActiveCredit.value) < 0 ||
                         parseInt(blockingActiveCredit.value) > 21000000 ||
                         parseInt(blockingActiveCredit.value) < parseInt(warningActiveCredit.value) ||
+                        parseInt(blockingActiveCredit.value) === parseInt(warningActiveCredit.value) ||
                         !operatorsCurrencyWrapper.children[0].children[0].dataset.value) {
                         trigger('message', message.codes.badParameter);
                         return;

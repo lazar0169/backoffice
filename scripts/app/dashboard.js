@@ -303,7 +303,7 @@ let dashboard = function () {
 
     function parseData(data) {
         let keys = Object.keys(data);
-        let keysWithArrows = keys.filter((element) => element === 'Change' || element === 'ChangeExpectation');
+        let keysWithArrows = keys.filter((element) => element.toUpperCase().includes('CHANGE'));
         let tableData = [];
         let rows = Object.keys(data[keys[0]]);
         for (let i = 0; i < rows.length; i++) {
