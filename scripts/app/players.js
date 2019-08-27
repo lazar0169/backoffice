@@ -1337,6 +1337,12 @@ let players = function () {
 
     const getPlayers = () => {
 
+        if(!$$('#players-main-portals-list').getSelected()){
+            trigger('message', message.codes.badParameter);
+            
+            return
+        }
+
         $$('#players-main-settings-wrapper').style.display = 'flex'
         let portalId = $$('#players-main-portals-list').getSelected();
         trigger('comm/players/getPlayersForPortal', {

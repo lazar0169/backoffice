@@ -25,7 +25,6 @@ let jackpot = function () {
                         stickyCol: true
                     });
                     $$('#activeJackpotTable').appendChild(activeTable);
-                    table.preserveHeight($$('#activeJackpotTable'));
                     $$('#search-active-mobile-width').style.display = 'flex'; 
                     
                 } else {
@@ -111,8 +110,13 @@ let jackpot = function () {
     };
 
     function getPortalSettingsTable() {
+      
+        if(!$$('#configuration-jackpot-portals-list').getSelected()){
+            trigger('message', message.codes.badParameter);
+            return
+        }
         $$('#jackpotPortalSettingsTable').style.display = 'block'
-
+      
         trigger('comm/configuration/jackpot/portal/get', {
             body: {
                 id: $$('#configuration-jackpot-portals-list').getSelected(),
@@ -182,7 +186,6 @@ let jackpot = function () {
                         stickyCol: true
                     });
                     $$('#jackpotHistoryTable').appendChild(historyTable);
-                    table.preserveHeight($$('#jackpotHistoryTable'));
                     $$('#search-history-mobile-width').style.display = 'flex'; 
                 } else {
                     trigger('message', response.responseCode);
@@ -275,45 +278,7 @@ let jackpot = function () {
         //   }
     }
   
-    // function generateTable(data) {
-    //     //extrat value for html header
-    //     let col = [];
-    //     for (let i = 0; i < data.result.length; i++) {
-    //         for (let key in data.result[i]) {
-    //             if (col.indexOf(key) === -1) {
-    //                 col.push(key);
-    //             }
-    //         }
-    //     }
-
-    //     let table = document.createElement("table");
-
-    //     // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
-
-    //     let tr = table.insertRow(-1);                   // TABLE ROW.
-
-    //     for (let i = 0; i < col.length; i++) {
-    //         let th = document.createElement("th");      // TABLE HEADER.
-    //         th.innerHTML = col[i];
-    //         //table.appendChild(th);
-    //         tr.appendChild(th);
-    //     }
-
-    //     // ADD JSON DATA TO THE TABLE AS ROWS.
-    //     for (let i = 0; i < data.result.length; i++) {
-
-    //         tr = table.insertRow(-1);
-
-    //         for (let j = 0; j < col.length; j++) {
-    //             let tabCell = tr.insertCell(-1);
-    //             tabCell.innerHTML = data.result[i][col[j]];
-    //         }
-    //     }
-    //     // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-    //     let divContainer = document.getElementById("jackpotHistoryTable");
-    //     divContainer.innerHTML = "";
-    //     divContainer.appendChild(table);
-    // }
+   
 
     $$('#jackpot-get-settings-button').addEventListener('click', getPortalSettingsTable);
 
