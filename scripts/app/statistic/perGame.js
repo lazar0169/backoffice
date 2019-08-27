@@ -82,7 +82,7 @@ let statisticPerGame = function () {
             success: function (response) {
                 removeLoader($$('#sidebar-statistic'));
                 if (response.responseCode === message.codes.success) {
-                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-operators', 'Select operater'), $$('#statistic-per-game-categories'));
+                    insertAfter(dropdown.generate(response.result, 'statistic-per-game-operators', 'Select operator'), $$('#statistic-per-game-categories'));
                     on('statistic-per-game-operators/selected', function (value) {
                         selectedOperator = value;
                         getPortals(value);
@@ -168,7 +168,7 @@ let statisticPerGame = function () {
                 removeLoader(perGameButton);
                 if (response.responseCode === message.codes.success) {
                     let summary = getCopy(response.result.gameStatisticsPerDate);
-                    perGameHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
+                    perGameHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',

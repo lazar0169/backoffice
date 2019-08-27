@@ -209,6 +209,13 @@
     justify-content: space-between;
 }
 
+#players-player-unresolved-wins-main-wrapper,
+#players-player-unresolved-wins-specific-game-wrapper,
+#players-player-history-main-wrapper {
+    margin: 2em;
+    overflow: auto;
+}
+
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
@@ -353,7 +360,8 @@
 #players-main-form,
 #players-player-jackpot-form,
 #players-player-transaction-form,
-#players-player-unresolved-wins-form {
+#players-player-unresolved-wins-form,
+#players-player-history-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -382,14 +390,16 @@
 #players-main-form.show,
 #players-player-jackpot-form.show,
 #players-player-transaction-form.show,
-#players-player-unresolved-wins-form.show {
+#players-player-unresolved-wins-form.show,
+#players-player-history-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
 }
 
 #players-groups-criteria-details-form,
-#players-player-unresolved-wins-specific-game-form {
+#players-player-unresolved-wins-specific-game-form,
+#players-player-game-history-form {
     position: absolute;
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     background-color: #434a5c;
@@ -398,7 +408,8 @@
 }
 
 #players-groups-criteria-details-form.show,
-#players-player-unresolved-wins-specific-game-form.show {
+#players-player-unresolved-wins-specific-game-form.show,
+#players-player-game-history-form.show {
     box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
     transform: translate3d(0, 0, 0);
 }
