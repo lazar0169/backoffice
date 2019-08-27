@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
+    />
+    <title>History</title>
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/com-bonus.css">
+    <link rel="stylesheet" href="css/templars-bonus.css">
+    <link href="vendor/fa/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <input style="display: none" id="selector">
+    <div class="history-frame" id="mainSection">
+
+        <!-- CONTROLS ON LEFT -->
+        <div id="controls">
+            <div id="controls-wrapper" class="middle">
+
+                <!--Buttons-->
+                <div id="find-lang" class="button find">Find</div>
+
+                <div id="prev" class="button">Prev</div>
+                <div id="next" class="button">Next</div>
+
+                <!--Controls-->
+                <div id="date-lang" class="control-title date">DATE</div>
+                <input disabled readonly type="text" id="datepicker" class="date-input control-option">
+                <div id="datepicker-overlay"></div>
+                <div id="time-lang" class="control-title time">TIME</div>
+                <input readonly type="text" id="timepicker" class="time-input control-option">
+                <div id="game-lang" class="control-title game">GAME</div>
+                <input readonly type="text" id="games" class="game-input control-option">
+                <div id="pagination">
+                    <span id="indexPage">0</span>/
+                    <span id="totalPages">0</span>
+                </div>
+
+                <!-- Slider -->
+                <input type="range" id="timeSlider" step="1" min="1" max="1">
+            </div>
+        </div>
+
+
+        <!-- GAME SCREEN ON RIGHT -->
+        <div id="game-frame">
+            <div id="game-screen">
+
+                <!-- SLOTS -->
+                <div id="slots">
+                    <div id="reels" class=""></div>
+
+                    <div id="free-spins-label">
+                        <span id="free-spins-lang">FREE SPINS</span>
+                        <span id="free-spins-text">0</span>
+                    </div>
+
+                    <div id="bonus-symbol-label">BONUS SYMBOL</div>
+                    <div id="bonus-symbol"></div>
+
+                    <div id="bonus-game">
+                        <!--  Gnome bonus game -->
+                        <div id="gnome" class="bonus-game-wrapper hidden">
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/gnome-bg.png">
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/bottom-shade.png">
+                            <div id="black-overlay"></div>
+                            <div id="com-life"></div>
+                            <div id="com-progress">
+                                <div id="com-progress-bar-wrapper">
+                                    <div id="com-progress-bar"></div>
+                                </div>
+                                <div id="com-thumb-wrapper">
+                                    <img src="images/bonus/CrystalsOfMagic/gnome/progress-thumb.png" id="com-progress-thumb">
+                                </div>
+                            </div>
+                            <div id="com-options-wrapper">
+                                <div id="com-option1-wrapper" class="com-option-wrapper">
+                                    <div class="com-option-field com-question"></div>
+                                    <div id="option1" class="com-option-field">NA</div>
+                                </div>
+                                <div id="com-option2-wrapper" class="com-option-wrapper">
+                                    <div class="com-option-field com-question"></div>
+                                    <div id="option2" class="com-option-field">NA</div>
+                                </div>
+                                <div id="com-option3-wrapper" class="com-option-wrapper">
+                                    <div class="com-option-field com-question"></div>
+                                    <div id="option3" class="com-option-field">NA</div>
+                                </div>
+                            </div>
+                            <div id="com-multiplier"></div>
+                        </div>
+
+                        <!-- Necromancer bonus game -->
+                        <div id="necromancer" class="bonus-game-wrapper hidden">
+                            <div id="bottles">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle1.png" id="bottle1" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle2.png" id="bottle2" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle3.png" id="bottle3" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle4.png" id="bottle4" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle5.png" id="bottle5" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle6.png" id="bottle6" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle7.png" id="bottle7" class="bottles" draggable="false">
+                                <img src="images/bonus/CrystalsOfMagic/necro/bottle8.png" id="bottle8" class="bottles" draggable="false">
+                            </div>
+                            <div id="necro-lives" class="">LIVES: 2</div>
+                            <div id="glyphs">
+                                <div id="glyphWrapper1" class="row-1 col-1 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph1.png" draggable="false">
+                                    <div>
+                                        <span id="glyph1">100</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper2" class="row-2 col-1 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph2.png" draggable="false">
+                                    <div>
+                                        <span id="glyph2">100</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper3" class="row-3 col-1 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph3.png" draggable="false">
+                                    <div>
+                                        <span id="glyph3">100</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper4" class="row-4 col-1 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph4.png" draggable="false">
+                                    <div>
+                                        <span id="glyph4">100</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper5" class="row-1 col-2 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph5.png" draggable="false">
+                                    <div>
+                                        <span id="glyph5">100</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper6" class="row-2 col-2 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph6.png" draggable="false">
+                                    <div>
+                                        <span id="glyph6">x2</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper7" class="row-3 col-2 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph7.png" draggable="false">
+                                    <div>
+                                        <span id="glyph7">100</span>
+                                    </div>
+                                </div>
+                                <div id="glyphWrapper8" class="row-4 col-2 glyphs">
+                                    <img src="images/bonus/CrystalsOfMagic/necro/glyph8.png" draggable="false">
+                                    <div>
+                                        <span id="glyph8">100</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/bottom-shade.png">
+                        </div>
+
+                        <!-- Enchantress bonus game -->
+                        <div id="enchantress" class="bonus-game-wrapper hidden">
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/ench-bg.png">
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/bottom-shade.png">
+                            <div id="enchantress-extra"></div>
+                        </div>
+
+                        <!-- Wizard bonus game -->
+                        <div id="wizard" class="bonus-game-wrapper hidden">
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/wizard-bg.png">
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/bottom-shade.png">
+                        </div>
+
+                        <div id="battle-bonus" class="bonus-game-wrapper hidden">
+                            <div id="lives">
+                                <img src="images/bonus/TemplarsQuest/Battle/red-heart.png" alt="">
+                                <img src="images/bonus/TemplarsQuest/Battle/red-heart.png" alt="">
+                                <img src="images/bonus/TemplarsQuest/Battle/red-heart.png" alt="">
+                            </div>
+                            <div id="enemy-lives">
+                                <img src="images/bonus/TemplarsQuest/Battle/green-heart.png" alt="">
+                                <img src="images/bonus/TemplarsQuest/Battle/green-heart.png" alt="">
+                                <img src="images/bonus/TemplarsQuest/Battle/green-heart.png" alt="">
+                            </div>
+                            <div id="gold" class="hidden">
+                                <img src="images/bonus/TemplarsQuest/Battle/bag.png" alt="">
+                                <div id="gold-amount">2000</div>
+                            </div>
+                            <div id="scrolls" class="hidden">
+                                <div id="selected-scroll"></div>
+                                <div id="other-scrolls">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                            <div id="battle" class="hidden">
+                                <img src="images/bonus/TemplarsQuest/Battle/templar.png" alt="">
+                                <div id="battle-symbol"></div>
+                                <img src="images/bonus/TemplarsQuest/Battle/enemy.png" alt="">
+                            </div>
+                            <img class="com-bonus-bg" src="images/bonus/CrystalsOfMagic/bottom-shade.png">
+                        </div>
+                    </div>
+
+                    <div id="game-history-lang" class="footer-title">Game history</div>
+                    <div id="multiplier-title">MULTIPLIER</div>
+                    <canvas id="multiplier-canvas"></canvas>
+                </div>
+
+                <!-- GAMBLE -->
+                <div id="gamble">
+                    <div id="history-lang" class="header-title">HISTORY:</div>
+
+                    <div id="cards-wrapper">
+                        <div id="gamble-card3" class="top-cards"></div>
+                        <div id="gamble-card5" class="top-cards"></div>
+                        <div id="gamble-card7" class="top-cards"></div>
+                        <div id="gamble-card9" class="top-cards"></div>
+                    </div>
+
+                    <div id="gamble-card"></div>
+                </div>
+
+                <!-- POKER -->
+                <div id="poker">
+
+                    <div class="cards middle">
+                        <img id="card0" class="card" src="">
+                        <img id="card1" class="card" src="">
+                        <img id="card2" class="card" src="">
+                        <img id="card3" class="card" src="">
+                        <img id="card4" class="card" src="">
+                    </div>
+
+                    <div class="frames middle">
+                        <img id="frame10" class="frame">
+                        <img id="frame11" class="frame">
+                        <img id="frame12" class="frame">
+                        <img id="frame13" class="frame">
+                        <img id="frame14" class="frame">
+                    </div>
+                </div>
+
+                <!-- ROULETTE -->
+                <div id="roulette">
+                    <div id="board">
+                        <div id="f44" class="defaultField">EVEN</div>
+                        <div id="f47" class="defaultField">ODD</div>
+                    </div>
+                    <canvas id="chips-canvas"></canvas>
+                    <div id="winning-number-lang" class="winning-number-title">WINNING NUMBER: </div>
+                    <div id="history-line"></div>
+                </div>
+
+                <!-- UNIVERSAL FIELDS -->
+                <div id="bottom-wrapper"></div>
+
+            </div>
+            <!-- Message bar -->
+            <div id="message">LOADING...</div>
+        </div>
+        <div id="shadow-overlay"></div>
+    </div>
+    <script src="vendor/jquery-1.11.2.min.js"></script>
+    <script src="vendor/TweenMax.min.js"></script>
+    <script src='vendor/jquery-ui.min.js'></script>
+    <script src="specific.js"></script>
+    <!-- <script src="test/simulation.js"></script> -->
+</body>
+
+</html>
