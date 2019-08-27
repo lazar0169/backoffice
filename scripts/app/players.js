@@ -202,6 +202,7 @@ let players = function () {
 
         playerSummaryTransactionButton.onclick = playerTransactionPopup.show;
         playerSummaryUnresolvedButton.onclick = playerUnresolvedPopup.show;
+        playerSummaryHistoryButton.onclick = playerHistoryPopup.show;
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
@@ -1117,6 +1118,112 @@ let players = function () {
         return {
             show: show,
             hide: hide,
+        }
+    }();
+
+    let playerHistoryPopup = function () {
+        let modal = $$('#players-player-history-form');
+        let cancelButton = $$('#players-player-history-main-form-cancel');
+        let listWrapper = $$('#players-player-history-main-wrapper');
+
+        const show = () => {
+            getGames();
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('player');
+        };
+
+        const getGames = () => {
+            addLoader(playerSummaryHistoryButton);
+            trigger('comm/currency/getGames', {
+                body: {
+
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        populateGameTable(response.result);
+                        modal.classList.add('show');
+                        showPopup('player');
+                        removeLoader(playerSummaryHistoryButton);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                        removeLoader(playerSummaryHistoryButton);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                    removeLoader(playerSummaryHistoryButton);
+                }
+            })
+        };
+
+        const populateGameTable = (data) => {
+            if (listWrapper.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+                listWrapper.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+            }
+            let body = document.createElement('tbody');
+            for (let row of data) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.innerHTML = row.name;
+                tr.dataset.id = row.id;
+                tr.onclick = function () { playerGameHistoryPopup.show(row.id, td) };
+                tr.appendChild(td);
+                body.appendChild(tr);
+            }
+
+            listWrapper.getElementsByTagName('table')[0].appendChild(body);
+            listWrapper.classList.remove('hidden');
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide,
+        }
+    }();
+
+    let playerGameHistoryPopup = function () {
+        let modal = $$('#players-player-game-history-form');
+        let backButton = $$('#players-player-game-history-form-back');
+        let mainWrapper = $$('#players-player-game-history-wrapper');
+        let gameId = undefined;
+        let loaderElement = undefined;
+
+        const show = (id, element) => {
+            gameId = id;
+            getHistory();
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+        };
+
+        const getHistory = () => {
+            // let historyElement = '<iframe style="top: 0; left: 0; width: 100.1%; height: 100%; position: absolute; border: none;" name="history" id="history"></iframe>';
+            let historyElement = document.createElement('iframe');
+            historyElement.id = 'history';
+            historyElement.name = 'history';
+            historyElement.style.top = '0';
+            historyElement.style.left = '0';
+            historyElement.style.width = '100.1%';
+            historyElement.style.height = '100%';
+            historyElement.style.position = 'absoulute';
+            historyElement.style.border = 'none';
+            mainWrapper.appendChild(historyElement);
+            window.open(`../vendor/history/index.html?connectionUrl=${_config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`}${'/Player/GetPlayerHistory'}&gameId=${gameId}&liveRouletteID=${0}&language=ENG`, 'history');
+            modal.classList.add('show');
+        };
+
+        backButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
         }
     }();
 
