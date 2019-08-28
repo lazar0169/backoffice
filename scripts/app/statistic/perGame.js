@@ -133,7 +133,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-per-game-games', 'Select game'), $$('#statistic-per-game-portals'));
                     on('statistic-per-game-games/selected', function (value) {
-                        selectedGameId = value;
+                        // selectedGameId = value;
                         perGameButton.classList.remove('hidden');
                     });
                 } else {
@@ -156,7 +156,7 @@ let statisticPerGame = function () {
             searchInterval: $$('#statistic-per-game-time-span').getSelected() || 'custom',
             fromDate: statisticFromDate,
             toDate: statisticToDate,
-            gameId: selectedGameId
+            gameId: $$('#statistic-per-game-games').getSelected()
         };
 
         perGameTableWrapper.innerHTML = '';
@@ -169,6 +169,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     let summary = getCopy(response.result.gameStatisticsPerDate);
                     perGameHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
+                    perGameHeader.style.display = 'block';
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
@@ -188,10 +189,12 @@ let statisticPerGame = function () {
                     table.preserveHeight(perGameTableWrapper);
                     requested = true;
                 } else {
+                    perGameHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },
             fail: function () {
+                perGameHeader.style.display = 'none';
                 removeLoader(perGameButton);
             }
         });
