@@ -26,7 +26,7 @@ let operators = function () {
         enabled: false
     };
 
-    $$('#operators-black-overlay').addEventListener('click', hideModal);
+    // $$('#operators-black-overlay').addEventListener('click', hideModal);
     $$('#operators-form-cancel').addEventListener('click', hideModal);
     $$('#operators-form-portal-back').addEventListener('click', function () { portalModal.hide(); });
     $$('#operators-form-jackpot-back').addEventListener('click', function () { jackpotModal.hide(); });
