@@ -1312,22 +1312,28 @@ let players = function () {
         }
         return tableData;
     };
+    const checkIfAllObjEmpty = (data) => {
+        let keys = Object.keys(data);//players id
+        let nmbOfNullData = 0
+        let nmbKeys = 0
+
+        for (let rowkey of keys) {
+            nmbKeys++
+            if (isEmpty(data[rowkey])) {
+                nmbOfNullData++
+            }
+        }
+        if (nmbKeys === nmbOfNullData) {
+            return true
+        }
+        return false
+    }
 
     const showPopUpTable = (rowData) => {
 
         let playerId = rowData.Player;
         let popUpData = interestingPlayersData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
-        // $$('#popUpTable').innerHTML = '';
-        // $$('#popUpTable').appendChild(table.generate({
-        //     data: parsePlayersMainData(popUpData, false, `Activity`),
-        //     id: 'popUpData',
-        //     dynamic: false,
-        //     sticky: true,
-        //     stickyCol: true,
-
-        // }))
-        // table.preserveHeight($$('#popUpTable'));
 
     }
 
@@ -1337,13 +1343,12 @@ let players = function () {
 
     const getPlayers = () => {
 
-        if(!$$('#players-main-portals-list').getSelected()){
+        if (!$$('#players-main-portals-list').getSelected()) {
             trigger('message', message.codes.badParameter);
-            
             return
         }
 
-        $$('#players-main-settings-wrapper').style.display = 'flex'
+       
         let portalId = $$('#players-main-portals-list').getSelected();
         trigger('comm/players/getPlayersForPortal', {
             body: {
@@ -1352,6 +1357,12 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
+                    if(checkIfAllObjEmpty(response.result) === true){
+                        trigger('message', message.codes.noData);
+                       $$('#players-main-settings-wrapper').style.display = 'none'
+                        return
+                    }
+                    $$('#players-main-settings-wrapper').style.display = 'flex'
                     interestingPlayersData = response.result.interestingPlayers;
                     $$('#interestingPlayersTable').innerHTML = '';
                     $$('#interestingPlayersTable').appendChild(table.generate({
@@ -1443,6 +1454,7 @@ let players = function () {
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#largestWins'));
+
                     if (isEmpty(largestBetsData) === true) {
                         $$(`#players-largest-wins-title`).style.display = 'none';
                     } else {
@@ -1460,7 +1472,7 @@ let players = function () {
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#winnersAndLosersFromLast24Hours'));
-                    $$(`#players-largest-wins-title`).style.display = 'block';
+
 
                     if (isEmpty(largestBetsData) === true) {
                         $$(`#players-winners-losers-title`).style.display = 'none';
@@ -1478,6 +1490,10 @@ let players = function () {
             }
         });
     }
+
+
+
+
 
     on('players/main/loaded', function () {
         getPlayersButton.classList.add('hidden');
