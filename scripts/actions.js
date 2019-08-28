@@ -109,15 +109,19 @@ const actions = Object.freeze({
     'comm/configuration/jackpot/activefromtime/get':'/Jackpot/GetJackpotsFromPeriod',
 
     //Players
-    'comm/players/getPlayerForPortal':'/Player/GetPlayersForPortal',
-    'comm/players/getPlayerData':'/Player/GetPlayer',
     'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
-    'comm/players/EnableOrDisable' : '/Player/EnableDisablePlayer',
-    'comm/players/setPlayerFlags' : '/Player/SetPlayerFlags',
-    'comm/players/getTransactions' : '/Player/GetPlayerTransactions',
-    'comm/players/getUnresolvedWins' : '/Player/GetPlayerUnresolvedWins',
-    'comm/players/resolveUnresolvedWins' : '/Player/ResolveWinForPlayerGameAndRound',
+    
+    //Player
+    'comm/player/getPlayerData':'/Player/GetPlayer',
+    'comm/player/getPlayerForPortal':'/Player/GetPlayersForPortal',
+    'comm/player/EnableOrDisable' : '/Player/EnableDisablePlayer',
+    'comm/player/setPlayerFlags' : '/Player/SetPlayerFlags',
+    'comm/player/getTransactions' : '/Player/GetPlayerTransactions',
+    'comm/player/getUnresolvedWins' : '/Player/GetPlayerUnresolvedWins',
+    'comm/player/resolveUnresolvedWins' : '/Player/ResolveWinForPlayerGameAndRound',
+    'comm/player/getHistory' : '/Player/GetPlayerHistory',
 
+    //Player Groups
     'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
     'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
     'comm/playerGroups/get' : '/PlayerGroup/get-player-groups',

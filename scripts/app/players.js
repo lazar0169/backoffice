@@ -383,7 +383,7 @@ let players = function () {
             return;
         }
         addLoader(getPlayerButton);
-        trigger('comm/players/getPlayerForPortal', {
+        trigger('comm/player/getPlayerForPortal', {
             body: {
                 id: portalId
             },
@@ -434,7 +434,7 @@ let players = function () {
     }
 
     const getPlayerData = (id, name) => {
-        trigger('comm/players/getPlayerData', {
+        trigger('comm/player/getPlayerData', {
             body: {
                 id: id
             },
@@ -813,7 +813,7 @@ let players = function () {
 
     const updatePlayerFlagsAndDisabledStatus = (flags) => {
         if (flags.wasDisabled || flags.disabled) {
-            trigger('comm/players/EnableOrDisable', {
+            trigger('comm/player/EnableOrDisable', {
                 body: {
                     id: playerIdSelected
                 },
@@ -836,7 +836,7 @@ let players = function () {
     };
 
     const updatePlayerFlags = (flags) => {
-        trigger('comm/players/setPlayerFlags', {
+        trigger('comm/player/setPlayerFlags', {
             body: {
                 playerId: playerIdSelected,
                 interesting: flags.interesting,
@@ -912,7 +912,7 @@ let players = function () {
         };
 
         const getTransactions = () => {
-            trigger('comm/players/getTransactions', {
+            trigger('comm/player/getTransactions', {
                 body: {
                     fromTime: playerTransactionFrom,
                     toTime: playerTransactionTo,
@@ -1038,7 +1038,7 @@ let players = function () {
 
         const getWins = () => {
             addLoader(loaderElement);
-            trigger('comm/players/getUnresolvedWins', {
+            trigger('comm/player/getUnresolvedWins', {
                 body: {
                     caption: playerNameSelected,
                     gameId: gameId,
@@ -1087,7 +1087,7 @@ let players = function () {
             for (let element of data) {
                 $$(`#${element.caption}-${element.gameRoundId}`).onclick = () => {
                     addLoader($$(`#${element.caption}-${element.gameRoundId}`));
-                    trigger('comm/players/resolveUnresolvedWins', {
+                    trigger('comm/player/resolveUnresolvedWins', {
                         body: {
                             gameRoundId: element.gameRoundId,
                             playerId: playerIdSelected,
