@@ -1,7 +1,6 @@
 let advanceAccounting = function () {
     let portals = $$('#management-portals');
     let players = $$('#management-players');
-    let helpArr = [1, 2];
     let isSecondPeriodChecked = false;
     //main tab
     const totalGetButton = $$('#management-get-total');
@@ -103,6 +102,24 @@ let advanceAccounting = function () {
     };
 
     function fillTable(tableElement, data, callback, tableName, sum, preserveHeight = false) {
+        if (data.length === 0) {
+            return;
+        }
+        let keys = Object.keys(data[0]);
+        let trendKeys = keys.filter((element) => element.toUpperCase().includes('TREND'));
+        for (let element of data) {
+            for (let key of trendKeys) {
+                if (convertToNumber(element[key]) > 0) {
+                    element[key] = element[key] + `% <span style="color: limegreen;float: right; margin-left: 0.8em;">${ARROW_UP}</span>`;
+                }
+                else if (convertToNumber(element[key]) < 0) {
+                    element[key] = element[key] + `% <span style="color: red;float: right; margin-left: 0.8em;">${ARROW_DOWN}</span>`;
+                }
+                else {
+                    element[key] = element[key] + `% <span style="color: sandybrown;float: right; margin-left: 0.8em;">${NEUTRAL_LINE}</span>`;
+                }
+            }
+        }
         let tableObject = table.generate({
             data: data,
             id: tableName,
@@ -283,7 +300,7 @@ let advanceAccounting = function () {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
                     totalData = response.result;
-                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton, helpArr), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
+                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
                     mainTable.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
@@ -800,7 +817,7 @@ let advanceAccounting = function () {
                         return;
                     }
                     playerData = response.result;
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton, helpArr), undefined, 'management-players-form-table-div', sumRow, true);
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton), undefined, 'management-players-form-table-div', sumRow, true);
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
                     $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                     $$('#players-black-overlay').style.display = 'block';
@@ -843,7 +860,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     portalPlayerFormData = response.result;
-                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton, helpArr), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-player-form-title-player-id').innerHTML = rowData['Portal'];
                 } else {
                     trigger('message', response.responseCode);
@@ -883,7 +900,7 @@ let advanceAccounting = function () {
                         return;
                     }
                     portalFormData = response.result;
-                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton, helpArr), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
                     $$('#portals-black-overlay').style.display = 'block';
                     $$('#portals-form').classList.add('show');
