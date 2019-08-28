@@ -417,6 +417,9 @@ let advanceAccounting = function () {
 
                     if (Object.keys(betsResult.perNumberOfHands).length === 0 || Object.keys(betsResult.perNumberOfPlayers).length === 0) {
                         trigger('message', message.codes.noData);
+                        $$('#management-bets-table-wrapper').classList.add('hidden');
+                        $$('#switch-and-search-wrapper').classList.add('hidden');
+                        $$('#bets-second-filter').classList.add('hidden');
                         return;
                     }
                     prepareBetsTable(response);
