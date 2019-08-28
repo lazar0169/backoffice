@@ -1,0 +1,894 @@
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'norse bold';
+    src: url('../fonts/norsebold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'berlin bold';
+    src: url('../fonts/Berlin Sans FB Demi Bold.ttf') format('truetype');
+}
+
+.hidden {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body {
+    margin: 0;
+    font-family: "roboto";
+    background-color: black;
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 0 6px black;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #212121;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: #545454;
+}
+
+input {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari*/
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#controls-wrapper {
+    width: 100%;
+    top: 5%;
+    height: 90%;
+    position: absolute;
+}
+
+.history-frame {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    -webkit-overflow-scrolling: touch;
+}
+
+#mainSection {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#0a0a0a', GradientType=0);
+    position: absolute;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari*/
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+    supported by Chrome and Opera */
+}
+
+#controls {
+    position: absolute;
+    height: 100%;
+    width: 30%;
+    border-right: 0.18vw solid #403f3f;
+    left: 0;
+    text-transform: uppercase;
+    background-color: #252525;
+    box-sizing: border-box;
+}
+
+#shadow-overlay {
+    position: absolute;
+    pointer-events: none;
+    height: 100%;
+    width: 70%;
+    left: 30%;
+    -webkit-box-shadow: inset 53px 0px 98px -20px rgba(0, 0, 0, 0.81);
+    -moz-box-shadow: inset 53px 0px 98px -20px rgba(0, 0, 0, 0.81);
+    box-shadow: inset 53px 0px 98px -20px rgba(0, 0, 0, 0.81)
+}
+
+#game-frame {
+    position: absolute;
+    height: 100%;
+    width: 70%;
+    left: 30%;
+    background-color: #171616;
+}
+
+#game-screen {
+    width: 100%;
+    height: 70.071%;
+    top: 14.9645%;
+    background-size: cover;
+    background-color: black;
+    background-repeat: no-repeat;
+    position: absolute;
+    text-transform: uppercase;
+}
+
+#slots,
+#gamble,
+#poker,
+#roulette {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.control-title {
+    position: absolute;
+    color: white;
+    left: 10%;
+    width: 80%;
+    padding-left: 3%;
+    font-size: 2vw;
+}
+
+.control-title.date {
+    top: 10.2%;
+}
+
+.control-title.time {
+    top: 26.2%;
+}
+
+.control-title.game {
+    top: 42.2%;
+}
+
+.control-option,
+input[disabled],
+textarea[disabled],
+select[disabled='disabled'],
+.control-option[disabled] {
+    position: absolute;
+    color: white;
+    background-color: #3e3e3e;
+    border: 0.15vw solid rgba(255, 255, 255, 0.8);
+    border-radius: 0.6vw;
+    left: 10%;
+    width: 80%;
+    text-align: center;
+    font-size: 1.8vw;
+    line-height: 2.3vw;
+    height: 5.6%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 1;
+}
+
+#datepicker-overlay {
+    position: absolute;
+    left: 10%;
+    top: 16%;
+    width: 80%;
+    height: 5.6%;
+    opacity: 0;
+    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+}
+
+.control-option.date-input {
+    top: 16%;
+    cursor: pointer;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    /* webkit (safari, chrome) browsers */
+    -moz-user-select: none;
+    /* mozilla browsers */
+    -khtml-user-select: none;
+    /* webkit (konqueror) browsers */
+    -ms-user-select: none;
+    /* IE10+ */
+}
+
+.control-option.time-input {
+    top: 32%;
+}
+
+.control-option.game-input {
+    top: 48%;
+}
+
+.button {
+    border: 0.15vw solid rgba(255, 255, 255, 0.8);
+    border-radius: 0.6vw;
+    background: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+    padding-top: 0.3vw;
+    padding-bottom: 0.3vw;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+}
+
+.button:active {
+    background: rgba(255, 255, 255, 0.5) !important;
+    -webkit-transition: background-color 0.5s ease;
+    -moz-transition: background-color 0.5s ease;
+    transition: background-color 0.5s ease;
+    transition-duration: 0.2s;
+    -ms-transition-duration: 0.2s;
+    transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    -webkit-transition-duration: 0.2s;
+    -webkit-transform: scale(0.95);
+    -moz-transition-duration: 0.2s;
+    -moz-transform: scale(0.95);
+    -o-transition-duration: 0.2s;
+    -o-transform: scale(0.95);
+}
+
+.button.find {
+    width: 80%;
+    top: 66%;
+    left: 10%;
+    color: lime;
+    border: 0.15vw solid lime;
+    visibility: hidden;
+}
+
+#prev {
+    width: 37%;
+    top: 68%;
+    left: 10%;
+}
+
+#next {
+    width: 37%;
+    top: 68%;
+    right: 10%;
+}
+
+.footer-title {
+    color: white;
+    position: absolute;
+    top: 83.8%;
+    text-align: center;
+    width: 100%;
+    font-size: 1.4vw;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#free-spins-label {
+    visibility: hidden;
+    color: #FFF4AD;
+    position: absolute;
+    top: 3.2%;
+    left: 12%;
+    font-size: 1.7vw;
+    width: auto;
+    white-space: nowrap;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#free-spins-text {
+    visibility: hidden;
+    color: #FFFD22;
+    margin-left: 4%;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#bonus-symbol-label {
+    visibility: hidden;
+    color: #FFF4AD;
+    position: absolute;
+    top: 3.2%;
+    left: 60.9%;
+    font-size: 1.7vw;
+    width: 23.5%;
+    text-align: right;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#bonus-symbol {
+    visibility: hidden;
+    background-color: red;
+    position: absolute;
+    background-size: cover;
+    top: 3.6%;
+    left: 85%;
+    font-size: 2.2vw;
+    height: 4.2%;
+    width: 2.362%;
+}
+
+#multiplier-canvas {
+    position: absolute;
+    top: 3.2%;
+    left: 65.3%;
+    height: 5.3%;
+    width: 17.1%;
+    visibility: hidden;
+}
+
+#multiplier-title {
+    font-family: 'norse bold';
+    color: #ffdc35;
+    position: absolute;
+    font-size: 1.2vw;
+    top: 0.7%;
+    left: 66.7%;
+    width: 14.1%;
+    text-align: center;
+    visibility: hidden;
+}
+
+.ui-widget.ui-widget-content {
+    min-width: 23.5%;
+    background-color: rgb(62, 62, 62);
+}
+
+.ui-timepicker.ui-widget {
+    display: flex !important;
+    border: none !important;
+    background-color: rgb(187, 187, 187);
+    font-size: calc(1vmax + 1vmin);
+}
+
+.ui-timepicker-viewport>ui-menu-item>a {
+    color: white;
+}
+
+.ui-datepicker table {
+    color: white;
+}
+
+#cards-wrapper {
+    position: absolute;
+    width: 31.113%;
+    height: 17%;
+    left: 25%;
+    top: 3%;
+}
+
+.header-title {
+    position: absolute;
+    color: white;
+    font-size: calc(1vmax + 1vmin);
+    top: 9%;
+    left: 10%;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.top-cards {
+    height: 100%;
+    position: absolute;
+    background-size: cover;
+    width: 19.2%;
+}
+
+#gamble-card3 {
+    left: 0;
+}
+
+#gamble-card5 {
+    left: 22.2%;
+}
+
+#gamble-card7 {
+    left: 44.4%;
+}
+
+#gamble-card9 {
+    left: 66.6%;
+}
+
+#gamble-card {
+    position: absolute;
+    width: 14.3%;
+    height: 41.28%;
+    background-size: cover;
+    top: 28.902%;
+    left: 42.97%;
+}
+
+#reels {
+    position: absolute;
+    width: 75.3%;
+    height: 72.5%;
+    left: 12.35%;
+    top: 9.3%;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+}
+
+.symbols {
+    width: 18.08%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Custom reel dimension */
+
+#reels.three-reels {
+    width: 68.1%;
+    height: 70.6%;
+    left: 16.05%;
+    top: 10%;
+}
+
+.symbols.three-reels {
+    width: 30.18%;
+}
+
+#reels.new-game {
+    width: 67.7%;
+    height: 71.8%;
+    left: 16.15%;
+    top: 9.5%;
+}
+
+.symbols.new-game {
+    width: 19.88%;
+}
+
+#reels.new-game-with-gap {
+    width: 69.3%;
+    height: 71.8%;
+    left: 15.35%;
+    top: 9.5%;
+}
+
+.symbols.new-game-with-gap {
+    width: 19.58%;
+}
+
+/* End */
+
+#message {
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    font-size: 2vw;
+    justify-content: center;
+    text-align: center;
+    width: 90%;
+    padding: 0 5%;
+    align-items: center;
+    display: flex;
+    pointer-events: none;
+}
+
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+    border: 0.1vw solid #ffffff;
+    background: #a7a7a7;
+    color: #ffffff;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    border: 0.1vw solid #00ff08;
+    background: #33bb1a;
+    color: #fff;
+}
+
+#value5,
+#value6 {
+    color: #FFFD22;
+}
+
+.middle {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#pagination {
+    color: white;
+    position: absolute;
+    top: 58%;
+    font-size: 2vw;
+    left: 10%;
+    width: 80%;
+    text-align: center;
+}
+
+/* POKER */
+
+.win-table {
+    position: absolute;
+    height: 38.7%;
+    width: 37.5%;
+    background-image: url(../images/table/table.png);
+    background-size: cover;
+    top: 6.5%;
+    left: 10.7%;
+    background-position: -781;
+}
+
+.win-table-text {
+    display: inline-block;
+    width: 58.1%;
+    height: 100%;
+}
+
+.win-table-amount {
+    position: absolute;
+    height: 100%;
+    width: 38%;
+    display: inline-block;
+    padding-right: 2%;
+    text-align: right;
+    color: white;
+}
+
+.win-table-row {
+    left: 0;
+    width: 98.1%;
+    height: 10.9%;
+    font-size: 1vw;
+    padding-left: 1.9%;
+    line-height: 1.8vw;
+    color: yellow;
+    text-shadow: 0.14vw 0.14vw 0.01vw rgba(20, 20, 20, 1);
+    margin-bottom: 0.9%;
+    margin-top: 0.6%;
+}
+
+.active-win {
+    background-image: url(../images/table/highlight-field.png);
+    background-size: cover;
+    color: red !important;
+    text-shadow: none;
+}
+
+.active-win>.win-table-amount {
+    color: red;
+}
+
+.cards {
+    position: absolute;
+    width: 100%;
+    height: 30.9%;
+    top: 50%;
+}
+
+.card {
+    width: 13.1%;
+    height: 100%;
+    background-size: cover !important;
+    margin-right: 1.65%;
+    margin-left: 1.65%;
+    float: left;
+    position: relative;
+}
+
+.frames {
+    position: absolute;
+    width: 100%;
+    height: 32.7%;
+    top: 48.3%;
+}
+
+.frame {
+    width: 13.5%;
+    height: 100%;
+    background-size: cover !important;
+    margin-right: 1.45%;
+    margin-left: 1.45%;
+    float: left;
+    position: relative;
+}
+
+/* ROULETTE */
+
+#board {
+    background-image: url('../images/backgrounds/roulette-board.png');
+    background-size: contain;
+    position: absolute;
+    top: 24%;
+    left: 1%;
+    width: 98%;
+    height: 62.6%;
+    background-repeat: no-repeat;
+}
+
+#f44 {
+    left: 21.4%;
+}
+
+#f47 {
+    left: 64.3%;
+}
+
+.defaultField {
+    position: absolute;
+    color: #fefdfe;
+    border-radius: 5px;
+    display: flex;
+    width: 14%;
+    height: 18.714%;
+    top: 81.2%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+#chips-canvas {
+    position: absolute;
+    top: 24%;
+    left: 1%;
+    width: 98%;
+    height: 62.6%;
+}
+
+#history-line {
+    position: absolute;
+    display: inline-flex;
+    top: 6%;
+    left: 50%;
+    width: 22%;
+    height: 11%;
+    padding: 0.3%;
+}
+
+.history-number {
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 28.125%;
+    margin-right: 2%;
+}
+
+.history-number.vip {
+    border: 2px solid #e7e7e8;
+}
+
+.history-number:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+#spin-aborted {
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4vw;
+}
+
+.winning-number-title {
+    position: absolute;
+    text-align: center;
+    top: 9.6%;
+    left: 28.25%;
+    width: 21.5%;
+    font-size: 1.4vw;
+    color: white;
+}
+
+/*  UNIVERSAL FIELDS */
+
+#bottom-wrapper {
+    color: white;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    bottom: 0%;
+    display: inline-flex;
+    justify-content: center;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#timeSlider {
+    position: absolute;
+    top: 83%;
+    width: 80%;
+    left: 10%;
+}
+
+/* Slider style start */
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 27%;
+    border: none !important;
+    opacity: 0.5;
+    overflow: visible;
+    height: calc(0.4vmax + 0.4vmin);
+    border-radius: 25px;
+    /* background: transparent; */
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: calc(0.4vmax + 0.4vmin);
+    cursor: pointer;
+    background: #ffffff;
+    border-radius: 25px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    height: calc(2vmax + 2vmin);
+    width: calc(2vmax + 2vmin);
+    border-radius: 50%;
+    background: #000000;
+    border: 0.1vw solid white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -1.2vw;
+}
+
+input[type=range]::-moz-range-thumb {
+    height: calc(1.4vmax + 1.4vmin);
+    width: calc(1.4vmax + 1.4vmin);
+    border-radius: 50%;
+    background: #000000;
+    border: 0.1vw solid white;
+    cursor: pointer;
+    margin-top: -6px;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: calc(1vmax + 1vmin);
+    background: transparent;
+    border-color: transparent;
+    border-radius: 20px;
+    border-width: 10px 0;
+    color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: white;
+    border-radius: 10px;
+}
+
+input[type=range]::-ms-fill-upper {
+    background: white;
+    border-radius: 10px;
+}
+
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 9vw;
+    width: 9vw;
+    margin-top: 1px;
+    border-radius: 50%;
+    border: 0.1vw solid white;
+    background: black;
+}
+
+@media (max-width: 1000px) {
+    input[type=range]::-ms-thumb {
+        height: 30px;
+        width: 30px;
+    }
+
+    input[type=range]::-ms-track {
+        height: 5px;
+    }
+}
+
+@media (max-width: 600px) {
+    input[type=range]::-ms-thumb {
+        height: 20px;
+        width: 20px;
+    }
+
+    input[type=range]::-ms-track {
+        height: 2px;
+    }
+
+    #timeSlider {
+        top: 82%;
+    }
+}
+
+/* Slider style end */
+
+.block {
+    position: relative;
+    height: 100%;
+    width: auto;
+    text-align: center;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+}
+
+.block>h1,
+.block>h3 {
+    margin: 0;
+}
+
+.block>h3 {
+    font-size: 1.4vw;
+    white-space: nowrap;
+}
+
+.block>h1 {
+    font-size: 2.4vw;
+}
+
+#bottom-wrapper>.block:nth-child(5)>h1,
+#bottom-wrapper>.block:nth-child(6)>h1 {
+    color: #FFFD22;
+}
+
+@media all and (max-width: 989px) {
+    #ui-datepicker-div {
+        top: 15% !important;
+        max-height: 80% !important;
+    }
+
+    .ui-datepicker-calendar {
+        height: 100%;
+        font-size: 2vw !important;
+    }
+}

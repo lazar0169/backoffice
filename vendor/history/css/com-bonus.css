@@ -1,0 +1,340 @@
+#black-overlay {
+    position: absolute;
+    width: 80%;
+    height: 74%;
+    left: 10%;
+    top: 4%;
+    background-color: black;
+    filter: blur(9vw);
+}
+
+.bonus-game-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/* CRYSTALS OF MAGIC - NECROMANCER */
+
+#necromancer div img {
+    position: absolute;
+}
+
+#necromancer {
+    background-image: url("../images/bonus/CrystalsOfMagic/necro-bg.jpg");
+}
+
+#necromancer {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#necro-lives {
+    position: absolute;
+    color: white;
+    font-size: 1.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    top: 15%;
+    width: 25%;
+    left: 0;
+}
+
+.glyphs {
+    position: absolute;
+    width: 10%;
+    height: 9%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.glyphs img {
+    position: relative !important;
+}
+
+.glyphs div {
+    color: white;
+    font-size: 2vw;
+    width: 60%;
+    text-align: center;
+    word-break: break-word;
+}
+
+.glyphs img {
+    height: 75%;
+}
+
+.glyphs.row-1 {
+    top: 6%;
+}
+
+.glyphs.row-2 {
+    top: 15%;
+}
+
+.glyphs.row-3 {
+    top: 24%;
+}
+
+.glyphs.row-4 {
+    top: 33%;
+}
+
+.glyphs.col-1 {
+    right: 14.3%;
+}
+
+.glyphs.col-2 {
+    right: 3.8%;
+}
+
+#glyph1 {
+    color: #095012;
+}
+
+#glyph2 {
+    color: #036667;
+}
+
+#glyph3 {
+    color: #f0e5ce;
+}
+
+#glyph4 {
+    color: #f7872d;
+}
+
+#glyph5 {
+    color: #9ee9e5;
+}
+
+#glyph6 {
+    color: #ebcf12;
+}
+
+#glyph7 {
+    color: #e8b4ff;
+}
+
+#glyph8 {
+    color: #fe3a3a;
+}
+
+#bottle1 {
+    top: 43.4%;
+    left: 18.1%;
+    width: 4.3%;
+}
+
+#bottle2 {
+    top: 53.4%;
+    left: 20.5%;
+    width: 10.6%;
+}
+
+#bottle3 {
+    top: 58%;
+    left: 31%;
+    width: 8%;
+}
+
+#bottle4 {
+    top: 54.6%;
+    left: 38.5%;
+    width: 6.5%;
+}
+
+#bottle5 {
+    top: 56.5%;
+    left: 59.2%;
+    width: 7%;
+}
+
+#bottle6 {
+    top: 54.4%;
+    left: 67%;
+    width: 9%;
+}
+
+#bottle7 {
+    top: 48.1%;
+    left: 75.9%;
+    width: 4%;
+}
+
+#bottle8 {
+    top: 58.9%;
+    left: 78.4%;
+    width: 6%;
+}
+
+/* CRYSTALS OF MAGIC - ENCHANTRESS && WIZARD */
+
+.com-bonus-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#enchantress-extra {
+    position: absolute;
+    color: white;
+    left: 0.8%;
+    /* top: 10.6%; */
+    /* top: 25.6%; */
+    /* top: 40.6%; */
+    /* top: 55.6%; */
+    /* top: 70.6%; */
+    width: 6%;
+    height: 12.6%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    word-break: break-word;
+}
+
+/* CRYSTALS OF MAGIC - GNOME */
+
+#com-life {
+    position: absolute;
+    top: 18%;
+    left: 24.7%;
+    width: 16%;
+    height: 9%;
+}
+
+#com-lifebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#com-life1,
+#com-life2,
+#com-life3 {
+    position: absolute;
+    height: 80%;
+    top: 9%;
+}
+
+#com-life1 {
+    left: 6.8%;
+}
+
+#com-life2 {
+    left: 37.4%;
+}
+
+#com-life3 {
+    left: 68%;
+}
+
+#com-progress {
+    position: absolute;
+    background-image: url(../images/bonus/CrystalsOfMagic/gnome/progress.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    bottom: 19%;
+    left: 21%;
+    width: 58%;
+    height: 17%;
+}
+
+#com-progress-bar-wrapper {
+    position: absolute;
+    left: 10.15%;
+    top: 42.7%;
+    width: 82.7%;
+    height: 9%;
+}
+
+#com-progress-bar {
+    height: 100%;
+    /* USED FOR ASSINGING VALUE MANUALY (0% - 100%)*/
+    width: 20%;
+    background-image: url("../images/bonus/CrystalsOfMagic/gnome/progress-bar.png");
+    background-size: contain;
+}
+
+#com-progress-thumb {
+    height: 100%;
+    /* USED FOR ASSINGING VALUE MANUALY (0% - 100%)*/
+    margin-left: 20%;
+}
+
+#com-thumb-wrapper {
+    position: absolute;
+    left: 7.85%;
+    top: 32%;
+    width: 83%;
+    height: 30%;
+}
+
+#com-options-wrapper {
+    position: absolute;
+    top: 16%;
+    width: 31%;
+    height: 48%;
+    left: 43%;
+}
+
+.com-option-wrapper {
+    position: relative;
+    width: 100%;
+    height: 33.3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.com-option-field {
+    width: 47%;
+    height: 79%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: white;
+    font-size: 1.8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#com-option2-wrapper {
+    border: 1px solid #f6de35;
+    border-radius: 100px;
+    background: #ffffff33;
+}
+
+.com-question {
+    background-image: url(../images/bonus/CrystalsOfMagic/gnome/option.png);
+}
+
+#com-multiplier {
+    position: absolute;
+    width: 15.3%;
+    height: 27%;
+    top: 33%;
+    left: 25%;
+    background-image: url(../images/bonus/CrystalsOfMagic/gnome/multiplier.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: white;
+    font-size: 5.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

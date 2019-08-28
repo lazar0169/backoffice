@@ -1,0 +1,158 @@
+#battle-bonus {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    background-image: url('../images/bonus/TemplarsQuest/Battle/background.png');
+}
+
+#lives,
+#enemy-lives {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 17.3%;
+    height: 10.3%;
+    top: 8%;
+}
+
+#lives {
+    background-image: url('../images/bonus/TemplarsQuest/Battle/life-bar.png');
+    left: 8%;
+}
+
+#enemy-lives {
+    background-image: url('../images/bonus/TemplarsQuest/Battle/enemy-life-bar.png');
+    right: 8%;
+}
+
+#lives img,
+#enemy-lives img {
+    position: absolute;
+    top: 32.9%;
+    width: 17.6%;
+}
+
+.kill {
+    transform: scale3d(0, 0, 0);
+}
+
+#lives img:nth-child(1) {
+    left: 15.3%;
+}
+
+#lives img:nth-child(2) {
+    left: 37.8%;
+}
+
+#lives img:nth-child(3) {
+    left: 60.4%;
+}
+
+#enemy-lives img:nth-child(1) {
+    left: 22.2%;
+}
+
+#enemy-lives img:nth-child(2) {
+    left: 44.8%;
+}
+
+#enemy-lives img:nth-child(3) {
+    left: 67.4%;
+}
+
+/* MONEY */
+
+#gold {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gold img {
+    width: 17%;
+}
+
+#gold-amount {
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* SCROLLS */
+
+#scrolls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#selected-scroll,
+#other-scrolls div {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../images/bonus/TemplarsQuest/Battle/scroll.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#selected-scroll {
+    width: 25%;
+    height: 32%;
+    margin-bottom: 2%;
+}
+
+#other-scrolls {
+    display: flex;
+    width: 88%;
+    height: 27%;
+    filter: grayscale(0.5);
+}
+
+#other-scrolls div {
+    width: 25%;
+    height: 100%;
+}
+
+/* BATTLE */
+
+#battle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+#battle img {
+    width: 26%;
+}
+
+#battle-symbol {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../images/bonus/TemplarsQuest/Battle/battle-win.png');
+    width: 20%;
+    height: 34%;
+    margin: 0 7%;
+}
