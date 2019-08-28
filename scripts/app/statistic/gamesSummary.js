@@ -164,6 +164,7 @@ let statisticGamesSummary = function () {
                     table.preserveHeight(gamesSummaryTableWrapper);
 
                     gamesSummaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
+                    gamesSummaryHeader.style.display = 'block';
 
                     let labels = [];
                     let games = [];
@@ -268,6 +269,7 @@ let statisticGamesSummary = function () {
                     $$('#statistic-games-summary-graphs').classList.remove('hidden');
                     requested = true;
                 } else {
+                    gamesSummaryHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },

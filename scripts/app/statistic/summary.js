@@ -163,6 +163,7 @@ let statisticSummary = function () {
                     table.preserveHeight(summaryTableWrapper);
 
                     summaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
+                    summaryHeader.style.display = 'block';
 
                     let labels = [];
                     let totalBetData = [];
@@ -208,6 +209,7 @@ let statisticSummary = function () {
                     $$('#statistic-summary-graphs').classList.remove('hidden');
                     requested = true;
                 } else {
+                    summaryHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },

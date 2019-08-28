@@ -161,6 +161,7 @@ let statisticCompared = function () {
                     headerPayout.innerHTML = '<h2>Table Payout:</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
                     comparedHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.resultForPeriod}`;
+                    comparedHeader.style.display = 'block';
 
                     let tableBet = table.generate({
                         data: tables.gamesBet,
@@ -265,6 +266,7 @@ let statisticCompared = function () {
                     requested = true;
 
                 } else {
+                    comparedHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },
