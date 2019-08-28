@@ -150,10 +150,6 @@
     display: none;
 }
 
-#dashboard-players-wrapper .table .tbody {
-    height: 36em;
-}
-
 .refresh-image {
     margin-left: 0.5em;
     filter: invert(1);

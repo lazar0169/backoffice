@@ -131,7 +131,7 @@ let dashboard = function () {
         let latestPlayers = document.createElement('div');
         let headerLatest = document.createElement('div');
         let latestTitle = document.createElement('h2')
-        latestTitle.innerHTML = 'Latest Players';
+        latestTitle.innerHTML = 'Latest New Players';
         headerLatest.appendChild(latestTitle);
         latestPlayers.appendChild(headerLatest);
         playersWrapper.appendChild(latestPlayers);
