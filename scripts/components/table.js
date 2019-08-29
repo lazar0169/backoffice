@@ -250,7 +250,7 @@ let table = function () {
                             cell.dataset.value = 'NaN';
                         }
                     }
-                    cell.innerHTML = prefix + (value ? value : 'NaN') + suffix;
+                    cell.innerHTML = prefix + (value || value === 0 ? value : 'NaN') + suffix;
                     cell.className = col === 0 ? `first ${table.props.stickyCol ? 'sticky' : ''} cell` : 'cell';
                     cell.classList.add(`row-${rowId}`);
                     if (row === data.length - 1 && table.props.sum) {
