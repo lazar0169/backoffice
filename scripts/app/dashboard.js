@@ -161,6 +161,8 @@ let dashboard = function () {
                 dynamic: false,
                 sticky: true
             }));
+
+            table.preserveHeight(playersWrapper);
         });
 
         $$('#dashboard-players-portals-list').children[1].children[1].click();
