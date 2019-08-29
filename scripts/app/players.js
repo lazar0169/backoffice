@@ -389,7 +389,14 @@ let players = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
+                    if (response.result.length === 0) {
+                        $$('#players-player-main-wrapper').classList.add('hidden');
+                        removeLoader(getPlayerButton);
+                        trigger('message', message.codes.noData);
+                        return;
+                    }
                     createList(response.result, `player-players`, getPlayerData);
+                    $$('#players-player-main-wrapper').classList.remove('hidden');
                 }
                 else {
                     trigger('message', response.responseCode);
@@ -419,7 +426,14 @@ let players = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
+                    if (response.result.length === 0) {
+                        $$('#players-groups-main-wrapper').classList.add('hidden');
+                        removeLoader(getPlayerButton);
+                        trigger('message', message.codes.noData);
+                        return;
+                    }
                     createList(response.result, `groups-groups`, getGroupData);
+                    $$('#players-groups-main-wrapper').classList.remove('hidden');
                 }
                 else {
                     trigger('message', response.responseCode);
@@ -671,13 +685,29 @@ let players = function () {
         let input = $$(`#players-${section}-search`);
 
         input.addEventListener('input', function () {
-            searchData(body, input.value);
+            if (section === 'player-players') {
+                if (searchTimeoutId) {
+                    clearTimeout(searchTimeoutId);
+                    searchTimeoutId = setTimeout(() => { searchPlayersBySubstring(input.value, callback) }, 800);
+                }
+                else {
+                    searchTimeoutId = setTimeout(() => { searchPlayersBySubstring(input.value, callback) }, 800);
+                }
+            }
+            else {
+                searchData(body, input.value);
+            }
         });
 
         input.addEventListener('keyup', function (e) {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
-                searchData(body, '');
+                if (section === 'player-players') {
+                    searchPlayersBySubstring(input.value, callback)
+                }
+                else {
+                    searchData(body, '');
+                }
             }
         });
 
@@ -717,6 +747,41 @@ let players = function () {
                         td.innerHTML = `${row.playerId} <span style="float: right;">${row.averageSimilarityOfCriteria}% similarity</span>`;
                         tr.dataset.id = row.playerId;
                         tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
+                        tr.appendChild(td);
+                        body.appendChild(tr);
+                    }
+                }
+                else {
+                    trigger('message', message.codes.success);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+    };
+
+    const searchPlayersBySubstring = (term, callback) => {
+        let actions = $$(`#players-player-players-table-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+
+        trigger('comm/player/getPlayerBySubstring', {
+            body: {
+                id: term
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    for (let row of response.result) {
+                        let tr = document.createElement('tr');
+                        let td = document.createElement('td');
+                        td.innerHTML = row.name;
+                        tr.dataset.id = row.id;
+                        tr.onclick = function () { callback(row.id, row.name) };
                         tr.appendChild(td);
                         body.appendChild(tr);
                     }
@@ -1190,13 +1255,17 @@ let players = function () {
     let playerGameHistoryPopup = function () {
         let modal = $$('#players-player-game-history-form');
         let backButton = $$('#players-player-game-history-form-back');
-        let mainWrapper = $$('#players-player-game-history-wrapper');
+        let iframeWrapper = $$('#players-player-game-history-iframe-wrapper');
+        let getButton = $$('#players-player-game-history-get');
+        let historyDate = getToday();
         let gameId = undefined;
         let loaderElement = undefined;
+        let vipRouletteId = 0;
 
         const show = (id, element) => {
             gameId = id;
-            getHistory();
+            loaderElement = element;
+            modal.classList.add('show');
         };
 
         const hide = () => {
@@ -1204,22 +1273,66 @@ let players = function () {
         };
 
         const getHistory = () => {
-            // let historyElement = '<iframe style="top: 0; left: 0; width: 100.1%; height: 100%; position: absolute; border: none;" name="history" id="history"></iframe>';
-            let historyElement = document.createElement('iframe');
-            historyElement.id = 'history';
-            historyElement.name = 'history';
-            historyElement.style.top = '0';
-            historyElement.style.left = '0';
-            historyElement.style.width = '100.1%';
-            historyElement.style.height = '100%';
-            historyElement.style.position = 'absoulute';
-            historyElement.style.border = 'none';
-            mainWrapper.appendChild(historyElement);
-            window.open(`../vendor/history/index.html?connectionUrl=${_config.local ? `http://${location.hostname}:${_config.port}` : `${_config.api}:${_config.port}`}${'/Player/GetPlayerHistory'}&gameId=${gameId}&liveRouletteID=${0}&language=ENG`, 'history');
-            modal.classList.add('show');
+            vipRouletteId = parseInt($$('#players-player-game-history-vip-roulette-id').value);
+            if (isNaN(vipRouletteId)){
+                trigger('message', message.codes.badParameter);
+                return;
+            }
+            addLoader(loaderElement);
+            if (iframeWrapper.children.length > 0) {
+                iframeWrapper.children[0].remove();
+            }
+            let selectedDate = new Date(historyDate).toLocaleDateString();
+            let selectedTime = new Date(historyDate).toLocaleTimeString();
+            let offset = new Date(historyDate).getTimezoneOffset();
+            let h = Math.floor(Math.abs(offset) / 60);
+            let m = Math.abs(offset) % 60;
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            let timezone = offset < 0 ? `-${h}:${m}` : `+${h}:${m}`;
+            trigger('comm/player/getHistory', {
+                body: {
+                    date: `${selectedDate} ${selectedTime.slice(0, selectedTime.search(' '))} ${timezone}`,
+                    gameId: gameId,
+                    liveRouletteID: vipRouletteId,
+                    playerId: playerIdSelected
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        let historyElement = document.createElement('iframe');
+                        historyElement.id = 'history';
+                        historyElement.name = 'history';
+                        historyElement.style.top = '0';
+                        historyElement.style.left = '0';
+                        historyElement.style.width = '100.1%';
+                        historyElement.style.height = '100%';
+                        historyElement.style.position = 'absoulute';
+                        historyElement.style.border = 'none';
+                        historyElement.src = `../vendor/history/index.html?gameId=${gameId}&liveRouletteID=${vipRouletteId}&language=ENG&selectedDate=${selectedDate}`;
+                        iframeWrapper.appendChild(historyElement);
+                        historyElement.onload = () => {
+                            historyElement.contentWindow.postMessage(response.result, '*');
+                        };
+                        removeLoader(loaderElement);
+                    }
+                    else {
+                        removeLoader(loaderElement);
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    removeLoader(loaderElement);
+                    trigger('message', response.responseCode);
+                }
+            });
+
         };
 
         backButton.addEventListener('click', hide);
+        getButton.addEventListener('click', getHistory);
+        on('date/players-player-game-history-date', function (data) {
+            historyDate = data;
+        });
 
         return {
             show: show,
@@ -1349,7 +1462,7 @@ let players = function () {
             return
         }
 
-       
+
         let portalId = $$('#players-main-portals-list').getSelected();
         trigger('comm/players/getPlayersForPortal', {
             body: {
@@ -1358,9 +1471,9 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
 
-                    if(checkIfAllObjEmpty(response.result) === true){
+                    if (checkIfAllObjEmpty(response.result) === true) {
                         trigger('message', message.codes.noData);
-                       $$('#players-main-settings-wrapper').style.display = 'none'
+                        $$('#players-main-settings-wrapper').style.display = 'none'
                         return
                     }
                     $$('#players-main-settings-wrapper').style.display = 'flex'

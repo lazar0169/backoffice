@@ -114,6 +114,7 @@ const actions = Object.freeze({
     //Player
     'comm/player/getPlayerData':'/Player/GetPlayer',
     'comm/player/getPlayerForPortal':'/Player/GetPlayersForPortal',
+    'comm/player/getPlayerBySubstring':'/Player/SearchPlayers',
     'comm/player/EnableOrDisable' : '/Player/EnableDisablePlayer',
     'comm/player/setPlayerFlags' : '/Player/SetPlayerFlags',
     'comm/player/getTransactions' : '/Player/GetPlayerTransactions',
