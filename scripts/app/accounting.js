@@ -26,7 +26,7 @@ let accounting = function () {
 
     let defaultSelectionValue = 'LastMonth';
 
-    $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
+    // $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
     $$('#accounting-setup-form-cancel').addEventListener('click', hideModal);
     $$('#accounting-setup-form-tax-back').addEventListener('click', function () { tax.hide(); });
     $$('#accounting-setup-form-create-tax').addEventListener('click', function () { tax.show(); });
