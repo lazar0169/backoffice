@@ -156,7 +156,7 @@ let statisticPerGame = function () {
             searchInterval: $$('#statistic-per-game-time-span').getSelected() || 'custom',
             fromDate: statisticFromDate,
             toDate: statisticToDate,
-            gameId: $$('#statistic-per-game-games').getSelected()
+            gameId: $$('#statistic-per-game-games').getSelected() ? $$('#statistic-per-game-games').getSelected() : -1
         };
 
         perGameTableWrapper.innerHTML = '';
