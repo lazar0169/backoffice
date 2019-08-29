@@ -81,6 +81,24 @@ for (let view of views) {
     }
 }
 
+console.log(`> history`);
+let script = '';
+script += babel.transformFileSync('./core/event.js', { presets: ['es2015'], plugins: ['transform-for-of-as-array'], comments: false }).code;
+let coreFiles = fs.readdirSync('./vendor/history/core');
+coreFiles.forEach(function (file) {
+    script += babel.transformFileSync('./vendor/history/core/' + file, { presets: ['es2015'], plugins: ['transform-for-of-as-array'], comments: false }).code;
+}, this);
+let languageFiles = fs.readdirSync('./vendor/history/languages');
+languageFiles.forEach(function (file) {
+    script += babel.transformFileSync('./vendor/history/languages/' + file, { presets: ['es2015'], plugins: ['transform-for-of-as-array'], comments: false }).code;
+}, this);
+let specificFiles = fs.readdirSync('./vendor/history/js');
+specificFiles.forEach(function (file) {
+    script += babel.transformFileSync('./vendor/history/js/' + file, { presets: ['es2015'], plugins: ['transform-for-of-as-array'], comments: false }).code;
+}, this);
+
+fs.writeFileSync('./vendor/history/specific.js', script);
+
 try {
     copyDir('images', `${buildFolder}/images`);
     copyDir('fonts', `${buildFolder}/fonts`);
