@@ -1344,6 +1344,7 @@ let players = function () {
     const getPlayers = () => {
 
         if (!$$('#players-main-portals-list').getSelected()) {
+            $$('#players-main-settings-wrapper').style.display = 'none'
             trigger('message', message.codes.badParameter);
             return
         }
