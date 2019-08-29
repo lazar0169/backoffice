@@ -528,8 +528,12 @@ $$('#games').value = gamesList[selectedGameId];
 
 function connect(data) {
     gameType(0);
-    console.log(data);
     loadedData = {};
+    var today = new Date();
+    var selectedDate = new Date(params['selectedDate']);
+    var diffTime = Math.abs(today.getTime() - selectedDate.getTime());
+    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    $('#datepicker').datepicker('setDate', -diffDays);
     if (data.ErrorOccured) {
         $$('#message').innerHTML = data.ExceptionMessage;
         $$('#indexPage').innerHTML = '0';
@@ -552,16 +556,6 @@ function connect(data) {
         newGame = !(loadedData.Result[0].JsonData === null || loadedData.Result[0].JsonData === 'null' || loadedData.Result[0].JsonData === undefined);
         selectedGame = 0;
         selectivePreloader(loadedData.Result[0].GameID);
-    }
-    if (fail) {
-        selectedGame = -1;
-        gameType('none');
-        $$('#indexPage').innerHTML = '0';
-        $$('#totalPages').innerHTML = '0';
-        $$('#timeSlider').max = 1;
-        $$('#timeSlider').value = 1;
-        $$('#message').innerHTML = language.getFragment('error-message');
-        $$('#game-screen').style.backgroundImage = '';
     }
 }
 
