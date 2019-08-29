@@ -4,6 +4,12 @@
     display: none !important;
 }
 
+#management-main-table-div,
+#management-portals-table-div,
+#management-players-table-div {
+    height: 100%;
+}
+
 #management-total-filter,
 #management-players-filter,
 #management-portals-filter,
@@ -160,9 +166,7 @@
     width: 95%;
     overflow: auto;
     flex: 1;
-    display: flex;
     margin: 1em;
-    flex-direction: column;
 }
 
 #players-form-cancel{

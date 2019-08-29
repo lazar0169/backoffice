@@ -26,7 +26,7 @@ let operators = function () {
         enabled: false
     };
 
-    $$('#operators-black-overlay').addEventListener('click', hideModal);
+    // $$('#operators-black-overlay').addEventListener('click', hideModal);
     $$('#operators-form-cancel').addEventListener('click', hideModal);
     $$('#operators-form-portal-back').addEventListener('click', function () { portalModal.hide(); });
     $$('#operators-form-jackpot-back').addEventListener('click', function () { jackpotModal.hide(); });
@@ -367,6 +367,11 @@ let operators = function () {
                 }
 
                 $$('#operators-form-jackpots-save').onclick = function () {
+                    if (parseInt(minJackpotValue.value) > parseInt(maxJackpotValue.value) ||
+                        parseInt(maxJackpotValue.value) === parseInt(minJackpotValue.value)) {
+                        trigger('message', message.codes.badParameter);
+                        return;
+                    }
                     openedPortalData[jackpot].betContribution = betContribution.value;
                     openedPortalData[jackpot].minBet = minBet.value;
                     openedPortalData[jackpot].baseJackpotValue = baseJackpotValue.value;

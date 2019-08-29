@@ -104,7 +104,7 @@ let dashboard = function () {
         filters.innerHTML = '';
 
         let portals = [];
-        for (let portal in dashboardData.latestNewPlayers) {
+        for (let portal in dashboardData.topTenWinners) {
             portals.push({ id: portal, name: portal });
         }
 
@@ -115,7 +115,7 @@ let dashboard = function () {
         let topWinners = document.createElement('div');
         let headerWinners = document.createElement('div');
         let winnersTitle = document.createElement('h2')
-        winnersTitle.innerHTML = 'Top 10 Winners';
+        winnersTitle.innerHTML = 'Last 24 Hours Winners';
         headerWinners.appendChild(winnersTitle);
         topWinners.appendChild(headerWinners);
         playersWrapper.appendChild(topWinners);
@@ -123,7 +123,7 @@ let dashboard = function () {
         let topLosers = document.createElement('div');
         let headerLosers = document.createElement('div');
         let losersTitle = document.createElement('h2')
-        losersTitle.innerHTML = 'Top 10 Losers';
+        losersTitle.innerHTML = 'Last 24 Hours Losers';
         headerLosers.appendChild(losersTitle);
         topLosers.appendChild(headerLosers);
         playersWrapper.appendChild(topLosers);
@@ -131,7 +131,7 @@ let dashboard = function () {
         let latestPlayers = document.createElement('div');
         let headerLatest = document.createElement('div');
         let latestTitle = document.createElement('h2')
-        latestTitle.innerHTML = 'Latest Players';
+        latestTitle.innerHTML = 'Latest New Players';
         headerLatest.appendChild(latestTitle);
         latestPlayers.appendChild(headerLatest);
         playersWrapper.appendChild(latestPlayers);
@@ -165,12 +165,12 @@ let dashboard = function () {
             table.preserveHeight(playersWrapper);
         });
 
-        $$('#dashboard-players-portals-list').children[1].children[0].click();
+        $$('#dashboard-players-portals-list').children[1].children[1].click();
 
         let colors = [];
         let labels = [];
         let values = [];
-        let hiddenSlices = [0];
+        let hiddenSlices = [5];
         for (let chart of dashboardData.pieChart) {
             labels.push(chart.portalName);
             values.push(chart.numberOfNewPlayers);
@@ -303,7 +303,7 @@ let dashboard = function () {
 
     function parseData(data) {
         let keys = Object.keys(data);
-        let keysWithArrows = keys.filter((element) => element.toUpperCase().includes('CHANGE'));
+        let keysWithArrows = keys.filter((element) => element.toUpperCase().includes('CHANGE') || element.toUpperCase().includes('TREND'));
         let tableData = [];
         let rows = Object.keys(data[keys[0]]);
         for (let i = 0; i < rows.length; i++) {
