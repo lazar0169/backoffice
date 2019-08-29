@@ -19,8 +19,7 @@ let statisticPerGame = function () {
         let firstAvailable = filterPeriod($$('#statistic-per-game-time-interval'), value);
 
         // Select first available period
-        $$('#statistic-per-game-time-interval').children[0].innerHTML = firstAvailable.name;
-        $$('#statistic-per-game-time-interval').children[0].dataset.value = firstAvailable.value;
+        $$('#statistic-per-game-time-interval').select(firstAvailable.value);
     });
 
     on('date/statistic-per-game-time-span-from', function (data) {
@@ -66,13 +65,7 @@ let statisticPerGame = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#statistic-per-game-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#statistic-per-game-time-span').select(defaultSelectionValue);
     }
 
     function getOperators() {

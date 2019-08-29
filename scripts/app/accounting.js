@@ -55,13 +55,7 @@ let accounting = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#accounting-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#accounting-time-span').select(defaultSelectionValue);
     }
 
     function generateReport(data, sum) {

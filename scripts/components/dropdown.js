@@ -46,6 +46,22 @@ let dropdown = function () {
                 selected.innerHTML = readCheck(dropdown, placeholder);
                 trigger(`${dropdown.id}/selected`, dropdown.getSelected());
             };
+            dropdown.select = function (value) {
+                for (let option of optionsWrapper.getElementsByClassName('option')) {
+                    option.classList.remove('focused');
+                    if (option.dataset.value === value && !dropdown.isMultiple) {
+                        selected.innerText = option.innerHTML;
+                        selected.dataset.value = option.dataset.value;
+                        optionsWrapper.classList.add('hidden');
+                        optionsWrapper.focusedItemIndex = -1;
+                        if (searchVisible) {
+                            dropdown.search();
+                        }
+                        trigger(`${dropdown.id}/selected`, dropdown.getSelected());
+                        break;
+                    }
+                }
+            }
             dropdown.prevCollapsed = true;
 
             if (!searchVisible || isMobile()) {
@@ -98,7 +114,7 @@ let dropdown = function () {
                         selected.innerHTML = readCheck(dropdown, placeholder);
                         selectAllCheckbox.checked = dropdown.isAllChecked;
                     } else {
-                        selected.innerHTML = option.innerText;
+                        selected.innerText = option.innerHTML;
                         selected.dataset.value = option.dataset.value;
                         optionsWrapper.classList.add('hidden');
                         optionsWrapper.focusedItemIndex = -1;
@@ -295,6 +311,7 @@ let dropdown = function () {
 
         select.appendChild(selected);
         select.appendChild(wrapper);
+        select.isMultiple = isMultiple;
 
         init(select, placeholder, isMultiple);
         return select;

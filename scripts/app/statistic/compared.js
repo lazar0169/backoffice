@@ -18,8 +18,7 @@ let statisticCompared = function () {
         let firstAvailable = filterPeriod($$('#statistic-compared-time-interval'), value);
 
         // Select first available period
-        $$('#statistic-compared-time-interval').children[0].innerHTML = firstAvailable.name;
-        $$('#statistic-compared-time-interval').children[0].dataset.value = firstAvailable.value;
+        $$('#statistic-compared-time-interval').select(firstAvailable.value);
     });
 
     on('date/statistic-compared-time-span-from', function (data) {
@@ -64,13 +63,7 @@ let statisticCompared = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#statistic-compared-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#statistic-compared-time-span').select(defaultSelectionValue);
     }
 
     function getOperators() {
