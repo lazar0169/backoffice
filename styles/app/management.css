@@ -393,12 +393,12 @@
     margin: 2em 0 1.5em 0;
 }
 
-#management-main-second-period-wrapper,
-#management-portals-second-period-wrapper,
-#management-players-second-period-wrapper
-{
-    display: none;
+#management-main-second-period-wrapper.hidden,
+#management-portals-second-period-wrapper.hidden,
+#management-players-second-period-wrapper.hidden{
+    display: none !important;
 }
+
 fieldset.hidden{
     display: none !important;
 }
@@ -567,7 +567,7 @@ fieldset.hidden{
 .mobile #management-portals-filter>*,
 .mobile #management-players-filter>*,
 .mobile #management-bets-filter>*{
-    display: contents !important;
+    display: contents;
 }
 
 .mobile #management-get-portals,
