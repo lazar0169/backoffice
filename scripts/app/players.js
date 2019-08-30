@@ -37,11 +37,9 @@ let players = function () {
     let largestWinsData;
     let winnersAndLosersFromLast24HoursData;
     let playerIdSelected;
+    let portalIdSelected;
     let playerNameSelected;
     let getPlayersButton = $$('#players-get-main');
-    let playersPlayersWraper = $$('#players-main-settings-wrapper');
-    let playersPlayersPopupWraper = $$('#players-main-form');
-
 
     let getGroupsButton = $$('#players-get-groups');
     let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
@@ -145,7 +143,8 @@ let players = function () {
         }
 
         let tableNode = table.generate({
-            data: parseGroupsPlayersData(data),
+            // data: parseGroupsPlayersData(data),
+            data: data,
             id: 'groupsDashboardData',
             sticky: true,
             stickyCol: false
@@ -395,6 +394,7 @@ let players = function () {
                         trigger('message', message.codes.noData);
                         return;
                     }
+                    portalIdSelected = portalId;
                     createList(response.result, `player-players`, getPlayerData);
                     $$('#players-player-main-wrapper').classList.remove('hidden');
                 }
@@ -428,7 +428,7 @@ let players = function () {
                 if (response.responseCode === message.codes.success) {
                     if (response.result.length === 0) {
                         $$('#players-groups-main-wrapper').classList.add('hidden');
-                        removeLoader(getPlayerButton);
+                        removeLoader(getGroupsButton);
                         trigger('message', message.codes.noData);
                         return;
                     }
@@ -447,7 +447,8 @@ let players = function () {
         });
     }
 
-    const getPlayerData = (id, name) => {
+    const getPlayerData = (id, name, element) => {
+        addLoader(element);
         trigger('comm/player/getPlayerData', {
             body: {
                 id: id
@@ -458,14 +459,17 @@ let players = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+                removeLoader(element);
             },
             fail: function (response) {
                 trigger('message', response.responseCode);
+                removeLoader(element);
             }
         });
     };
 
-    const getGroupData = (id, name) => {
+    const getGroupData = (id, name, element) => {
+        addLoader(element);
         trigger('comm/playerGroups/getCompleteGroup', {
             body: {
                 id: id
@@ -476,9 +480,11 @@ let players = function () {
                 } else {
                     trigger('message', response.responseCode);
                 }
+                removeLoader(element);
             },
             fail: function (response) {
                 trigger('message', response.responseCode);
+                removeLoader(element);
             }
         });
     };
@@ -673,7 +679,7 @@ let players = function () {
             let td = document.createElement('td');
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { callback(row.id, row.name) };
+            tr.onclick = function () { callback(row.id, row.name, td) };
             tr.appendChild(td);
             body.appendChild(tr);
         }
@@ -703,7 +709,7 @@ let players = function () {
             if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
                 input.value = '';
                 if (section === 'player-players') {
-                    searchPlayersBySubstring(input.value, callback)
+                    createList(data, section, callback);
                 }
                 else {
                     searchData(body, '');
@@ -713,7 +719,13 @@ let players = function () {
 
         $$(`#players-${section}-remove-search`).onclick = function () {
             input.value = '';
-            searchData(body, '');
+            if (section === 'player-players') {
+                createList(data, section, callback);
+            }
+            else {
+                searchData(body, '');
+            }
+
         };
     };
 
@@ -772,7 +784,8 @@ let players = function () {
 
         trigger('comm/player/getPlayerBySubstring', {
             body: {
-                id: term
+                partialPlayerIdOrName: term,
+                portalId: portalIdSelected
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
@@ -785,9 +798,6 @@ let players = function () {
                         tr.appendChild(td);
                         body.appendChild(tr);
                     }
-                }
-                else {
-                    trigger('message', message.codes.success);
                 }
             },
             fail: function (response) {
@@ -1274,7 +1284,7 @@ let players = function () {
 
         const getHistory = () => {
             vipRouletteId = parseInt($$('#players-player-game-history-vip-roulette-id').value);
-            if (isNaN(vipRouletteId)){
+            if (isNaN(vipRouletteId)) {
                 trigger('message', message.codes.badParameter);
                 return;
             }

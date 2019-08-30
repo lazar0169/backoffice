@@ -532,7 +532,7 @@ function connect(data) {
     var today = new Date();
     var selectedDate = new Date(params['selectedDate']);
     var diffTime = Math.abs(today.getTime() - selectedDate.getTime());
-    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
     $('#datepicker').datepicker('setDate', -diffDays);
     if (data.ErrorOccured) {
         $$('#message').innerHTML = data.ExceptionMessage;
