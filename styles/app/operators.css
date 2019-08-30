@@ -341,13 +341,15 @@
 .mobile #operators-form {
     /* position: absolute; */
     /* bottom: auto; */
+    top: 4em;
     bottom: 0;
+    right: 0;
+    left: 0;
     position: fixed;
-    width: 95%;
-    height: 88.5%;
+    width: 92%;
+    height: 87.5%;
     box-shadow: none;
-    right: auto;
-    margin: 0;
+    margin: auto;
 }
 
 .mobile #operators-main-search-wrapper input {
