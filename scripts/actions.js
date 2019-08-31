@@ -58,6 +58,10 @@ const actions = Object.freeze({
     'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',
     'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
 
+    'comm/accounting/companies/get': '/Accounting/GetCompanies',
+    'comm/accounting/companies/getOperators': '/Accounting/GetCompanyOperators',
+    'comm/accounting/companies/getAccounting': '/Accounting/GetCompanyAccounting',
+
     // Management
     'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
     'comm/management/portalsPerGame/get': '/Management/GetPortalsPerGame',
@@ -104,29 +108,29 @@ const actions = Object.freeze({
     'comm/configuration/profile/edit': '/Settings/UpdateProfile',
     'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
 
-    'comm/configuration/jackpot/portal/get':'/Jackpot/GetJackpotSettingsForPortal',
-    'comm/configuration/jackpot/active/get':'/Jackpot/GetActiveJackpots',
-    'comm/configuration/jackpot/activefromtime/get':'/Jackpot/GetJackpotsFromPeriod',
+    'comm/configuration/jackpot/portal/get': '/Jackpot/GetJackpotSettingsForPortal',
+    'comm/configuration/jackpot/active/get': '/Jackpot/GetActiveJackpots',
+    'comm/configuration/jackpot/activefromtime/get': '/Jackpot/GetJackpotsFromPeriod',
 
     //Players
-    'comm/players/getPlayersForPortal':'/Players/GetPlayersForPortal',
-    
+    'comm/players/getPlayersForPortal': '/Players/GetPlayersForPortal',
+
     //Player
-    'comm/player/getPlayerData':'/Player/GetPlayer',
-    'comm/player/getPlayerForPortal':'/Player/GetPlayersForPortal',
-    'comm/player/getPlayerBySubstring':'/Player/SearchPlayers',
-    'comm/player/EnableOrDisable' : '/Player/EnableDisablePlayer',
-    'comm/player/setPlayerFlags' : '/Player/SetPlayerFlags',
-    'comm/player/getTransactions' : '/Player/GetPlayerTransactions',
-    'comm/player/getUnresolvedWins' : '/Player/GetPlayerUnresolvedWins',
-    'comm/player/resolveUnresolvedWins' : '/Player/ResolveWinForPlayerGameAndRound',
-    'comm/player/getHistory' : '/Player/GetPlayerHistory',
+    'comm/player/getPlayerData': '/Player/GetPlayer',
+    'comm/player/getPlayerForPortal': '/Player/GetPlayersForPortal',
+    'comm/player/getPlayerBySubstring': '/Player/SearchPlayers',
+    'comm/player/EnableOrDisable': '/Player/EnableDisablePlayer',
+    'comm/player/setPlayerFlags': '/Player/SetPlayerFlags',
+    'comm/player/getTransactions': '/Player/GetPlayerTransactions',
+    'comm/player/getUnresolvedWins': '/Player/GetPlayerUnresolvedWins',
+    'comm/player/resolveUnresolvedWins': '/Player/ResolveWinForPlayerGameAndRound',
+    'comm/player/getHistory': '/Player/GetPlayerHistory',
 
     //Player Groups
-    'comm/playerGroups/getDashboard' : '/PlayerGroup/get-players-group-dashboard',
-    'comm/playerGroups/getPlayers' : '/PlayerGroup/get-players-info',
-    'comm/playerGroups/get' : '/PlayerGroup/get-player-groups',
-    'comm/playerGroups/getGroup' : '/PlayerGroup/read',
+    'comm/playerGroups/getDashboard': '/PlayerGroup/get-players-group-dashboard',
+    'comm/playerGroups/getPlayers': '/PlayerGroup/get-players-info',
+    'comm/playerGroups/get': '/PlayerGroup/get-player-groups',
+    'comm/playerGroups/getGroup': '/PlayerGroup/read',
     'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
     'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
     'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
