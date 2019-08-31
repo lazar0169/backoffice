@@ -13,6 +13,9 @@ const navigation = function () {
 
     for (let page of $$('.nav-item')) {
         page.addEventListener('click', function () {
+            if (page.disabled) {
+                return;
+            }
             to({ page: page.dataset.page, tab: page.dataset.tab });
         });
     }
