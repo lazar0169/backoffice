@@ -1,5 +1,6 @@
 let accounting = function () {
     let pageReports = $$('#accounting-reports-tables');
+    let companyPageReports = $$('#accounting-comapnies-reports-tables');
     let header = $$('#accounting-reports-header');
     // let footer = $$('#accounting-reports-footer');
     let taxEditMode = false;
@@ -24,6 +25,7 @@ let accounting = function () {
     let companyGetOperatorsButton = $$('#accounting-companies-get-operators');
     let companyGetReportsButton = $$('#accounting-companies-get-reports');
     let companyDataWrapper = $$('#accounting-companies-data');
+    let companyReportsDataWrapper = $$('#accounting-comapnies-data-reports');
 
     let reportsFromDate = getToday();
     let reportsToDate = getToday();
@@ -32,6 +34,7 @@ let accounting = function () {
 
     let companyIdSelected;
     let companyOperators;
+    let companyReportsData;
 
     let defaultSelectionValue = 'LastMonth';
 
@@ -182,11 +185,11 @@ let accounting = function () {
                         timeSpan: $$('#accounting-companies-time-span').getSelected() || 'custom',
                         fromDate: companiesFromDate,
                         toDate: companiesToDate,
-                        operatorReportSetUps : result
+                        operatorReportSetUps: result
                     },
                     success: function (response) {
                         if (response.responseCode === message.codes.success) {
-                            console.log(response.result);
+                            populateReportsData(response.result);
                         }
                         else {
                             trigger('message', response.responseCode);
@@ -200,6 +203,89 @@ let accounting = function () {
                 })
             };
         });
+    };
+
+    const populateReportsData = (data) => {
+        companyReportsData = data;
+        let operatorsList = [];
+
+        for (let operatorId in data) {
+            let row = {
+                name: data[operatorId].operatorName,
+                id: operatorId
+            };
+            operatorsList.push(row);
+        }
+        clearElement($$('#accounting-companies-operators-dropdown'))
+        let operatorsWrapper = $$('#accounting-companies-operators');
+        let operatorsDropdown = dropdown.generate(operatorsList, `accounting-companies-operators-dropdown`, 'Select operator');
+        operatorsWrapper.appendChild(operatorsDropdown);
+        if (!operatorsList) operatorsWrapper.style.display = 'none';
+
+        on(`accounting-companies-operators-dropdown/selected`, function (value) {
+            populateSpecificOperator(value);
+        });
+        companyDataWrapper.classList.add('hidden');
+        companyReportsDataWrapper.classList.remove('hidden');
+        $$('#accounting-comapnies-reports-header').classList.remove('hidden');
+        operatorsDropdown.children[1].children[data.length].click();
+    };
+
+    const populateSpecificOperator = (id) => {
+        let specificOperatorData = companyReportsData[id];
+
+        // Prepare pdf report
+        doc = new jsPDF('l', 'pt');
+        doc.setFontSize(9);
+        doc.text(20, 20, `Period: ${specificOperatorData.period}; Currency: ${specificOperatorData.casinoCurrency}; Operator: ${specificOperatorData.operatorName};`);
+        // doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
+        doc.setFontSize(16);
+        docPageCount = 0;
+        companyPageReports.innerHTML = "";
+
+        companyPageReports.appendChild(generateHeadline(specificOperatorData.slotAccountingSum.gameName));
+        generateReport(specificOperatorData.slotAccounting, specificOperatorData.slotAccountingSum);
+        companyPageReports.appendChild(table.generate({ data: specificOperatorData.slotAccounting, id: '', sum: specificOperatorData.slotAccountingSum, dynamic: false, sticky: true }));
+        doc.addPage();
+        companyPageReports.appendChild(generateHeadline(specificOperatorData.rouletteAccountingSum.gameName));
+        generateReport(specificOperatorData.rouletteAccounting, specificOperatorData.rouletteAccountingSum);
+        companyPageReports.appendChild(table.generate({ data: specificOperatorData.rouletteAccounting, id: '', sum: specificOperatorData.rouletteAccountingSum, dynamic: false, sticky: true }));
+        doc.addPage();
+        companyPageReports.appendChild(generateHeadline(specificOperatorData.liveEuropeanRouletteAccountingSum.gameName));
+        generateReport(specificOperatorData.liveEuropeanRouletteAccounting, specificOperatorData.liveEuropeanRouletteAccountingSum);
+        companyPageReports.appendChild(table.generate({ data: specificOperatorData.liveEuropeanRouletteAccounting, id: '', sum: specificOperatorData.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
+        doc.addPage();
+        companyPageReports.appendChild(generateHeadline(specificOperatorData.tripleCrownRouletteAccountingSum.gameName));
+        generateReport(specificOperatorData.tripleCrownRouletteAccounting, specificOperatorData.tripleCrownRouletteAccountingSum);
+        companyPageReports.appendChild(table.generate({ data: specificOperatorData.tripleCrownRouletteAccounting, id: '', sum: specificOperatorData.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
+        doc.addPage();
+        companyPageReports.appendChild(generateHeadline(specificOperatorData.pokerAccountingSum.gameName));
+        generateReport(specificOperatorData.pokerAccounting, specificOperatorData.pokerAccountingSum);
+        companyPageReports.appendChild(table.generate({ data: specificOperatorData.pokerAccounting, id: '', sum: specificOperatorData.pokerAccountingSum, dynamic: false, sticky: true }));
+        doc.addPage();
+        companyPageReports.appendChild(document.createElement('hr'));
+        companyPageReports.appendChild(generateHeadline(specificOperatorData.operatorAccountingSum.gameName));
+        companyPageReports.appendChild(table.generate({ data: [specificOperatorData.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
+
+        table.preserveHeight(companyPageReports);
+
+        // footer.classList.remove('hidden');
+
+        $$('#accounting-comapnies-reports-header-currency-value').innerHTML = specificOperatorData.casinoCurrency;
+        $$('#accounting-comapnies-reports-header-period-value').innerHTML = specificOperatorData.period;
+
+        // $$('#accounting-reports-footer-tax-value').innerHTML = response.result.scaledTaxFee;
+        // $$('#accounting-reports-footer-deduction-value').innerHTML = response.result.deduction;
+        // $$('#accounting-reports-footer-reduction-value').innerHTML = response.result.reduction;
+        // $$('#accounting-reports-footer-sum-value').innerHTML = response.result.feeSum;
+
+        // Prepare excel data
+        excelData.operatorName = specificOperatorData.operatorName;
+        excelData.operatorAccounting = specificOperatorData;
+
+        // Enable download button
+        // $$('#accounting-reports-download').classList.remove('hidden');
+        // $$('#accounting-reports-download-excel').classList.remove('hidden');
     };
 
     function afterLoad(response) {
@@ -364,6 +450,7 @@ let accounting = function () {
             let operatorTitle = document.createElement('div');
             // portalTitle.className = 'portal-title';
             operatorTitle.innerText = operator.name;
+            let inputWrapper = document.createElement('div');
             let bonusRateInput = document.createElement('input');
             let deductionInput = document.createElement('input');
             let reductionInput = document.createElement('input');
@@ -377,9 +464,10 @@ let accounting = function () {
             deductionInput.placeholder = `Deduction`;
             reductionInput.placeholder = `Reduction`;
             td.appendChild(operatorTitle);
-            td.appendChild(bonusRateInput);
-            td.appendChild(deductionInput);
-            td.appendChild(reductionInput);
+            td.appendChild(inputWrapper);
+            inputWrapper.appendChild(bonusRateInput);
+            inputWrapper.appendChild(deductionInput);
+            inputWrapper.appendChild(reductionInput);
             tr.dataset.id = operator.name;
             tr.appendChild(td);
             body.appendChild(tr);

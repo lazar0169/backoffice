@@ -1,20 +1,6 @@
 <div id="accounting-companies" class="page-content">
     <div class="page-content-wrapper">
         <div id="accounting-companies-filter">
-            <div class="select" id="accounting-companies-time-span">
-                <div class="selected" data-value="">Time Span</div>
-                <div class="options-wrapper hidden">
-                    <div class="select-search "><input type="text" placeholder="Search" class="select-search-input"><button class="select-search-button save"><img src="images/search.png" alt="search"></button></div>
-                    <div class="option" data-value="custom">Custom</div>
-                    <div class="option" data-value="Today">Today</div>
-                    <div class="option" data-value="Yasterday">Yesterday</div>
-                    <div class="option" data-value="LastThreeDays">Last Three Days</div>
-                    <div class="option" data-value="LastWeek">Last Week</div>
-                    <div class="option" data-value="LastMonth">Last Month</div>
-                    <div class="option" data-value="LastQuarter">Last Quarter</div>
-                    <div class="option" data-value="LastYear">Last Year</div>
-                </div>
-            </div>
             <fieldset id="accounting-companies-time-span-fieldset" class="disabled">
                 <div class="legend">Period: </div>
                 <input type="text" id="accounting-companies-time-span-from" class="datepicker" readonly="">
@@ -32,7 +18,39 @@
                 </table>
             </div>
             <button id="accounting-companies-get-reports">GET REPORTS</button>
-            <div></div>
+        </div>
+        <div id="accounting-comapnies-data-reports">
+            <div id="accounting-comapnies-reports-header" class="hidden">
+                <div id="accounting-comapnies-reports-operatorsfilter">
+                    <div class="select" id="accounting-companies-time-span">
+                        <div class="selected" data-value="">Time Span</div>
+                        <div class="options-wrapper hidden">
+                            <div class="select-search "><input type="text" placeholder="Search" class="select-search-input"><button class="select-search-button save"><img src="images/search.png" alt="search"></button></div>
+                            <div class="option" data-value="custom">Custom</div>
+                            <div class="option" data-value="Today">Today</div>
+                            <div class="option" data-value="Yasterday">Yesterday</div>
+                            <div class="option" data-value="LastThreeDays">Last Three Days</div>
+                            <div class="option" data-value="LastWeek">Last Week</div>
+                            <div class="option" data-value="LastMonth">Last Month</div>
+                            <div class="option" data-value="LastQuarter">Last Quarter</div>
+                            <div class="option" data-value="LastYear">Last Year</div>
+                        </div>
+                    </div>
+                    <div id="accounting-companies-operators"></div>
+                </div>
+                <div>
+                    <span id="accounting-comapnies-reports-header-currency">Payment Currency:</span>
+                    <span id="accounting-comapnies-reports-header-currency-value"></span>
+                </div>
+                <div>
+                    <span id="accounting-comapnies-reports-header-period">Period:</span>
+                    <span id="accounting-comapnies-reports-header-period-value"></span>
+                </div>
+
+                <div id="accounting-comapnies-reports-tables">
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
