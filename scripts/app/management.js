@@ -639,7 +639,7 @@ let advanceAccounting = function () {
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
         portalsTable.classList.add('hidden');
-        if (IS_SAFARI) {
+        if (IS_SAFARI && isMobile()) {
             getPortalsExcelButton.remove();
             getPortalsFormExcelButton.remove();
             getPortalsPlayersFormExcelButton.remove()
@@ -673,7 +673,7 @@ let advanceAccounting = function () {
         hidePopup();
         playersTable.innerHTML = '';
         playersTable.classList.add('hidden');
-        if (IS_SAFARI) {
+        if (IS_SAFARI && isMobile()) {
             getPlayersExcelButton.remove();
             getPlayerExcelButton.remove()
         }
