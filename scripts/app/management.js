@@ -627,14 +627,26 @@ let advanceAccounting = function () {
     on('management/main/loaded', function () {
         mainTable.innerHTML = '';
         mainTable.classList.add('hidden');
-        getTotalExcelButton.classList.add('hidden');
+        if (IS_SAFARI) {
+            getTotalExcelButton.remove();
+        }
+        else {
+            getTotalExcelButton.classList.add('hidden');
+        }
         activeCategory = `main`;
     });
 
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
         portalsTable.classList.add('hidden');
-        getPortalsExcelButton.classList.add('hidden');
+        if (IS_SAFARI) {
+            getPortalsExcelButton.remove();
+            getPortalsFormExcelButton.remove();
+            getPortalsPlayersFormExcelButton.remove()
+        }
+        else {
+            getPortalsExcelButton.classList.add('hidden');
+        }
         clearElement($$('#management-portals-operators-list'));
         clearElement($$('#management-portals-portals-list'));
         $$('#management-get-portals').classList.add('hidden');
@@ -661,7 +673,13 @@ let advanceAccounting = function () {
         hidePopup();
         playersTable.innerHTML = '';
         playersTable.classList.add('hidden');
-        getPlayersExcelButton.classList.add('hidden');
+        if (IS_SAFARI) {
+            getPlayersExcelButton.remove();
+            getPlayerExcelButton.remove()
+        }
+        else {
+            getPlayersExcelButton.classList.add('hidden');
+        }
         playersFormTable.innerHTML = '';
         clearElement($$('#management-players-operators-list'));
         clearElement($$('#management-players-portals-list'));

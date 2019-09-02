@@ -547,7 +547,10 @@ fieldset.hidden{
 .mobile #management-get-total,
 .mobile #management-get-players,
 .mobile #management-get-portals,
-.mobile #management-get-bets {
+.mobile #management-get-bets,
+.mobile #management-excel-total,
+.mobile #management-excel-portals,
+.mobile #management-excel-players {
     padding: 0.85rem 1rem;
     width: 100%;
 }
@@ -572,7 +575,10 @@ fieldset.hidden{
 
 .mobile #management-get-portals,
 .mobile #management-get-players,
-.mobile #management-get-bets{
+.mobile #management-get-bets,
+.mobile #management-excel-total,
+.mobile #management-excel-portals,
+.mobile #management-excel-players{
     display: inline !important;
 }
 
@@ -622,4 +628,32 @@ fieldset.hidden{
     box-sizing: border-box;
     margin: 1em 0;
     width: 100%;
+}
+
+.mobile #portals-form,
+.mobile #players-form {
+    position: fixed;
+    height: 89%;
+    box-shadow: none;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+}
+
+.mobile #portals-form,
+.mobile #players-form {
+    top: 4em;
+}
+
+.mobile #portals-form {
+    width: 100%;
+}
+
+.mobile #players-form {
+    width: 92%;
+}
+
+.mobile .management-title-form-wrapper,
+.mobile .management-form-buttons-wrapper {
+    flex-direction: column;
 }
