@@ -60,6 +60,7 @@ const actions = Object.freeze({
 
     // Management
     'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
+    'comm/management/excel/getGameTotal':'/Management/GetGamePerAllPortals',
     'comm/management/portalsPerGame/get': '/Management/GetPortalsPerGame',
     'comm/management/gamePerPortal/get': '/Management/GetGamePerPortal',
     'comm/management/gamePerPlayersOfPortal/get': '/Management/GetGamePerPlayersOfPortal',

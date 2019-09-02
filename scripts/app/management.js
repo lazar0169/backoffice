@@ -1,4 +1,5 @@
 let advanceAccounting = function () {
+    let main = $$('#management-main');
     let portals = $$('#management-portals');
     let players = $$('#management-players');
     let helpArr = [1, 2];
@@ -6,12 +7,15 @@ let advanceAccounting = function () {
     //main tab
     const totalGetButton = $$('#management-get-total');
     const getTotalExcelButton = $$('#management-excel-total');
+    const getTotalGameExcelButton = $$('#total-portals-form-download-excel');
     const mainCheckbox = $$('#management-main-period-checkbox');
     let mainTable = $$('#management-main-table');
     let mainFirstPeriodFrom = getToday();
     let mainFirstPeriodTo = getToday();
     let mainSecondPeriodFrom = getToday();
     let mainSecondPeriodTo = getToday();
+    let totalPortalFormTable = $$('#total-portals-form-table');
+
     //portals tab 
     const portalsGetButton = $$('#management-get-portals');
     const portalCheckbox = $$('#management-portals-period-checkbox');
@@ -58,6 +62,7 @@ let advanceAccounting = function () {
     let playerData;
     let portalFormData;
     let portalPlayerFormData;
+    let totalGamePlayerFormData;
 
     let isPerNumberOfHandsSelected = false;
     const secondFilterButton = $$('#management-get-bets-percentage');
@@ -68,6 +73,7 @@ let advanceAccounting = function () {
     $$('#portals-form-cancel').addEventListener('click', hidePortalPopup);
     $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
+    $$('#total-portals-form-cancel').addEventListener('click',hideTotalPopUp);
 
 
     function changePerNumberOfView() {
@@ -281,7 +287,7 @@ let advanceAccounting = function () {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
                     totalData = response.result;
-                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton, helpArr), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
+                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton, helpArr), showAllPortalPopUp, 'management-main-table-div', getGameSumData(response.result, `Game`));
                     mainTable.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
@@ -763,6 +769,42 @@ let advanceAccounting = function () {
         $$(`#management-get-${tab}`).classList.remove('hidden');
     };
 
+    function showAllPortalPopUp(rowData) {
+        if (rowData.Game === "SUM") {
+            return;
+        }
+
+        totalPortalFormTable.innerHTML = '';
+        portalGameName = rowData['Game'];
+
+        trigger('comm/management/excel/getGameTotal', {
+            body: {
+                gameName: portalGameName,
+                firstPeriod: {
+                    fromTime: mainFirstPeriodFrom,
+                    toTime: mainFirstPeriodTo,
+                },
+                secondPeriod: isSecondPeriodChecked ? {
+                    fromTime: mainSecondPeriodFrom,
+                    toTime: mainSecondPeriodTo,
+                } : null,
+            }, success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    totalGamePlayerFormData = response.result;
+                    fillTable(totalPortalFormTable, parseGameData(response.result, `Portal`, getTotalGameExcelButton), undefined, 'management-total-game-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    $$('#total-portals-form-title-game-id').innerHTML = rowData['Game'];
+                    showTotalPopUp();
+                } else {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function () {
+                console.error('Failed to get row data!');
+            }
+        });
+
+    }
+
     function showPlayersPopup(rowData, rowId) {
         if (rowData['Player'] === 'SUM') {
             return;
@@ -899,6 +941,18 @@ let advanceAccounting = function () {
 
     }
 
+    function showTotalPopUp() {
+        let form = $$(`#total-portals-form`);
+        $$('#total-portals-black-overlay').style.display = 'block';
+        form.classList.add('show');
+        main.children[0].style.overflow = 'hidden';
+    }
+
+    function hideTotalPopUp() {
+        $$('#total-portals-black-overlay').style.display = 'none';
+        $$('#total-portals-form').classList.remove('show');
+        main.children[0].style.overflow = 'auto';
+    }
     function hidePortalPopup() {
         $$('#portals-black-overlay').style.display = 'none';
         $$('#portals-form').classList.remove('show');
