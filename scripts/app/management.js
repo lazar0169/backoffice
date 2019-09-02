@@ -65,10 +65,10 @@ let advanceAccounting = function () {
     const secondFilterButton = $$('#management-get-bets-percentage');
     let betsCheckbox = $$('#management-bets-checkbox');
 
-    $$('#portals-black-overlay').addEventListener('click', hidePortalPopup);
+    // $$('#portals-black-overlay').addEventListener('click', hidePortalPopup);
+    // $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#portals-player-form-back').addEventListener('click', hidePlayerPortalPopup);
     $$('#portals-form-cancel').addEventListener('click', hidePortalPopup);
-    $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
 
 
