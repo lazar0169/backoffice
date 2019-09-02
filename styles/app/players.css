@@ -100,7 +100,8 @@
 #players-player-players-search-wrapper.hidden,
 #players-player-players-table-wrapper.hidden,
 #players-player-data-wrapper.hidden,
-#players-player-periods-canvas-wrapper.hidden {
+#players-player-periods-canvas-wrapper.hidden,
+#players-player-main-wrapper.hidden {
     display: none;
 }
 
@@ -216,6 +217,28 @@
     overflow: auto;
 }
 
+#players-player-game-history-wrapper {
+    height: 100%;
+}
+
+#players-player-game-history-options-wrapper {
+    height: 30%;
+}
+
+#players-player-game-history-iframe-wrapper {
+    height: 63%;
+}
+
+#players-player-game-history-options-parameters-wrapper,
+#players-player-game-history-options-wrapper {
+    justify-content: space-evenly;
+}
+
+#players-player-game-history-get {
+    height: 2.5em;
+    align-self: center;
+}
+
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
@@ -254,8 +277,8 @@
     display: none;
 }
 
-#players-main-settings-wrapper > .tbody{
-    height: 312px;
+#players-main-settings-wrapper tbody {
+
 }
 
 /*END PLAYERS TAB */
@@ -283,7 +306,8 @@
 #players-groups-groups-search-wrapper.hidden,
 #players-groups-groups-table-wrapper.hidden,
 #players-groups-data-wrapper.hidden,
-#players-groups-period-canvas-wrapper.hidden {
+#players-groups-period-canvas-wrapper.hidden,
+#players-groups-main-wrapper.hidden {
     display: none;
 }
 

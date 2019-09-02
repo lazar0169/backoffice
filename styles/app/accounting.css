@@ -24,6 +24,7 @@
 
 #accounting-reports-filter>* {
     margin: 0.5em 0.5em;
+
 }
 
 #accounting-reports-filter>fieldset {
@@ -404,6 +405,52 @@
 
 #accounting-setup-remove-search:hover {
     background-color: #a53825;
+}
+
+/* COMPANIES */
+
+#accounting-companies-get-operators.hidden,
+#accounting-companies-data.hidden {
+    display: none;
+}
+
+#accounting-companies-filter>fieldset {
+    margin-bottom: 0;
+}
+
+#accounting-companies-filter {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+#accounting-companies-filter>* {
+    margin: 0.5em 0.5em;
+}
+
+#accounting-companies-data {
+    width: 80%;
+    display: flex;
+    margin: auto;
+    margin-top: 2em;
+}
+
+#accounting-companies-operators-table {
+    display: flex;
+}
+
+#accounting-companies-operators-table,
+#accounting-companies-operators-table table {
+    flex: 1;
+}
+
+#accounting-companies-operators-table td {
+    display: flex;
+    justify-content: space-between;
+}
+
+#accounting-companies-get-reports {
+    right: 0;
 }
 
 /* MOBILE */

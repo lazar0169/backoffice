@@ -21,8 +21,7 @@ let statisticSummary = function () {
         let firstAvailable = filterPeriod($$('#statistic-summary-time-interval'), value);
 
         // Select first available period
-        $$('#statistic-summary-time-interval').children[0].innerHTML = firstAvailable.name;
-        $$('#statistic-summary-time-interval').children[0].dataset.value = firstAvailable.value;
+        $$('#statistic-summary-time-interval').select(firstAvailable.value);
     });
 
     on('date/statistic-summary-time-span-from', function (data) {
@@ -68,13 +67,7 @@ let statisticSummary = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#statistic-summary-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        $$('#statistic-summary-time-span').select(defaultSelectionValue);
     }
 
     function getOperators() {
@@ -163,6 +156,7 @@ let statisticSummary = function () {
                     table.preserveHeight(summaryTableWrapper);
 
                     summaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
+                    summaryHeader.style.display = 'block';
 
                     let labels = [];
                     let totalBetData = [];
@@ -208,6 +202,7 @@ let statisticSummary = function () {
                     $$('#statistic-summary-graphs').classList.remove('hidden');
                     requested = true;
                 } else {
+                    summaryHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },

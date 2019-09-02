@@ -67,70 +67,49 @@ let gamesList = {
 $$('#games').value = gamesList[selectedGameId];
 
 // MAIN CONNECTION -----------------------------------------------------------------------------------------------------
-function connect() {
+function connect(data) {
     gameType(0);
-    selectedDate = $('#datepicker').datepicker('getDate');
     loadedData = {};
-    let date = new Date(selectedDate);
-    let offset = date.getTimezoneOffset();
-    let h = Math.floor(Math.abs(offset) / 60);
-    let m = Math.abs(offset) % 60;
-    h = h < 10 ? '0' + h : h;
-    m = m < 10 ? '0' + m : m;
-    let timezone = offset < 0 ? `+${h}:${m}` : `+${h}:${m}`;
-    let time = formatAMPM(new Date());
-    let dateParsed = `${(date.getMonth() + 1)}/${date.getDate()}/${date.getFullYear()} ${time} ${timezone}`;
-    $.ajax({
-        data: JSON.stringify({
-            GameId: selectedGameId,
-            Date: dateParsed,
-            LiveRouletteId: params['liveRouletteID'],
-            OcpToken: params['ocpToken']
-        }),
-        url: `${window.location.protocol}//${location.hostname}/vltapi/integration/PostPlayersGameHistory`,
-        type: 'POST',
-        processData: false,
-        crossDomain: true,
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function (data) {
-            if (data.ErrorOccured) {
-                $$('#message').innerHTML = data.ExceptionMessage;
-                $$('#indexPage').innerHTML = '0';
-                $$('#totalPages').innerHTML = '0';
-                $$('#timeSlider').max = 1;
-                $$('#timeSlider').value = 1;
-                selectedGame = -1;
-            } else if (data.Result.length === 0) {
-                $$('#indexPage').innerHTML = '0';
-                $$('#totalPages').innerHTML = '0';
-                $$('#timeSlider').max = 1;
-                $$('#timeSlider').value = 1;
-                $$('#game-screen').style.backgroundImage = '';
-                $$('#message').innerHTML = language.getFragment('no-history-message');
-            } else {
-                loadedData = data;
-                if (varInArray(loadedData.Result[0].GameID, [35, 38])) {
-                    loadedData.Result = cascadeParse(loadedData.Result);
-                }
-                newGame = !(loadedData.Result[0].JsonData === null ||
-                    loadedData.Result[0].JsonData === 'null' ||
-                    loadedData.Result[0].JsonData === undefined);
-                selectedGame = 0;
-                selectivePreloader(loadedData.Result[0].GameID);
-            }
-        },
-        error: function () {
-            selectedGame = -1;
-            gameType('none');
-            $$('#indexPage').innerHTML = '0';
-            $$('#totalPages').innerHTML = '0';
-            $$('#timeSlider').max = 1;
-            $$('#timeSlider').value = 1;
-            $$('#message').innerHTML = language.getFragment('error-message');
-            $$('#game-screen').style.backgroundImage = '';
+    const today = new Date();
+    const selectedDate = new Date(params['selectedDate']);
+    const diffTime = Math.abs(today.getTime() - selectedDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+    $('#datepicker').datepicker('setDate', -diffDays);
+    if (data.ErrorOccured) {
+        $$('#message').innerHTML = data.ExceptionMessage;
+        $$('#indexPage').innerHTML = '0';
+        $$('#totalPages').innerHTML = '0';
+        $$('#timeSlider').max = 1;
+        $$('#timeSlider').value = 1;
+        selectedGame = -1;
+    } else if (data.Result.length === 0) {
+        $$('#indexPage').innerHTML = '0';
+        $$('#totalPages').innerHTML = '0';
+        $$('#timeSlider').max = 1;
+        $$('#timeSlider').value = 1;
+        $$('#game-screen').style.backgroundImage = '';
+        $$('#message').innerHTML = language.getFragment('no-history-message');
+    } else {
+        loadedData = data;
+        if (varInArray(loadedData.Result[0].GameID, [35, 38])) {
+            loadedData.Result = cascadeParse(loadedData.Result);
         }
-    });
+        newGame = !(loadedData.Result[0].JsonData === null ||
+            loadedData.Result[0].JsonData === 'null' ||
+            loadedData.Result[0].JsonData === undefined);
+        selectedGame = 0;
+        selectivePreloader(loadedData.Result[0].GameID);
+    }
+    // if (connectionFail) {
+    //     selectedGame = -1;
+    //     gameType('none');
+    //     $$('#indexPage').innerHTML = '0';
+    //     $$('#totalPages').innerHTML = '0';
+    //     $$('#timeSlider').max = 1;
+    //     $$('#timeSlider').value = 1;
+    //     $$('#message').innerHTML = language.getFragment('error-message');
+    //     $$('#game-screen').style.backgroundImage = '';
+    // }
 }
 
 on('loaded', function () {
@@ -143,6 +122,10 @@ on('loaded', function () {
     resizeGame();
 });
 
-window.addEventListener('load', function () {
-    connect();
+// window.addEventListener('load', function () {
+//     connect();
+// }, false);
+
+window.addEventListener('message', function (event) {
+    connect(event.data);
 }, false);

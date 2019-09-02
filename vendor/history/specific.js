@@ -1,4 +1,54 @@
-'use strict';
+"use strict";
+
+var events = {};
+
+function on(event, callback) {
+    var count = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Number.MAX_SAFE_INTEGER;
+
+    if (!events[event]) {
+        events[event] = {};
+    }
+    var id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    events[event][id] = {
+        callback: callback,
+        count: count
+    };
+    return id;
+}
+
+function off(id) {
+    for (var event in events) {
+        if (events[event][id]) {
+            delete events[event][id];
+            return true;
+        }
+    }
+    return false;
+}
+
+function trigger(event) {
+    for (var _len = arguments.length, data = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        data[_key - 1] = arguments[_key];
+    }
+
+    var params = data.length === 1 ? data[0] : data;
+    if (!events[event]) {
+        return;
+    }
+    for (var id in events[event]) {
+        if (events[event][id].count > 0) {
+            events[event][id].callback(params);
+            if (events[event][id].count > 1) {
+                events[event][id].count--;
+            }
+        } else {
+            delete events[event][id];
+        }
+    }
+    if (Object.keys(events[event]).length === 0) {
+        delete events[event];
+    }
+}'use strict';
 
 if (navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
     document.addEventListener('touchend', function (e) {
@@ -48,24 +98,9 @@ if (navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)) {
     }
 }'use strict';
 
-var eventList;
-
-function on(event, callback) {
-    if (eventList == null) eventList = {};
-    if (eventList[event] == null) eventList[event] = [];
-    eventList[event].push(callback);
-}
-
-function trigger(name, data) {
-    if (typeof eventList === 'undefined' || typeof eventList[name] === 'undefined') return;
-
-    eventList[name].forEach(function (callback) {
-        callback(name, data);
-    }, this);
-}'use strict';
-
 var loginData = function () {
     var data = getQueryParams(window.location.search);
+    data.language = 'BUL';
     function getQueryParams(qs) {
         qs = qs.split('+').join(' ');
 
@@ -115,30 +150,59 @@ var ENG = {
         }
 };'use strict';
 
-var SRB = {
-        controls: [['#find-lang', 'Pronađi'], ['#prev', 'Prethodni'], ['#next', 'Sledeći'], ['#date-lang', 'DATUM'], ['#time-lang', 'VREME'], ['#game-lang', 'IGRA'], ['#game-history-lang', 'Istorija igre'], ['#free-spins-lang', 'BONUS IGRE'], ['#bonus-symbol-label', 'BONUS SIMBOL'], ['#history-lang', 'ISTORIJAT:'], ['#winning-number-lang', 'IZVUČEN BROJ: '], ['#message', 'UČITAVA SE...'], ['#multiplier-title', 'MULTIPLIKATOR'], ['#glyph7', 'PONOVI'], ['#glyph8', 'KRAJ IGRE'], ['#f44', 'PAR'], ['#f47', 'NEPAR']],
+var FRA = {
+        controls: [['#find-lang', 'Trouver'], ['#prev', 'Précédent'], ['#next', 'Prochain'], ['#date-lang', 'DATE'], ['#time-lang', 'TEMPS'], ['#game-lang', 'JEU'], ['#game-history-lang', 'Historique du jeu'], ['#free-spins-lang', 'TOURS GRATUITS'], ['#bonus-symbol-label', 'SYMBOL DE BONUS'], ['#history-lang', 'HISTOIRE:'], ['#winning-number-lang', 'NUMÉROS GAGNANTS: '], ['#message', 'ATTENDRE...'], ['#multiplier-title', 'MULTIPLICATEUR'], ['#glyph7', 'RÉPÉTER'], ['#glyph8', 'JEU TERMINÉ'], ['#f44', 'LE PAIR'], ['#f47', 'L\'IMPAIR']],
         fragments: {
-                'no-history-message': 'Istorija za zadati dan nije pronađena.',
-                'error-message': 'Nešto je pošlo po zlu, istorija za ovaj datum nije mogla biti pribavljena.',
-                'winning-numbers': 'DOBITNI BROJEVI: ',
+                'no-history-message': 'Hisoire de cette date n\'est pas trouvée.',
+                'error-message': 'Quelque chose ne va pas, histoire de cette date ne peut pas etre retrouvée.',
+                'winning-numbers': 'NUMÉROS GAGNANTS: ',
                 'jackpot-win': 'JACKPOT',
-                'cash': 'NOVAC',
-                'win': 'DOBITAK',
-                'total-bet': 'CEO ULOG',
-                'lines': 'LINIJE',
-                'bet': 'ULOG',
-                'free-spins': 'BONUS IGRE',
-                'attempts': 'POKUŠAJI',
-                'gamble-amount': 'ULOG',
-                'triple-poker-bet': 'TRIPLE POKER BONUS',
-                'spin-aborted': 'SPIN OBUSTAVLJEN',
-                'lives': 'ŽIVOT',
+                'cash': 'EN ESPÈCES',
+                'win': 'GAIN',
+                'total-bet': 'LE PARI TOTAL',
+                'lines': 'LIGNES',
+                'bet': 'PARI',
+                'free-spins': 'TOURS GRATUITS',
+                'attempts': 'LES ESSAIS',
+                'gamble-amount': 'LE MONTANT DE PARI',
+                'triple-poker-bet': 'TRIPLE POKER PARI',
+                'spin-aborted': 'SPIN ANNULÉ',
+                'lives': 'VIES',
 
-                'monthNames': ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'],
-                'monthNamesShort': ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
-                'dayNames': ['Nedelja', 'Ponedeljak', 'Utorak', 'Sreda', 'Četvrtak', 'Petak', 'Subota'],
-                'dayNamesShort': ['Ned', 'Pon', 'Uto', 'Sre', 'Čet', 'Pet', 'Sub'],
-                'dayNamesMin': ['Ne', 'Po', 'Ut', 'Sr', 'Če', 'Pe', 'Su'],
+                'monthNames': ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                'monthNamesShort': ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+                'dayNames': ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                'dayNamesShort': ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                'dayNamesMin': ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+                'firstDay': 1,
+                'dateFormat': 'dd M yy'
+        }
+};'use strict';
+
+var GER = {
+        controls: [['#find-lang', 'Gehe zu'], ['#prev', 'Vorherig'], ['#next', 'Nächster'], ['#date-lang', 'DATUM'], ['#time-lang', 'ZEIT'], ['#game-lang', 'SPIEL'], ['#game-history-lang', 'Spielhistorie'], ['#free-spins-lang', 'BONUSSPIELE'], ['#bonus-symbol-label', 'BONUSSYMBOLE'], ['#history-lang', 'HISTORIE:'], ['#winning-number-lang', 'GEZOGENE NUMMER: '], ['#message', 'WIRD GELADEN...'], ['#multiplier-title', 'MULTIPLIKATOR'], ['#glyph7', 'REPETIEREN'], ['#glyph8', 'SPIEL IST AUS'], ['#f44', 'GERADE'], ['#f47', 'UNGERADE']],
+        fragments: {
+                'no-history-message': 'Historie für das ausgewählte Datum wurde nicht gefunden.',
+                'error-message': 'Etwas ist schiefgelaufen, die Historie für dieses Datum konnte nicht gefunden werden.',
+                'winning-numbers': 'GEWINNZAHLEN: ',
+                'jackpot-win': 'JACKPOT',
+                'cash': 'GELD',
+                'win': 'GEWINN',
+                'total-bet': 'GANZER EINSATZ',
+                'lines': 'LINIEN',
+                'bet': 'EINSATZ',
+                'free-spins': 'BONUSSPIELE',
+                'attempts': 'VERSUCHE',
+                'gamble-amount': 'EINSATZ',
+                'triple-poker-bet': 'TRIPLE POKER BONUS',
+                'spin-aborted': 'SPIN ABGEBROCHEN',
+                'lives': 'LEBEN',
+
+                'monthNames': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                'monthNamesShort': ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Juni', 'Juli', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+                'dayNames': ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+                'dayNamesShort': ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+                'dayNamesMin': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
                 'firstDay': 1,
                 'dateFormat': 'dd M yy'
         }
@@ -202,30 +266,30 @@ var NLD = {
     }
 };'use strict';
 
-var FRA = {
-        controls: [['#find-lang', 'Trouver'], ['#prev', 'Précédent'], ['#next', 'Prochain'], ['#date-lang', 'DATE'], ['#time-lang', 'TEMPS'], ['#game-lang', 'JEU'], ['#game-history-lang', 'Historique du jeu'], ['#free-spins-lang', 'TOURS GRATUITS'], ['#bonus-symbol-label', 'SYMBOL DE BONUS'], ['#history-lang', 'HISTOIRE:'], ['#winning-number-lang', 'NUMÉROS GAGNANTS: '], ['#message', 'ATTENDRE...'], ['#multiplier-title', 'MULTIPLICATEUR'], ['#glyph7', 'RÉPÉTER'], ['#glyph8', 'JEU TERMINÉ'], ['#f44', 'LE PAIR'], ['#f47', 'L\'IMPAIR']],
+var POR = {
+        controls: [['#find-lang', 'Encontrar'], ['#prev', 'Anterior'], ['#next', 'Próximo'], ['#date-lang', 'DATA'], ['#time-lang', 'MOMENTO'], ['#game-lang', 'JOGO'], ['#game-history-lang', 'Histórico de jogos'], ['#free-spins-lang', 'PARTIDAS GRÁTIS'], ['#bonus-symbol-label', 'SÍMBOLO BÔNUS'], ['#history-lang', 'HISTORIAL:'], ['#winning-number-lang', 'NÚMERO GANHADOR: '], ['#message', 'CARREGANDO...'], ['#multiplier-title', 'MULTIPLICADOR'], ['#glyph7', 'REPETIR'], ['#glyph8', 'FIM DE JOGO'], ['#f44', 'PAR'], ['#f47', 'ÍMPAR']],
         fragments: {
-                'no-history-message': 'Hisoire de cette date n\'est pas trouvée.',
-                'error-message': 'Quelque chose ne va pas, histoire de cette date ne peut pas etre retrouvée.',
-                'winning-numbers': 'NUMÉROS GAGNANTS: ',
+                'no-history-message': 'Não há historial encontrado para a data selecionada.',
+                'error-message': 'Aconteceu um problema, não foi possível recuperar o historial para esta data.',
+                'winning-numbers': 'NÚMEROS GANHANTES: ',
                 'jackpot-win': 'JACKPOT',
-                'cash': 'EN ESPÈCES',
-                'win': 'GAIN',
-                'total-bet': 'LE PARI TOTAL',
-                'lines': 'LIGNES',
-                'bet': 'PARI',
-                'free-spins': 'TOURS GRATUITS',
-                'attempts': 'LES ESSAIS',
-                'gamble-amount': 'LE MONTANT DE PARI',
-                'triple-poker-bet': 'TRIPLE POKER PARI',
-                'spin-aborted': 'SPIN ANNULÉ',
-                'lives': 'VIES',
+                'cash': 'DINHEIRO',
+                'win': 'PRÊMIO',
+                'total-bet': 'APOSTA TOTAL',
+                'lines': 'LINHAS',
+                'bet': 'APOSTAR',
+                'free-spins': 'PARTIDAS GRÁTIS',
+                'attempts': 'TENTATIVAS',
+                'gamble-amount': 'QUANTIDADE APOSTADA',
+                'triple-poker-bet': 'TRIPLE POKER APOSTAR',
+                'spin-aborted': 'SPIN CANCELADO',
+                'lives': 'VIDAS',
 
-                'monthNames': ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                'monthNamesShort': ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
-                'dayNames': ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                'dayNamesShort': ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                'dayNamesMin': ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+                'monthNames': ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                'monthNamesShort': ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                'dayNames': ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                'dayNamesShort': ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                'dayNamesMin': ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá'],
                 'firstDay': 1,
                 'dateFormat': 'dd M yy'
         }
@@ -260,119 +324,34 @@ var SPA = {
         }
 };'use strict';
 
-var POR = {
-        controls: [['#find-lang', 'Encontrar'], ['#prev', 'Anterior'], ['#next', 'Próximo'], ['#date-lang', 'DATA'], ['#time-lang', 'MOMENTO'], ['#game-lang', 'JOGO'], ['#game-history-lang', 'Histórico de jogos'], ['#free-spins-lang', 'PARTIDAS GRÁTIS'], ['#bonus-symbol-label', 'SÍMBOLO BÔNUS'], ['#history-lang', 'HISTORIAL:'], ['#winning-number-lang', 'NÚMERO GANHADOR: '], ['#message', 'CARREGANDO...'], ['#multiplier-title', 'MULTIPLICADOR'], ['#glyph7', 'REPETIR'], ['#glyph8', 'FIM DE JOGO'], ['#f44', 'PAR'], ['#f47', 'ÍMPAR']],
+var SRB = {
+        controls: [['#find-lang', 'Pronađi'], ['#prev', 'Prethodni'], ['#next', 'Sledeći'], ['#date-lang', 'DATUM'], ['#time-lang', 'VREME'], ['#game-lang', 'IGRA'], ['#game-history-lang', 'Istorija igre'], ['#free-spins-lang', 'BONUS IGRE'], ['#bonus-symbol-label', 'BONUS SIMBOL'], ['#history-lang', 'ISTORIJAT:'], ['#winning-number-lang', 'IZVUČEN BROJ: '], ['#message', 'UČITAVA SE...'], ['#multiplier-title', 'MULTIPLIKATOR'], ['#glyph7', 'PONOVI'], ['#glyph8', 'KRAJ IGRE'], ['#f44', 'PAR'], ['#f47', 'NEPAR']],
         fragments: {
-                'no-history-message': 'Não há historial encontrado para a data selecionada.',
-                'error-message': 'Aconteceu um problema, não foi possível recuperar o historial para esta data.',
-                'winning-numbers': 'NÚMEROS GANHANTES: ',
+                'no-history-message': 'Istorija za zadati dan nije pronađena.',
+                'error-message': 'Nešto je pošlo po zlu, istorija za ovaj datum nije mogla biti pribavljena.',
+                'winning-numbers': 'DOBITNI BROJEVI: ',
                 'jackpot-win': 'JACKPOT',
-                'cash': 'DINHEIRO',
-                'win': 'PRÊMIO',
-                'total-bet': 'APOSTA TOTAL',
-                'lines': 'LINHAS',
-                'bet': 'APOSTAR',
-                'free-spins': 'PARTIDAS GRÁTIS',
-                'attempts': 'TENTATIVAS',
-                'gamble-amount': 'QUANTIDADE APOSTADA',
-                'triple-poker-bet': 'TRIPLE POKER APOSTAR',
-                'spin-aborted': 'SPIN CANCELADO',
-                'lives': 'VIDAS',
-
-                'monthNames': ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                'monthNamesShort': ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                'dayNames': ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-                'dayNamesShort': ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-                'dayNamesMin': ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sá'],
-                'firstDay': 1,
-                'dateFormat': 'dd M yy'
-        }
-};'use strict';
-
-var GER = {
-        controls: [['#find-lang', 'Gehe zu'], ['#prev', 'Vorherig'], ['#next', 'Nächster'], ['#date-lang', 'DATUM'], ['#time-lang', 'ZEIT'], ['#game-lang', 'SPIEL'], ['#game-history-lang', 'Spielhistorie'], ['#free-spins-lang', 'BONUSSPIELE'], ['#bonus-symbol-label', 'BONUSSYMBOLE'], ['#history-lang', 'HISTORIE:'], ['#winning-number-lang', 'GEZOGENE NUMMER: '], ['#message', 'WIRD GELADEN...'], ['#multiplier-title', 'MULTIPLIKATOR'], ['#glyph7', 'REPETIEREN'], ['#glyph8', 'SPIEL IST AUS'], ['#f44', 'GERADE'], ['#f47', 'UNGERADE']],
-        fragments: {
-                'no-history-message': 'Historie für das ausgewählte Datum wurde nicht gefunden.',
-                'error-message': 'Etwas ist schiefgelaufen, die Historie für dieses Datum konnte nicht gefunden werden.',
-                'winning-numbers': 'GEWINNZAHLEN: ',
-                'jackpot-win': 'JACKPOT',
-                'cash': 'GELD',
-                'win': 'GEWINN',
-                'total-bet': 'GANZER EINSATZ',
-                'lines': 'LINIEN',
-                'bet': 'EINSATZ',
-                'free-spins': 'BONUSSPIELE',
-                'attempts': 'VERSUCHE',
-                'gamble-amount': 'EINSATZ',
+                'cash': 'NOVAC',
+                'win': 'DOBITAK',
+                'total-bet': 'CEO ULOG',
+                'lines': 'LINIJE',
+                'bet': 'ULOG',
+                'free-spins': 'BONUS IGRE',
+                'attempts': 'POKUŠAJI',
+                'gamble-amount': 'ULOG',
                 'triple-poker-bet': 'TRIPLE POKER BONUS',
-                'spin-aborted': 'SPIN ABGEBROCHEN',
-                'lives': 'LEBEN',
+                'spin-aborted': 'SPIN OBUSTAVLJEN',
+                'lives': 'ŽIVOT',
 
-                'monthNames': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-                'monthNamesShort': ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Juni', 'Juli', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-                'dayNames': ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-                'dayNamesShort': ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
-                'dayNamesMin': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+                'monthNames': ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'],
+                'monthNamesShort': ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'],
+                'dayNames': ['Nedelja', 'Ponedeljak', 'Utorak', 'Sreda', 'Četvrtak', 'Petak', 'Subota'],
+                'dayNamesShort': ['Ned', 'Pon', 'Uto', 'Sre', 'Čet', 'Pet', 'Sub'],
+                'dayNamesMin': ['Ne', 'Po', 'Ut', 'Sr', 'Če', 'Pe', 'Su'],
                 'firstDay': 1,
                 'dateFormat': 'dd M yy'
         }
 };'use strict';
-
-var language = function () {
-    var languages = {
-        'ENG': ENG,
-        'SRB': SRB,
-        'MNE': MNE,
-        'FRA': FRA,
-        'SPA': SPA,
-        'POR': POR,
-        'GER': GER,
-        'NLD': NLD
-    };
-
-    var lang, controls, fragments;
-
-    function select(code) {
-        if (language.code === undefined) {
-            code = 'ENG';
-        }
-        lang = languages[code];
-        controls = lang.controls;
-        fragments = lang.fragments;
-        selectedLanguage = code;
-        parse(code);
-    }
-
-    function parse(code) {
-        for (var i = 0; i < controls.length; i++) {
-            try {
-                $(controls[i][0]).html(controls[i][1]);
-            } catch (ex) {}
-        }trigger('language/changed', code);
-    }
-
-    var selectedLanguage = loginData.getItem('language').toUpperCase();
-    if (languages[selectedLanguage] === undefined) selectedLanguage = 'ENG';
-
-    window.addEventListener('load', function () {
-        select(selectedLanguage);
-    });
-
-    return {
-        getFragment: function getFragment(val) {
-            return fragments[val];
-        },
-        addControlTranslation: function addControlTranslation(lang, pair) {
-            languages[lang].controls.push(pair);
-        },
-        addFragmentTranslation: function addFragmentTranslation(lang, key, value) {
-            languages[lang].fragments[key] = value;
-        },
-        get code() {
-            return selectedLanguage;
-        }
-    };
-}();'use strict';
 
 var crystalsOfMagic = function () {
     var activeBonus = [false, false, false, false];
@@ -492,7 +471,6 @@ var token = void 0;
 var playerId = void 0;
 var params = getQueryParams(window.location.search);
 var selectedGameId = params['gameId'];
-var connectionUrl = params['connectionUrl'];
 var loadedData = {};
 var selectedGame = -1;
 var selectedDate = void 0;
@@ -548,68 +526,37 @@ var gamesList = {
 
 $$('#games').value = gamesList[selectedGameId];
 
-function connect() {
+function connect(data) {
     gameType(0);
-    selectedDate = $('#datepicker').datepicker('getDate');
     loadedData = {};
-    var date = new Date(selectedDate);
-    var offset = date.getTimezoneOffset();
-    var h = Math.floor(Math.abs(offset) / 60);
-    var m = Math.abs(offset) % 60;
-    h = h < 10 ? '0' + h : h;
-    m = m < 10 ? '0' + m : m;
-    var timezone = offset < 0 ? '+' + h + ':' + m : '+' + h + ':' + m;
-    var time = formatAMPM(new Date());
-    var dateParsed = date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + time + ' ' + timezone;
-    $.ajax({
-        data: JSON.stringify({
-            GameId: selectedGameId,
-            Date: dateParsed,
-            LiveRouletteId: params['liveRouletteID'],
-            OcpToken: params['ocpToken']
-        }),
-        url: connectionUrl ? connectionUrl : window.location.protocol + '//' + location.hostname + '/vltapi/integration/PostPlayersGameHistory',
-        type: 'POST',
-        processData: false,
-        crossDomain: true,
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function success(data) {
-            if (data.ErrorOccured) {
-                $$('#message').innerHTML = data.ExceptionMessage;
-                $$('#indexPage').innerHTML = '0';
-                $$('#totalPages').innerHTML = '0';
-                $$('#timeSlider').max = 1;
-                $$('#timeSlider').value = 1;
-                selectedGame = -1;
-            } else if (data.Result.length === 0) {
-                $$('#indexPage').innerHTML = '0';
-                $$('#totalPages').innerHTML = '0';
-                $$('#timeSlider').max = 1;
-                $$('#timeSlider').value = 1;
-                $$('#game-screen').style.backgroundImage = '';
-                $$('#message').innerHTML = language.getFragment('no-history-message');
-            } else {
-                loadedData = data;
-                if (varInArray(loadedData.Result[0].GameID, [35, 38])) {
-                    loadedData.Result = cascadeParse(loadedData.Result);
-                }
-                newGame = !(loadedData.Result[0].JsonData === null || loadedData.Result[0].JsonData === 'null' || loadedData.Result[0].JsonData === undefined);
-                selectedGame = 0;
-                selectivePreloader(loadedData.Result[0].GameID);
-            }
-        },
-        error: function error() {
-            selectedGame = -1;
-            gameType('none');
-            $$('#indexPage').innerHTML = '0';
-            $$('#totalPages').innerHTML = '0';
-            $$('#timeSlider').max = 1;
-            $$('#timeSlider').value = 1;
-            $$('#message').innerHTML = language.getFragment('error-message');
-            $$('#game-screen').style.backgroundImage = '';
+    var today = new Date();
+    var selectedDate = new Date(params['selectedDate']);
+    var diffTime = Math.abs(today.getTime() - selectedDate.getTime());
+    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+    $('#datepicker').datepicker('setDate', -diffDays);
+    if (data.ErrorOccured) {
+        $$('#message').innerHTML = data.ExceptionMessage;
+        $$('#indexPage').innerHTML = '0';
+        $$('#totalPages').innerHTML = '0';
+        $$('#timeSlider').max = 1;
+        $$('#timeSlider').value = 1;
+        selectedGame = -1;
+    } else if (data.Result.length === 0) {
+        $$('#indexPage').innerHTML = '0';
+        $$('#totalPages').innerHTML = '0';
+        $$('#timeSlider').max = 1;
+        $$('#timeSlider').value = 1;
+        $$('#game-screen').style.backgroundImage = '';
+        $$('#message').innerHTML = language.getFragment('no-history-message');
+    } else {
+        loadedData = data;
+        if (varInArray(loadedData.Result[0].GameID, [35, 38])) {
+            loadedData.Result = cascadeParse(loadedData.Result);
         }
-    });
+        newGame = !(loadedData.Result[0].JsonData === null || loadedData.Result[0].JsonData === 'null' || loadedData.Result[0].JsonData === undefined);
+        selectedGame = 0;
+        selectivePreloader(loadedData.Result[0].GameID);
+    }
 }
 
 on('loaded', function () {
@@ -622,9 +569,65 @@ on('loaded', function () {
     resizeGame();
 });
 
-window.addEventListener('load', function () {
-    connect();
+window.addEventListener('message', function (event) {
+    connect(event.data);
 }, false);'use strict';
+
+var language = function () {
+    var languages = {
+        'ENG': ENG,
+        'SRB': SRB,
+        'MNE': MNE,
+        'FRA': FRA,
+        'SPA': SPA,
+        'POR': POR,
+        'GER': GER,
+        'NLD': NLD
+    };
+
+    var lang, controls, fragments;
+
+    function select(code) {
+        if (language.code === undefined) {
+            code = 'ENG';
+        }
+        lang = languages[code];
+        controls = lang.controls;
+        fragments = lang.fragments;
+        selectedLanguage = code;
+        parse(code);
+    }
+
+    function parse(code) {
+        for (var i = 0; i < controls.length; i++) {
+            try {
+                $(controls[i][0]).html(controls[i][1]);
+            } catch (ex) {}
+        }trigger('language/changed', code);
+    }
+
+    var selectedLanguage = loginData.getItem('language').toUpperCase();
+    if (languages[selectedLanguage] === undefined) selectedLanguage = 'ENG';
+
+    window.addEventListener('load', function () {
+        select(selectedLanguage);
+    });
+
+    return {
+        getFragment: function getFragment(val) {
+            return fragments[val];
+        },
+        addControlTranslation: function addControlTranslation(lang, pair) {
+            languages[lang].controls.push(pair);
+        },
+        addFragmentTranslation: function addFragmentTranslation(lang, key, value) {
+            languages[lang].fragments[key] = value;
+        },
+        get code() {
+            return selectedLanguage;
+        }
+    };
+}();'use strict';
 
 function formatAMPM(date) {
     var hours = date.getHours();

@@ -22,8 +22,7 @@ let statisticGamesSummary = function () {
         let firstAvailable = filterPeriod($$('#statistic-games-summary-time-interval'), value);
 
         // Select first available period
-        $$('#statistic-games-summary-time-interval').children[0].innerHTML = firstAvailable.name;
-        $$('#statistic-games-summary-time-interval').children[0].dataset.value = firstAvailable.value;
+        $$('#statistic-games-summary-time-interval').select(firstAvailable.value);
     });
 
     on('date/statistic-games-summary-time-span-from', function (data) {
@@ -69,13 +68,7 @@ let statisticGamesSummary = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#statistic-games-summary-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#statistic-games-summary-time-span').select(defaultSelectionValue);
     }
 
     function getOperators() {
@@ -164,6 +157,7 @@ let statisticGamesSummary = function () {
                     table.preserveHeight(gamesSummaryTableWrapper);
 
                     gamesSummaryHeader.innerHTML = `Operator: ${response.result.operater}<br>Period: ${response.result.period}`;
+                    gamesSummaryHeader.style.display = 'block';
 
                     let labels = [];
                     let games = [];
@@ -268,6 +262,7 @@ let statisticGamesSummary = function () {
                     $$('#statistic-games-summary-graphs').classList.remove('hidden');
                     requested = true;
                 } else {
+                    gamesSummaryHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },

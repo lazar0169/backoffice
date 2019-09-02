@@ -2,3 +2,4 @@ bin
 public
 node_modules
 backoffice.zip
+vendor/history/specific.js

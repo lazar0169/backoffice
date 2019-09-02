@@ -21,12 +21,21 @@ let accounting = function () {
         'Manager': 'comm/accounting/manager/get',
     }
 
+    let companyGetOperatorsButton = $$('#accounting-companies-get-operators');
+    let companyGetReportsButton = $$('#accounting-companies-get-reports');
+    let companyDataWrapper = $$('#accounting-companies-data');
+
     let reportsFromDate = getToday();
     let reportsToDate = getToday();
+    let companiesToDate = getToday();
+    let companiesFromDate = getToday();
+
+    let companyIdSelected;
+    let companyOperators;
 
     let defaultSelectionValue = 'LastMonth';
 
-    $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
+    // $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
     $$('#accounting-setup-form-cancel').addEventListener('click', hideModal);
     $$('#accounting-setup-form-tax-back').addEventListener('click', function () { tax.hide(); });
     $$('#accounting-setup-form-create-tax').addEventListener('click', function () { tax.show(); });
@@ -53,14 +62,21 @@ let accounting = function () {
         }
     });
 
-    function selectDefault() {
+    on('accounting-companies-time-span/selected', function (value) {
+        if (value !== 'custom') {
+            $$('#accounting-companies-time-span-fieldset').classList.add('disabled');
+        } else {
+            $$('#accounting-companies-time-span-fieldset').classList.remove('disabled');
+        }
+    });
+
+    function selectDefault(section) {
         // Default time stamp selection
-        let options = $$('#accounting-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
+        if (section === 'reports') {
+            $$('#accounting-time-span').select(defaultSelectionValue);
+        }
+        if (section === 'companies') {
+            $$('#accounting-companies-time-span').select(defaultSelectionValue);
         }
     }
 
@@ -112,6 +128,79 @@ let accounting = function () {
             }
         });
     }
+
+    const afterCompaniesLoad = (data) => {
+        clearElement($$('#accounting-companies-list'));
+        let companiesDropdown = dropdown.generate(data, 'accounting-companies-list', 'Select company');
+        $$('#accounting-companies-companies-list-wrapper').appendChild(companiesDropdown);
+        if (!data) $$('#accounting-companies-companies-list-wrapper').style.display = 'none';
+
+        on('accounting-companies-list/selected', function (value) {
+            companyIdSelected = value;
+            companyGetOperatorsButton.classList.remove('hidden');
+            companyGetOperatorsButton.onclick = () => {
+                addLoader(companyGetOperatorsButton);
+                trigger('comm/accounting/companies/getOperators', {
+                    body: {
+                        id: companyIdSelected
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            if (!response.result.length) {
+                                trigger('message', message.codes.noData);
+                                return;
+                            }
+                            populateCompanyOperators(response.result);
+                        }
+                        else {
+                            trigger('message', response.responseCode);
+                        }
+                        removeLoader(companyGetOperatorsButton);
+                    },
+                    fail: function (response) {
+                        removeLoader(companyGetOperatorsButton);
+                        trigger('message', response.responseCode);
+                    }
+                });
+            };
+            companyGetReportsButton.onclick = () => {
+                let result = [];
+                for (let operator of companyOperators) {
+                    let resultOperator = {};
+                    let bonusRateValue = $$(`#bonus-rate-${operator.name}`).value;
+                    let deductionValue = $$(`#deduction-${operator.name}`).value;
+                    let reductionValue = $$(`#reduction-${operator.name}`).value;
+                    resultOperator.operatorId = operator.id;
+                    resultOperator.actualBonusRate = bonusRateValue && bonusRateValue > 0 ? bonusRateValue : 0;
+                    resultOperator.deduction = deductionValue && deductionValue > 0 ? deductionValue : 0;
+                    resultOperator.reduction = reductionValue && reductionValue > 0 ? reductionValue : 0;
+                    result.push(resultOperator);
+                }
+                addLoader(companyGetReportsButton);
+                trigger('comm/accounting/companies/getAccounting', {
+                    body: {
+                        timeSpan: $$('#accounting-companies-time-span').getSelected() || 'custom',
+                        fromDate: companiesFromDate,
+                        toDate: companiesToDate,
+                        operatorReportSetUps : result
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            console.log(response.result);
+                        }
+                        else {
+                            trigger('message', response.responseCode);
+                        }
+                        removeLoader(companyGetReportsButton);
+                    },
+                    fail: function (response) {
+                        removeLoader(companyGetReportsButton);
+                        trigger('message', response.responseCode);
+                    }
+                })
+            };
+        });
+    };
 
     function afterLoad(response) {
         if (response.responseCode === message.codes.success) {
@@ -258,6 +347,45 @@ let accounting = function () {
             });
         };
     }
+
+    const populateCompanyOperators = (data) => {
+        let wrapperTable = $$('#accounting-companies-operators-table').getElementsByTagName('table')[0];
+        if (wrapperTable.getElementsByTagName('tbody').length !== 0) {
+            wrapperTable.getElementsByTagName('tbody')[0].remove();
+        }
+
+        let body = document.createElement('tbody');
+        wrapperTable.appendChild(body);
+        companyOperators = data;
+
+        for (let operator of data) {
+            let tr = document.createElement('tr');
+            let td = document.createElement('td');
+            let operatorTitle = document.createElement('div');
+            // portalTitle.className = 'portal-title';
+            operatorTitle.innerText = operator.name;
+            let bonusRateInput = document.createElement('input');
+            let deductionInput = document.createElement('input');
+            let reductionInput = document.createElement('input');
+            bonusRateInput.id = `bonus-rate-${operator.name}`;
+            deductionInput.id = `deduction-${operator.name}`;
+            reductionInput.id = `reduction-${operator.name}`;
+            bonusRateInput.type = 'number';
+            deductionInput.type = `number`;
+            reductionInput.type = `number`;
+            bonusRateInput.placeholder = 'Bonus Rate';
+            deductionInput.placeholder = `Deduction`;
+            reductionInput.placeholder = `Reduction`;
+            td.appendChild(operatorTitle);
+            td.appendChild(bonusRateInput);
+            td.appendChild(deductionInput);
+            td.appendChild(reductionInput);
+            tr.dataset.id = operator.name;
+            tr.appendChild(td);
+            body.appendChild(tr);
+        }
+        companyDataWrapper.classList.remove('hidden');
+    };
 
     // Creates operators list
     function createList(data) {
@@ -555,6 +683,15 @@ let accounting = function () {
         reportsToDate = data;
     });
 
+    on('date/accounting-companies-time-span-from', function (data) {
+        companiesFromDate = data;
+    });
+    on('date/accounting-companies-time-span-to', function (data) {
+        companiesToDate = data;
+    });
+
+    on('data/')
+
     on('accounting/show/modal', function (data) {
         addLoader(data.caller);
         selectedRow = data.caller.parentNode;
@@ -607,7 +744,7 @@ let accounting = function () {
         $$('#accounting-time-span-from').reset();
         $$('#accounting-time-span-to').reset();
 
-        selectDefault();
+        selectDefault('reports');
 
         addLoader($$('#sidebar-accounting'));
         trigger('comm/accounting/operators/get', {
@@ -629,6 +766,31 @@ let accounting = function () {
             },
             fail: function () {
                 removeLoader($$('#sidebar-accounting'));
+            }
+        });
+    });
+
+    on('accounting/companies/loaded', function () {
+        companyGetOperatorsButton.classList.add('hidden');
+        companyDataWrapper.classList.add('hidden');
+        selectDefault('companies');
+        addLoader($$('#accounting-navbar-companies'));
+        trigger('comm/accounting/companies/get', {
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    if (!response.result.length) {
+                        trigger('message', message.codes.noData);
+                        return;
+                    }
+                    afterCompaniesLoad(response.result);
+                } else {
+                    trigger('message', response.responseCode);
+                }
+                removeLoader($$('#accounting-navbar-companies'));
+            },
+            fail: function (response) {
+                removeLoader($$('#accounting-navbar-companies'));
+                trigger('message', response.responseCode);
             }
         });
     });

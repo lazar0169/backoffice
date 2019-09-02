@@ -18,8 +18,7 @@ let statisticCompared = function () {
         let firstAvailable = filterPeriod($$('#statistic-compared-time-interval'), value);
 
         // Select first available period
-        $$('#statistic-compared-time-interval').children[0].innerHTML = firstAvailable.name;
-        $$('#statistic-compared-time-interval').children[0].dataset.value = firstAvailable.value;
+        $$('#statistic-compared-time-interval').select(firstAvailable.value);
     });
 
     on('date/statistic-compared-time-span-from', function (data) {
@@ -64,13 +63,7 @@ let statisticCompared = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#statistic-compared-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#statistic-compared-time-span').select(defaultSelectionValue);
     }
 
     function getOperators() {
@@ -161,6 +154,7 @@ let statisticCompared = function () {
                     headerPayout.innerHTML = '<h2>Table Payout:</h2> <div id="compared-disabled-games-payout" class="header-games-list"></div>';
 
                     comparedHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.resultForPeriod}`;
+                    comparedHeader.style.display = 'block';
 
                     let tableBet = table.generate({
                         data: tables.gamesBet,
@@ -265,6 +259,7 @@ let statisticCompared = function () {
                     requested = true;
 
                 } else {
+                    comparedHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },
