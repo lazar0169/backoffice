@@ -117,8 +117,9 @@ tr.pika-row {
     background-color: transparent !important;
 }
 
-.pika-title>.pika-label {
-    pointer-events: none;
+.pika-title select {
+    background-color: #434a5c;
+    color: white;
 }
 
 /* ================== MOBILE  ================== */
