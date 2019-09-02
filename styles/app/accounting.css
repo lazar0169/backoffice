@@ -411,7 +411,10 @@
 
 #accounting-companies-get-operators.hidden,
 #accounting-companies-data.hidden,
-#accounting-comapnies-data-reports.hidden {
+#accounting-comapnies-data-reports.hidden,
+#accounting-companies-time-span.hidden,
+#accounting-companies-excel-download.hidden,
+#accounting-companies-pdf-download.hidden {
     display: none;
 }
 

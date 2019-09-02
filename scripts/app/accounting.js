@@ -57,6 +57,14 @@ let accounting = function () {
         downloadExcel();
     });
 
+    $$('#accounting-companies-pdf-download').addEventListener('click', function () {
+        doc.save(`accounting-${new Date().toISOString().split('T')[0]}.pdf`);
+    });
+
+    $$('#accounting-companies-excel-download').addEventListener('click', function () {
+        downloadExcel();
+    });
+
     on('accounting-time-span/selected', function (value) {
         if (value !== 'custom') {
             $$('#accounting-time-span-fieldset').classList.add('disabled');
@@ -142,6 +150,11 @@ let accounting = function () {
             companyIdSelected = value;
             companyGetOperatorsButton.classList.remove('hidden');
             companyGetOperatorsButton.onclick = () => {
+                companyReportsDataWrapper.classList.add('hidden');
+                $$('#accounting-comapnies-reports-header').classList.add('hidden');
+                $$('#accounting-companies-time-span').classList.add('hidden');
+                $$('#accounting-companies-pdf-download').classList.add('hidden');
+                $$('#accounting-companies-excel-download').classList.add('hidden');
                 addLoader(companyGetOperatorsButton);
                 trigger('comm/accounting/companies/getOperators', {
                     body: {
@@ -228,6 +241,9 @@ let accounting = function () {
         companyDataWrapper.classList.add('hidden');
         companyReportsDataWrapper.classList.remove('hidden');
         $$('#accounting-comapnies-reports-header').classList.remove('hidden');
+        $$('#accounting-companies-time-span').classList.remove('hidden');
+        $$('#accounting-companies-pdf-download').classList.remove('hidden');
+        $$('#accounting-companies-excel-download').classList.remove('hidden');
         operatorsDropdown.children[1].children[data.length].click();
     };
 
