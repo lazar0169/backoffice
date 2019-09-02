@@ -117,6 +117,11 @@ tr.pika-row {
     background-color: transparent !important;
 }
 
+.pika-title select {
+    background-color: #434a5c;
+    color: white;
+}
+
 /* ================== MOBILE  ================== */
 
 .mobile .datepicker:hover {

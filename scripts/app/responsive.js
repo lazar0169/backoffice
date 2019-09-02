@@ -1,6 +1,11 @@
 let responsive = function () {
     let isLandscape = false;
-    let ratio = 4 / 3;
+    const ratio = 4 / 3;
+    const mobileDisabledCategories = [
+        '#sidebar-operators',
+        '#sidebar-accounting',
+        '#sidebar-statistic'
+    ];
 
     window.addEventListener('resize', function () {
         resizeGame();
@@ -30,11 +35,27 @@ let responsive = function () {
         trigger('window/key', e);
     });
 
+    function disableOrEnableSidebarMobileCategories() {
+        if (isMobile()) {
+            for (let category of mobileDisabledCategories) {
+                $$(category).style.display = 'none';
+                $$(category).disable = true;
+            }
+        }
+        else {
+            for (let category of mobileDisabledCategories) {
+                $$(category).style.display = 'block';
+                $$(category).disabled = false;
+            }
+        }
+    };
+
     function resizeGame() {
         let gameWindow = $$('#main-content') || $$('#login') || $$('#reset');
         isLandscape = window.innerWidth > window.innerHeight && document.activeElement.tagName.toLowerCase() !== 'input';
         document.body.classList[isMobile() ? 'add' : 'remove']('mobile');
         if (isMobile()) document.body.style.minHeight = window.innerWidth * ratio + 'px';
         isLandscape ? document.body.classList.add('landscape') : document.body.classList.remove('landscape');
-    }
+        disableOrEnableSidebarMobileCategories();
+    };
 }();

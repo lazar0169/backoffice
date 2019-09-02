@@ -8,6 +8,7 @@ let advanceAccounting = function () {
     const getTotalExcelButton = $$('#management-excel-total');
     const getTotalGameExcelButton = $$('#total-portals-form-download-excel');
     const mainCheckbox = $$('#management-main-period-checkbox');
+    const mainSecondPeriodWrapper = $$('#management-main-second-period-wrapper');
     let mainTable = $$('#management-main-table');
     let mainFirstPeriodFrom = getToday();
     let mainFirstPeriodTo = getToday();
@@ -21,6 +22,7 @@ let advanceAccounting = function () {
     const getPortalsExcelButton = $$('#management-excel-portals');
     const getPortalsFormExcelButton = $$('#portals-form-download-excel');
     const getPortalsPlayersFormExcelButton = $$('#portals-player-form-download-excel');
+    const portalsSecondPeriodWrapper = $$('#management-portals-second-period-wrapper');
     let portalsTable = $$('#management-portals-table');
     let portalFormTable = $$('#portals-form-table');
     let portalPlayerFormTable = $$('#portals-player-form-table');
@@ -33,6 +35,7 @@ let advanceAccounting = function () {
     const playerCheckbox = $$('#management-players-period-checkbox');
     const getPlayersExcelButton = $$('#management-excel-players');
     const getPlayerExcelButton = $$('#players-form-download-excel');
+    const playersSecondPeriodWrapper = $$('#management-players-second-period-wrapper');
     let playersTable = $$('#management-players-table');
     let playersFormTable = $$('#players-form-table');
     let playersFirstPeriodFrom = getToday();
@@ -67,10 +70,10 @@ let advanceAccounting = function () {
     const secondFilterButton = $$('#management-get-bets-percentage');
     let betsCheckbox = $$('#management-bets-checkbox');
 
-    $$('#portals-black-overlay').addEventListener('click', hidePortalPopup);
+    // $$('#portals-black-overlay').addEventListener('click', hidePortalPopup);
+    // $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#portals-player-form-back').addEventListener('click', hidePlayerPortalPopup);
     $$('#portals-form-cancel').addEventListener('click', hidePortalPopup);
-    $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
     $$('#total-portals-form-cancel').addEventListener('click',hideTotalPopUp);
 
@@ -628,14 +631,26 @@ let advanceAccounting = function () {
     on('management/main/loaded', function () {
         mainTable.innerHTML = '';
         mainTable.classList.add('hidden');
-        getTotalExcelButton.classList.add('hidden');
+        if (IS_SAFARI) {
+            getTotalExcelButton.remove();
+        }
+        else {
+            getTotalExcelButton.classList.add('hidden');
+        }
         activeCategory = `main`;
     });
 
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
         portalsTable.classList.add('hidden');
-        getPortalsExcelButton.classList.add('hidden');
+        if (IS_SAFARI && isMobile()) {
+            getPortalsExcelButton.remove();
+            getPortalsFormExcelButton.remove();
+            getPortalsPlayersFormExcelButton.remove()
+        }
+        else {
+            getPortalsExcelButton.classList.add('hidden');
+        }
         clearElement($$('#management-portals-operators-list'));
         clearElement($$('#management-portals-portals-list'));
         $$('#management-get-portals').classList.add('hidden');
@@ -662,7 +677,13 @@ let advanceAccounting = function () {
         hidePopup();
         playersTable.innerHTML = '';
         playersTable.classList.add('hidden');
-        getPlayersExcelButton.classList.add('hidden');
+        if (IS_SAFARI && isMobile()) {
+            getPlayersExcelButton.remove();
+            getPlayerExcelButton.remove()
+        }
+        else {
+            getPlayersExcelButton.classList.add('hidden');
+        }
         playersFormTable.innerHTML = '';
         clearElement($$('#management-players-operators-list'));
         clearElement($$('#management-players-portals-list'));
@@ -1056,15 +1077,15 @@ let advanceAccounting = function () {
     }
 
     mainCheckbox.addEventListener('change', function () {
-        mainCheckbox.checked ? $$('#management-main-second-period-wrapper').style.display = "inline" : $$('#management-main-second-period-wrapper').style.display = "none";
+        mainCheckbox.checked ? mainSecondPeriodWrapper.classList.remove('hidden') : mainSecondPeriodWrapper.classList.add('hidden');
     });
 
     portalCheckbox.addEventListener('change', function () {
-        portalCheckbox.checked ? $$('#management-portals-second-period-wrapper').style.display = 'inline' : $$('#management-portals-second-period-wrapper').style.display = "none";
+        portalCheckbox.checked ? portalsSecondPeriodWrapper.classList.remove('hidden') : portalsSecondPeriodWrapper.classList.add('hidden');
     });
 
     playerCheckbox.addEventListener('change', function () {
-        playerCheckbox.checked ? $$('#management-players-second-period-wrapper').style.display = 'inline' : $$('#management-players-second-period-wrapper').style.display = "none";
+        playerCheckbox.checked ? playersSecondPeriodWrapper.classList.remove('hidden') : playersSecondPeriodWrapper.classList.add('hidden');
     });
 
     betsCheckbox.addEventListener('change', function () {
