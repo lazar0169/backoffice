@@ -1,5 +1,8 @@
 
 /* MANAGEMENT */
+.max-height-preserved {
+    max-height: 30em;
+}
 
 #management .datepicker.disabled {
     display: none !important;
