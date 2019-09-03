@@ -318,6 +318,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(totalGetButton);
             }
         });
@@ -357,6 +358,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(portalsGetButton);
             }
         });
@@ -395,6 +397,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(playersGetButton);
             }
         });
@@ -442,6 +445,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(betsGetButton);
             }
         });
@@ -465,6 +469,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(secondFilterButton);
             }
         });
@@ -488,6 +493,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getTotalExcelButton);
             }
         });
@@ -511,6 +517,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getPortalsExcelButton);
             }
         });
@@ -534,6 +541,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getPlayersExcelButton);
             }
         });
@@ -557,6 +565,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getPlayerExcelButton);
             }
         });
@@ -580,6 +589,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getPortalsFormExcelButton);
             }
         });
@@ -603,6 +613,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getPortalsPlayersFormExcelButton);
             }
         });
@@ -626,6 +637,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getTotalGameExcelButton);
             }
         });
@@ -648,6 +660,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader(getTotalPlayerExcelButton);
             }
         });
@@ -717,6 +730,7 @@ let advanceAccounting = function () {
                 removeLoader($$('#sidebar-management'));
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader($$('#sidebar-management'));
             }
         });
@@ -751,6 +765,7 @@ let advanceAccounting = function () {
                 removeLoader($$('#sidebar-management'));
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader($$('#sidebar-management'));
             }
         });
@@ -787,6 +802,7 @@ let advanceAccounting = function () {
                 removeLoader($$('#sidebar-management'));
             },
             fail: function () {
+                trigger('message',response.responseCode);
                 removeLoader($$('#sidebar-management'));
             }
         });
@@ -837,6 +853,7 @@ let advanceAccounting = function () {
                         removeLoader($$(`#management-${tab}-filter`));
                     },
                     fail: function () {
+                        trigger('message',response.responseCode);
                         removeLoader($$(`#management-${tab}-filter`));
                     }
                 });
@@ -890,7 +907,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
-                console.error('Failed to get row data!');
+                trigger('message',response.responseCode);
             }
         });
 
@@ -929,7 +946,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
-                console.error('Failed to get row data!');
+                trigger('message',response.responseCode);
             }
         });
 
@@ -1019,7 +1036,7 @@ let advanceAccounting = function () {
                 }
             },
             fail: function () {
-                console.error('Failed to get row data!');
+                trigger('message',response.responseCode);
             }
         });
 
