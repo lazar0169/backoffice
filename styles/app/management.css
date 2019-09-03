@@ -4,6 +4,12 @@
     display: none !important;
 }
 
+#management-main-table-div,
+#management-portals-table-div,
+#management-players-table-div {
+    height: 100%;
+}
+
 #management-total-filter,
 #management-players-filter,
 #management-portals-filter,
@@ -160,9 +166,7 @@
     width: 95%;
     overflow: auto;
     flex: 1;
-    display: flex;
     margin: 1em;
-    flex-direction: column;
 }
 
 #players-form-cancel{
@@ -389,12 +393,12 @@
     margin: 2em 0 1.5em 0;
 }
 
-#management-main-second-period-wrapper,
-#management-portals-second-period-wrapper,
-#management-players-second-period-wrapper
-{
-    display: none;
+#management-main-second-period-wrapper.hidden,
+#management-portals-second-period-wrapper.hidden,
+#management-players-second-period-wrapper.hidden{
+    display: none !important;
 }
+
 fieldset.hidden{
     display: none !important;
 }
@@ -543,7 +547,10 @@ fieldset.hidden{
 .mobile #management-get-total,
 .mobile #management-get-players,
 .mobile #management-get-portals,
-.mobile #management-get-bets {
+.mobile #management-get-bets,
+.mobile #management-excel-total,
+.mobile #management-excel-portals,
+.mobile #management-excel-players {
     padding: 0.85rem 1rem;
     width: 100%;
 }
@@ -563,12 +570,15 @@ fieldset.hidden{
 .mobile #management-portals-filter>*,
 .mobile #management-players-filter>*,
 .mobile #management-bets-filter>*{
-    display: contents !important;
+    display: contents;
 }
 
 .mobile #management-get-portals,
 .mobile #management-get-players,
-.mobile #management-get-bets{
+.mobile #management-get-bets,
+.mobile #management-excel-total,
+.mobile #management-excel-portals,
+.mobile #management-excel-players{
     display: inline !important;
 }
 
@@ -618,4 +628,32 @@ fieldset.hidden{
     box-sizing: border-box;
     margin: 1em 0;
     width: 100%;
+}
+
+.mobile #portals-form,
+.mobile #players-form {
+    position: fixed;
+    height: 89%;
+    box-shadow: none;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+}
+
+.mobile #portals-form,
+.mobile #players-form {
+    top: 4em;
+}
+
+.mobile #portals-form {
+    width: 100%;
+}
+
+.mobile #players-form {
+    width: 92%;
+}
+
+.mobile .management-title-form-wrapper,
+.mobile .management-form-buttons-wrapper {
+    flex-direction: column;
 }

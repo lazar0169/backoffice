@@ -19,8 +19,7 @@ let statisticPerGame = function () {
         let firstAvailable = filterPeriod($$('#statistic-per-game-time-interval'), value);
 
         // Select first available period
-        $$('#statistic-per-game-time-interval').children[0].innerHTML = firstAvailable.name;
-        $$('#statistic-per-game-time-interval').children[0].dataset.value = firstAvailable.value;
+        $$('#statistic-per-game-time-interval').select(firstAvailable.value);
     });
 
     on('date/statistic-per-game-time-span-from', function (data) {
@@ -66,13 +65,7 @@ let statisticPerGame = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#statistic-per-game-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#statistic-per-game-time-span').select(defaultSelectionValue);
     }
 
     function getOperators() {
@@ -133,7 +126,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     insertAfter(dropdown.generate(response.result, 'statistic-per-game-games', 'Select game'), $$('#statistic-per-game-portals'));
                     on('statistic-per-game-games/selected', function (value) {
-                        selectedGameId = value;
+                        // selectedGameId = value;
                         perGameButton.classList.remove('hidden');
                     });
                 } else {
@@ -156,7 +149,7 @@ let statisticPerGame = function () {
             searchInterval: $$('#statistic-per-game-time-span').getSelected() || 'custom',
             fromDate: statisticFromDate,
             toDate: statisticToDate,
-            gameId: selectedGameId
+            gameId: $$('#statistic-per-game-games').getSelected() ? $$('#statistic-per-game-games').getSelected() : -1
         };
 
         perGameTableWrapper.innerHTML = '';
@@ -169,6 +162,7 @@ let statisticPerGame = function () {
                 if (response.responseCode === message.codes.success) {
                     let summary = getCopy(response.result.gameStatisticsPerDate);
                     perGameHeader.innerHTML = `Operator: ${response.result.operator}<br>Period: ${response.result.period}<br>Game: ${response.result.gameName}`;
+                    perGameHeader.style.display = 'block';
                     perGameTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
@@ -188,10 +182,12 @@ let statisticPerGame = function () {
                     table.preserveHeight(perGameTableWrapper);
                     requested = true;
                 } else {
+                    perGameHeader.style.display = 'none';
                     trigger('message', response.responseCode);
                 }
             },
             fail: function () {
+                perGameHeader.style.display = 'none';
                 removeLoader(perGameButton);
             }
         });

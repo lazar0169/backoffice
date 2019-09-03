@@ -9,7 +9,7 @@ let configuration = function () {
     let editMode = false;
     let openedId;
 
-    $$('#configuration-black-overlay').addEventListener('click', hideModal);
+    // $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
         e.preventDefault();
         let oldPassword = $$('#configuration-profile-old-password').value;

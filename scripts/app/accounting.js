@@ -26,7 +26,7 @@ let accounting = function () {
 
     let defaultSelectionValue = 'LastMonth';
 
-    $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
+    // $$('#accounting-setup-black-overlay').addEventListener('click', hideModal);
     $$('#accounting-setup-form-cancel').addEventListener('click', hideModal);
     $$('#accounting-setup-form-tax-back').addEventListener('click', function () { tax.hide(); });
     $$('#accounting-setup-form-create-tax').addEventListener('click', function () { tax.show(); });
@@ -55,13 +55,7 @@ let accounting = function () {
 
     function selectDefault() {
         // Default time stamp selection
-        let options = $$('#accounting-time-span').getElementsByClassName('option');
-        for (let option of options) {
-            if (option.dataset.value === defaultSelectionValue) {
-                option.click();
-                return;
-            }
-        }
+        let options = $$('#accounting-time-span').select(defaultSelectionValue);
     }
 
     function generateReport(data, sum) {

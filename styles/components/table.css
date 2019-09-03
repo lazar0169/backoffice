@@ -57,7 +57,9 @@
 
 .cell.last {
     background-color: #20272f;
+    border-top: none;
     position: sticky;
+    position: -webkit-sticky;
     bottom: 0;
     left: auto;
 }

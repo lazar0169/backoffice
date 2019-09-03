@@ -1,12 +1,12 @@
 let advanceAccounting = function () {
     let portals = $$('#management-portals');
     let players = $$('#management-players');
-    let helpArr = [1, 2];
     let isSecondPeriodChecked = false;
     //main tab
     const totalGetButton = $$('#management-get-total');
     const getTotalExcelButton = $$('#management-excel-total');
     const mainCheckbox = $$('#management-main-period-checkbox');
+    const mainSecondPeriodWrapper = $$('#management-main-second-period-wrapper');
     let mainTable = $$('#management-main-table');
     let mainFirstPeriodFrom = getToday();
     let mainFirstPeriodTo = getToday();
@@ -18,6 +18,7 @@ let advanceAccounting = function () {
     const getPortalsExcelButton = $$('#management-excel-portals');
     const getPortalsFormExcelButton = $$('#portals-form-download-excel');
     const getPortalsPlayersFormExcelButton = $$('#portals-player-form-download-excel');
+    const portalsSecondPeriodWrapper = $$('#management-portals-second-period-wrapper');
     let portalsTable = $$('#management-portals-table');
     let portalFormTable = $$('#portals-form-table');
     let portalPlayerFormTable = $$('#portals-player-form-table');
@@ -30,6 +31,7 @@ let advanceAccounting = function () {
     const playerCheckbox = $$('#management-players-period-checkbox');
     const getPlayersExcelButton = $$('#management-excel-players');
     const getPlayerExcelButton = $$('#players-form-download-excel');
+    const playersSecondPeriodWrapper = $$('#management-players-second-period-wrapper');
     let playersTable = $$('#management-players-table');
     let playersFormTable = $$('#players-form-table');
     let playersFirstPeriodFrom = getToday();
@@ -63,10 +65,10 @@ let advanceAccounting = function () {
     const secondFilterButton = $$('#management-get-bets-percentage');
     let betsCheckbox = $$('#management-bets-checkbox');
 
-    $$('#portals-black-overlay').addEventListener('click', hidePortalPopup);
+    // $$('#portals-black-overlay').addEventListener('click', hidePortalPopup);
+    // $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#portals-player-form-back').addEventListener('click', hidePlayerPortalPopup);
     $$('#portals-form-cancel').addEventListener('click', hidePortalPopup);
-    $$('#players-black-overlay').addEventListener('click', hidePopup);
     $$('#players-form-cancel').addEventListener('click', hidePopup);
 
 
@@ -103,6 +105,24 @@ let advanceAccounting = function () {
     };
 
     function fillTable(tableElement, data, callback, tableName, sum, preserveHeight = false) {
+        if (data.length === 0) {
+            return;
+        }
+        let keys = Object.keys(data[0]);
+        let trendKeys = keys.filter((element) => element.toUpperCase().includes('TREND'));
+        for (let element of data) {
+            for (let key of trendKeys) {
+                if (convertToNumber(element[key]) > 0) {
+                    element[key] = element[key] + `% <span style="color: limegreen;float: right; margin-left: 0.8em;">${ARROW_UP}</span>`;
+                }
+                else if (convertToNumber(element[key]) < 0) {
+                    element[key] = element[key] + `% <span style="color: red;float: right; margin-left: 0.8em;">${ARROW_DOWN}</span>`;
+                }
+                else {
+                    element[key] = element[key] + `% <span style="color: sandybrown;float: right; margin-left: 0.8em;">${NEUTRAL_LINE}</span>`;
+                }
+            }
+        }
         let tableObject = table.generate({
             data: data,
             id: tableName,
@@ -283,7 +303,7 @@ let advanceAccounting = function () {
                 removeLoader(totalGetButton);
                 if (response.responseCode === message.codes.success) {
                     totalData = response.result;
-                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton, helpArr), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
+                    fillTable(mainTable, parseGameData(response.result, `Game`, getTotalExcelButton), undefined, 'management-main-table-div', getGameSumData(response.result, `Game`));
                     mainTable.classList.remove('hidden');
                 } else {
                     trigger('message', response.responseCode);
@@ -400,6 +420,9 @@ let advanceAccounting = function () {
 
                     if (Object.keys(betsResult.perNumberOfHands).length === 0 || Object.keys(betsResult.perNumberOfPlayers).length === 0) {
                         trigger('message', message.codes.noData);
+                        $$('#management-bets-table-wrapper').classList.add('hidden');
+                        $$('#switch-and-search-wrapper').classList.add('hidden');
+                        $$('#bets-second-filter').classList.add('hidden');
                         return;
                     }
                     prepareBetsTable(response);
@@ -604,14 +627,26 @@ let advanceAccounting = function () {
     on('management/main/loaded', function () {
         mainTable.innerHTML = '';
         mainTable.classList.add('hidden');
-        getTotalExcelButton.classList.add('hidden');
+        if (IS_SAFARI) {
+            getTotalExcelButton.remove();
+        }
+        else {
+            getTotalExcelButton.classList.add('hidden');
+        }
         activeCategory = `main`;
     });
 
     on('management/portals/loaded', function () {
         portalsTable.innerHTML = '';
         portalsTable.classList.add('hidden');
-        getPortalsExcelButton.classList.add('hidden');
+        if (IS_SAFARI && isMobile()) {
+            getPortalsExcelButton.remove();
+            getPortalsFormExcelButton.remove();
+            getPortalsPlayersFormExcelButton.remove()
+        }
+        else {
+            getPortalsExcelButton.classList.add('hidden');
+        }
         clearElement($$('#management-portals-operators-list'));
         clearElement($$('#management-portals-portals-list'));
         $$('#management-get-portals').classList.add('hidden');
@@ -638,7 +673,13 @@ let advanceAccounting = function () {
         hidePopup();
         playersTable.innerHTML = '';
         playersTable.classList.add('hidden');
-        getPlayersExcelButton.classList.add('hidden');
+        if (IS_SAFARI && isMobile()) {
+            getPlayersExcelButton.remove();
+            getPlayerExcelButton.remove()
+        }
+        else {
+            getPlayersExcelButton.classList.add('hidden');
+        }
         playersFormTable.innerHTML = '';
         clearElement($$('#management-players-operators-list'));
         clearElement($$('#management-players-portals-list'));
@@ -800,7 +841,7 @@ let advanceAccounting = function () {
                         return;
                     }
                     playerData = response.result;
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton, helpArr), undefined, 'management-players-form-table-div', sumRow, true);
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton), undefined, 'management-players-form-table-div', sumRow, true);
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
                     $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                     $$('#players-black-overlay').style.display = 'block';
@@ -843,7 +884,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     portalPlayerFormData = response.result;
-                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton, helpArr), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-player-form-title-player-id').innerHTML = rowData['Portal'];
                 } else {
                     trigger('message', response.responseCode);
@@ -883,7 +924,7 @@ let advanceAccounting = function () {
                         return;
                     }
                     portalFormData = response.result;
-                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton, helpArr), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
                     $$('#portals-black-overlay').style.display = 'block';
                     $$('#portals-form').classList.add('show');
@@ -984,15 +1025,15 @@ let advanceAccounting = function () {
     }
 
     mainCheckbox.addEventListener('change', function () {
-        mainCheckbox.checked ? $$('#management-main-second-period-wrapper').style.display = "inline" : $$('#management-main-second-period-wrapper').style.display = "none";
+        mainCheckbox.checked ? mainSecondPeriodWrapper.classList.remove('hidden') : mainSecondPeriodWrapper.classList.add('hidden');
     });
 
     portalCheckbox.addEventListener('change', function () {
-        portalCheckbox.checked ? $$('#management-portals-second-period-wrapper').style.display = 'inline' : $$('#management-portals-second-period-wrapper').style.display = "none";
+        portalCheckbox.checked ? portalsSecondPeriodWrapper.classList.remove('hidden') : portalsSecondPeriodWrapper.classList.add('hidden');
     });
 
     playerCheckbox.addEventListener('change', function () {
-        playerCheckbox.checked ? $$('#management-players-second-period-wrapper').style.display = 'inline' : $$('#management-players-second-period-wrapper').style.display = "none";
+        playerCheckbox.checked ? playersSecondPeriodWrapper.classList.remove('hidden') : playersSecondPeriodWrapper.classList.add('hidden');
     });
 
     betsCheckbox.addEventListener('change', function () {
