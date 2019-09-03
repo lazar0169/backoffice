@@ -4,6 +4,18 @@ const actions = Object.freeze({
     'comm/currency/set': '/Account/SetCurrency',
     'comm/currency/get': '/Account/GetCurrency',
 
+    'comm/currency/getCurrencies': '/Currency/get-currencies',
+    'comm/currency/readCurrency': '/Currency/read',
+    'comm/currency/updateMainOptions': '/Currency/update-currency',
+    'comm/currency/updateJackpotOptions': '/Currency/update-default-jackpot-settings',
+    'comm/currency/deleteCurrency': '/Currency/delete',
+    'comm/currency/createCurrency': '/Currency/create',
+    'comm/currency/convertFromEurToCurrency': '/Currency/add-game-bet',
+    'comm/currency/getGames': '/Currency/get-games',
+    'comm/currency/getExistingCurrencies': '/Currency/get-existing-currency-codes',
+    'comm/currency/getRealCurrencies': '/Currency/get-real-currencies',
+
+
     // Reset
     'comm/reset': '/Account/ChangePassword',
 
@@ -46,11 +58,17 @@ const actions = Object.freeze({
     'comm/accounting/setup/operator/set/fixed': '/AccountingOperators/SetFixOperatorsAccounting',
     'comm/accounting/setup/operator/set/scaled': '/AccountingOperators/SetScaleOperatorsAccounting',
 
+    'comm/accounting/companies/get': '/Accounting/GetCompanies',
+    'comm/accounting/companies/getOperators': '/Accounting/GetCompanyOperators',
+    'comm/accounting/companies/getAccounting': '/Accounting/GetCompanyAccounting',
+
     // Management
     'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
+    'comm/management/getGameTotal':'/Management/GetGamePerAllPortals',
     'comm/management/portalsPerGame/get': '/Management/GetPortalsPerGame',
     'comm/management/gamePerPortal/get': '/Management/GetGamePerPortal',
     'comm/management/gamePerPlayersOfPortal/get': '/Management/GetGamePerPlayersOfPortal',
+    'comm/management/getMainGamePortal/get': '/Management/GetGamePerPlayersOfPortalName',
     'comm/management/playersOfGame/get': '/Management/GetPlayersOfPortal',
     'comm/management/betsOfGame/get': '/Management/GetBetsOfPortal',
     'comm/management/RecommendBetLimit/get': '/Management/RecommendBetLimit',
@@ -91,4 +109,32 @@ const actions = Object.freeze({
     'comm/configuration/profile/get': '/Settings/GetProfile',
     'comm/configuration/profile/edit': '/Settings/UpdateProfile',
     'comm/configuration/profile/password/edit': '/Settings/ChangePasswordOnProfile',
+
+    'comm/configuration/jackpot/portal/get': '/Jackpot/GetJackpotSettingsForPortal',
+    'comm/configuration/jackpot/active/get': '/Jackpot/GetActiveJackpots',
+    'comm/configuration/jackpot/activefromtime/get': '/Jackpot/GetJackpotsFromPeriod',
+
+    //Players
+    'comm/players/getPlayersForPortal': '/Players/GetPlayersForPortal',
+
+    //Player
+    'comm/player/getPlayerData': '/Player/GetPlayer',
+    'comm/player/getPlayerForPortal': '/Player/GetPlayersForPortal',
+    'comm/player/getPlayerBySubstring': '/Player/SearchPlayers',
+    'comm/player/EnableOrDisable': '/Player/EnableDisablePlayer',
+    'comm/player/setPlayerFlags': '/Player/SetPlayerFlags',
+    'comm/player/getTransactions': '/Player/GetPlayerTransactions',
+    'comm/player/getUnresolvedWins': '/Player/GetPlayerUnresolvedWins',
+    'comm/player/resolveUnresolvedWins': '/Player/ResolveWinForPlayerGameAndRound',
+    'comm/player/getHistory': '/Player/GetPlayerHistory',
+
+    //Player Groups
+    'comm/playerGroups/getDashboard': '/PlayerGroup/get-players-group-dashboard',
+    'comm/playerGroups/getPlayers': '/PlayerGroup/get-players-info',
+    'comm/playerGroups/get': '/PlayerGroup/get-player-groups',
+    'comm/playerGroups/getGroup': '/PlayerGroup/read',
+    'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
+    'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
+    'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
+    'comm/playerGroups/getGroupsBySubstring': '/PlayerGroup/get-suggested-players-by-substring',
 });
