@@ -64,10 +64,11 @@ const actions = Object.freeze({
 
     // Management
     'comm/management/totalPerGame/get': '/Management/GetTotalPerGame',
-    'comm/management/excel/getGameTotal':'/Management/GetGamePerAllPortals',
+    'comm/management/getGameTotal':'/Management/GetGamePerAllPortals',
     'comm/management/portalsPerGame/get': '/Management/GetPortalsPerGame',
     'comm/management/gamePerPortal/get': '/Management/GetGamePerPortal',
     'comm/management/gamePerPlayersOfPortal/get': '/Management/GetGamePerPlayersOfPortal',
+    'comm/management/getMainGamePortal/get': '/Management/GetGamePerPlayersOfPortalName',
     'comm/management/playersOfGame/get': '/Management/GetPlayersOfPortal',
     'comm/management/betsOfGame/get': '/Management/GetBetsOfPortal',
     'comm/management/RecommendBetLimit/get': '/Management/RecommendBetLimit',
