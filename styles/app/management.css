@@ -209,6 +209,10 @@
     transform: rotate(45deg);
 }
 
+#players-form-table {
+    overflow: auto;
+}
+
 /* SWITCH */
 
 #switch-and-search-wrapper {
@@ -551,6 +555,11 @@ fieldset.hidden{
     margin: 0.5em;
 }
 
+#portals-player-form-table,
+#portals-form-table {
+    overflow: auto;
+}
+
 .portals-form-title h2{
     margin: 0.5em;
 }
@@ -646,7 +655,13 @@ fieldset.hidden{
 #total-portals-form-table{
     margin-left: 1%;
     margin-right: 1%;
+    overflow: auto;
 }
+
+#total-portals-game-form-table {
+    overflow: auto;
+}
+
 #total-portals-form-title-game-id,
 #total-game-form-title-id{
     margin-left: 0.5vw;
