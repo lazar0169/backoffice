@@ -17,6 +17,8 @@ let advanceAccounting = function () {
     let mainSecondPeriodTo = getToday();
     let totalPortalFormTable = $$('#total-portals-form-table');
     let totalPortalGameFormTable = $$('#total-portals-game-form-table');
+
+
     //portals tab 
     const portalsGetButton = $$('#management-get-portals');
     const portalCheckbox = $$('#management-portals-period-checkbox');
@@ -312,7 +314,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(totalGetButton);
             }
@@ -352,7 +354,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(portalsGetButton);
             }
@@ -391,7 +393,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(playersGetButton);
             }
@@ -439,7 +441,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(betsGetButton);
             }
@@ -463,7 +465,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(secondFilterButton);
             }
@@ -487,7 +489,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getTotalExcelButton);
             }
@@ -511,7 +513,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getPortalsExcelButton);
             }
@@ -535,7 +537,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getPlayersExcelButton);
             }
@@ -559,7 +561,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getPlayerExcelButton);
             }
@@ -583,7 +585,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getPortalsFormExcelButton);
             }
@@ -607,7 +609,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getPortalsPlayersFormExcelButton);
             }
@@ -631,7 +633,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getTotalGameExcelButton);
             }
@@ -654,7 +656,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader(getTotalPlayerExcelButton);
             }
@@ -724,7 +726,7 @@ let advanceAccounting = function () {
                 }
                 removeLoader($$('#sidebar-management'));
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader($$('#sidebar-management'));
             }
@@ -759,7 +761,7 @@ let advanceAccounting = function () {
                 }
                 removeLoader($$('#sidebar-management'));
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader($$('#sidebar-management'));
             }
@@ -796,7 +798,7 @@ let advanceAccounting = function () {
                 }
                 removeLoader($$('#sidebar-management'));
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
                 removeLoader($$('#sidebar-management'));
             }
@@ -847,7 +849,7 @@ let advanceAccounting = function () {
                         }
                         removeLoader($$(`#management-${tab}-filter`));
                     },
-                    fail: function () {
+                    fail: function (response) {
                         trigger('message',response.responseCode);
                         removeLoader($$(`#management-${tab}-filter`));
                     }
@@ -901,7 +903,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
             }
         });
@@ -940,7 +942,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
             }
         });
@@ -1030,7 +1032,7 @@ let advanceAccounting = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message',response.responseCode);
             }
         });
