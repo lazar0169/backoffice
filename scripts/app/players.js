@@ -164,7 +164,7 @@ let players = function () {
                 }
                 removeLoader($$(`#players-navbar-${tab}`));
             },
-            fail: function () {
+            fail: function (response) {
                 trigger('message', response.responseCode);
                 removeLoader($$(`#players-navbar-${tab}`));
             }
