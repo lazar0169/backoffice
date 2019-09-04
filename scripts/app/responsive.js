@@ -36,6 +36,9 @@ let responsive = function () {
     });
 
     function disableOrEnableSidebarMobileCategories() {
+        if(!$$(mobileDisabledCategories[0])){
+            return;
+        }
         if (isMobile()) {
             for (let category of mobileDisabledCategories) {
                 $$(category).style.display = 'none';
