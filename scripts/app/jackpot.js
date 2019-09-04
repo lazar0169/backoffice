@@ -115,14 +115,17 @@ let jackpot = function () {
             trigger('message', message.codes.badParameter);
             return
         }
-        $$('#jackpotPortalSettingsTable').style.display = 'block'
-      
         trigger('comm/configuration/jackpot/portal/get', {
             body: {
                 id: $$('#configuration-jackpot-portals-list').getSelected(),
             },
             success: function (response) {
                 if (response.responseCode === 1000 && !response.result.isEmpty()) {
+                    if (isEmpty(response.result) === true) {
+                        trigger('message', message.codes.noData);
+                        $$('#jackpotPortalSettingsTable').style.display = 'none'
+                        return
+                    }
                     portalJackpotSettingsTable = response.result;
                     $$('#jackpotPortalSettingsTable').innerHTML = '';
                     $$('#jackpotPortalSettingsTable').appendChild(table.generate({
@@ -132,6 +135,7 @@ let jackpot = function () {
                         sticky: true,
                         stickyCol: true
                     }));
+                    $$('#jackpotPortalSettingsTable').style.display = 'block'
                     table.preserveHeight($$('#portalJackpotSettingsTable'));
 
                 } else {
@@ -165,7 +169,7 @@ let jackpot = function () {
     };
 
     function getJackpotHistoryTable() {
-        $$('#jackpotHistoryTable').style.display = 'block'
+        
         trigger('comm/configuration/jackpot/activefromtime/get', {
             body: {
 
@@ -174,7 +178,12 @@ let jackpot = function () {
 
             },
             success: function (response) {
-                if (response.responseCode === message.codes.success && response.result.length > 0) {
+                if (response.responseCode === message.codes.success ) {
+                    if (isEmpty(response.result) === true) {
+                        trigger('message', message.codes.noData);
+                        $$('#jackpotHistoryTable').style.display = 'none'
+                        return
+                    }
                     jackpotHistoryDataTable = response.result;
                     $$('#jackpotHistoryTable').innerHTML = '';
                     currentHistoryTable = parseGameData(jackpotHistoryDataTable, '');
@@ -185,6 +194,7 @@ let jackpot = function () {
                         sticky: true,
                         stickyCol: true
                     });
+                    $$('#jackpotHistoryTable').style.display = 'block'
                     $$('#jackpotHistoryTable').appendChild(historyTable);
                     $$('#search-history-mobile-width').style.display = 'flex'; 
                 } else {
@@ -196,7 +206,9 @@ let jackpot = function () {
         });
     };
 
-
+    function isEmpty(obj){
+        return Object.keys(obj).length === 0;
+    }
     inputHistoryValue.oninput = () => {
         historyTable.update(search(currentHistoryTable, inputHistoryValue.value), true);
 
@@ -278,8 +290,6 @@ let jackpot = function () {
         //   }
     }
   
-   
-
     $$('#jackpot-get-settings-button').addEventListener('click', getPortalSettingsTable);
 
     $$('#jackpot-get-history').addEventListener('click', getJackpotHistoryTable);
