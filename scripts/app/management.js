@@ -212,19 +212,22 @@ let advanceAccounting = function () {
                             id: `${game}-per-number-of-hands`,
                             dynamic: false,
                             sticky: true,
-                            stickyCol: true
+                            stickyCol: true,
+                            perPage: games.result.perNumberOfPlayers[game].length > 150 ? 19 : 0,
                         });
                         let tPerNumberOfPlayers = table.generate({
                             data: games.result.perNumberOfPlayers[game],
                             id: `${game}-per-number-of-players`,
                             dynamic: false,
                             sticky: true,
-                            stickyCol: true
+                            stickyCol: true,
+                            perPage: games.result.perNumberOfPlayers[game].length > 150 ? 19 : 0,
                         })
                         td.appendChild(tPerNumberOfHands);
                         td.appendChild(tPerNumberOfPlayers);
                         td.created = true;
-                        table.preserveHeight(td);
+                        $$(`#${game}-per-number-of-hands`).classList.add('max-height-preserved');
+                        $$(`#${game}-per-number-of-players`).classList.add('max-height-preserved');
 
                         if (isPerNumberOfHandsSelected) {
                             tPerNumberOfPlayers.classList.add('hidden');
