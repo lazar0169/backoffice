@@ -115,14 +115,9 @@
     height: 80%;
 }
 
-#players-player-players-table-wrapper {
-    height: 95%;
-    overflow: auto;
-    margin-top: 0.5em;
-}
-
 #players-player-players-table-wrapper table {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #players-player-players-table-wrapper table tbody tr {
@@ -151,14 +146,8 @@
     padding-right: 1em;
 }
 
-#players-player-players-remove-search {
-    background: transparent;
-    height: 1.5em;
-    padding: 0;
-    width: 1.5em;
-    border-radius: 2px;
-    margin-left: -1em;
-    align-self: center;
+#players-player-players-table-wrapper td {
+    width: 20em;
 }
 
 #players-player-data-groups-and-dashboard-wrapper,
@@ -314,29 +303,36 @@
     margin-top: 0.5em;
 }
 
+#players-groups-groups-search,
+#players-player-players-search {
+    width: 100%;
+}
+
 #players-groups-groups-remove-search,
-#players-groups-suggested-players-remove-search {
+#players-groups-suggested-players-remove-search,
+#players-player-players-remove-search {
     background: transparent;
-    height: 1.5em;
+    height: 2.35em;
     padding: 0;
     width: 1.5em;
     border-radius: 2px;
-    margin-left: -1em;
-    align-self: center;
+    margin-left: -1.8em;
 }
 
 #players-groups-groups-table-wrapper {
     height: 95%;
-    overflow: auto;
     margin-top: 0.5em;
 }
 
 #players-groups-groups-table-wrapper table {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-#players-groups-groups-table-wrapper table tbody tr {
-    text-align: center;
+#players-groups-groups-table-wrapper tbody,
+#players-player-players-table-wrapper tbody {
+    overflow: auto;
+    max-height: 68em;
 }
 
 #players-groups-dashboard-and-players-wrapper,
@@ -349,6 +345,7 @@
 
 #players-groups-players-table-wrapper {
     overflow: auto;
+    max-height: 27em;
 }
 
 #players-groups-suggested-players-list-wrapper {

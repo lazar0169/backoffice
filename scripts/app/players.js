@@ -226,6 +226,8 @@ let players = function () {
                 groupsPeriodWrapper.classList.remove('hidden');
             }
         });
+
+        $$(`#players-${tab}-periods-list`).children[1].children[2].click();
     };
 
     const showPeriodsGraphs = (period, bet, rounds, type) => {
