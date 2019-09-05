@@ -111,8 +111,11 @@
 }
 
 #players-player-players-wrapper {
-    width: 8%;
     height: 70em;
+}
+
+#players-player-players-wrapper.shrink {
+    width: 8%;
 }
 
 #players-player-data-main-wrapper {
@@ -284,8 +287,11 @@
 }
 
 #players-groups-groups-wrapper {
-    width: 10.5%;
     height: 95%;
+}
+
+#players-groups-groups-wrapper.shrink {
+    width: 10.5%;
 }
 
 #players-get-groups.hidden,

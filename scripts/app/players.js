@@ -4,6 +4,7 @@ let players = function () {
     let playersPlayerBlackOveraly = $$('#players-player-black-overlay');
 
     let getPlayerButton = $$('#players-get-player');
+    let playersSearchListWrapper = $$('#players-player-players-wrapper');
     let playersSearchWrapper = $$('#players-player-players-search-wrapper');
     let playersListWrapper = $$('#players-player-players-table-wrapper');
     let playerDataWrapper = $$('#players-player-data-wrapper');
@@ -42,6 +43,7 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
     let getGroupsButton = $$('#players-get-groups');
+    let groupsSearchListWrapper = $$('#players-groups-groups-wrapper');
     let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
     let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
     let groupsDataWrapper = $$('#players-groups-data-wrapper');
@@ -62,6 +64,7 @@ let players = function () {
 
     const showPlayerData = (data, playerId, name) => {
         playerDataWrapper.classList.remove('hidden');
+        playersSearchListWrapper.classList.add('shrink');
         playerIdSelected = playerId;
         playerNameSelected = name;
         showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
@@ -74,6 +77,7 @@ let players = function () {
 
     const showGroupData = (data, id) => {
         groupsDataWrapper.classList.remove('hidden');
+        groupsSearchListWrapper.classList.add('shrink');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
@@ -399,6 +403,7 @@ let players = function () {
                     portalIdSelected = portalId;
                     createList(response.result, `player-players`, getPlayerData);
                     $$('#players-player-main-wrapper').classList.remove('hidden');
+                    playersSearchListWrapper.classList.remove('shrink');
                 }
                 else {
                     trigger('message', response.responseCode);
@@ -436,6 +441,7 @@ let players = function () {
                     }
                     createList(response.result, `groups-groups`, getGroupData);
                     $$('#players-groups-main-wrapper').classList.remove('hidden');
+                    groupsSearchListWrapper.classList.remove('shrink');
                 }
                 else {
                     trigger('message', response.responseCode);
@@ -1634,6 +1640,7 @@ let players = function () {
         groupsListWrapper.classList.add('hidden');
         groupsDataWrapper.classList.add('hidden');
         groupsPeriodWrapper.classList.add('hidden');
+        groupsSearchListWrapper.classList.remove('shrink');
         clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
     });
@@ -1644,6 +1651,7 @@ let players = function () {
         playersListWrapper.classList.add('hidden');
         playerDataWrapper.classList.add('hidden');
         playerPeriodWrapper.classList.add('hidden');
+        playersSearchListWrapper.classList.remove('shrink');
         clearElement($$(`#players-player-portals-list`));
         clearPlayerFlags();
         afterLoad(`player`);
