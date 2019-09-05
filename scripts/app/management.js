@@ -113,7 +113,7 @@ let advanceAccounting = function () {
         gameIndex === -1 ? checkedGames.push(event.target.innerHTML) : checkedGames.splice(gameIndex, 1);
     };
 
-    function fillTable(tableElement, data, callback, tableName, sum, preserveHeight = false) {
+    function fillTable(tableElement, data, callback, tableName, sum) {
         if (data.length === 0) {
             return;
         }
@@ -138,15 +138,12 @@ let advanceAccounting = function () {
             sum: sum,
             sticky: true,
             stickyCol: false,
-            perPage: data.length > 500 ? 19 : 0, //perPage displays +1 row
+            perPage: data.length > 150 ? 19 : 0, //perPage displays +1 row
             options: {
                 onClick: callback
             }
         });
         tableElement.appendChild(tableObject);
-        if (preserveHeight) {
-            table.preserveHeight(tableElement.parentElement);
-        }
     };
 
     function prepareBetsTable(games) {
@@ -215,19 +212,22 @@ let advanceAccounting = function () {
                             id: `${game}-per-number-of-hands`,
                             dynamic: false,
                             sticky: true,
-                            stickyCol: true
+                            stickyCol: true,
+                            perPage: games.result.perNumberOfPlayers[game].length > 150 ? 19 : 0,
                         });
                         let tPerNumberOfPlayers = table.generate({
                             data: games.result.perNumberOfPlayers[game],
                             id: `${game}-per-number-of-players`,
                             dynamic: false,
                             sticky: true,
-                            stickyCol: true
+                            stickyCol: true,
+                            perPage: games.result.perNumberOfPlayers[game].length > 150 ? 19 : 0,
                         })
                         td.appendChild(tPerNumberOfHands);
                         td.appendChild(tPerNumberOfPlayers);
                         td.created = true;
-                        table.preserveHeight(td);
+                        $$(`#${game}-per-number-of-hands`).classList.add('max-height-preserved');
+                        $$(`#${game}-per-number-of-players`).classList.add('max-height-preserved');
 
                         if (isPerNumberOfHandsSelected) {
                             tPerNumberOfPlayers.classList.add('hidden');
@@ -899,7 +899,7 @@ let advanceAccounting = function () {
             }, success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     totalGamePlayerFormData = response.result;
-                    fillTable(totalPortalFormTable, parseGameData(response.result, `Portal`, getTotalGameExcelButton), showAllPortalsPortalPopUp, 'management-total-game-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(totalPortalFormTable, parseGameData(response.result, `Portal`, getTotalGameExcelButton), showAllPortalsPortalPopUp, 'management-total-game-form-table-div', getPortalSumData(response.result, 'SUM'));
                     $$('#total-portals-form-title-game-id').innerHTML = rowData['Game'];
                     showTotalPopUp();
                 } else {
@@ -937,7 +937,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     portalPlayerFormData = response.result;
-                    fillTable(totalPortalGameFormTable, parseGameData(response.result, `Player`, getTotalPlayerExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(totalPortalGameFormTable, parseGameData(response.result, `Player`, getTotalPlayerExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'));
                     $$('#total-game-form-title-id').innerHTML = rowData['Portal'];
                     $$('#total-protals-game-form').classList.add('show');
 
@@ -986,7 +986,7 @@ let advanceAccounting = function () {
                         return;
                     }
                     playerData = response.result;
-                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton), undefined, 'management-players-form-table-div', sumRow, true);
+                    fillTable(playersFormTable, parseGameData(response.result, `Game`, getPlayerExcelButton), undefined, 'management-players-form-table-div', sumRow);
                     $$('#players-form-title-player-id').innerHTML = rowData.Player;
                     $$('#players-form-title-player-id-mobile').innerHTML = rowData.Player;
                     $$('#players-black-overlay').style.display = 'block';
@@ -1028,7 +1028,7 @@ let advanceAccounting = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     portalPlayerFormData = response.result;
-                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalPlayerFormTable, parseGameData(response.result, `Player`, getPortalsPlayersFormExcelButton), undefined, 'management-protals-players-form-table-div', getPortalSumData(response.result, 'SUM'));
                     $$('#portals-player-form-title-player-id').innerHTML = rowData['Portal'];
                     $$('#portals-player-from').classList.add('show');
                 } else {
@@ -1070,7 +1070,7 @@ let advanceAccounting = function () {
                         return;
                     }
                     portalFormData = response.result;
-                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'), true);
+                    fillTable(portalFormTable, parseGameData(response.result, `Portal`, getPortalsFormExcelButton), showPortalPlayerPopup, 'management-protals-form-table-div', getPortalSumData(response.result, 'SUM'));
                     $$('#portals-form-title-game-id').innerHTML = portalGameName;
                     $$('#portals-black-overlay').style.display = 'block';
                     $$('#portals-form').classList.add('show');
