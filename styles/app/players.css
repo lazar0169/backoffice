@@ -323,7 +323,7 @@
     margin-top: 0.5em;
 }
 
-#players-groups-groups-table-wrapper table, {
+#players-groups-groups-table-wrapper table {
     display: flex;
     flex-direction: column;
 }
