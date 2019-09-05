@@ -36,6 +36,7 @@ let players = function () {
     let latestPlayersData;
     let largestBetsData;
     let largestWinsData;
+    let playersGroupsData;
     let winnersAndLosersFromLast24HoursData;
     let playerIdSelected;
     let portalIdSelected;
@@ -1460,11 +1461,28 @@ let players = function () {
         return false
     }
 
-    const showPopUpTable = (rowData) => {
+    const showPopUpInterestingPlayersTable = (rowData) => {
 
         let playerId = rowData.Player;
         let popUpData = interestingPlayersData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        $$('#players-main-title-id-player').innerHTML = playerId;
+
+    }
+    const showPopUpLatestPlayersTable = (rowData) => {
+
+        let playerId = rowData.Player;
+        let popUpData = latestPlayersData[playerId];
+        mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        $$('#players-main-title-id-player').innerHTML = playerId;
+
+    }
+    const showPopUpPlayersGroupsTable = (rowData) => {
+
+        let playerId = rowData.Player;
+        let popUpData = playersGroupsData[playerId];
+        mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        $$('#players-main-title-id-player').innerHTML = playerId;
 
     }
 
@@ -1495,6 +1513,7 @@ let players = function () {
                         return
                     }
                     $$('#players-main-settings-wrapper').style.display = 'flex'
+                   
                     interestingPlayersData = response.result.interestingPlayers;
                     $$('#interestingPlayersTable').innerHTML = '';
                     $$('#interestingPlayersTable').appendChild(table.generate({
@@ -1504,7 +1523,7 @@ let players = function () {
                         sticky: true,
                         stickyCol: true,
                         options: {
-                            onClick: showPopUpTable
+                            onClick: showPopUpInterestingPlayersTable
                         }
                     }))
                     table.preserveHeight($$('#interestingPlayersTable'));
@@ -1524,7 +1543,7 @@ let players = function () {
                         sticky: true,
                         stickyCol: true,
                         options: {
-                            onClick: showPopUpTable
+                            onClick: showPopUpLatestPlayersTable
                         }
                     }))
                     table.preserveHeight($$('#latestPlayersTable'));
@@ -1535,28 +1554,26 @@ let players = function () {
                         $$(`#players-latest-players-title`).style.display = 'block';
                     }
 
-                    //Player Groups TO DO, because in response getting empty object
-                    interestingPlayersData = response.result.interestingPlayers;
+                    
+                    playersGroupsData = response.result.playersGroups;
                     $$('#PlayersGroupsTable').innerHTML = '';
                     $$('#PlayersGroupsTable').appendChild(table.generate({
-                        data: parseData(interestingPlayersData, `Player`),
-                        id: 'interestingPlayersData',
+                        data: parseData(playersGroupsData, `Player`),
+                        id: 'playersGroupsData',
                         dynamic: false,
                         sticky: true,
                         stickyCol: true,
                         options: {
-                            onClick: showPopUpTable
+                            onClick: showPopUpPlayersGroupsTable
                         }
                     }))
                     table.preserveHeight($$('#PlayersGroupsTable'));
-                    if (isEmpty(interestingPlayersData) === true) {
+                    if (isEmpty(playersGroupsData) === true) {
                         $$(`#players-players-groups-title`).style.display = 'none';
 
                     } else {
                         $$(`#players-players-groups-title`).style.display = 'block';
                     }
-                    //Player Groups TO DO, because in response getting empty object
-
 
                     largestBetsData = response.result.largestBets;
                     $$('#largestBets').innerHTML = '';
