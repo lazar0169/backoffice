@@ -19,10 +19,6 @@
     display: flex;
 }
 
-.players-form-title>h2 {
-    flex: 1;
-}
-
 .players-form-wrapper {
     position: relative;
     width: 100%;
@@ -254,7 +250,9 @@
     margin-bottom: 1em;
 }
 
-#players-main-options-wrapper ,#players-main-settings-wrapper {
+#players-main-options-wrapper ,
+#players-main-settings-wrapper,
+#players-form-popup-title {
     display: flex;
 }
 
@@ -277,8 +275,8 @@
     display: none;
 }
 
-#players-main-settings-wrapper tbody {
-
+#players-main-title-id-player {
+    margin-left: 0.5em;
 }
 
 /*END PLAYERS TAB */
