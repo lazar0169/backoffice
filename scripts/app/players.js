@@ -1003,12 +1003,12 @@ let players = function () {
                     playerId: playerIdSelected
                 },
                 success: function (response) {
+                    tableWrapper.innerHTML = '';
                     if (response.responseCode === message.codes.success) {
                         if (response.result.length === 0) {
                             trigger('message', message.codes.noData);
                             return;
                         }
-                        tableWrapper.innerHTML = '';
                         tableWrapper.appendChild(table.generate({
                             data: response.result,
                             id: 'playerTransactionData',
@@ -1016,7 +1016,6 @@ let players = function () {
                             sticky: true,
                             stickyCol: true,
                         }));
-                        table.preserveHeight(tableWrapper);
                     }
                     else {
                         trigger('message', response.responseCode);
@@ -1166,7 +1165,6 @@ let players = function () {
                 sticky: true,
                 stickyCol: true,
             }));
-            table.preserveHeight(tableWrapper);
 
             for (let element of data) {
                 $$(`#${element.caption}-${element.gameRoundId}`).onclick = () => {
@@ -1513,7 +1511,7 @@ let players = function () {
                         return
                     }
                     $$('#players-main-settings-wrapper').style.display = 'flex'
-                   
+
                     interestingPlayersData = response.result.interestingPlayers;
                     $$('#interestingPlayersTable').innerHTML = '';
                     $$('#interestingPlayersTable').appendChild(table.generate({
@@ -1554,7 +1552,7 @@ let players = function () {
                         $$(`#players-latest-players-title`).style.display = 'block';
                     }
 
-                    
+
                     playersGroupsData = response.result.playersGroups;
                     $$('#PlayersGroupsTable').innerHTML = '';
                     $$('#PlayersGroupsTable').appendChild(table.generate({
@@ -1652,7 +1650,7 @@ let players = function () {
     });
 
     on('players/groups/loaded', function () {
-        getPlayerButton.classList.add('hidden');
+        getGroupsButton.classList.add('hidden');
         groupsSearchWrapper.classList.add('hidden');
         groupsListWrapper.classList.add('hidden');
         groupsDataWrapper.classList.add('hidden');

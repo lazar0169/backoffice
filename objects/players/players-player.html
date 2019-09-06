@@ -41,9 +41,20 @@
                             <h2>Dashboard</h2>
                             <div id="players-player-data-dashboard-wrapper"></div>
                         </div>
-                        <div class="player-flex-column-wrapper players-flex-one-wrapper">
+                        <!-- <div class="player-flex-column-wrapper players-flex-one-wrapper">
                             <h2>Player Groups</h2>
                             <div id="players-player-data-groups-wrapper"></div>
+                        </div> -->
+                    </div>
+                    <div id="players-player-data-periods-wrapper" class="players-flex-one-wrapper player-flex-column-wrapper">
+                        <div id="players-player-data-periods-list-wrapper"></div>
+                        <div id="players-player-periods-canvas-wrapper">
+                            <div id="player-player-data-bet-graph-wrapper">
+                                <canvas></canvas>
+                            </div>
+                            <div id="player-player-data-rounds-graph-wrapper">
+                                <canvas></canvas>
+                            </div>
                         </div>
                     </div>
                     <div id="players-player-data-summary-wrapper" class="player-flex-column-wrapper players-flex-one-wrapper">
@@ -92,17 +103,6 @@
                             </div>
                         </div>
                     </div>
-                    <div id="players-player-data-periods-wrapper" class="players-flex-one-wrapper player-flex-column-wrapper">
-                        <div id="players-player-data-periods-list-wrapper" class="players-flex-one-wrapper"></div>
-                        <div id="players-player-periods-canvas-wrapper" class="players-flex-one-wrapper">
-                            <div id="player-player-data-bet-graph-wrapper">
-                                <canvas></canvas>
-                            </div>
-                            <div id="player-player-data-rounds-graph-wrapper">
-                                <canvas></canvas>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -127,12 +127,12 @@
                 </div>
                 <div id="players-player-transaction-main-wrapper" class="player-flex-column-wrapper">
                     <div id='players-player-transaction-header-wrapper' class="players-flex-wrapper">
-                        <div id='players-player-transaction-time-span-wrapper'>
+                        <fieldset id='players-player-transaction-time-span-wrapper'>
                             <div class="legend">Fom: </div>
                             <input type="text" id="players-player-transaction-time-span-from" class="datepicker" readonly>
                             <div class="legend">To: </div>
                             <input type="text" id="players-player-transaction-time-span-to" class="datepicker" readonly>
-                        </div>
+                        </fieldset>
                         <button id="players-player-transaction-get" class="players-aligin-center">GET</button>
                     </div>
                     <div id='players-player-transaction-table-wrapper'>
