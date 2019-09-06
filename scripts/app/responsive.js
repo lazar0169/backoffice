@@ -4,7 +4,9 @@ let responsive = function () {
     const mobileDisabledCategories = [
         '#sidebar-operators',
         '#sidebar-accounting',
-        '#sidebar-statistic'
+        '#sidebar-statistic',
+        '#sidebar-players',
+        '#configuration-navbar-currency',
     ];
 
     window.addEventListener('resize', function () {
