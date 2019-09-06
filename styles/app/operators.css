@@ -44,6 +44,7 @@
 
 #operators-main-search-wrapper {
     position: absolute;
+    display: flex;
 }
 
 #operators-main-search-wrapper.hidden {
@@ -58,7 +59,7 @@
 
 #operators-main-remove-search {
     background: transparent;
-    height: 1.5em;
+    height: 2.3em;
     padding: 0;
     width: 1.5em;
     border-radius: 2px;
