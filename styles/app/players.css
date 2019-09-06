@@ -243,11 +243,13 @@
 }
 
 #players-main-options-wrapper ,
-#players-main-settings-wrapper,
 #players-form-popup-title {
     display: flex;
 }
-
+#players-main-settings-wrapper{
+    display: flex;
+    overflow-x: hidden
+}
 #players-main-operators-list-wrapper,
 #players-main-portals-list-wrapper{
     padding-right: 1em;
