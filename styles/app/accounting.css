@@ -418,6 +418,14 @@
     display: none;
 }
 
+#accounting-companies-data input {
+    background-color: #222931; 
+}
+
+#accounting-companies-companies-list-wrapper {
+    height: 2em;
+}
+
 #accounting-companies-filter>fieldset {
     margin-bottom: 0;
 }

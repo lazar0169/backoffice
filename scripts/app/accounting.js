@@ -94,8 +94,9 @@ let accounting = function () {
     function generateReport(data, sum) {
         let array = getCopy(data);
         let title = sum.gameName;
-        sum[Object.keys(sum)[0]] = 'Sum';
-        array.push(sum);
+        let newSum = getCopy(sum);
+        newSum[Object.keys(sum)[0]] = 'Sum';
+        array.push(newSum);
 
         let columns = [];
         for (let col of Object.keys(array[0])) {
@@ -152,9 +153,10 @@ let accounting = function () {
             companyGetOperatorsButton.onclick = () => {
                 companyReportsDataWrapper.classList.add('hidden');
                 $$('#accounting-comapnies-reports-header').classList.add('hidden');
-                $$('#accounting-companies-time-span').classList.add('hidden');
                 $$('#accounting-companies-pdf-download').classList.add('hidden');
                 $$('#accounting-companies-excel-download').classList.add('hidden');
+                $$('#accounting-companies-time-span').classList.remove('hidden');
+
                 addLoader(companyGetOperatorsButton);
                 trigger('comm/accounting/companies/getOperators', {
                     body: {
@@ -248,7 +250,7 @@ let accounting = function () {
     };
 
     const populateSpecificOperator = (id) => {
-        let specificOperatorData = companyReportsData[id];
+        let specificOperatorData = getCopy(companyReportsData[id]);
 
         // Prepare pdf report
         doc = new jsPDF('l', 'pt');
@@ -877,6 +879,10 @@ let accounting = function () {
     on('accounting/companies/loaded', function () {
         companyGetOperatorsButton.classList.add('hidden');
         companyDataWrapper.classList.add('hidden');
+        companyReportsDataWrapper.classList.add('hidden');
+        $$('#accounting-companies-time-span').classList.add('hidden');
+        $$('#accounting-companies-pdf-download').classList.add('hidden');
+        $$('#accounting-companies-excel-download').classList.add('hidden');
         selectDefault('companies');
         addLoader($$('#accounting-navbar-companies'));
         trigger('comm/accounting/companies/get', {
