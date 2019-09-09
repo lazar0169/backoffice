@@ -253,11 +253,18 @@
     padding-right: 1em;
     margin-bottom: 1em;
 }
-
-#players-main-options-wrapper ,
 #players-form-popup-title {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1%;
 }
+#players-main-options-wrapper 
+{
+    display: flex;
+    
+}
+
 #players-main-settings-wrapper{
     display: flex;
     overflow-x: hidden
