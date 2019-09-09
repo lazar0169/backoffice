@@ -6,6 +6,9 @@ let responsive = function () {
         '#sidebar-accounting',
         '#sidebar-statistic',
         '#sidebar-players',
+    ];
+
+    const mobileDisabledTab = [
         '#configuration-navbar-currency',
     ];
 
@@ -38,7 +41,7 @@ let responsive = function () {
     });
 
     function disableOrEnableSidebarMobileCategories() {
-        if(!$$(mobileDisabledCategories[0])){
+        if (!$$(mobileDisabledCategories[0])) {
             return;
         }
         if (isMobile()) {
@@ -46,11 +49,21 @@ let responsive = function () {
                 $$(category).style.display = 'none';
                 $$(category).disable = true;
             }
+
+            for (let tab of mobileDisabledTab) {
+                $$(tab).style.display = 'none';
+                $$(tab).disable = true;
+            }
         }
         else {
             for (let category of mobileDisabledCategories) {
                 $$(category).style.display = 'block';
                 $$(category).disabled = false;
+            }
+
+            for (let tab of mobileDisabledTab) {
+                $$(tab).style.display = 'inline-flex';
+                $$(tab).disable = false;
             }
         }
     };
