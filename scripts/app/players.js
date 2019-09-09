@@ -1200,9 +1200,6 @@ let players = function () {
         const getGames = () => {
             addLoader(playerSummaryHistoryButton);
             trigger('comm/currency/getGames', {
-                body: {
-
-                },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
                         populateGameTable(response.result);
@@ -1236,7 +1233,6 @@ let players = function () {
                 tr.appendChild(td);
                 body.appendChild(tr);
             }
-
             listWrapper.getElementsByTagName('table')[0].appendChild(body);
             listWrapper.classList.remove('hidden');
         };
@@ -1322,7 +1318,6 @@ let players = function () {
                     trigger('message', response.responseCode);
                 }
             });
-
         };
 
         backButton.addEventListener('click', hide);
@@ -1374,7 +1369,6 @@ let players = function () {
         }
         let keys = Object.keys(data);
         let rowKeys = Object.keys(data[keys[0]]);
-        let rowKeys1 = Object.keys(data[keys[0]][rowKeys[0]]);
         let tableData = [];
 
         for (let key of keys) {
@@ -1390,7 +1384,6 @@ let players = function () {
             }
             else {
                 tableData.push(row);
-
             }
         }
         return tableData;
@@ -1409,14 +1402,11 @@ let players = function () {
         for (let key of keys) {
             let row = {};
             row[firstColName] = key;
-
             for (let rowKey of rowKeys) {
-
                 for (let fieldKey of rowKeys1) {
                     // row[fieldKey] = data[key][rowKey][fieldKey];
                     row[fieldKey] = data[key][`Change`][fieldKey];
                 }
-
             }
             tableData.push(row);
         }
@@ -1440,7 +1430,6 @@ let players = function () {
     }
 
     const showPopUpInterestingPlayersTable = (rowData) => {
-
         let playerId = rowData.Player;
         let popUpData = interestingPlayersData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
@@ -1448,7 +1437,6 @@ let players = function () {
 
     }
     const showPopUpLatestPlayersTable = (rowData) => {
-
         let playerId = rowData.Player;
         let popUpData = latestPlayersData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
@@ -1456,12 +1444,10 @@ let players = function () {
 
     }
     const showPopUpPlayersGroupsTable = (rowData) => {
-
         let playerId = rowData.Player;
         let popUpData = playersGroupsData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
         $$('#players-main-title-id-player').innerHTML = playerId;
-
     }
 
     const isEmpty = (obj) => {
@@ -1469,13 +1455,11 @@ let players = function () {
     }
 
     const getPlayers = () => {
-
         if (!$$('#players-main-portals-list').getSelected()) {
             $$('#players-main-settings-wrapper').style.display = 'none'
             trigger('message', message.codes.badParameter);
             return
         }
-
 
         let portalId = $$('#players-main-portals-list').getSelected();
         trigger('comm/players/getPlayersForPortal', {
@@ -1606,8 +1590,6 @@ let players = function () {
                     } else {
                         $$(`#players-winners-losers-title`).style.display = 'block';
                     }
-
-
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -1617,10 +1599,6 @@ let players = function () {
             }
         });
     }
-
-
-
-
 
     on('players/main/loaded', function () {
         getPlayersButton.classList.add('hidden');
@@ -1659,5 +1637,4 @@ let players = function () {
     getPlayerButton.addEventListener('click', getPlayer);
     getGroupsButton.addEventListener('click', getPlayerGroups);
     getPlayersButton.addEventListener('click', getPlayers);
-
 }();
