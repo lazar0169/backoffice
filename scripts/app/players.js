@@ -1216,7 +1216,7 @@ let players = function () {
                     trigger('message', response.responseCode);
                     removeLoader(playerSummaryHistoryButton);
                 }
-            })
+            });
         };
 
         const populateGameTable = (data) => {
@@ -1461,6 +1461,7 @@ let players = function () {
             return
         }
 
+        addLoader(getPlayersButton);
         let portalId = $$('#players-main-portals-list').getSelected();
         trigger('comm/players/getPlayersForPortal', {
             body: {
@@ -1520,7 +1521,7 @@ let players = function () {
                     playersGroupsData = response.result.playersGroups;
                     $$('#PlayersGroupsTable').innerHTML = '';
                     $$('#PlayersGroupsTable').appendChild(table.generate({
-                        data: parseData(playersGroupsData, `Player`),
+                        data: parseData(playersGroupsData, `Player Group`),
                         id: 'playersGroupsData',
                         dynamic: false,
                         sticky: true,
@@ -1590,12 +1591,14 @@ let players = function () {
                     } else {
                         $$(`#players-winners-losers-title`).style.display = 'block';
                     }
-                } else {
+                } else {                    
                     trigger('message', response.responseCode);
                 }
+                removeLoader(getPlayersButton);
             },
             fail: function (response) {
                 trigger('message', response.responseCode);
+                removeLoader(getPlayersButton);
             }
         });
     }
