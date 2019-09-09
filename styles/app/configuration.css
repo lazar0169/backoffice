@@ -445,11 +445,6 @@
     background: #76869b;
 }
 
-
-#configuration-currency-games-table table{
-    width: 100%;
-}
-
 #configuration-currency-games-table td {
     background-color: #3e4a58;
     -webkit-box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.65);
@@ -512,12 +507,14 @@
     margin-left: 10em;
 }
 
-#configuration-currency-games-table caption {
+#configuration-currency-games-table caption ,
+#configuration-currency-default-jackpot-settings-list caption {
     justify-content: center;
 }
 
-#configuration-currency-default-jackpot-settings-list {
-    display: flex;
+#configuration-currency-default-jackpot-settings-list table,
+#configuration-currency-games-table table {
+    width: 25em;
 }
 
 /* FORM */ 
