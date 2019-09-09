@@ -2,7 +2,7 @@
     display: flex;
 }
 
-.player-flex-column-wrapper {
+.players-flex-column-wrapper {
     display: flex;
     flex-direction: column;
 }
@@ -132,10 +132,14 @@
     margin-top: 0.5em;
 }
 
-#players-player-data-summary-info-wrapper,
+/* #players-player-data-summary-info-wrapper,
 #players-player-data-summary-total-wrapper,
 #players-player-data-summary-section-wrapper {
     padding-bottom: 5em;
+} */
+
+#players-player-data-summary-flags-wrapper label {
+    margin-bottom: 0.2em;
 }
 
 #players-player-data-summary-section-wrapper button {
@@ -159,6 +163,15 @@
     padding-right: 3em;
     padding-top: 2em;
     padding-left: 2em;
+}
+
+#players-player-data-groups-and-dashboard-wrapper, 
+#players-player-data-periods-wrapper {
+    width: 40%;
+}
+
+#players-player-data-summary-wrapper {
+    width: 20%;
 }
 
 #players-player-data-summary-wrapper {

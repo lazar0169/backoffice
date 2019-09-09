@@ -68,7 +68,7 @@ let players = function () {
         playersSearchListWrapper.classList.add('shrink');
         playerIdSelected = playerId;
         playerNameSelected = name;
-        showPlayerHeaderData(playerId, data.flags, data.onlineStatus);
+        showPlayerHeaderData(data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
         showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
@@ -86,8 +86,7 @@ let players = function () {
     };
 
 
-    const showPlayerHeaderData = (id, flags, status) => {
-        $$('#players-player-data-id').innerHTML = id;
+    const showPlayerHeaderData = (flags, status) => {
         clearPlayerFlags();
         showPlayerFlagData(flags);
     };
@@ -177,22 +176,21 @@ let players = function () {
     };
 
     const showPlayerSummaryData = (info, total, jackpots) => {
-        clearSummaryData();
-        let infoId = $$('#players-player-data-summary-id');
-        let infoName = $$('#players-player-data-summary-name');
-        let totalBet = $$('#players-player-data-summary-bet');
-        let totalWin = $$('#players-player-data-summary-win');
-        let totalAvgBet = $$('#players-player-data-summary-avg-bet');
-        let totalRounds = $$('#players-player-data-summary-rounds');
-        let totalGgr = $$('#players-player-data-summary-ggr');
+        let infoId = $$('#players-player-data-summary-id-value');
+        let infoName = $$('#players-player-data-summary-name-value');
+        let totalBet = $$('#players-player-data-summary-bet-value');
+        let totalWin = $$('#players-player-data-summary-win-value');
+        let totalAvgBet = $$('#players-player-data-summary-avg-bet-value');
+        let totalRounds = $$('#players-player-data-summary-rounds-value');
+        let totalGgr = $$('#players-player-data-summary-ggr-value');
 
-        infoId.innerHTML += info.id;
-        infoName.innerHTML += info.name;
-        totalBet.innerHTML += total.bet;
-        totalWin.innerHTML += total.win;
-        totalAvgBet.innerHTML += total.avgBet;
-        totalRounds.innerHTML += total.rounds;
-        totalGgr.innerHTML += total.ggr;
+        infoId.innerHTML = info.id;
+        infoName.innerHTML = info.name;
+        totalBet.innerHTML = total.bet;
+        totalWin.innerHTML = total.win;
+        totalAvgBet.innerHTML = total.avgBet;
+        totalRounds.innerHTML = total.rounds;
+        totalGgr.innerHTML = total.ggr;
 
         if (jackpots.length === 0) {
             playerSummaryJackpotButton.classList.add('cancel');
@@ -853,24 +851,6 @@ let players = function () {
         playerDataFlagSuspicious.checked = false;
         playerDataFlagDisable.checked = false;
         // playerDataFlagTest.checked = false;
-    };
-
-    const clearSummaryData = () => {
-        let infoId = $$('#players-player-data-summary-id');
-        let infoName = $$('#players-player-data-summary-name');
-        let totalBet = $$('#players-player-data-summary-bet');
-        let totalWin = $$('#players-player-data-summary-win');
-        let totalAvgBet = $$('#players-player-data-summary-avg-bet');
-        let totalRounds = $$('#players-player-data-summary-rounds');
-        let totalGgr = $$('#players-player-data-summary-ggr');
-
-        infoId.innerHTML = 'Id: ';
-        infoName.innerHTML = 'Name: ';
-        totalBet.innerHTML = 'Bet: ';
-        totalWin.innerHTML = 'Win: ';
-        totalAvgBet.innerHTML = 'Avg Bet: ';
-        totalRounds.innerHTML = 'Rounds: ';
-        totalGgr.innerHTML = 'GGR; ';
     };
 
     const playerFlagChanged = (event) => {
