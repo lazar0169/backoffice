@@ -291,8 +291,8 @@ let players = function () {
             groupsBetGraph.options.legend.position = 'right';
             groupsRoundsGraph.options.legend.position = 'right';
 
-            groupsBetGraph.options.title = { display: true, text: 'Total Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
-            groupsRoundsGraph.options.title = { display: true, text: 'Avg Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            groupsBetGraph.options.title = { display: true, text: 'Total Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            groupsRoundsGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
 
             let labelsBet = [];
             let labelsRounds = [];
