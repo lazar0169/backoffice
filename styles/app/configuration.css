@@ -407,41 +407,44 @@
     flex-direction: column;
 }
 
-#configuration-currency-imaginary-wrapper{
+#configuration-currency-imaginary-wrapper {
     display: flex;
     flex-direction: column;
 }
 
-#configuration-currency-imaginary-wrapper.hidden{
+#configuration-currency-imaginary-wrapper.hidden {
     display: none;
 }
 
-#configuration-currency-main-options.hidden{
+#configuration-currency-main-options.hidden {
     display: none;
 }
 
-#configuration-currency-main-options fieldset .legend{
+#configuration-currency-main-options fieldset .legend {
     margin-top: 0.5em;
 }
 
-#configuration-currency-main-options fieldset input{
+#configuration-currency-main-options fieldset input {
     float: right;
 }
 
-#configuration-currency-games-table-wrapper{
-    overflow: auto;
-    max-height: 66%;
-    height: 25vw;
+#configuration-currency-games-table-wrapper {
+    max-height: 15vh;
+    margin-bottom: 5em;
     flex: 1;
     display: flex;
     justify-content: center;
 }
 
-#configuration-currency-games-table-wrapper.hidden{
+#configuration-currency-games-table {
+    overflow: auto;
+}
+
+#configuration-currency-games-table-wrapper.hidden {
     display: none;
 }
 
-#configuration-currency-games-table tr.highlighted{
+#configuration-currency-games-table tr.highlighted {
     background: #76869b;
 }
 
@@ -510,6 +513,8 @@
 #configuration-currency-games-table caption ,
 #configuration-currency-default-jackpot-settings-list caption {
     justify-content: center;
+    position: sticky;
+    top: 0;
 }
 
 #configuration-currency-default-jackpot-settings-list table,
