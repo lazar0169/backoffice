@@ -240,8 +240,8 @@ let players = function () {
             playerBetGraph.options.legend.position = 'right';
             playerRoundsGraph.options.legend.position = 'right';
 
-            playerBetGraph.options.title = { display: true, text: 'Total Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
-            playerRoundsGraph.options.title = { display: true, text: 'Avg Bet', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            playerBetGraph.options.title = { display: true, text: 'Total Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            playerRoundsGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
 
             let labelsBet = [];
             let labelsRounds = [];
@@ -854,6 +854,11 @@ let players = function () {
     };
 
     const playerFlagChanged = (event) => {
+        if (!event.target.checked) {
+            updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: false, disabled: false, test: false, wasDisabled: playerDataFlagDisable.checked });
+            return;
+        }
+
         if (event.target === playerDataFlagSuspicious) {
             updatePlayerFlagsAndDisabledStatus({ interesting: false, suspicious: true, disabled: false, test: false, wasDisabled: playerDataFlagDisable.checked });
             return;

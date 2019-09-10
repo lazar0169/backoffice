@@ -229,14 +229,18 @@
     height: 78%;
 }
 
-#players-player-game-history-options-parameters-wrapper,
-#players-player-game-history-options-wrapper {
+#players-player-game-history-options-parameters-wrapper {
     justify-content: space-evenly;
+}
+
+#players-player-history-main-form h2 {
+    margin-left: 1.5em;
 }
 
 #players-player-game-history-get {
     height: 2.5em;
     align-self: center;
+    margin-left: 2em;
 }
 
 /* END PLAYER TAB */
