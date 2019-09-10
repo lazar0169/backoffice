@@ -1258,6 +1258,9 @@ let players = function () {
         const show = (id, element) => {
             gameId = id;
             loaderElement = element;
+            if (iframeWrapper.children.length > 0) {
+                iframeWrapper.children[0].remove();
+            }
             modal.classList.add('show');
         };
 
@@ -1272,9 +1275,6 @@ let players = function () {
                 return;
             }
             addLoader(loaderElement);
-            if (iframeWrapper.children.length > 0) {
-                iframeWrapper.children[0].remove();
-            }
             let selectedDate = new Date(historyDate).toLocaleDateString();
             let selectedTime = new Date(historyDate).toLocaleTimeString();
             let offset = new Date(historyDate).getTimezoneOffset();
@@ -1306,12 +1306,11 @@ let players = function () {
                         historyElement.onload = () => {
                             historyElement.contentWindow.postMessage(response.result, '*');
                         };
-                        removeLoader(loaderElement);
                     }
                     else {
-                        removeLoader(loaderElement);
                         trigger('message', response.responseCode);
                     }
+                    removeLoader(loaderElement);
                 },
                 fail: function (response) {
                     removeLoader(loaderElement);
@@ -1591,7 +1590,7 @@ let players = function () {
                     } else {
                         $$(`#players-winners-losers-title`).style.display = 'block';
                     }
-                } else {                    
+                } else {
                     trigger('message', response.responseCode);
                 }
                 removeLoader(getPlayersButton);

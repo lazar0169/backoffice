@@ -39,6 +39,7 @@ let loading = function () {
         let user = $$('#sidebar-user').children[1].innerText.split(' ')[0];
         trigger('message', [message.codes.welcome, user]);
         isLoaded = true;
+        trigger('ready');
     }
 
     return {

@@ -67,6 +67,16 @@ const navigation = function () {
         trigger(`dashboard/loaded`);
     });
 
+    on('ready', function () {
+        if (localStorage.getItem('lastTab')) {
+            let lastTab = JSON.parse(localStorage.getItem('lastTab'));
+            to(lastTab);
+        }
+        // else {
+        //     trigger(`dashboard/loaded`);
+        // }
+    });
+
     addLoader($$('#sidebar-user'));
     trigger('comm/configuration/profile/get', {
         success: function (response) {
@@ -104,6 +114,7 @@ const navigation = function () {
         active.tab = data.tab;
         log(`${data.page}/${data.tab}/loaded`);
         trigger(`${data.page}/${data.tab}/loaded`);
+        localStorage.setItem('lastTab', JSON.stringify(data));
     }
 
     on('navigation/change', to);
