@@ -110,6 +110,8 @@ const navigation = function () {
             trigger(`${data.page}/loaded`);
             log(`${data.page}/loaded`);
         }
+        log(`${active.page}/${active.tab}/unloaded`);
+        trigger(`${active.page}/${active.tab}/unloaded`);
         active.page = data.page;
         active.tab = data.tab;
         log(`${data.page}/${data.tab}/loaded`);
