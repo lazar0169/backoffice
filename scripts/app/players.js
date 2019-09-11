@@ -71,8 +71,8 @@ let players = function () {
         showPlayerHeaderData(data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
         // showPlayerGroupsData();
-        showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
+        showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
         console.log(data);
     };
 
@@ -81,8 +81,8 @@ let players = function () {
         groupsSearchListWrapper.classList.add('shrink');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
-        showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `groups-data`, 1);
+        showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
     };
 
 
@@ -237,8 +237,8 @@ let players = function () {
             playerBetGraph.data.datasets.length = 0;
             playerRoundsGraph.data.datasets.length = 0;
 
-            playerBetGraph.options.legend.position = 'right';
-            playerRoundsGraph.options.legend.position = 'right';
+            playerBetGraph.options.legend.position = 'bottom';
+            playerRoundsGraph.options.legend.position = 'bottom';
 
             playerBetGraph.options.title = { display: true, text: 'Total Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
             playerRoundsGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
@@ -288,8 +288,8 @@ let players = function () {
             groupsBetGraph.data.datasets.length = 0;
             groupsRoundsGraph.data.datasets.length = 0;
 
-            groupsBetGraph.options.legend.position = 'right';
-            groupsRoundsGraph.options.legend.position = 'right';
+            groupsBetGraph.options.legend.position = 'bottom';
+            groupsRoundsGraph.options.legend.position = 'bottom';
 
             groupsBetGraph.options.title = { display: true, text: 'Total Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
             groupsRoundsGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
@@ -381,6 +381,7 @@ let players = function () {
         let portalId = $$('#players-player-portals-list').getSelected();
         playerDataWrapper.classList.add('hidden');
         playerPeriodWrapper.classList.add('hidden');
+        $$('#players-player-main-wrapper').classList.add('hidden');
 
         if (!portalId) {
             trigger('message', message.codes.badParameter);
@@ -394,7 +395,6 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     if (response.result.length === 0) {
-                        $$('#players-player-main-wrapper').classList.add('hidden');
                         removeLoader(getPlayerButton);
                         trigger('message', message.codes.noData);
                         return;
@@ -420,6 +420,7 @@ let players = function () {
         let portalId = $$('#players-groups-portals-list').getSelected();
         groupsDataWrapper.classList.add('hidden');
         groupsPeriodWrapper.classList.add('hidden');
+        $$('#players-groups-main-wrapper').classList.add('hidden');
 
         if (!portalId) {
             trigger('message', message.codes.badParameter);
@@ -433,7 +434,6 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     if (response.result.length === 0) {
-                        $$('#players-groups-main-wrapper').classList.add('hidden');
                         removeLoader(getGroupsButton);
                         trigger('message', message.codes.noData);
                         return;
@@ -647,7 +647,19 @@ let players = function () {
 
         actions.getElementsByTagName('table')[0].appendChild(body);
         actions.classList.remove('hidden');
-        serachBar.classList.remove('hidden');
+        if (!data.length) {
+            let tr = document.createElement('tr');
+            let tdId = document.createElement('td');
+            let tdSimilarity = document.createElement('td');
+            tdId.innerHTML = '-';
+            tdSimilarity.innerHTML = '-';
+            tr.appendChild(tdId);
+            tr.appendChild(tdSimilarity);
+            body.appendChild(tr);
+            serachBar.classList.add('hidden');
+        } else {
+            serachBar.classList.remove('hidden');
+        }
 
         let input = $$(`#players-groups-suggested-players-search`);
 

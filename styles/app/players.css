@@ -215,6 +215,12 @@
     overflow: auto;
 }
 
+#players-player-unresolved-wins-main-wrapper caption,
+#players-player-history-main-wrapper caption {
+    position: sticky;
+    top: 0;
+}
+
 #players-player-game-history-wrapper {
     height: 100%;
 }
@@ -231,9 +237,15 @@
 
 #players-player-game-history-options-parameters-wrapper {
     justify-content: space-evenly;
+    align-items: center;
 }
 
-#players-player-history-main-form h2 {
+#players-player-game-history-vip-roulette-id {
+    margin-left: 2em;
+}
+
+#players-player-history-main-form h2,
+#players-player-unresolved-wins-main-form h2 {
     margin-left: 1.5em;
 }
 
@@ -325,7 +337,8 @@
 #players-groups-groups-table-wrapper.hidden,
 #players-groups-data-wrapper.hidden,
 #players-groups-period-canvas-wrapper.hidden,
-#players-groups-main-wrapper.hidden {
+#players-groups-main-wrapper.hidden,
+#players-groups-suggested-players-search-wrapper.hidden {
     display: none;
 }
 
@@ -383,8 +396,7 @@
     margin: 0 !important;
 }
 
-#players-groups-players-table-wrapper {
-    overflow: auto;
+#groupsDashboardData {
     max-height: 27em;
 }
 
@@ -396,6 +408,7 @@
 
 #players-groups-suggested-players-list-wrapper table {
     width: 100%;
+    text-align: center;
 }
 
 #players-groups-suggested-players-list-wrapper table caption {
