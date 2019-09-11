@@ -1649,6 +1649,15 @@ let players = function () {
         afterLoad(`player`);
     });
 
+    on('players/player/unloaded', function () {        
+        playerJackpotPopup.hide();
+        playerTransactionPopup.hide();
+        playerUnresolvedWinsPopup.hide();
+        playerUnresolvedPopup.hide();
+        playerGameHistoryPopup.hide();
+        playerHistoryPopup.hide();
+    });
+
     playerDataFlagInteresting.addEventListener('click', playerFlagChanged);
     playerDataFlagSuspicious.addEventListener('click', playerFlagChanged);
     playerDataFlagDisable.addEventListener('click', playerFlagChanged);
