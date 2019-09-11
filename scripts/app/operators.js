@@ -367,11 +367,23 @@ let operators = function () {
                 }
 
                 $$('#operators-form-jackpots-save').onclick = function () {
-                    if (parseInt(minJackpotValue.value) > parseInt(maxJackpotValue.value) ||
-                        parseInt(maxJackpotValue.value) === parseInt(minJackpotValue.value)) {
+                    if (parseInt(betContribution.value) > 0) {
+                        if (parseInt(minJackpotValue.value) > parseInt(maxJackpotValue.value) ||
+                            parseInt(maxJackpotValue.value) === parseInt(minJackpotValue.value)) {
+                            trigger('message', message.codes.badParameter);
+                            return;
+                        }
+                    }
+
+                    if (parseInt(betContribution.value) < 0 ||
+                        parseInt(minBet.value) < 0 ||
+                        parseInt(baseJackpotValue.value) < 0 ||
+                        parseInt(minJackpotValue.value) < 0 ||
+                        parseInt(maxJackpotValue.value) < 0) {
                         trigger('message', message.codes.badParameter);
                         return;
                     }
+
                     openedPortalData[jackpot].betContribution = betContribution.value;
                     openedPortalData[jackpot].minBet = minBet.value;
                     openedPortalData[jackpot].baseJackpotValue = baseJackpotValue.value;
