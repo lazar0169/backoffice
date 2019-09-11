@@ -88,6 +88,10 @@ let operators = function () {
         });
     });
 
+    on('operators/main/unloaded', function () {
+        hideModal();
+    });
+
     // Shows modal with details for individual selection
     function showModal(data) {
         if (!data) {
