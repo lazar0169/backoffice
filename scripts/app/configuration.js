@@ -1843,6 +1843,10 @@ let configuration = function () {
         });
     });
 
+    on('configuration/currency/loaded', function () {
+        closeAllPopups();
+    });
+
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
         $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
@@ -1928,6 +1932,10 @@ let configuration = function () {
                 removeLoader($$('#sidebar-configuration'));
             }
         });
+    });
+
+    on('configuration/main/unloaded', function() {
+        hideModal();
     });
 
     on('configuration/show/modal', function (data) {
