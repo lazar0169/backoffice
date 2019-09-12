@@ -301,6 +301,15 @@
     grid-template-columns: 1fr;
 }
 
+#configuration-form-inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+#configuration-form-users-save {
+    margin-top: 1em;
+}
+
 #configuration-user-role {
     width: 100%;
 }
