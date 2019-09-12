@@ -208,8 +208,10 @@ let operators = function () {
         $$('#operators-black-overlay').style.display = 'none';
         $$('#operators-form').classList.remove('show');
         $$('#operators-main').children[0].style.overflow = 'auto';
-        for (let checkbox of $$('#operators-games').getElementsByTagName('input')) {
-            checkbox.checked = false;
+        if ($$('#operators-games')) {
+            for (let checkbox of $$('#operators-games').getElementsByTagName('input')) {
+                checkbox.checked = false;
+            }
         }
         portalModal.hide();
         jackpotModal.hide();
@@ -451,8 +453,10 @@ let operators = function () {
 
     function filterCurrencies() {
         availableCurrencies = currencies.filter((currency) => {
-            for (let portal of operatorData.portalSettingsList) {
-                if (portal.currencyId === currency.id) return false;
+            if(operatorData.portalSettingsList){
+                for (let portal of operatorData.portalSettingsList) {
+                    if (portal.currencyId === currency.id) return false;
+                }
             }
             return true;
         });
