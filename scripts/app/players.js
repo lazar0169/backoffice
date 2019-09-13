@@ -73,7 +73,9 @@ let players = function () {
         // showPlayerGroupsData();
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
-        console.log(data);
+        if (Object.keys(data.playerGroups).length > 0) {
+            console.log(data.playerGroups);
+        }
     };
 
     const showGroupData = (data, id) => {
@@ -813,7 +815,7 @@ let players = function () {
                         let td = document.createElement('td');
                         td.innerHTML = row.name;
                         tr.dataset.id = row.id;
-                        tr.onclick = function () { callback(row.id, row.name) };
+                        tr.onclick = function () { callback(row.id, row.name, td) };
                         tr.appendChild(td);
                         body.appendChild(tr);
                     }
@@ -1625,6 +1627,10 @@ let players = function () {
         clearElement($$(`#players-main-portals-list`));
         afterLoad(`main`);
     });
+    
+    on('players/main/unloaded', function () {
+        mainForm.hide();
+    });
 
     on('players/groups/loaded', function () {
         getGroupsButton.classList.add('hidden');
@@ -1649,7 +1655,7 @@ let players = function () {
         afterLoad(`player`);
     });
 
-    on('players/player/unloaded', function () {        
+    on('players/player/unloaded', function () {
         playerJackpotPopup.hide();
         playerTransactionPopup.hide();
         playerUnresolvedWinsPopup.hide();

@@ -301,7 +301,7 @@
     grid-template-columns: 1fr;
 }
 
-#configuration-form-inputs {
+.configuration-form-inputs {
     display: flex;
     flex-direction: column;
 }
