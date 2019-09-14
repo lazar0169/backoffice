@@ -116,6 +116,12 @@ let statisticGamesSummary = function () {
         });
     }
 
+    const parseSummaryData = (data) => {
+        if (!data.currency) {
+            data.currency = currency.get().name;
+        }
+    };
+
     function getStatistic() {
         let data = {
             gameCategoryIds: $$('#statistic-games-summary-categories').getSelected(),
@@ -138,11 +144,13 @@ let statisticGamesSummary = function () {
                 removeLoader(gamesSummaryButton);
                 if (response.responseCode === message.codes.success) {
                     let summary = getCopy(response.result.gameStatisticsPerGame);
+                    let summarySum = getCopy(response.result.gameStatisticsSum);
+                    parseSummaryData(summarySum);
                     gamesSummaryTableWrapper.appendChild(table.generate({
                         data: summary,
                         id: '',
                         dynamic: false,
-                        sum: response.result.gameStatisticsSum,
+                        sum: summarySum,
                         sticky: true,
                         options: {
                             prefix: {
