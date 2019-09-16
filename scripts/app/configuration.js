@@ -461,6 +461,10 @@ let configuration = function () {
         // TODO
     });
 
+    on('configuration/main/unloaded', function() {
+        hideModal();
+    });
+    
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
         addLoader($$('#sidebar-configuration'));
