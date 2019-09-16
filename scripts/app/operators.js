@@ -88,6 +88,10 @@ let operators = function () {
         });
     });
 
+    on('operators/main/unloaded', function () {
+        hideModal();
+    });
+
     // Shows modal with details for individual selection
     function showModal(data) {
         if (!data) {
@@ -204,8 +208,10 @@ let operators = function () {
         $$('#operators-black-overlay').style.display = 'none';
         $$('#operators-form').classList.remove('show');
         $$('#operators-main').children[0].style.overflow = 'auto';
-        for (let checkbox of $$('#operators-games').getElementsByTagName('input')) {
-            checkbox.checked = false;
+        if ($$('#operators-games')) {
+            for (let checkbox of $$('#operators-games').getElementsByTagName('input')) {
+                checkbox.checked = false;
+            }
         }
         portalModal.hide();
         jackpotModal.hide();
@@ -246,6 +252,8 @@ let operators = function () {
                     $$('#operators-operator-form-enabled').checked = element.enabled;
                 } else {
                     operatorsCurrencyWrapper.appendChild(dropdown.generate(availableCurrencies, 'operator-portal-currency-code', 'Select currency'));
+                    //TODO: if no games selected throw error 
+                    //$$('#operators-games-wrapper').childredn[0].getSelectedObject()
                     let currencyId = $$('#operator-currency-code').children[0].dataset.value;
                     if (currencyId && $$('#operator-timezone-code').children[0].dataset.value) {
                         openedPortalData = {
@@ -445,8 +453,10 @@ let operators = function () {
 
     function filterCurrencies() {
         availableCurrencies = currencies.filter((currency) => {
-            for (let portal of operatorData.portalSettingsList) {
-                if (portal.currencyId === currency.id) return false;
+            if(operatorData.portalSettingsList){
+                for (let portal of operatorData.portalSettingsList) {
+                    if (portal.currencyId === currency.id) return false;
+                }
             }
             return true;
         });
