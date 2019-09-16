@@ -20,6 +20,7 @@ let players = function () {
     let playerTransactionFrom = getToday();
     let playerTransactionTo = getToday();
     let playerDashboardWrapper = $$('#players-player-data-dashboard-wrapper');
+    let playerGroupsWrapper = $$('#players-player-data-groups-wrapper');
     let playerBetGraph = graph.generate($$(`#player-player-data-bet-graph-wrapper`).children[0], 'line');
     let playerRoundsGraph = graph.generate($$(`#player-player-data-rounds-graph-wrapper`).children[0], 'line');
     let timePeriods = [
@@ -70,12 +71,9 @@ let players = function () {
         playerNameSelected = name;
         showPlayerHeaderData(data.flags, data.onlineStatus);
         showPlayerDashboardData(data.dashboard);
-        // showPlayerGroupsData();
+        showPlayerGroupsData(data.playerGroups);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `player-data`, 0);
         showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
-        if (Object.keys(data.playerGroups).length > 0) {
-            console.log(data.playerGroups);
-        }
     };
 
     const showGroupData = (data, id) => {
@@ -129,6 +127,35 @@ let players = function () {
         playerDashboardWrapper.appendChild(tableNode);
     };
 
+    const showPlayerGroupsData = (data) => {
+        // <div id="configuration-user-enabled-wrapper">
+        //                 <input type="checkbox" id="configuration-user-enabled">
+        //                 <label for="configuration-user-enabled">Enabled</label>
+        //             </div>
+        for (let group of data) {
+            const row = document.createElement('div');
+            const groupName = document.createElement('h3');
+            const checkboxWrapper = document.createElement('div');
+            const checkboxInput = document.createElement('inpu');
+            const checkboxLabel = document.createElement('label');
+            row.classList.add('players-flex-wrapper');
+            row.style.justifyContent = 'space-evenly';
+            groupName.innerHTML = group.name;
+            checkboxInput.type = 'checkbox';
+            checkboxInput.checked = group.checked;
+            checkboxInput.addEventListener('click', () => addOrRemovePlayerToGroup(checkboxInput.checked, group.id));
+            checkboxInput.id = `group-${group.id}`;
+            checkboxLabel.for = `group-${group.id}`;
+            checkboxLabel.innerHTML = `Check`;
+            checkboxWrapper.style.alignSelf = 'center';
+            checkboxWrapper.appendChild(checkboxInput);
+            checkboxWrapper.appendChild(checkboxLabel);
+            row.appendChild(groupName);
+            row.appendChild(checkboxWrapper);
+            playerGroupsWrapper.appendChild(row);
+        }
+    };
+
     const showGroupsDashboardData = (data) => {
         if (groupsDashboardWrapper.children.length > 0) {
             groupsDashboardWrapper.children[0].remove();
@@ -156,6 +183,10 @@ let players = function () {
             stickyCol: false
         });
         groupsPlayersWrapper.appendChild(tableNode);
+    };
+
+    const addOrRemovePlayerToGroup = (state, id) => {
+        console.log(state, id);
     };
 
     const afterLoad = (tab) => {
@@ -1627,7 +1658,7 @@ let players = function () {
         clearElement($$(`#players-main-portals-list`));
         afterLoad(`main`);
     });
-    
+
     on('players/main/unloaded', function () {
         mainForm.hide();
     });

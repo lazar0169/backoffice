@@ -165,13 +165,27 @@
     padding-left: 2em;
 }
 
-#players-player-data-groups-and-dashboard-wrapper, 
+#players-player-data-groups-and-dashboard-wrapper 
+{
+    width: 50%;
+}
+
 #players-player-data-periods-wrapper {
-    width: 40%;
+    width: 30%;
 }
 
 #players-player-data-summary-wrapper {
     width: 20%;
+}
+
+#players-player-data-groups-wrapper {
+    overflow: auto;
+    max-height: 20em;
+}
+
+#players-player-data-groups-wrapper div.players-flex-wrapper {
+    justify-content: space-evenly;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 #players-player-data-summary-wrapper {
