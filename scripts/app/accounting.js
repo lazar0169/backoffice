@@ -589,6 +589,10 @@ let accounting = function () {
         });
     });
 
+    on('accounting/setup/unloaded', function () {
+        hideModal();
+    });
+
     on('accounting/reports/loaded', function () {
         pageReports.innerHTML = '';
         header.classList.add('hidden');
