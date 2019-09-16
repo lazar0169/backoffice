@@ -378,6 +378,7 @@
 /* SETUP OPERATORS SEARCH */
 
 #accounting-setup-search-wrapper{
+    display: flex;
     position: absolute;
 }
 
@@ -393,7 +394,7 @@
 
 #accounting-setup-remove-search {
     background: transparent;
-    height: 1.5em;
+    height: 2.2em;
     padding: 0;
     width: 1.5em;
     border-radius: 2px;
