@@ -1847,6 +1847,10 @@ let configuration = function () {
         closeAllPopups();
     });
 
+    on('configuration/main/unloaded', function() {
+        hideModal();
+    });
+    
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
         $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
