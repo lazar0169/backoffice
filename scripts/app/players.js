@@ -143,7 +143,6 @@ let players = function () {
             checkboxLabel.addEventListener('click', () => addOrRemovePlayerToGroup(checkboxInput, group.id));
             checkboxInput.id = `group-${group.id}`;
             checkboxLabel.htmlFor = `group-${group.id}`;
-            // checkboxLabel.innerHTML = `Check`;
             checkboxWrapper.style.alignSelf = 'center';
             checkboxWrapper.appendChild(checkboxInput);
             checkboxWrapper.appendChild(checkboxLabel);
@@ -251,7 +250,6 @@ let players = function () {
     };
 
     const showGroupsSuggestedPlayersData = (players, id) => {
-        // TODO: implmenet this function with pagination
         createSuggestePlayersList(players, id);
     };
 
@@ -405,11 +403,6 @@ let players = function () {
                 }
             });
         });
-
-        // Prevent operator change
-        // if (roles.getRole() === 'Manager') {
-        //     trigger('accounting-operators-list/selected', 0);
-        // }
     };
 
     const getPortals = (data, tab) => {
@@ -678,7 +671,6 @@ let players = function () {
             let tr = document.createElement('tr');
             let tdId = document.createElement('td');
             let tdSimilarity = document.createElement('td');
-            // td.innerHTML = `${row.playerId} <span style="float: right;">${row.averageSimilarityOfCriteria}% similarity</span>`;
             tdId.innerHTML = row.playerId;
             tdSimilarity.innerHTML = row.averageSimilarityOfCriteria;
             tr.dataset.id = row.playerId;
@@ -1453,9 +1445,9 @@ let players = function () {
             return [];
         }
 
-        let keys = Object.keys(data);//players id
-        let rowKeys = Object.keys(data[keys[0]]);//CHANGE,today,yesterday...
-        let rowKeys1 = Object.keys(data[keys[0]][rowKeys[0]]);//bet,win,ggr...
+        let keys = Object.keys(data); //players id
+        let rowKeys = Object.keys(data[keys[0]]); //CHANGE,today,yesterday...
+        let rowKeys1 = Object.keys(data[keys[0]][rowKeys[0]]); //bet,win,ggr...
         let tableData = [];
 
         for (let key of keys) {
@@ -1463,7 +1455,6 @@ let players = function () {
             row[firstColName] = key;
             for (let rowKey of rowKeys) {
                 for (let fieldKey of rowKeys1) {
-                    // row[fieldKey] = data[key][rowKey][fieldKey];
                     row[fieldKey] = data[key][`Change`][fieldKey];
                 }
             }
@@ -1472,7 +1463,7 @@ let players = function () {
         return tableData;
     };
     const checkIfAllObjEmpty = (data) => {
-        let keys = Object.keys(data);//players id
+        let keys = Object.keys(data); //players id
         let nmbOfNullData = 0
         let nmbKeys = 0
 
