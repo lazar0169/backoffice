@@ -128,25 +128,22 @@ let players = function () {
     };
 
     const showPlayerGroupsData = (data) => {
-        // <div id="configuration-user-enabled-wrapper">
-        //                 <input type="checkbox" id="configuration-user-enabled">
-        //                 <label for="configuration-user-enabled">Enabled</label>
-        //             </div>
+        playerGroupsWrapper.innerHTML = "";
         for (let group of data) {
             const row = document.createElement('div');
             const groupName = document.createElement('h3');
             const checkboxWrapper = document.createElement('div');
-            const checkboxInput = document.createElement('inpu');
+            const checkboxInput = document.createElement('input');
             const checkboxLabel = document.createElement('label');
             row.classList.add('players-flex-wrapper');
             row.style.justifyContent = 'space-evenly';
             groupName.innerHTML = group.name;
             checkboxInput.type = 'checkbox';
             checkboxInput.checked = group.checked;
-            checkboxInput.addEventListener('click', () => addOrRemovePlayerToGroup(checkboxInput.checked, group.id));
+            checkboxLabel.addEventListener('click', () => addOrRemovePlayerToGroup(checkboxInput, group.id));
             checkboxInput.id = `group-${group.id}`;
-            checkboxLabel.for = `group-${group.id}`;
-            checkboxLabel.innerHTML = `Check`;
+            checkboxLabel.htmlFor = `group-${group.id}`;
+            // checkboxLabel.innerHTML = `Check`;
             checkboxWrapper.style.alignSelf = 'center';
             checkboxWrapper.appendChild(checkboxInput);
             checkboxWrapper.appendChild(checkboxLabel);
@@ -185,8 +182,21 @@ let players = function () {
         groupsPlayersWrapper.appendChild(tableNode);
     };
 
-    const addOrRemovePlayerToGroup = (state, id) => {
-        console.log(state, id);
+    const addOrRemovePlayerToGroup = (checkbox, groupId) => {
+        trigger(`${!checkbox.checked ? 'comm/playerGroups/addPlayer' : 'comm/playerGroups/removePlayer'}`, {
+            body: {
+                playerGroupId: groupId,
+                playerId: playerIdSelected
+            },
+            success: function(response){
+                if(response.responseCode !== message.codes.success){
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response){
+                trigger('message', response.responseCode);
+            }
+        })
     };
 
     const afterLoad = (tab) => {

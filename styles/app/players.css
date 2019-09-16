@@ -181,6 +181,8 @@
 #players-player-data-groups-wrapper {
     overflow: auto;
     max-height: 20em;
+    border-radius: 1em;
+    background: #313c4a;
 }
 
 #players-player-data-groups-wrapper div.players-flex-wrapper {

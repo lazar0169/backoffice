@@ -129,12 +129,12 @@ const actions = Object.freeze({
     'comm/player/getHistory': '/Player/GetPlayerHistory',
 
     //Player Groups
-    'comm/playerGroups/getDashboard': '/PlayerGroup/get-players-group-dashboard',
-    'comm/playerGroups/getPlayers': '/PlayerGroup/get-players-info',
     'comm/playerGroups/get': '/PlayerGroup/get-player-groups',
     'comm/playerGroups/getGroup': '/PlayerGroup/read',
     'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
     'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
     'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
     'comm/playerGroups/getGroupsBySubstring': '/PlayerGroup/get-suggested-players-by-substring',
+    'comm/playerGroups/addPlayer': '/PlayerGroup/add-player',
+    'comm/playerGroups/removePlayer': '/PlayerGroup/delete-player',
 });
