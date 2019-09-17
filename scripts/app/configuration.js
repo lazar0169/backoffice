@@ -567,9 +567,23 @@ let configuration = function () {
                 body: newCurrencyData,
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        showCurrencyView(response.result);
+                        trigger('comm/currency/getCurrencies', {
+                            success: function (secondResponse) {
+                                if (secondResponse.responseCode === message.codes.success) {
+                                    actions = response.result;
+                                    populateCurrencyDropdown(secondResponse);
+                                    // selectCreatedCurrency(response.result.id);
+                                    // showCurrencyView(response.result);
+                                } else {
+                                    trigger('message', secondResponse.responseCode);
+                                }
+                                removeLoader($$('#sidebar-configuration'));
+                            },
+                            fail: function () {
+                                removeLoader($$('#sidebar-configuration'));
+                            }
+                        });
                     }
-
                     trigger('message', response.responseCode)
                 },
                 fail: function (response) {
@@ -1847,10 +1861,10 @@ let configuration = function () {
         closeAllPopups();
     });
 
-    on('configuration/main/unloaded', function() {
+    on('configuration/main/unloaded', function () {
         hideModal();
     });
-    
+
     // When configuration page is loaded
     on('configuration/main/loaded', function () {
         $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
@@ -1938,7 +1952,7 @@ let configuration = function () {
         });
     });
 
-    on('configuration/main/unloaded', function() {
+    on('configuration/main/unloaded', function () {
         hideModal();
     });
 

@@ -1125,6 +1125,11 @@
 
 #configuration-currency-form-delete-main h1 {
     margin: 2.5em;
+    margin-bottom: 1em;
+}
+
+#configuration-currency-form-delete-main .configuration-currency-form-new-currency-button-wrapper {
+    justify-content: space-evenly !important;
 }
 
 #configuration-currency-delete-yes-button,
