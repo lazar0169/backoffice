@@ -572,8 +572,6 @@ let configuration = function () {
                                 if (secondResponse.responseCode === message.codes.success) {
                                     actions = response.result;
                                     populateCurrencyDropdown(secondResponse);
-                                    // selectCreatedCurrency(response.result.id);
-                                    // showCurrencyView(response.result);
                                 } else {
                                     trigger('message', secondResponse.responseCode);
                                 }
