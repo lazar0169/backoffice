@@ -5,6 +5,12 @@
 .players-flex-column-wrapper {
     display: flex;
     flex-direction: column;
+    width: 50%;
+}
+.players-popup-flex-column-wrapper{
+    display: flex;
+    flex-direction: column;
+  
 }
 
 .players-flex-one-wrapper {
@@ -271,7 +277,7 @@
 
 /* PLAYERS TAB */
 #players-main .page-content-wrapper{
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 #players-get-main.hidden{
