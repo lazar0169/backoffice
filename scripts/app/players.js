@@ -1483,6 +1483,7 @@ let players = function () {
         let playerId = rowData.Player;
         let popUpData = interestingPlayersData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        $$('#players-main-popup-header').innerHTML = 'Player';
         $$('#players-main-title-id-player').innerHTML = playerId;
 
     }
@@ -1490,6 +1491,7 @@ let players = function () {
         let playerId = rowData.Player;
         let popUpData = latestPlayersData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        $$('#players-main-popup-header').innerHTML = 'Player';
         $$('#players-main-title-id-player').innerHTML = playerId;
 
     }
@@ -1497,6 +1499,7 @@ let players = function () {
         let playerId = rowData.PlayerGroup;
         let popUpData = playersGroupsData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
+        $$('#players-main-popup-header').innerHTML = 'Player Group';
         $$('#players-main-title-id-player').innerHTML = playerId;
     }
 
@@ -1571,7 +1574,7 @@ let players = function () {
                     playersGroupsData = response.result.playersGroups;
                     $$('#PlayersGroupsTable').innerHTML = '';
                     $$('#PlayersGroupsTable').appendChild(table.generate({
-                        data: parseData(playersGroupsData, `Player Group`),
+                        data: parseData(playersGroupsData, `PlayerGroup`),
                         id: 'playersGroupsData',
                         dynamic: false,
                         sticky: true,
