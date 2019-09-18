@@ -1494,7 +1494,7 @@ let players = function () {
 
     }
     const showPopUpPlayersGroupsTable = (rowData) => {
-        let playerId = rowData.Player;
+        let playerId = rowData.PlayerGroup;
         let popUpData = playersGroupsData[playerId];
         mainForm.show(parsePlayersMainData(popUpData, false, `Activity`));
         $$('#players-main-title-id-player').innerHTML = playerId;
