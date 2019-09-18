@@ -114,10 +114,6 @@
     width: 8%;
 }
 
-#players-player-data-main-wrapper {
-    height: 80%;
-}
-
 #players-player-players-table-wrapper table {
     display: flex;
     flex-direction: column;
