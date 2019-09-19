@@ -572,6 +572,8 @@ let configuration = function () {
                                 if (secondResponse.responseCode === message.codes.success) {
                                     actions = response.result;
                                     populateCurrencyDropdown(secondResponse);
+                                    hide();
+                                    newCurrencyMain.hide();
                                 } else {
                                     trigger('message', secondResponse.responseCode);
                                 }
@@ -582,14 +584,14 @@ let configuration = function () {
                             }
                         });
                     }
-                    trigger('message', response.responseCode)
+                    else {
+                        trigger('message', response.responseCode)
+                    }
                 },
                 fail: function (response) {
                     trigger('message', response.responseCode)
                 }
             });
-            hide();
-            newCurrencyMain.hide();
         };
 
         const createNewCurrencyTable = (data) => {
@@ -844,7 +846,7 @@ let configuration = function () {
 
         const removeElementFromData = (id, value) => {
             let element = findCurrencyGamesBet(id);
-            element.eurBetStep.splice(element.eurBetSteps.indexOf(value), 1);
+            element.eurBetSteps.splice(element.eurBetSteps.indexOf(value), 1);
         };
 
         const removeElement = (eur) => {
@@ -924,7 +926,7 @@ let configuration = function () {
 
             if (stepsToAdd.length > 0) {
                 let element = findCurrencyGamesBetIndex();
-                if (element) {
+                if (element !== undefined) {
                     for (let step of stepsToAdd) {
                         newCurrencyData.currencyGameBetModel.currencyGamesBet[element].eurBetSteps.push(step);
                     }
@@ -1835,7 +1837,6 @@ let configuration = function () {
         $$('#configuration-currency-list-wrapper').classList.remove('hidden');
         deleteCurrencyButton.classList.add('hidden');
         removeTableData();
-        closeAllPopups();
         hideCurrencyView();
 
         addLoader($$('#sidebar-configuration'));
@@ -1853,6 +1854,10 @@ let configuration = function () {
                 removeLoader($$('#sidebar-configuration'));
             }
         });
+    });
+
+    on('configuration/currency/unloaded', function () {
+        closeAllPopups();
     });
 
     on('configuration/currency/loaded', function () {
