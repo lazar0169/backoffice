@@ -669,6 +669,7 @@ let configuration = function () {
         let rouletteMaxDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-max-bet');
         let rouletteMinDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-min-bet');
         let stepsToAdd = [];
+        let stepsToRemove = [];
 
         const show = (id, name, type) => {
             gameId = id;
@@ -703,6 +704,7 @@ let configuration = function () {
         };
 
         const drawRegularGameView = () => {
+            stepsToRemove = [];
             let actions = $$(`#configuration-new-currency-games-step-table`);
             if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
                 actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
@@ -719,6 +721,7 @@ let configuration = function () {
 
             let existingElement = newCurrencyData.hasOwnProperty('currencyGameBetModel') ? findCurrencyGamesBet() : undefined;
             if (existingElement) {
+                existingElement.eurBetSteps.sort((a, b) => { return a - b });
                 for (let step of existingElement.eurBetSteps) {
                     let eurTr = document.createElement('tr');
                     let eurTd = document.createElement('td');
@@ -728,7 +731,7 @@ let configuration = function () {
                     eurTr.appendChild(eurTd);
                     tableBody.appendChild(eurTr);
                     $$(`#${gameId}-${gameName}-${gameType}-${step}`).onclick = () => {
-                        removeElementFromData(gameId, step);
+                        stepsToRemove.push({ id: gameId, step: step });
                         eurTr.remove();
                     };
                 }
@@ -921,6 +924,12 @@ let configuration = function () {
                         doubleZeroMinBet: rouletteMaxDoubleZeroBet.value ? rouletteMaxDoubleZeroBet.value : 0,
                     });
 
+                }
+            }
+
+            if (stepsToRemove.length > 0) {
+                for (let step of stepsToRemove) {
+                    removeElementFromData(step.id, step.step);
                 }
             }
 
