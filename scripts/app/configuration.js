@@ -183,12 +183,14 @@ let configuration = function () {
         let index = undefined;
         let gameType = undefined;
         let rouletteIndex = undefined;
+        let minEuroBetStep = undefined;
         let configurationCurrencyForm = $$('#configuration-currency-form');
         let rouletteCheckbox = $$('#configuration-currency-game-bet-group-checkbox');
         let isRouletteSelected = false;
 
         const show = (steps, name, ind, id, type, rulInd) => {
             data = steps;
+            minEuroBetStep = findMinEuroBetStep(data);
             gameName = name;
             index = ind;
             gameId = id;
@@ -308,9 +310,23 @@ let configuration = function () {
             }
         };
 
+        const findMinEuroBetStep = () => {
+            let minValue = Number.MAX_VALUE;
+            for(let element of data){
+                if(minValue > element.eurBetStep){
+                    minValue = element.eurBetStep;
+                }
+            }
+            return minValue;
+        };
+
         const saveAndUpdate = () => {
             let eur = $$('#configuration-currency-eur-value');
 
+            if(minEuroBetStep > parseFloat(eur.value)){
+                trigger('message', message.codes.badParameter);
+                return;
+            }
             addLoader(createCurrencyStepButton);
             trigger('comm/currency/convertFromEurToCurrency', {
                 body: {
