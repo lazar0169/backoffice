@@ -359,7 +359,9 @@
 #players-groups-data-wrapper.hidden,
 #players-groups-period-canvas-wrapper.hidden,
 #players-groups-main-wrapper.hidden,
-#players-groups-suggested-players-search-wrapper.hidden {
+#players-groups-suggested-players-search-wrapper.hidden,
+#players-groups-all-players-search-wrapper.hidden,
+#players-groups-suggested-players-list-wrapper.hidden {
     display: none;
 }
 
@@ -380,6 +382,7 @@
 
 #players-groups-groups-remove-search,
 #players-groups-suggested-players-remove-search,
+#players-groups-all-players-remove-search,
 #players-player-players-remove-search {
     background: transparent;
     height: 2.35em;
@@ -406,11 +409,27 @@
 }
 
 #players-groups-dashboard-and-players-wrapper,
-#players-groups-suggested-players-wrapper,
+#players-groups-players-wrapper,
 #players-groups-period-graphs-wrapper {
     padding-top: 2em;
     padding-right: 3em;
     padding-left: 2em;
+}
+
+#players-groups-all-players-list-wrapper {
+    overflow: auto;
+}
+
+#players-groups-all-players-list-wrapper table{
+    width: 100%;
+}
+
+#players-groups-all-players-list-wrapper caption,
+#players-groups-suggested-players-list-wrapper caption {
+    display: table-caption;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 #players-groups-suggested-players-list-wrapper .caption-title {
@@ -427,6 +446,14 @@
     margin-top: 2em; 
 }
 
+#players-groups-suggested-players-filter-wrapper {
+    justify-content: space-between;
+}
+
+#players-groups-all-players-search-wrapper {
+    margin-bottom: 1em;
+}
+
 #players-groups-suggested-players-list-wrapper table {
     width: 100%;
     text-align: center;
@@ -434,6 +461,17 @@
 
 #players-groups-suggested-players-list-wrapper table caption {
     display: table-caption;
+}
+
+#players-groups-save-changed-players-button {
+    width: 30%;
+    margin-top: 1em;
+    align-self: flex-end;
+}
+
+.players-groups-players-container {
+    height: 50%;
+    margin: 1em;
 }
 
 /* PLAYER GROUP FORM */ 

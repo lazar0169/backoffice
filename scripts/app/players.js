@@ -45,6 +45,8 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
     let getGroupsButton = $$('#players-get-groups');
+    let groupsPlayersSaveChanged = $$('#players-groups-save-changed-players-button');
+    let groupsGetSuggestedPlayersButton = $$('#players-groups-get-suggested-players-button');
     let groupsSearchListWrapper = $$('#players-groups-groups-wrapper');
     let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
     let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
@@ -52,6 +54,8 @@ let players = function () {
     let groupsDashboardWrapper = $$('#players-groups-dashboard-table-wrapper');
     let groupsPlayersWrapper = $$('#players-groups-players-table-wrapper');
     let groupsPeriodWrapper = $$('#players-groups-period-canvas-wrapper');
+    let groupsSuggestedPlayerWrapper = $$('#players-groups-suggested-players-list-wrapper');
+    let groupsSuggestedPlayersSearchWrapper = $$('#players-groups-suggested-players-search-wrapper');
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
     let searchTimeoutId = undefined;
@@ -65,6 +69,7 @@ let players = function () {
     });
 
     const showPlayerData = (data, playerId, name) => {
+        console.log(data);
         playerDataWrapper.classList.remove('hidden');
         playersSearchListWrapper.classList.add('shrink');
         playerIdSelected = playerId;
@@ -76,13 +81,16 @@ let players = function () {
         showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
     };
 
-    const showGroupData = (data, id) => {
+    const showGroupData = (data, id, element) => {
+        console.log(data);
         groupsDataWrapper.classList.remove('hidden');
+        groupsSuggestedPlayerWrapper.classList.add('hidden');
+        groupsSuggestedPlayersSearchWrapper.classList.add('hidden');
         groupsSearchListWrapper.classList.add('shrink');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `groups-data`, 1);
-        showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
+        showGroupsAllPlayersData(data.allPlayers, id, element);
     };
 
 
@@ -187,15 +195,32 @@ let players = function () {
                 playerGroupId: groupId,
                 playerId: playerIdSelected
             },
-            success: function(response){
-                if(response.responseCode !== message.codes.success){
+            success: function (response) {
+                if (response.responseCode !== message.codes.success) {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function (response){
+            fail: function (response) {
                 trigger('message', response.responseCode);
             }
-        })
+        });
+    };
+
+    const addOrRemovePlayerFromGroup = (checkbox, groupId, playerId) => {
+        trigger(`${!checkbox.checked ? 'comm/playerGroups/addPlayerNew' : 'comm/playerGroups/removePlayerNew'}`, {
+            body: {
+                playerGroupId: groupId,
+                playerId: playerId
+            },
+            success: function (response) {
+                if (response.responseCode !== message.codes.success) {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
     };
 
     const afterLoad = (tab) => {
@@ -251,6 +276,31 @@ let players = function () {
 
     const showGroupsSuggestedPlayersData = (players, id) => {
         createSuggestePlayersList(players, id);
+    };
+
+    const showGroupsAllPlayersData = (players, id, element) => {
+        groupsPlayersSaveChanged.onclick = () => {
+            getGroupData(id, undefined, element);
+        };
+        groupsGetSuggestedPlayersButton.onclick = () => {
+            trigger('comm/playerGroups/getSuggestedGroups', {
+                body: {
+                    id: id
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        createSuggestePlayersList(response.result, id);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+        createAllPlayersList(players, id);
     };
 
     const showPeriodData = (bet, rounds, tab, type) => {
@@ -519,7 +569,7 @@ let players = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    showGroupData(response.result, id);
+                    showGroupData(response.result, id, element);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -651,6 +701,85 @@ let players = function () {
             hide: hide
         }
     }();
+
+    const createAllPlayersList = (data, id) => {
+        let actions = $$(`#players-groups-all-players-list-wrapper`);
+        let serachBar = $$(`#players-groups-all-players-search-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+        let thPlayerId = document.createElement('th');
+        let thIsInGroup = document.createElement('th');
+        thPlayerId.innerHTML = 'Player Id';
+        thIsInGroup.innerHTML = 'Is in Group';
+        let trHead = document.createElement('tr');
+        trHead.appendChild(thPlayerId);
+        trHead.appendChild(thIsInGroup);
+        body.appendChild(trHead);
+        for (let row of data) {
+            let tr = document.createElement('tr');
+            let tdId = document.createElement('td');
+            let tdIsInGroup = document.createElement('td');
+            tdId.innerHTML = row.playerId;
+            const checkboxWrapper = document.createElement('div');
+            const checkboxInput = document.createElement('input');
+            const checkboxLabel = document.createElement('label');
+            checkboxInput.type = 'checkbox';
+            checkboxInput.checked = row.playerInGroup;
+            checkboxLabel.addEventListener('click', () => addOrRemovePlayerFromGroup(checkboxInput, id, row.playerId));
+            checkboxInput.id = `player-${row.playerId}`;
+            checkboxLabel.htmlFor = `player-${row.playerId}`;
+            checkboxWrapper.style.alignSelf = 'center';
+            checkboxWrapper.appendChild(checkboxInput);
+            checkboxWrapper.appendChild(checkboxLabel);
+            tdIsInGroup.appendChild(checkboxWrapper);
+            tr.dataset.id = row.playerId;
+            tr.appendChild(tdId);
+            tr.appendChild(tdIsInGroup);
+            body.appendChild(tr);
+        }
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+        actions.classList.remove('hidden');
+        if (!data.length) {
+            let tr = document.createElement('tr');
+            let tdId = document.createElement('td');
+            let tdIsInGroup = document.createElement('td');
+            tdId.innerHTML = '-';
+            tdIsInGroup.innerHTML = '-';
+            tr.appendChild(tdId);
+            tr.appendChild(tdIsInGroup);
+            body.appendChild(tr);
+            serachBar.classList.add('hidden');
+        } else {
+            serachBar.classList.remove('hidden');
+        }
+
+        let input = $$(`#players-groups-all-players-search`);
+
+        input.addEventListener('input', function () {
+            if (searchTimeoutId) {
+                clearTimeout(searchTimeoutId);
+                searchTimeoutId = setTimeout(() => { searchDataBySubstringNew(input.value, id) }, 800);
+            }
+            else {
+                searchTimeoutId = setTimeout(() => { searchDataBySubstringNew(input.value, id) }, 800);
+            }
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchData(body, '');
+            }
+        });
+
+        $$(`#players-groups-all-players-remove-search`).onclick = function () {
+            input.value = '';
+            searchDataBySubstringNew(input.value, id)
+        };
+    };
 
     const createSuggestePlayersList = (data, id) => {
         let actions = $$(`#players-groups-suggested-players-list-wrapper`);
@@ -814,6 +943,55 @@ let players = function () {
                         tr.dataset.id = row.playerId;
                         tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
                         tr.appendChild(td);
+                        body.appendChild(tr);
+                    }
+                }
+                else {
+                    trigger('message', message.codes.success);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+    };
+
+    const searchDataBySubstringNew = (term, id) => {
+        let actions = $$(`#players-groups-all-players-list-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+
+        trigger('comm/playerGroups/getPlayersBySubstringNew', {
+            body: {
+                playerGroupId: id,
+                substring: term
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    for (let row of response.result) {
+                        let tr = document.createElement('tr');
+                        let tdId = document.createElement('td');
+                        let tdIsInGroup = document.createElement('td');
+                        tdId.innerHTML = row.playerId;
+                        const checkboxWrapper = document.createElement('div');
+                        const checkboxInput = document.createElement('input');
+                        const checkboxLabel = document.createElement('label');
+                        checkboxInput.type = 'checkbox';
+                        checkboxInput.checked = row.playerInGroup;
+                        checkboxLabel.addEventListener('click', () => addOrRemovePlayerFromGroup(checkboxInput, id, row.playerId));
+                        checkboxInput.id = `player-${row.playerId}`;
+                        checkboxLabel.htmlFor = `player-${row.playerId}`;
+                        checkboxWrapper.style.alignSelf = 'center';
+                        checkboxWrapper.appendChild(checkboxInput);
+                        checkboxWrapper.appendChild(checkboxLabel);
+                        tdIsInGroup.appendChild(checkboxWrapper);
+                        tr.dataset.id = row.playerId;
+                        tr.appendChild(tdId);
+                        tr.appendChild(tdIsInGroup);
                         body.appendChild(tr);
                     }
                 }
