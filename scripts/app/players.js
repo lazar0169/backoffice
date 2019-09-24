@@ -878,6 +878,7 @@ let players = function () {
 
         let input = $$(`#players-${section}-search`);
 
+        input.value = "";
         input.addEventListener('input', function () {
             if (section === 'player-players') {
                 if (searchTimeoutId) {
@@ -1926,6 +1927,7 @@ let players = function () {
 
     on('players/player/loaded', function () {
         getPlayerButton.classList.add('hidden');
+        playersSearchWrapper.classList.add('hidden');
         playersSearchWrapper.classList.add('hidden');
         playersListWrapper.classList.add('hidden');
         playerDataWrapper.classList.add('hidden');
