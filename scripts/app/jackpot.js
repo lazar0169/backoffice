@@ -181,7 +181,8 @@ let jackpot = function () {
                 if (response.responseCode === message.codes.success ) {
                     if (isEmpty(response.result) === true) {
                         trigger('message', message.codes.noData);
-                        $$('#jackpotHistoryTable').style.display = 'none'
+                        $$('#jackpotHistoryTable').style.display = 'none';
+                        $$('#search-history-mobile-width').style.display = 'none';                        
                         return
                     }
                     jackpotHistoryDataTable = response.result;
@@ -201,7 +202,8 @@ let jackpot = function () {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function () {
+            fail: function (response) {
+                trigger('message', response.responseCode);
             }
         });
     };
