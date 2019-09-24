@@ -45,6 +45,8 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
     let getGroupsButton = $$('#players-get-groups');
+    let groupsPlayersSaveChanged = $$('#players-groups-save-changed-players-button');
+    let groupsGetSuggestedPlayersButton = $$('#players-groups-get-suggested-players-button');
     let groupsSearchListWrapper = $$('#players-groups-groups-wrapper');
     let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
     let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
@@ -52,6 +54,8 @@ let players = function () {
     let groupsDashboardWrapper = $$('#players-groups-dashboard-table-wrapper');
     let groupsPlayersWrapper = $$('#players-groups-players-table-wrapper');
     let groupsPeriodWrapper = $$('#players-groups-period-canvas-wrapper');
+    let groupsSuggestedPlayerWrapper = $$('#players-groups-suggested-players-list-wrapper');
+    let groupsSuggestedPlayersSearchWrapper = $$('#players-groups-suggested-players-search-wrapper');
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
     let searchTimeoutId = undefined;
@@ -65,6 +69,7 @@ let players = function () {
     });
 
     const showPlayerData = (data, playerId, name) => {
+        console.log(data);
         playerDataWrapper.classList.remove('hidden');
         playersSearchListWrapper.classList.add('shrink');
         playerIdSelected = playerId;
@@ -76,13 +81,16 @@ let players = function () {
         showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
     };
 
-    const showGroupData = (data, id) => {
+    const showGroupData = (data, id, element) => {
+        console.log(data);
         groupsDataWrapper.classList.remove('hidden');
+        groupsSuggestedPlayerWrapper.classList.add('hidden');
+        groupsSuggestedPlayersSearchWrapper.classList.add('hidden');
         groupsSearchListWrapper.classList.add('shrink');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `groups-data`, 1);
-        showGroupsSuggestedPlayersData(data.suggestedPlayers, id);
+        showGroupsAllPlayersData(data.allPlayers, id, element);
     };
 
 
@@ -135,8 +143,9 @@ let players = function () {
             const checkboxWrapper = document.createElement('div');
             const checkboxInput = document.createElement('input');
             const checkboxLabel = document.createElement('label');
+            const questionMark = document.createElement('h2');
             row.classList.add('players-flex-wrapper');
-            row.style.justifyContent = 'space-evenly';
+            row.style.justifyContent = 'space-between';
             groupName.innerHTML = group.name;
             checkboxInput.type = 'checkbox';
             checkboxInput.checked = group.checked;
@@ -144,8 +153,12 @@ let players = function () {
             checkboxInput.id = `group-${group.id}`;
             checkboxLabel.htmlFor = `group-${group.id}`;
             checkboxWrapper.style.alignSelf = 'center';
+            questionMark.innerHTML = '❔';
+            questionMark.addEventListener('click', () => playerCriteriaPopup.show(group.id, playerIdSelected));
             checkboxWrapper.appendChild(checkboxInput);
             checkboxWrapper.appendChild(checkboxLabel);
+            checkboxWrapper.appendChild(questionMark);
+            checkboxWrapper.classList.add('players-player-groups-checkbox-wrapper');
             row.appendChild(groupName);
             row.appendChild(checkboxWrapper);
             playerGroupsWrapper.appendChild(row);
@@ -187,15 +200,32 @@ let players = function () {
                 playerGroupId: groupId,
                 playerId: playerIdSelected
             },
-            success: function(response){
-                if(response.responseCode !== message.codes.success){
+            success: function (response) {
+                if (response.responseCode !== message.codes.success) {
                     trigger('message', response.responseCode);
                 }
             },
-            fail: function (response){
+            fail: function (response) {
                 trigger('message', response.responseCode);
             }
-        })
+        });
+    };
+
+    const addOrRemovePlayerFromGroup = (checkbox, groupId, playerId) => {
+        trigger(`${!checkbox.checked ? 'comm/playerGroups/addPlayerNew' : 'comm/playerGroups/removePlayerNew'}`, {
+            body: {
+                playerGroupId: groupId,
+                playerId: playerId
+            },
+            success: function (response) {
+                if (response.responseCode !== message.codes.success) {
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
     };
 
     const afterLoad = (tab) => {
@@ -253,6 +283,31 @@ let players = function () {
         createSuggestePlayersList(players, id);
     };
 
+    const showGroupsAllPlayersData = (players, id, element) => {
+        groupsPlayersSaveChanged.onclick = () => {
+            getGroupData(id, undefined, element);
+        };
+        groupsGetSuggestedPlayersButton.onclick = () => {
+            trigger('comm/playerGroups/getSuggestedGroups', {
+                body: {
+                    id: id
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        createSuggestePlayersList(response.result, id);
+                    }
+                    else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+        createAllPlayersList(players, id);
+    };
+
     const showPeriodData = (bet, rounds, tab, type) => {
         // type param: 0-for player tab, 1-for player group tab
         let periodWrapper = $$(`#players-${tab}-periods-list-wrapper`);
@@ -281,8 +336,8 @@ let players = function () {
             playerBetGraph.options.legend.position = 'bottom';
             playerRoundsGraph.options.legend.position = 'bottom';
 
-            playerBetGraph.options.title = { display: true, text: 'Total Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
-            playerRoundsGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            playerBetGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            playerRoundsGraph.options.title = { display: true, text: 'Total Rounds (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
 
             let labelsBet = [];
             let labelsRounds = [];
@@ -332,8 +387,8 @@ let players = function () {
             groupsBetGraph.options.legend.position = 'bottom';
             groupsRoundsGraph.options.legend.position = 'bottom';
 
-            groupsBetGraph.options.title = { display: true, text: 'Total Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
-            groupsRoundsGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            groupsBetGraph.options.title = { display: true, text: 'Avg Bet (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
+            groupsRoundsGraph.options.title = { display: true, text: 'Total Rounds (Per Hour)', position: 'top', fontColor: 'white', fontFamily: 'roboto' };
 
             let labelsBet = [];
             let labelsRounds = [];
@@ -519,7 +574,7 @@ let players = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    showGroupData(response.result, id);
+                    showGroupData(response.result, id, element);
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -652,6 +707,85 @@ let players = function () {
         }
     }();
 
+    const createAllPlayersList = (data, id) => {
+        let actions = $$(`#players-groups-all-players-list-wrapper`);
+        let serachBar = $$(`#players-groups-all-players-search-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+        let thPlayerId = document.createElement('th');
+        let thIsInGroup = document.createElement('th');
+        thPlayerId.innerHTML = 'Player Id';
+        thIsInGroup.innerHTML = 'Is in Group';
+        let trHead = document.createElement('tr');
+        trHead.appendChild(thPlayerId);
+        trHead.appendChild(thIsInGroup);
+        body.appendChild(trHead);
+        for (let row of data) {
+            let tr = document.createElement('tr');
+            let tdId = document.createElement('td');
+            let tdIsInGroup = document.createElement('td');
+            tdId.innerHTML = row.playerId;
+            const checkboxWrapper = document.createElement('div');
+            const checkboxInput = document.createElement('input');
+            const checkboxLabel = document.createElement('label');
+            checkboxInput.type = 'checkbox';
+            checkboxInput.checked = row.playerInGroup;
+            checkboxLabel.addEventListener('click', () => addOrRemovePlayerFromGroup(checkboxInput, id, row.playerId));
+            checkboxInput.id = `player-${row.playerId}`;
+            checkboxLabel.htmlFor = `player-${row.playerId}`;
+            checkboxWrapper.style.alignSelf = 'center';
+            checkboxWrapper.appendChild(checkboxInput);
+            checkboxWrapper.appendChild(checkboxLabel);
+            tdIsInGroup.appendChild(checkboxWrapper);
+            tr.dataset.id = row.playerId;
+            tr.appendChild(tdId);
+            tr.appendChild(tdIsInGroup);
+            body.appendChild(tr);
+        }
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+        actions.classList.remove('hidden');
+        if (!data.length) {
+            let tr = document.createElement('tr');
+            let tdId = document.createElement('td');
+            let tdIsInGroup = document.createElement('td');
+            tdId.innerHTML = '-';
+            tdIsInGroup.innerHTML = '-';
+            tr.appendChild(tdId);
+            tr.appendChild(tdIsInGroup);
+            body.appendChild(tr);
+            serachBar.classList.add('hidden');
+        } else {
+            serachBar.classList.remove('hidden');
+        }
+
+        let input = $$(`#players-groups-all-players-search`);
+
+        input.addEventListener('input', function () {
+            if (searchTimeoutId) {
+                clearTimeout(searchTimeoutId);
+                searchTimeoutId = setTimeout(() => { searchDataBySubstringNew(input.value, id) }, 800);
+            }
+            else {
+                searchTimeoutId = setTimeout(() => { searchDataBySubstringNew(input.value, id) }, 800);
+            }
+        });
+
+        input.addEventListener('keyup', function (e) {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                input.value = '';
+                searchData(body, '');
+            }
+        });
+
+        $$(`#players-groups-all-players-remove-search`).onclick = function () {
+            input.value = '';
+            searchDataBySubstringNew(input.value, id)
+        };
+    };
+
     const createSuggestePlayersList = (data, id) => {
         let actions = $$(`#players-groups-suggested-players-list-wrapper`);
         let serachBar = $$(`#players-groups-suggested-players-search-wrapper`);
@@ -744,6 +878,7 @@ let players = function () {
 
         let input = $$(`#players-${section}-search`);
 
+        input.value = "";
         input.addEventListener('input', function () {
             if (section === 'player-players') {
                 if (searchTimeoutId) {
@@ -814,6 +949,55 @@ let players = function () {
                         tr.dataset.id = row.playerId;
                         tr.onclick = function () { suggestedPlayersPopup.show(row.criteria) };
                         tr.appendChild(td);
+                        body.appendChild(tr);
+                    }
+                }
+                else {
+                    trigger('message', message.codes.success);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        });
+
+        actions.getElementsByTagName('table')[0].appendChild(body);
+    };
+
+    const searchDataBySubstringNew = (term, id) => {
+        let actions = $$(`#players-groups-all-players-list-wrapper`);
+        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+        }
+        let body = document.createElement('tbody');
+
+        trigger('comm/playerGroups/getPlayersBySubstringNew', {
+            body: {
+                playerGroupId: id,
+                substring: term
+            },
+            success: function (response) {
+                if (response.responseCode === message.codes.success) {
+                    for (let row of response.result) {
+                        let tr = document.createElement('tr');
+                        let tdId = document.createElement('td');
+                        let tdIsInGroup = document.createElement('td');
+                        tdId.innerHTML = row.playerId;
+                        const checkboxWrapper = document.createElement('div');
+                        const checkboxInput = document.createElement('input');
+                        const checkboxLabel = document.createElement('label');
+                        checkboxInput.type = 'checkbox';
+                        checkboxInput.checked = row.playerInGroup;
+                        checkboxLabel.addEventListener('click', () => addOrRemovePlayerFromGroup(checkboxInput, id, row.playerId));
+                        checkboxInput.id = `player-${row.playerId}`;
+                        checkboxLabel.htmlFor = `player-${row.playerId}`;
+                        checkboxWrapper.style.alignSelf = 'center';
+                        checkboxWrapper.appendChild(checkboxInput);
+                        checkboxWrapper.appendChild(checkboxLabel);
+                        tdIsInGroup.appendChild(checkboxWrapper);
+                        tr.dataset.id = row.playerId;
+                        tr.appendChild(tdId);
+                        tr.appendChild(tdIsInGroup);
                         body.appendChild(tr);
                     }
                 }
@@ -972,6 +1156,66 @@ let players = function () {
             }
         });
     };
+
+    let playerCriteriaPopup = function () {
+        let modal = $$('#players-player-criteria-form');
+        let cancelButton = $$('#players-player-criteria-main-form-cancel');
+        let tableWrapper = $$('#players-player-criteria-main-criteria-table-wrapper');
+        let playerIdPlaceholder = $$('#players-player-criteria-main-info-player-id');
+        let similarityPlaceholder = $$('#players-player-criteria-main-info-similarity');
+
+        const show = (groupId) => {
+            trigger('comm/playerGroups/getSuggestedGroupForPlayer', {
+                body: {
+                    playerGroupId: groupId,
+                    playerId: playerIdSelected
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        if(!response.result){
+                            trigger('message', message.codes.noData);
+                            return;
+                        }
+                        populateCriteria(response.result);
+                        modal.classList.add('show');
+                        showPopup('player');
+                    } else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('player');
+        };
+
+        const populateCriteria = (data) => {
+            playerIdPlaceholder.innerHTML = `Player Id: ${data.playerId}`;
+            similarityPlaceholder.innerHTML = `Similarity: ${data.averageSimilarityOfCriteria}%`;
+            tableWrapper.innerHTML = '';
+            tableWrapper.appendChild(table.generate({
+                data: data.criteria,
+                id: 'playerCriteriaData',
+                dynamic: false,
+                sticky: true,
+                stickyCol: true,
+            }));
+            table.preserveHeight(tableWrapper);
+        };
+
+        cancelButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
 
     let playerJackpotPopup = function () {
         let jackpotData = undefined;
@@ -1344,6 +1588,9 @@ let players = function () {
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
+                        if (iframeWrapper.children.length > 0) {
+                            iframeWrapper.children[0].remove();
+                        }
                         let historyElement = document.createElement('iframe');
                         historyElement.id = 'history';
                         historyElement.name = 'history';
@@ -1680,6 +1927,7 @@ let players = function () {
 
     on('players/player/loaded', function () {
         getPlayerButton.classList.add('hidden');
+        playersSearchWrapper.classList.add('hidden');
         playersSearchWrapper.classList.add('hidden');
         playersListWrapper.classList.add('hidden');
         playerDataWrapper.classList.add('hidden');

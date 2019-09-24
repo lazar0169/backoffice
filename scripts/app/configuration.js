@@ -1839,6 +1839,7 @@ let configuration = function () {
 
         currencyJackpotModal.hide();
         currencyUpdatePopup.hide();
+        currencyMainOptionModal.hide();
     };
 
     function parseAllExistingCurrenciesData(data) {

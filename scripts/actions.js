@@ -137,4 +137,10 @@ const actions = Object.freeze({
     'comm/playerGroups/getGroupsBySubstring': '/PlayerGroup/get-suggested-players-by-substring',
     'comm/playerGroups/addPlayer': '/PlayerGroup/add-player',
     'comm/playerGroups/removePlayer': '/PlayerGroup/delete-player',
+    
+    'comm/playerGroups/addPlayerNew': '/PlayerGroup/add-player-new',
+    'comm/playerGroups/removePlayerNew': '/PlayerGroup/delete-player-new',
+    'comm/playerGroups/getPlayersBySubstringNew': '/PlayerGroup/get-all-players-by-substring',
+    'comm/playerGroups/getSuggestedGroups': '/PlayerGroup/get-suggested-players',
+    'comm/playerGroups/getSuggestedGroupForPlayer': '/PlayerGroup/suggested-group-for-player',
 });

@@ -191,6 +191,18 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+#players-player-data-groups-wrapper h3 {
+    margin-left: 1em; 
+}
+
+.players-player-groups-checkbox-wrapper {
+    display: flex;
+}
+
+#players-player-data-groups-wrapper .players-player-groups-checkbox-wrapper {
+    margin-right: 1em;
+}
+
 #players-player-data-summary-wrapper {
     background-color: #313c4a;
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -212,7 +224,8 @@
 }
 
 #players-player-jackpot-main-wrapper,
-#players-player-transaction-table-wrapper {
+#players-player-transaction-table-wrapper,
+#players-player-criteria-main-wrapper {
     margin-top: 2em;
 }
 
@@ -270,6 +283,10 @@
     height: 2.5em;
     align-self: center;
     margin-left: 2em;
+}
+
+#players-player-criteria-main-info-wrapper {
+    justify-content: space-evenly;
 }
 
 /* END PLAYER TAB */
@@ -359,7 +376,9 @@
 #players-groups-data-wrapper.hidden,
 #players-groups-period-canvas-wrapper.hidden,
 #players-groups-main-wrapper.hidden,
-#players-groups-suggested-players-search-wrapper.hidden {
+#players-groups-suggested-players-search-wrapper.hidden,
+#players-groups-all-players-search-wrapper.hidden,
+#players-groups-suggested-players-list-wrapper.hidden {
     display: none;
 }
 
@@ -380,6 +399,7 @@
 
 #players-groups-groups-remove-search,
 #players-groups-suggested-players-remove-search,
+#players-groups-all-players-remove-search,
 #players-player-players-remove-search {
     background: transparent;
     height: 2.35em;
@@ -406,11 +426,27 @@
 }
 
 #players-groups-dashboard-and-players-wrapper,
-#players-groups-suggested-players-wrapper,
+#players-groups-players-wrapper,
 #players-groups-period-graphs-wrapper {
     padding-top: 2em;
     padding-right: 3em;
     padding-left: 2em;
+}
+
+#players-groups-all-players-list-wrapper {
+    overflow: auto;
+}
+
+#players-groups-all-players-list-wrapper table{
+    width: 100%;
+}
+
+#players-groups-all-players-list-wrapper caption,
+#players-groups-suggested-players-list-wrapper caption {
+    display: table-caption;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 #players-groups-suggested-players-list-wrapper .caption-title {
@@ -427,6 +463,14 @@
     margin-top: 2em; 
 }
 
+#players-groups-suggested-players-filter-wrapper {
+    justify-content: space-between;
+}
+
+#players-groups-all-players-search-wrapper {
+    margin-bottom: 1em;
+}
+
 #players-groups-suggested-players-list-wrapper table {
     width: 100%;
     text-align: center;
@@ -434,6 +478,17 @@
 
 #players-groups-suggested-players-list-wrapper table caption {
     display: table-caption;
+}
+
+#players-groups-save-changed-players-button {
+    width: 30%;
+    margin-top: 1em;
+    align-self: flex-end;
+}
+
+.players-groups-players-container {
+    height: 50%;
+    margin: 1em;
 }
 
 /* PLAYER GROUP FORM */ 
@@ -454,7 +509,8 @@
 #players-player-jackpot-form,
 #players-player-transaction-form,
 #players-player-unresolved-wins-form,
-#players-player-history-form {
+#players-player-history-form,
+#players-player-criteria-form {
     position: fixed;
     width: 55em;
     height: 50em;
@@ -484,7 +540,8 @@
 #players-player-jackpot-form.show,
 #players-player-transaction-form.show,
 #players-player-unresolved-wins-form.show,
-#players-player-history-form.show {
+#players-player-history-form.show,
+#players-player-criteria-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;

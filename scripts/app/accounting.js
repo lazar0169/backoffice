@@ -155,8 +155,7 @@ let accounting = function () {
                 $$('#accounting-comapnies-reports-header').classList.add('hidden');
                 $$('#accounting-companies-pdf-download').classList.add('hidden');
                 $$('#accounting-companies-excel-download').classList.add('hidden');
-                $$('#accounting-companies-time-span').classList.remove('hidden');
-
+                
                 addLoader(companyGetOperatorsButton);
                 trigger('comm/accounting/companies/getOperators', {
                     body: {
@@ -165,10 +164,12 @@ let accounting = function () {
                     success: function (response) {
                         if (response.responseCode === message.codes.success) {
                             if (!response.result.length) {
+                                removeLoader(companyGetOperatorsButton);
                                 trigger('message', message.codes.noData);
                                 return;
                             }
                             populateCompanyOperators(response.result);
+                            $$('#accounting-companies-time-span').classList.remove('hidden');
                         }
                         else {
                             trigger('message', response.responseCode);

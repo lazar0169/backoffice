@@ -117,95 +117,109 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="players-player-jackpot-form">
-        <div class="players-form-wrapper" id="players-player-jackpot-main-form">
-            <div class="players-form-title">
-                <h2>Jackpots</h2>
-                <button class="config players-form-cancel" id="players-player-jackpot-main-form-cancel"></button>
-            </div>
-            <div id="players-player-jackpot-main-wrapper" class="players-flex-column-wrapper">
-                <div id='players-player-jackpot-table-wrapper'>
-
+        <div id="players-player-criteria-form">
+            <div class="players-form-wrapper" id="players-player-criteria-main-form">
+                <div class="players-form-title">
+                    <h2>Player Criteria</h2>
+                    <button class="config players-form-cancel" id="players-player-criteria-main-form-cancel"></button>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="players-player-transaction-form">
-        <div class="players-form-wrapper" id="players-player-transaction-main-form">
-            <div class="players-form-title">
-                <h2>Transactions</h2>
-                <button class="config players-form-cancel" id="players-player-transaction-main-form-cancel"></button>
-            </div>
-            <div id="players-player-transaction-main-wrapper" class="players-flex-column-wrapper">
-                <div id='players-player-transaction-header-wrapper' class="players-flex-wrapper">
-                    <fieldset id='players-player-transaction-time-span-wrapper'>
-                        <div class="legend">Fom: </div>
-                        <input type="text" id="players-player-transaction-time-span-from" class="datepicker" readonly>
-                        <div class="legend">To: </div>
-                        <input type="text" id="players-player-transaction-time-span-to" class="datepicker" readonly>
-                    </fieldset>
-                    <button id="players-player-transaction-get" class="players-aligin-center">GET</button>
-                </div>
-                <div id='players-player-transaction-table-wrapper'>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="players-player-unresolved-wins-form">
-        <div class="players-form-wrapper" id="players-player-unresolved-wins-main-form">
-            <div class="players-form-title">
-                <h2>Unresolved Wins</h2>
-                <button class="config players-form-cancel" id="players-player-unresolved-wins-main-form-cancel"></button>
-            </div>
-            <div id="players-player-unresolved-wins-main-wrapper" class="players-flex-column-wrapper">
-                <table>
-                    <caption>
-                        <div class="caption-title">Games</div>
-                    </caption>
-                </table>
-            </div>
-        </div>
-        <div class="players-form-wrapper" id="players-player-unresolved-wins-specific-game-form">
-            <div class="players-form-title">
-                <h2>Unresolved Wins</h2>
-                <button class="config" id="players-player-unresolved-wins-specific-game-form-back">&#9668; BACK</button>
-            </div>
-            <div id="players-player-unresolved-wins-specific-game-wrapper" class="players-flex-column-wrapper">
-            </div>
-        </div>
-    </div>
-    <div id="players-player-history-form">
-        <div class="players-form-wrapper" id="players-player-history-main-form">
-            <div class="players-form-title">
-                <h2>History</h2>
-                <button class="config players-form-cancel" id="players-player-history-main-form-cancel"></button>
-            </div>
-            <div id="players-player-history-main-wrapper" class="players-flex-column-wrapper">
-                <table>
-                    <caption>
-                        <div class="caption-title">Games</div>
-                    </caption>
-                </table>
-            </div>
-        </div>
-        <div class="players-form-wrapper" id="players-player-game-history-form">
-            <div class="players-form-title">
-                <h2>History</h2>
-                <button class="config" id="players-player-game-history-form-back">&#9668; BACK</button>
-            </div>
-            <div id="players-player-game-history-wrapper" class="players-flex-column-wrapper">
-                <div id="players-player-game-history-options-wrapper" class="players-flex-wrapper">
-                    <div id="players-player-game-history-options-parameters-wrapper" class="players-flex-wrapper">
-                        <input type="text" id="players-player-game-history-date" class="datepicker" readonly>
-                        <input type="text" id="players-player-game-history-vip-roulette-id" placeholder="Vip Roulette Id">
+                <div id="players-player-criteria-main-wrapper" class="players-flex-column-wrapper">
+                    <div id="players-player-criteria-main-info-wrapper" class="players-flex-wrapper">
+                        <h3 id="players-player-criteria-main-info-player-id"></h3>
+                        <h3 id="players-player-criteria-main-info-similarity"></h3>
                     </div>
-                    <button id="players-player-game-history-get">GET</button>
+                    <div id="players-player-criteria-main-criteria-table-wrapper"></div>
                 </div>
-                <div id="players-player-game-history-iframe-wrapper"></div>
+            </div>
+        </div>
+        <div id="players-player-jackpot-form">
+            <div class="players-form-wrapper" id="players-player-jackpot-main-form">
+                <div class="players-form-title">
+                    <h2>Jackpots</h2>
+                    <button class="config players-form-cancel" id="players-player-jackpot-main-form-cancel"></button>
+                </div>
+                <div id="players-player-jackpot-main-wrapper" class="players-flex-column-wrapper">
+                    <div id='players-player-jackpot-table-wrapper'>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="players-player-transaction-form">
+            <div class="players-form-wrapper" id="players-player-transaction-main-form">
+                <div class="players-form-title">
+                    <h2>Transactions</h2>
+                    <button class="config players-form-cancel" id="players-player-transaction-main-form-cancel"></button>
+                </div>
+                <div id="players-player-transaction-main-wrapper" class="players-flex-column-wrapper">
+                    <div id='players-player-transaction-header-wrapper' class="players-flex-wrapper">
+                        <fieldset id='players-player-transaction-time-span-wrapper'>
+                            <div class="legend">Fom: </div>
+                            <input type="text" id="players-player-transaction-time-span-from" class="datepicker" readonly>
+                            <div class="legend">To: </div>
+                            <input type="text" id="players-player-transaction-time-span-to" class="datepicker" readonly>
+                        </fieldset>
+                        <button id="players-player-transaction-get" class="players-aligin-center">GET</button>
+                    </div>
+                    <div id='players-player-transaction-table-wrapper'>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="players-player-unresolved-wins-form">
+            <div class="players-form-wrapper" id="players-player-unresolved-wins-main-form">
+                <div class="players-form-title">
+                    <h2>Unresolved Wins</h2>
+                    <button class="config players-form-cancel" id="players-player-unresolved-wins-main-form-cancel"></button>
+                </div>
+                <div id="players-player-unresolved-wins-main-wrapper" class="players-flex-column-wrapper">
+                    <table>
+                        <caption>
+                            <div class="caption-title">Games</div>
+                        </caption>
+                    </table>
+                </div>
+            </div>
+            <div class="players-form-wrapper" id="players-player-unresolved-wins-specific-game-form">
+                <div class="players-form-title">
+                    <h2>Unresolved Wins</h2>
+                    <button class="config" id="players-player-unresolved-wins-specific-game-form-back">&#9668; BACK</button>
+                </div>
+                <div id="players-player-unresolved-wins-specific-game-wrapper" class="players-flex-column-wrapper">
+                </div>
+            </div>
+        </div>
+        <div id="players-player-history-form">
+            <div class="players-form-wrapper" id="players-player-history-main-form">
+                <div class="players-form-title">
+                    <h2>History</h2>
+                    <button class="config players-form-cancel" id="players-player-history-main-form-cancel"></button>
+                </div>
+                <div id="players-player-history-main-wrapper" class="players-flex-column-wrapper">
+                    <table>
+                        <caption>
+                            <div class="caption-title">Games</div>
+                        </caption>
+                    </table>
+                </div>
+            </div>
+            <div class="players-form-wrapper" id="players-player-game-history-form">
+                <div class="players-form-title">
+                    <h2>History</h2>
+                    <button class="config" id="players-player-game-history-form-back">&#9668; BACK</button>
+                </div>
+                <div id="players-player-game-history-wrapper" class="players-flex-column-wrapper">
+                    <div id="players-player-game-history-options-wrapper" class="players-flex-wrapper">
+                        <div id="players-player-game-history-options-parameters-wrapper" class="players-flex-wrapper">
+                            <input type="text" id="players-player-game-history-date" class="datepicker" readonly>
+                            <input type="text" id="players-player-game-history-vip-roulette-id" placeholder="Vip Roulette Id">
+                        </div>
+                        <button id="players-player-game-history-get">GET</button>
+                    </div>
+                    <div id="players-player-game-history-iframe-wrapper"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
