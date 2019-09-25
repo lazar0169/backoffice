@@ -33,8 +33,9 @@ let jackpot = function () {
                 removeLoader($$('#sidebar-jackpot'));
 
             },
-            fail: function () {
+            fail: function (response) {
                 removeLoader($$('#sidebar-jackpot'));
+                trigger('message', response.responseCode);
             }
 
         });
@@ -58,8 +59,9 @@ let jackpot = function () {
                 }
                 removeLoader($$('#sidebar-jackpot'));
             },
-            fail: function () {
+            fail: function (response) {
                 removeLoader($$('#sidebar-jackpot'));
+                trigger('message', response.responseCode);
             }
         });
     }
@@ -83,7 +85,8 @@ let jackpot = function () {
                             trigger('message', response.responseCode);
                         }
                     },
-                    fail: function () {
+                    fail: function (response) {
+                        trigger('message', response.responseCode);
                     }
                 });
             });
@@ -144,7 +147,8 @@ let jackpot = function () {
                 removeLoader($$('#sidebar-jackpot'));
 
             },
-            fail: function () {
+            fail: function (response) {
+                trigger('message', response.responseCode);
                 removeLoader($$('#sidebar-jackpot'));
             }
         });
