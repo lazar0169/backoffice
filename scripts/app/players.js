@@ -1260,7 +1260,7 @@ let players = function () {
         let cancelButton = $$('#players-player-transaction-main-form-cancel');
         let tableWrapper = $$('#players-player-transaction-table-wrapper');
         let getButton = $$('#players-player-transaction-get');
-
+      
         const show = () => {
             modal.classList.add('show');
             showPopup('player');
@@ -1644,6 +1644,7 @@ let players = function () {
         }
 
         $$(`#players-${tab}`).children[0].style.overflow = 'hidden';
+        $$('#players-player-data-periods-list-wrapper').style.pointerEvents= 'none';
     };
 
     const hidePopup = (tab) => {
@@ -1659,6 +1660,7 @@ let players = function () {
                 break;
         }
         $$(`#players-${tab}`).children[0].style.overflow = 'auto';
+        $$('#players-player-data-periods-list-wrapper').style.pointerEvents= 'auto';
     };
 
     const parsePlayersMainData = (data, parameterYesterday, firstColName) => {

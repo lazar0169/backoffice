@@ -208,9 +208,9 @@ let accounting = function () {
                             populateReportsData(response.result);
                         }
                         else {
+                            removeLoader(companyGetReportsButton);
                             trigger('message', response.responseCode);
                         }
-                        removeLoader(companyGetReportsButton);
                     },
                     fail: function (response) {
                         removeLoader(companyGetReportsButton);
