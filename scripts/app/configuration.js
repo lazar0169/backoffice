@@ -187,7 +187,7 @@ let configuration = function () {
         let configurationCurrencyForm = $$('#configuration-currency-form');
         let rouletteCheckbox = $$('#configuration-currency-game-bet-group-checkbox');
         let isRouletteSelected = false;
-
+        let valueInputField = $$('#configuration-currency-eur-value');
         const show = (steps, name, ind, id, type, rulInd) => {
             data = steps;
             minEuroBetStep = findMinEuroBetStep(data);
@@ -224,7 +224,12 @@ let configuration = function () {
                 $$('#configuration-currency-switch-form').classList.remove('hidden');
             }
         };
-
+        valueInputField.oninput = (e) => {
+            debugger
+            if (valueInputField.value <= 0  ) {
+                valueInputField.value = '';                 
+             }
+        };
         const createBetGroupList = () => {
             let actions = $$(`#configuration-currency-form-bet-group-table`);
             if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
@@ -416,6 +421,21 @@ let configuration = function () {
         let currCode = $$('#configuration-new-currency-code');
         let existingCurrencyList = $$('#configuration-currency-existing-currency-list');
         let realCurrencyList = $$('#configuration-currency-real-currency-list');
+
+
+        denomination.oninput = (e) => {
+            debugger
+            if (denomination.value <= 0  ) {
+                denomination.value = '';                 
+             }
+        };
+        betGroup.oninput = (e) => {
+            debugger
+            if (betGroup.value <= 0  ) {
+                betGroup.value = '';                 
+             }
+        };
+
 
         const show = () => {
             trigger('comm/currency/getExistingCurrencies', {
@@ -684,6 +704,7 @@ let configuration = function () {
         let rouletteMinTriplePokerBet = $$('#configuration-new-currency-roulette-triple-poker-min-bet');
         let rouletteMaxDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-max-bet');
         let rouletteMinDoubleZeroBet = $$('#configuration-new-currency-roulette-double-zero-min-bet');
+        let gameOptionEuroValue = $$('#configuration-new-currency-eur-value')
         let stepsToAdd = [];
         let stepsToRemove = [];
 
@@ -710,6 +731,12 @@ let configuration = function () {
             modal.classList.remove('show');
         };
 
+        gameOptionEuroValue.oninput = (e) => {
+            debugger
+            if (gameOptionEuroValue.value <= 0  ) {
+                gameOptionEuroValue.value = '';                 
+             }
+        };
         const showNewCurrencyGameStepModal = () => {
             if (gameType !== 0) {
                 $$('#configuration-new-currency-switch-form').classList.remove('hidden');

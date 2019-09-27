@@ -72,7 +72,7 @@
                     <div id="configuration-currency-form-create-step-wrapper">
                         <div id="configuration-currency-form-create-inputs">
                             <div class="legend">Euro value: </div>
-                            <input id="configuration-currency-eur-value" placeholder="EUR">
+                            <input id="configuration-currency-eur-value" placeholder="EUR" type="number" step="0.1" >
                         </div>
                         <button id="configuration-currency-form-create-bet-group" class="save">CREATE STEP</button>
                     </div>
@@ -128,9 +128,9 @@
                     <input type="text" id="configuration-new-currency-code" class="hidden">
                     <div type="text" id="configuration-currency-existing-currency-list-wrapper"></div>
                     <div class="legend">Denomination: </div>
-                    <input type="number" id="configuration-new-currency-denomination">
+                    <input type="number" id="configuration-new-currency-denomination" type="number" step="0.1">
                     <div class="legend">Bet group: </div>
-                    <input type="number" id="configuration-new-currency-bet-group">
+                    <input type="number" id="configuration-new-currency-bet-group" type="number" step="0.1">
                     <div id="configuration-new-currency-imaginary-wrapper">
                         <div class="legend">Real currency: </div>
                         <div type="text" id="configuration-currency-real-currency-list-wrapper"></div>
@@ -190,7 +190,7 @@
                         <div id="configuration-new-currency-form-create-step-wrapper">
                             <div id="configuration-new-currency-form-create-inputs">
                                 <div class="legend">Euro value: </div>
-                                <input type="number" id="configuration-new-currency-eur-value" placeholder="EUR">
+                                <input type="number" id="configuration-new-currency-eur-value" placeholder="EUR" type="number" step="0.1">
                             </div>
                             <button id="configuration-new-currency-form-create-bet-group" class="save">CREATE STEP</button>
                         </div>
