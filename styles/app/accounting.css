@@ -478,6 +478,10 @@
     margin: 0 1em;
 }
 
+#accounting-comapnies-reports-operators-filter {
+    font-size: 0.7em;
+}
+
 #accounting-comapnies-reports-header>div>span:nth-child(2) {
     margin-left: 0.5em;
     font-weight: bold;
