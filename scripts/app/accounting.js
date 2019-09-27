@@ -155,7 +155,7 @@ let accounting = function () {
                 $$('#accounting-comapnies-reports-header').classList.add('hidden');
                 $$('#accounting-companies-pdf-download').classList.add('hidden');
                 $$('#accounting-companies-excel-download').classList.add('hidden');
-                
+
                 addLoader(companyGetOperatorsButton);
                 trigger('comm/accounting/companies/getOperators', {
                     body: {
@@ -223,7 +223,7 @@ let accounting = function () {
     };
 
     const populateReportsData = (data) => {
-        companyReportsData = data;
+        companyReportsData = getCopy(data);
         let operatorsList = [];
 
         for (let operatorId in data) {
@@ -253,7 +253,6 @@ let accounting = function () {
 
     const populateSpecificOperator = (id) => {
         let specificOperatorData = getCopy(companyReportsData[id]);
-
         // Prepare pdf report
         doc = new jsPDF('l', 'pt');
         doc.setFontSize(9);
