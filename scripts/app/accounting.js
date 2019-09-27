@@ -206,6 +206,7 @@ let accounting = function () {
                     success: function (response) {
                         if (response.responseCode === message.codes.success) {
                             populateReportsData(response.result);
+                            removeLoader(companyGetReportsButton);
                         }
                         else {
                             removeLoader(companyGetReportsButton);
