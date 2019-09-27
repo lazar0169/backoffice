@@ -225,10 +225,9 @@ let configuration = function () {
             }
         };
         valueInputField.oninput = (e) => {
-            debugger
-            if (valueInputField.value <= 0  ) {
-                valueInputField.value = '';                 
-             }
+            if (valueInputField.value <= 0) {
+                valueInputField.value = '';
+            }
         };
         const createBetGroupList = () => {
             let actions = $$(`#configuration-currency-form-bet-group-table`);
@@ -317,8 +316,8 @@ let configuration = function () {
 
         const findMinEuroBetStep = () => {
             let minValue = Number.MAX_VALUE;
-            for(let element of data){
-                if(minValue > element.eurBetStep){
+            for (let element of data) {
+                if (minValue > element.eurBetStep) {
                     minValue = element.eurBetStep;
                 }
             }
@@ -328,7 +327,7 @@ let configuration = function () {
         const saveAndUpdate = () => {
             let eur = $$('#configuration-currency-eur-value');
 
-            if(minEuroBetStep > parseFloat(eur.value)){
+            if (minEuroBetStep > parseFloat(eur.value)) {
                 trigger('message', message.codes.badParameter);
                 return;
             }
@@ -425,15 +424,15 @@ let configuration = function () {
 
         denomination.oninput = (e) => {
             debugger
-            if (denomination.value <= 0  ) {
-                denomination.value = '';                 
-             }
+            if (denomination.value <= 0) {
+                denomination.value = '';
+            }
         };
         betGroup.oninput = (e) => {
             debugger
-            if (betGroup.value <= 0  ) {
-                betGroup.value = '';                 
-             }
+            if (betGroup.value <= 0) {
+                betGroup.value = '';
+            }
         };
 
 
@@ -734,9 +733,9 @@ let configuration = function () {
 
         gameOptionEuroValue.oninput = (e) => {
             debugger
-            if (gameOptionEuroValue.value <= 0  ) {
-                gameOptionEuroValue.value = '';                 
-             }
+            if (gameOptionEuroValue.value <= 0) {
+                gameOptionEuroValue.value = '';
+            }
         };
         const showNewCurrencyGameStepModal = () => {
             if (gameType !== 0) {
@@ -1200,839 +1199,884 @@ let configuration = function () {
         let currencyJackpotSettingsMaxValue = $$('#configuration-currency-jackpot-max-jackpot-value');
         let data = undefined;
 
-        const show = (selectedRow) => {
-            data = selectedRow;
-            fillInputs();
 
-            $$('#configuration-currency-black-overlay').style.display = 'block';
-            modal.classList.add('show');
-            $$('#configuration-currency').children[0].style.overflow = 'hidden';
-        };
-
-        const hide = () => {
-            $$('#configuration-currency-black-overlay').style.display = 'none';
-            modal.classList.remove('show');
-            $$('#configuration-currency').children[0].style.overflow = 'auto';
-        };
-
-        const fillInputs = () => {
-            currencyJackpotSettingsBetContribution.value = data.betContribution;
-            currencyJackpotSettingsMinBet.value = data.minBet;
-            currencyJackpotSettingsBaseValue.value = data.baseJackpotValue;
-            currencyJackpotSettingsMinValue.value = data.minJackpotValue;
-            currencyJackpotSettingsMaxValue.value = data.maxJackpotValue;
-        };
-
-        const updateData = () => {
-            if (!currencyJackpotSettingsBetContribution.value ||
-                !currencyJackpotSettingsMinBet.value ||
-                !currencyJackpotSettingsBaseValue.value ||
-                !currencyJackpotSettingsMinValue.value ||
-                !currencyJackpotSettingsMaxValue.value) {
-                trigger('message', message.codes.badParameter);
-                return;
+        currencyJackpotSettingsBetContribution.oninput = (e) => {
+            if (currencyJackpotSettingsBetContribution.value <= 0) {
+                currencyJackpotSettingsBetContribution.value = '';
             }
-            let jackpotUpdateData = {
-                id: currencyIdSelected,
-                jackpotTypeId: data.id,
-                betContribution: currencyJackpotSettingsBetContribution.value,
-                minBet: currencyJackpotSettingsMinBet.value,
-                baseJackpotValue: currencyJackpotSettingsBaseValue.value,
-                minJackpotValue: currencyJackpotSettingsMinValue.value,
-                maxJackpotValue: currencyJackpotSettingsMaxValue.value
+        };
+        currencyJackpotSettingsMinBet.oninput = (e) => {
+            if (currencyJackpotSettingsMinBet.value <= 0) {
+                currencyJackpotSettingsMinBet.value = '';
             }
-            trigger('comm/currency/updateJackpotOptions', {
-                body: jackpotUpdateData,
-                success: function (response) {
-                    if (response.responseCode === message.codes.success) {
-                        selectedCurrency(currencyIdSelected);
-                        hide();
-                    }
-                    trigger('message', response.responseCode);
-                },
-                fail: function (response) {
-                    trigger('message', response.responseCode);
+        };
+        currencyJackpotSettingsBaseValue.oninput = (e) => {
+            if (currencyJackpotSettingsBaseValue.value <= 0) {
+                currencyJackpotSettingsBaseValue.value = '';
+            }
+        };
+        currencyJackpotSettingsMinValue.oninput = (e) => {
+            if (currencyJackpotSettingsMinValue.value <= 0) {
+                currencyJackpotSettingsMinValue.value = '';
+            }
+        };
+        currencyJackpotSettingsMaxValue.oninput = (e) => {
+            if (currencyJackpotSettingsMaxValue.value <= 0) {
+                currencyJackpotSettingsMaxValue.value = '';
+            };
+        };
+        // currencyJackpotSettingsMaxValue.addEventListener("focusout", function compareMinMax(){
+        //         if(currencyJackpotSettingsMaxValue.value < currencyJackpotSettingsMinValue.value) {
+        //             trigger('message', message.codes.badParameter);
+        //         }else return;
+        // });
+        // currencyJackpotSettingsMinValue.addEventListener("focusout", function compareMinMax(){
+        //         if(currencyJackpotSettingsMinValue.value > currencyJackpotSettingsMaxValue.value) {
+        //             trigger('message', message.codes.badParameter);
+        //         }else return;
+        // });
+            
+
+
+
+            const show = (selectedRow) => {
+                data = selectedRow;
+                fillInputs();
+
+                $$('#configuration-currency-black-overlay').style.display = 'block';
+                modal.classList.add('show');
+                $$('#configuration-currency').children[0].style.overflow = 'hidden';
+            };
+
+            const hide = () => {
+                $$('#configuration-currency-black-overlay').style.display = 'none';
+                modal.classList.remove('show');
+                $$('#configuration-currency').children[0].style.overflow = 'auto';
+            };
+
+            const fillInputs = () => {
+                currencyJackpotSettingsBetContribution.value = data.betContribution;
+                currencyJackpotSettingsMinBet.value = data.minBet;
+                currencyJackpotSettingsBaseValue.value = data.baseJackpotValue;
+                currencyJackpotSettingsMinValue.value = data.minJackpotValue;
+                currencyJackpotSettingsMaxValue.value = data.maxJackpotValue;
+            };
+
+            const updateData = () => {
+                if(parseFloat(currencyJackpotSettingsMaxValue.value) < parseFloat(currencyJackpotSettingsMinValue.value)){
+                    trigger('message', message.codes.badParameter);
+                    return;
                 }
-            });
-        };
 
-        cancelButton.addEventListener('click', hide);
-        saveButton.addEventListener('click', updateData);
-
-        return {
-            show: show,
-            hide: hide,
-        }
-    }();
-
-    let currencyMainOptionModal = function () {
-        let modal = $$('#configuration-currency-main-otpions-form');
-        let mainModal = $$('#configuration-currency-form-main-otpions');
-        let saveButton = $$('#configuration-currency-main-options-save');
-        let cancelButton = $$('#configuration-currency-main-options-cancel');
-        let imaginaryWrapper = $$('#configuration-currency-main-options-imaginary-wrapper');
-        let denomination = $$('#configuration-currency-form-denomination');
-        let ratio = $$('#configuration-currency-form-ratio');
-
-        const show = () => {
-            mainModal.classList.remove('hidden');
-            $$('#configuration-currency-black-overlay').style.display = 'block';
-            $$('#configuration-currency').children[0].style.overflow = 'hidden';
-            modal.classList.add('show');
-            if (isImaginaryCurrency) {
-                imaginaryWrapper.classList.remove('hidden');
-            }
-        };
-
-        const hide = () => {
-            mainModal.classList.add('hidden');
-            $$('#configuration-currency-black-overlay').style.display = 'none';
-            modal.classList.remove('show');
-            $$('#configuration-currency').children[0].style.overflow = 'auto';
-            imaginaryWrapper.classList.add('hidden');
-        };
-
-        const save = () => {
-            trigger('comm/currency/updateMainOptions', {
-                body: {
+                if (!currencyJackpotSettingsBetContribution.value ||
+                    !currencyJackpotSettingsMinBet.value ||
+                    !currencyJackpotSettingsBaseValue.value ||
+                    !currencyJackpotSettingsMinValue.value ||
+                    !currencyJackpotSettingsMaxValue.value) {
+                    trigger('message', message.codes.badParameter);
+                    return;
+                }
+                let jackpotUpdateData = {
                     id: currencyIdSelected,
-                    denomination: denomination.value,
-                    ratio: isImaginaryCurrency ? ratio.value : 0,
-                },
-                success: function (response) {
-                    if (response.responseCode === message.codes.success) {
-                        $$('#configuration-currency-denomination').value = denomination.value;
-                        $$('#configuration-currency-ratio').value = ratio.value;
-                        hide();
+                    jackpotTypeId: data.id,
+                    betContribution: currencyJackpotSettingsBetContribution.value,
+                    minBet: currencyJackpotSettingsMinBet.value,
+                    baseJackpotValue: currencyJackpotSettingsBaseValue.value,
+                    minJackpotValue: currencyJackpotSettingsMinValue.value,
+                    maxJackpotValue: currencyJackpotSettingsMaxValue.value
+                }
+                trigger('comm/currency/updateJackpotOptions', {
+                    body: jackpotUpdateData,
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            selectedCurrency(currencyIdSelected);
+                            hide();
+                        }
+                        trigger('message', response.responseCode);
+                    },
+                    fail: function (response) {
+                        trigger('message', response.responseCode);
                     }
-                    trigger('message', response.responseCode);
+                });
+            };
 
-                },
-                fail: function (response) {
-                    trigger('message', response.responseCode);
+            cancelButton.addEventListener('click', hide);
+            saveButton.addEventListener('click', updateData);
+
+            return {
+                show: show,
+                hide: hide,
+            }
+        }();
+
+        let currencyMainOptionModal = function () {
+            let modal = $$('#configuration-currency-main-otpions-form');
+            let mainModal = $$('#configuration-currency-form-main-otpions');
+            let saveButton = $$('#configuration-currency-main-options-save');
+            let cancelButton = $$('#configuration-currency-main-options-cancel');
+            let imaginaryWrapper = $$('#configuration-currency-main-options-imaginary-wrapper');
+            let denomination = $$('#configuration-currency-form-denomination');
+            let ratio = $$('#configuration-currency-form-ratio');
+
+            const show = () => {
+                mainModal.classList.remove('hidden');
+                $$('#configuration-currency-black-overlay').style.display = 'block';
+                $$('#configuration-currency').children[0].style.overflow = 'hidden';
+                modal.classList.add('show');
+                if (isImaginaryCurrency) {
+                    imaginaryWrapper.classList.remove('hidden');
                 }
-            });
-        };
+            };
 
-        saveButton.addEventListener('click', save);
-        cancelButton.addEventListener('click', hide);
+            const hide = () => {
+                mainModal.classList.add('hidden');
+                $$('#configuration-currency-black-overlay').style.display = 'none';
+                modal.classList.remove('show');
+                $$('#configuration-currency').children[0].style.overflow = 'auto';
+                imaginaryWrapper.classList.add('hidden');
+            };
 
-        return {
-            show: show,
-            hide: hide
-        }
-    }();
+            const save = () => {
+                trigger('comm/currency/updateMainOptions', {
+                    body: {
+                        id: currencyIdSelected,
+                        denomination: denomination.value,
+                        ratio: isImaginaryCurrency ? ratio.value : 0,
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            $$('#configuration-currency-denomination').value = denomination.value;
+                            $$('#configuration-currency-ratio').value = ratio.value;
+                            hide();
+                        }
+                        trigger('message', response.responseCode);
 
-    let currencyDeleteModal = function () {
-        let modal = $$('#configuration-currency-delete-form');
-        let deleteModal = $$('#configuration-currency-form-delete-main');
-        let yesButton = $$('#configuration-currency-delete-yes-button');
-        let noButton = $$('#configuration-currency-delete-no-button');
-
-        const show = () => {
-            deleteModal.classList.remove('hidden');
-            $$('#configuration-currency-black-overlay').style.display = 'block';
-            $$('#configuration-currency').children[0].style.overflow = 'hidden';
-            modal.classList.add('show');
-        };
-
-        const hide = () => {
-            deleteModal.classList.add('hidden');
-            $$('#configuration-currency-black-overlay').style.display = 'none';
-            modal.classList.remove('show');
-            $$('#configuration-currency').children[0].style.overflow = 'auto';
-        };
-
-        const removeCurrency = () => {
-            trigger('comm/currency/deleteCurrency', {
-                body: {
-                    id: currencyIdSelected
-                },
-                success: function (response) {
-                    if (response.responseCode === message.codes.success) {
-                        trigger('configuration/currency/loaded');
-                        hide();
+                    },
+                    fail: function (response) {
+                        trigger('message', response.responseCode);
                     }
-                    trigger('message', response.responseCode);
-                },
-                fail: function (response) {
-                    trigger('message', response.responseCode);
-                }
-            })
-        };
-
-        yesButton.addEventListener('click', removeCurrency);
-        noButton.addEventListener('click', hide);
-
-        return {
-            show: show,
-            hide: hide
-        }
-    }();
-
-    // Shows modal with details for individual selection
-    function showModal(section, data) {
-        $$('#configuration-form-' + activeSection).classList.remove('active');
-
-        let form = $$('#configuration-form-' + section);
-        form.classList.add('active');
-        activeSection = section;
-
-        let wrapper;
-
-        let userRole;
-        let userPortals;
-        let userName = $$('#configuration-user-name');
-        let userUsername = $$('#configuration-user-username');
-        let userPassword = $$('#configuration-user-password');
-        let userRepeat = $$('#configuration-user-repeat-password');
-        let userMail = $$('#configuration-user-email');
-        let userPhone = $$('#configuration-user-phone');
-        let userEnabled = $$('#configuration-user-enabled');
-
-        switch (section) {
-            case 'actions':
-                wrapper = form.getElementsByClassName('configuration-form-table')[0];
-                $$('#configuration-action-name').value = data.action.name;
-                wrapper.innerHTML = generateModalData(data.rolesList);
-                break;
-            case 'roles':
-                wrapper = form.getElementsByClassName('configuration-form-table')[0];
-                $$('#configuration-role-name').value = data.role.name;
-                wrapper.innerHTML = generateModalData(data.actionsList);
-                break;
-            case 'users':
-                wrapper = form.getElementsByClassName('configuration-form-inputs')[0];
-                if ($$('#configuration-user-role')) $$('#configuration-user-role').remove();
-                if ($$('#configuration-user-portals')) $$('#configuration-user-portals').remove();
-                wrapper.prepend(dropdown.generate(editMode ? data.portals : userParameters.portals, 'configuration-user-portals', 'Select user portals', true));
-                wrapper.prepend(dropdown.generate(userParameters.roles, 'configuration-user-role'));
-                userPortals = $$('#configuration-user-portals');
-                userRole = $$('#configuration-user-role');
-                userRole.getElementsByClassName('selected')[0].innerHTML = rolesJson[data.roleId];
-                userRole.getElementsByClassName('selected')[0].dataset.value = data.roleId;
-                userName.value = data.name;
-                userUsername.value = data.userName;
-                userPassword.value = '';
-                userRepeat.value = '';
-                userMail.value = data.email;
-                userPhone.value = data.phoneNumber;
-                userEnabled.checked = data.enabled;
-                break;
-        }
-
-        for (let input of $$('#configuration-form-users').children[1].getElementsByTagName('input')) {
-            input.oninput = function () {
-                if (
-                    !userRole.getSelected() ||
-                    !userPortals.getSelectedObject() ||
-                    !userName.value ||
-                    !userUsername.value ||
-                    (!editMode && !userPassword.value) ||
-                    (!editMode && !userRepeat.value) ||
-                    !userMail.value ||
-                    !userPhone.value
-                ) {
-                    $$('#configuration-form-users-save').classList.add('disabled');
-                } else {
-                    $$('#configuration-form-users-save').classList.remove('disabled');
-                }
+                });
             };
-        }
 
-        $$('#configuration-action-name').oninput = function () {
-            if (this.value === '') {
-                $$('#configuration-form-actions-save').classList.add('disabled');
-            } else {
-                $$('#configuration-form-actions-save').classList.remove('disabled');
+            saveButton.addEventListener('click', save);
+            cancelButton.addEventListener('click', hide);
+
+            return {
+                show: show,
+                hide: hide
             }
-        };
+        }();
 
-        $$('#configuration-role-name').oninput = function () {
-            if (this.value === '') {
-                $$('#configuration-form-roles-save').classList.add('disabled');
-            } else {
-                $$('#configuration-form-roles-save').classList.remove('disabled');
-            }
-        };
+        let currencyDeleteModal = function () {
+            let modal = $$('#configuration-currency-delete-form');
+            let deleteModal = $$('#configuration-currency-form-delete-main');
+            let yesButton = $$('#configuration-currency-delete-yes-button');
+            let noButton = $$('#configuration-currency-delete-no-button');
 
-        for (let td of form.getElementsByTagName('td')) {
-            td.onclick = function (e) {
-                e.stopPropagation();
-                td.children[0].checked = !td.children[0].checked;
+            const show = () => {
+                deleteModal.classList.remove('hidden');
+                $$('#configuration-currency-black-overlay').style.display = 'block';
+                $$('#configuration-currency').children[0].style.overflow = 'hidden';
+                modal.classList.add('show');
             };
-        }
 
-        if (editMode) {
-            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.remove('edit');
-            $$('#configuration-form-users-save').classList.remove('disabled');
-            $$('#configuration-form-actions-save').classList.remove('disabled');
-            $$('#configuration-form-roles-save').classList.remove('disabled');
-        } else {
-            form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.add('edit');
-            $$('#configuration-form-users-save').classList.add('disabled');
-            $$('#configuration-form-actions-save').classList.add('disabled');
-            $$('#configuration-form-roles-save').classList.add('disabled');
-        }
-
-        $$('#configuration-black-overlay').style.display = 'block';
-        $$('#configuration-form').classList.add('show');
-        $$('#configuration-main').children[0].scrollTop = 0;
-        $$('#configuration-main').children[0].style.overflow = 'hidden';
-    }
-
-    //Currency right side view
-    function showCurrencyView(result) {
-        removeTableData();
-        let tbody = currencyTable.getElementsByTagName('table')[1];
-        if (tbody) {
-            tbody.remove();
-        }
-        tbody = jackpotTable.getElementsByTagName('table')[1];
-        if (tbody) {
-            tbody.remove();
-        }
-        $$('#configuration-currency-games-table-wrapper').classList.remove('hidden');
-        $$('#configuration-currency-main-options').classList.remove('hidden');
-        let currencyWithBetGroup = result.currencyWithBetGroup;
-        $$('#configuration-currency-code').value = currencyWithBetGroup.currencyCode;
-        $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
-        $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
-        if (!currencyWithBetGroup.realCurrency) {
-            isImaginaryCurrency = true;
-            $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
-
-            $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
-            $$('#configuration-currency-ratio').value = currencyWithBetGroup.realImaginaryCurrencyRatio;
-        }
-        else {
-            $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
-            isImaginaryCurrency = false;
-        }
-        createTable(result);
-        for (let element of result.defaultJackpotSettings) {
-            element.name = jackpotTypes[`${element.jackpotTypeId}`];
-            element.id = element.jackpotTypeId;
-        }
-        $$('#configuration-currency-default-jackpot-settings-wrapper').classList.remove('hidden');
-        createList('currency-default-jackpot-settings-list', result.defaultJackpotSettings, 2);
-    }
-
-    // Generates modal checkbox list
-    function generateModalData(data) {
-        let table = ''
-        for (let element of data) {
-            let checked = element.checked ? 'checked' : '';
-            let id = generateGuid();
-            element = element.role || element.action || element;
-            table += `<tr><td><input type="checkbox" ${checked} id=${id} data-id="${element.id}"><label for="${id}">${element.name}</label></td></tr>`;
-        }
-        return `<table>${table}</table>`;
-    }
-
-    function hideModal() {
-        $$('#configuration-black-overlay').style.display = 'none';
-        $$('#configuration-form').classList.remove('show');
-        $$('#configuration-main').children[0].style.overflow = 'auto';
-        for (let checkbox of $$('#configuration-form-' + activeSection).getElementsByTagName('input')) {
-            checkbox.checked = false;
-        }
-        editMode = false;
-    }
-
-    // Creates users, action and roles list
-    function createList(section, data, dataType = 0) {
-        let actions = $$(`#configuration-${section}`);
-        if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
-            actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
-        }
-        let body = document.createElement('tbody');
-        for (let row of data) {
-            let tr = document.createElement('tr');
-            let td = document.createElement('td');
-            td.innerHTML = row.name;
-            tr.dataset.id = row.id;
-            tr.onclick = function () {
-                if (dataType === 0) {
-                    trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
-                }
-                else {
-                    currencyJackpotModal.show(row);
-                }
+            const hide = () => {
+                deleteModal.classList.add('hidden');
+                $$('#configuration-currency-black-overlay').style.display = 'none';
+                modal.classList.remove('show');
+                $$('#configuration-currency').children[0].style.overflow = 'auto';
             };
-            if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
-            tr.appendChild(td);
-            body.appendChild(tr);
-        }
-        actions.getElementsByTagName('table')[0].appendChild(body);
-        actions.classList.remove('hidden');
-    }
 
-    function createTable(data) {
-        let wrapperTable = $$(`#configuration-currency-games-table`).getElementsByTagName('table')[0];
-        let body = document.createElement('tbody');
-        wrapperTable.appendChild(body);
-        hideAllRows(wrapperTable);
-        activeData = data;
-        for (let index in data.currencyGamesBet) {
-            let tr = document.createElement('tr');
-            let td = document.createElement('td');
+            const removeCurrency = () => {
+                trigger('comm/currency/deleteCurrency', {
+                    body: {
+                        id: currencyIdSelected
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            trigger('configuration/currency/loaded');
+                            hide();
+                        }
+                        trigger('message', response.responseCode);
+                    },
+                    fail: function (response) {
+                        trigger('message', response.responseCode);
+                    }
+                })
+            };
 
-            td.className = 'collapsed';
-            tr.dataset.id = index;
-            tr.appendChild(td);
-            body.appendChild(tr);
-            td.innerHTML = data.currencyGamesBet[index].gameName;
-            let rouletteIndex = findRouletteGameOptionsIndex(data.currencyGamesBet[index].gameId);
-            td.onclick = () => {
-                currencyUpdatePopup.show(data.currencyGamesBet[index].gameBetCurrencySteps, data.currencyGamesBet[index].gameName, index, data.currencyGamesBet[index].gameId, data.currencyGamesBet[index].gameType, rouletteIndex);
+            yesButton.addEventListener('click', removeCurrency);
+            noButton.addEventListener('click', hide);
+
+            return {
+                show: show,
+                hide: hide
             }
-        }
-    }
+        }();
 
-    function findRouletteGameOptionsIndex(id) {
-        for (let element in activeData.currencyRoulletteBet) {
-            if (activeData.currencyRoulletteBet[element].gameId === id) {
-                return element;
-            }
-        }
-    };
+        // Shows modal with details for individual selection
+        function showModal(section, data) {
+            $$('#configuration-form-' + activeSection).classList.remove('active');
 
-    function populateCurrencyDropdown(data) {
-        clearElement($$(`#configuration-currency-list`));
-        let currencyDropdown = dropdown.generate(data.result, `configuration-currency-list`, 'Select currency');
-        $$(`#configuration-currency-list-wrapper`).appendChild(currencyDropdown);
-        if (!data.result) $$(`#configuration-currency-list-wrapper`).style.display = 'none';
+            let form = $$('#configuration-form-' + section);
+            form.classList.add('active');
+            activeSection = section;
 
-        on('configuration-currency-list/selected', selectedCurrency);
-    };
+            let wrapper;
 
-    const selectedCurrency = (value) => {
-        deleteCurrencyButton.classList.remove('hidden');
-        currencyIdSelected = value;
-        addLoader($$('#configuration-currency-list-wrapper'));
-        trigger('comm/currency/readCurrency', {
-            body: {
-                id: value,
-            },
-            success: function (response) {
-                if (response.responseCode === message.codes.success) {
-                    showCurrencyView(response.result);
-                }
-                trigger('message', response.responseCode);
-                removeLoader($$('#configuration-currency-list-wrapper'));
-            },
-            fail: function (response) {
-                removeLoader($$('#configuration-currency-list-wrapper'));
-            }
-        });
-    }
+            let userRole;
+            let userPortals;
+            let userName = $$('#configuration-user-name');
+            let userUsername = $$('#configuration-user-username');
+            let userPassword = $$('#configuration-user-password');
+            let userRepeat = $$('#configuration-user-repeat-password');
+            let userMail = $$('#configuration-user-email');
+            let userPhone = $$('#configuration-user-phone');
+            let userEnabled = $$('#configuration-user-enabled');
 
-    for (let cancelBtn of $$('.configuration-form-cancel')) {
-        cancelBtn.addEventListener('click', hideModal);
-    }
-
-    for (let section of sections) {
-        on(`configuration/fill/${section}`, function (data) {
-            createList(section, data);
-        });
-    }
-
-    // SAVE BUTTON
-    for (let button of $$('.configuration-form-save')) {
-        let data = {};
-        let list = [];
-        let section;
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            switch (button.dataset.section) {
+            switch (section) {
                 case 'actions':
-                    list = [];
-                    for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
-                        list.push({ checked: td.children[0].checked, role: { id: td.children[0].dataset.id, name: td.children[1].innerText } });
-                    }
-                    data = { action: { id: openedId === '' ? 0 : openedId, name: $$('#configuration-action-name').value }, rolesList: list };
-                    section = 'actions';
+                    wrapper = form.getElementsByClassName('configuration-form-table')[0];
+                    $$('#configuration-action-name').value = data.action.name;
+                    wrapper.innerHTML = generateModalData(data.rolesList);
                     break;
                 case 'roles':
-                    list = [];
-                    for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
-                        list.push({ checked: td.children[0].checked, action: { id: td.children[0].dataset.id, name: td.children[1].innerText } });
-                    }
-                    data = { role: { id: openedId, name: $$('#configuration-role-name').value }, actionsList: list };
-                    section = 'roles';
+                    wrapper = form.getElementsByClassName('configuration-form-table')[0];
+                    $$('#configuration-role-name').value = data.role.name;
+                    wrapper.innerHTML = generateModalData(data.actionsList);
                     break;
                 case 'users':
-                    if (passwordsMatch()) {
-                        data = {
-                            userId: openedId,
-                            name: $$('#configuration-user-name').value,
-                            userName: $$('#configuration-user-username').value,
-                            password: $$('#configuration-user-password').value,
-                            email: $$('#configuration-user-email').value,
-                            phoneNumber: $$('#configuration-user-phone').value,
-                            enabled: $$('#configuration-user-enabled').checked,
-                            roleId: $$('#configuration-user-role').getSelected(),
-                            portals: $$('#configuration-user-portals').getAll()
-                        };
+                    wrapper = form.getElementsByClassName('configuration-form-inputs')[0];
+                    if ($$('#configuration-user-role')) $$('#configuration-user-role').remove();
+                    if ($$('#configuration-user-portals')) $$('#configuration-user-portals').remove();
+                    wrapper.prepend(dropdown.generate(editMode ? data.portals : userParameters.portals, 'configuration-user-portals', 'Select user portals', true));
+                    wrapper.prepend(dropdown.generate(userParameters.roles, 'configuration-user-role'));
+                    userPortals = $$('#configuration-user-portals');
+                    userRole = $$('#configuration-user-role');
+                    userRole.getElementsByClassName('selected')[0].innerHTML = rolesJson[data.roleId];
+                    userRole.getElementsByClassName('selected')[0].dataset.value = data.roleId;
+                    userName.value = data.name;
+                    userUsername.value = data.userName;
+                    userPassword.value = '';
+                    userRepeat.value = '';
+                    userMail.value = data.email;
+                    userPhone.value = data.phoneNumber;
+                    userEnabled.checked = data.enabled;
+                    break;
+            }
+
+            for (let input of $$('#configuration-form-users').children[1].getElementsByTagName('input')) {
+                input.oninput = function () {
+                    if (
+                        !userRole.getSelected() ||
+                        !userPortals.getSelectedObject() ||
+                        !userName.value ||
+                        !userUsername.value ||
+                        (!editMode && !userPassword.value) ||
+                        (!editMode && !userRepeat.value) ||
+                        !userMail.value ||
+                        !userPhone.value
+                    ) {
+                        $$('#configuration-form-users-save').classList.add('disabled');
                     } else {
-                        trigger('message', message.codes.passwordsDontMatch);
+                        $$('#configuration-form-users-save').classList.remove('disabled');
                     }
-                    section = 'users';
-                    break;
+                };
             }
 
-            function wait() {
-                $$(`#configuration-form-${section}`).classList.add('disabled');
-                $$('#configuration-black-overlay').classList.add('disabled');
-                addLoader(button);
-            }
-
-            function reset() {
-                $$(`#configuration-form-${section}`).classList.remove('disabled');
-                $$('#configuration-black-overlay').classList.remove('disabled');
-                removeLoader(button);
-            }
-
-            wait();
-            log(`editMode: ${editMode}`);
-            log(data);
-
-            trigger(`comm/configuration/${section}/${editMode ? 'edit' : 'create'}`, {
-                body: data,
-                success: function (response) {
-                    reset();
-                    trigger('message', response.responseCode);
-                    removeLoader($$('#sidebar-configuration'));
-                    if (response.responseCode === message.codes.success) {
-                        trigger('configuration/main/loaded');
-                        hideModal();
-                    }
-                },
-                fail: function (response) {
-                    reset();
+            $$('#configuration-action-name').oninput = function () {
+                if (this.value === '') {
+                    $$('#configuration-form-actions-save').classList.add('disabled');
+                } else {
+                    $$('#configuration-form-actions-save').classList.remove('disabled');
                 }
-            });
-        });
-
-        function passwordsMatch() {
-            let password = $$('#configuration-user-password').value;
-            let password2 = $$('#configuration-user-repeat-password').value;
-            return !password && !password2 || password === password2;
-        }
-    }
-
-    // REMOVE BUTTON
-    for (let button of $$('.configuration-remove')) {
-        button.addEventListener('click', function () {
-            let section = button.dataset.section;
-
-            function wait() {
-                $$(`#configuration-form-${section}`).classList.add('disabled');
-                $$('#configuration-black-overlay').classList.add('disabled');
-                addLoader(button);
-            }
-
-            function reset() {
-                $$(`#configuration-form-${section}`).classList.remove('disabled');
-                $$('#configuration-black-overlay').classList.remove('disabled');
-                removeLoader(button);
-            }
-
-            wait();
-            trigger(`comm/configuration/${section}/remove/single`, {
-                body: {
-                    id: openedId
-                },
-                success: function (response) {
-                    reset();
-                    trigger('message', response.responseCode);
-                    removeLoader($$('#sidebar-configuration'));
-                    if (response.responseCode === message.codes.success) {
-                        trigger('configuration/main/loaded');
-                        hideModal();
-                    }
-                },
-                fail: function (response) {
-                    reset();
-                }
-            });
-        });
-    }
-
-    // ADD NEW BUTTON
-    for (let button of $$('.configuration-add-new')) {
-        button.addEventListener('click', function () {
-            openedId = '';
-            let data = {};
-            switch (button.dataset.section) {
-                case 'actions':
-                    data.action = {};
-                    data.action.name = '';
-                    data.rolesList = roles;
-                    break;
-                case 'roles':
-                    data.role = {};
-                    data.role.name = '';
-                    data.actionsList = actions;
-                    break;
-                case 'users':
-                    data.email = '';
-                    data.name = '';
-                    data.password = null;
-                    data.phoneNumber = '';
-                    data.roleId = userParameters.roles[0] ? userParameters.roles[0].id : '';
-                    data.userName = '';
-                    break;
-            }
-            showModal(button.dataset.section, data)
-        });
-    }
-
-    function showNewCurrencyModal() {
-        $$('#configuration-currency-black-overlay').style.display = 'block';
-        configurationNewCurrencyForm.classList.add('show');
-        $$('#configuration-currency').children[0].style.overflow = 'hidden';
-    }
-
-    function hideNewCurrencyModal() {
-        $$('#configuration-currency-black-overlay').style.display = 'none';
-        configurationNewCurrencyForm.classList.remove('show');
-        $$('#configuration-currency').children[0].style.overflow = 'auto';
-    }
-
-
-    // SEARCH BUTTON
-    for (let button of $$('.configuration-search')) {
-        button.addEventListener('click', function () {
-            button.parentNode.classList.add('search');
-            button.parentNode.children[1].focus();
-        });
-    }
-
-    for (let input of $$('.caption-search')) {
-        let table = $$(`#configuration-${input.dataset.section}`).children[1];
-        input.addEventListener('input', function () {
-            search(table, input.value);
-        });
-        input.addEventListener('keyup', function (e) {
-            input.parentNode.classList[input.value !== '' ? 'add' : 'remove']('typed');
-            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-                input.value = '';
-                search(table, '');
-                input.parentNode.classList.remove('search');
-            }
-        });
-        input.addEventListener('blur', function () {
-            // input.value = '';
-            // search(table, '');
-            input.parentNode.classList.remove('search');
-        });
-    }
-
-    function search(element, term) {
-        for (let row of element.getElementsByTagName('td')) {
-            if (row.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
-                row.parentNode.style.display = 'table-row';
-            } else {
-                row.parentNode.style.display = 'none';
-            }
-        }
-    }
-
-    function hideAllRows(element) {
-        for (let tableRow of element.getElementsByTagName('td')) {
-            tableRow.classList.add('collapsed');
-            tableRow.collapsed = true;
-        }
-    };
-
-    function removeTableData() {
-        let tbody = currencyTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
-        if (tbody.length) {
-            tbody[0].remove();
-        }
-
-        tbody = jackpotTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
-        if (tbody.length) {
-            tbody[0].remove();
-        }
-    }
-
-    function closeAllPopups() {
-        newCurrencyRouletteOptions.hide();
-        newCurrencyGameBetStep.hide();
-        newCurrencyBetStep.hide();
-        newCurrencyMain.hide();
-
-        currencyJackpotModal.hide();
-        currencyUpdatePopup.hide();
-        currencyMainOptionModal.hide();
-    };
-
-    function parseAllExistingCurrenciesData(data) {
-        let result = [];
-        for (let index in data) {
-            let object = {
-                name: data[index],
-                id: index
             };
-            result.push(object);
+
+            $$('#configuration-role-name').oninput = function () {
+                if (this.value === '') {
+                    $$('#configuration-form-roles-save').classList.add('disabled');
+                } else {
+                    $$('#configuration-form-roles-save').classList.remove('disabled');
+                }
+            };
+
+            for (let td of form.getElementsByTagName('td')) {
+                td.onclick = function (e) {
+                    e.stopPropagation();
+                    td.children[0].checked = !td.children[0].checked;
+                };
+            }
+
+            if (editMode) {
+                form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.remove('edit');
+                $$('#configuration-form-users-save').classList.remove('disabled');
+                $$('#configuration-form-actions-save').classList.remove('disabled');
+                $$('#configuration-form-roles-save').classList.remove('disabled');
+            } else {
+                form.getElementsByClassName('configuration-form-button-wrapper')[0].classList.add('edit');
+                $$('#configuration-form-users-save').classList.add('disabled');
+                $$('#configuration-form-actions-save').classList.add('disabled');
+                $$('#configuration-form-roles-save').classList.add('disabled');
+            }
+
+            $$('#configuration-black-overlay').style.display = 'block';
+            $$('#configuration-form').classList.add('show');
+            $$('#configuration-main').children[0].scrollTop = 0;
+            $$('#configuration-main').children[0].style.overflow = 'hidden';
         }
-        return result;
-    }
 
-    on('configuration/profile/loaded', function () {
-        $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
-    });
-
-    on('configuration/currency/loaded', function () {
-        $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
-        $$('#configuration-currency-list-wrapper').classList.remove('hidden');
-        deleteCurrencyButton.classList.add('hidden');
-        removeTableData();
-        hideCurrencyView();
-
-        addLoader($$('#sidebar-configuration'));
-        trigger('comm/currency/getCurrencies', {
-            success: function (response) {
-                if (response.responseCode === message.codes.success) {
-                    actions = response.result;
-                    populateCurrencyDropdown(response);
-                } else {
-                    trigger('message', response.responseCode);
-                }
-                removeLoader($$('#sidebar-configuration'));
-            },
-            fail: function () {
-                removeLoader($$('#sidebar-configuration'));
+        //Currency right side view
+        function showCurrencyView(result) {
+            removeTableData();
+            let tbody = currencyTable.getElementsByTagName('table')[1];
+            if (tbody) {
+                tbody.remove();
             }
-        });
-    });
+            tbody = jackpotTable.getElementsByTagName('table')[1];
+            if (tbody) {
+                tbody.remove();
+            }
+            $$('#configuration-currency-games-table-wrapper').classList.remove('hidden');
+            $$('#configuration-currency-main-options').classList.remove('hidden');
+            let currencyWithBetGroup = result.currencyWithBetGroup;
+            $$('#configuration-currency-code').value = currencyWithBetGroup.currencyCode;
+            $$('#configuration-currency-denomination').value = currencyWithBetGroup.denomination;
+            $$('#configuration-currency-bet-group').value = currencyWithBetGroup.betGroupId;
+            if (!currencyWithBetGroup.realCurrency) {
+                isImaginaryCurrency = true;
+                $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
 
-    on('configuration/currency/unloaded', function () {
-        closeAllPopups();
-    });
-
-    on('configuration/currency/loaded', function () {
-        closeAllPopups();
-    });
-
-    on('configuration/main/unloaded', function () {
-        hideModal();
-    });
-
-    // When configuration page is loaded
-    on('configuration/main/loaded', function () {
-        $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
-        addLoader($$('#sidebar-configuration'));
-        let responses = 0;
-        let asyncRequests = 4;
-        for (let input of $$('.caption-search')) {
-            input.value = '';
-            input.parentNode.classList.remove('typed');
+                $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
+                $$('#configuration-currency-ratio').value = currencyWithBetGroup.realImaginaryCurrencyRatio;
+            }
+            else {
+                $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
+                isImaginaryCurrency = false;
+            }
+            createTable(result);
+            for (let element of result.defaultJackpotSettings) {
+                element.name = jackpotTypes[`${element.jackpotTypeId}`];
+                element.id = element.jackpotTypeId;
+            }
+            $$('#configuration-currency-default-jackpot-settings-wrapper').classList.remove('hidden');
+            createList('currency-default-jackpot-settings-list', result.defaultJackpotSettings, 2);
         }
-        trigger('comm/configuration/actions/get', {
-            success: function (response) {
-                responses++;
-                if (responses === asyncRequests) {
-                    removeLoader($$('#sidebar-configuration'));
-                }
-                log(response);
-                if (response.responseCode === message.codes.success) {
-                    actions = response.result;
-                    createList('actions', response.result);
-                } else {
-                    trigger('message', response.responseCode);
-                }
-            },
-            fail: function () {
-                removeLoader($$('#sidebar-configuration'));
-            }
-        });
 
-        trigger('comm/configuration/roles/get', {
-            success: function (response) {
-                responses++;
-                if (responses === asyncRequests) {
-                    removeLoader($$('#sidebar-configuration'));
-                }
-                if (response.responseCode === message.codes.success) {
-                    roles = response.result;
-                    createList('roles', response.result);
-                } else {
-                    trigger('message', response.responseCode);
-                }
-            },
-            fail: function () {
-                removeLoader($$('#sidebar-configuration'));
+        // Generates modal checkbox list
+        function generateModalData(data) {
+            let table = ''
+            for (let element of data) {
+                let checked = element.checked ? 'checked' : '';
+                let id = generateGuid();
+                element = element.role || element.action || element;
+                table += `<tr><td><input type="checkbox" ${checked} id=${id} data-id="${element.id}"><label for="${id}">${element.name}</label></td></tr>`;
             }
-        });
+            return `<table>${table}</table>`;
+        }
 
-        trigger('comm/configuration/users/get', {
-            success: function (response) {
-                responses++;
-                if (responses === asyncRequests) {
-                    removeLoader($$('#sidebar-configuration'));
-                }
-                if (response.responseCode === message.codes.success) {
-                    users = response.result;
-                    createList('users', response.result);
-                } else {
-                    trigger('message', response.responseCode);
-                }
-            },
-            fail: function () {
-                removeLoader($$('#sidebar-configuration'));
+        function hideModal() {
+            $$('#configuration-black-overlay').style.display = 'none';
+            $$('#configuration-form').classList.remove('show');
+            $$('#configuration-main').children[0].style.overflow = 'auto';
+            for (let checkbox of $$('#configuration-form-' + activeSection).getElementsByTagName('input')) {
+                checkbox.checked = false;
             }
-        });
+            editMode = false;
+        }
 
-        trigger('comm/configuration/parameters/get', {
-            success: function (response) {
-                responses++;
-                if (responses === asyncRequests) {
-                    removeLoader($$('#sidebar-configuration'));
-                }
-                if (response.responseCode === message.codes.success) {
-                    userParameters = response.result;
-                    rolesJson = {};
-                    for (let role of response.result.roles) {
-                        rolesJson[role.id] = role.name;
+        // Creates users, action and roles list
+        function createList(section, data, dataType = 0) {
+            let actions = $$(`#configuration-${section}`);
+            if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
+                actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
+            }
+            let body = document.createElement('tbody');
+            for (let row of data) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+                td.innerHTML = row.name;
+                tr.dataset.id = row.id;
+                tr.onclick = function () {
+                    if (dataType === 0) {
+                        trigger('configuration/show/modal', { section: section, id: this.dataset.id, caller: td });
                     }
-                } else {
-                    trigger('message', response.responseCode);
+                    else {
+                        currencyJackpotModal.show(row);
+                    }
+                };
+                if (section === 'users' && !row.enabled) td.classList.add('disabled-user');
+                tr.appendChild(td);
+                body.appendChild(tr);
+            }
+            actions.getElementsByTagName('table')[0].appendChild(body);
+            actions.classList.remove('hidden');
+        }
+
+        function createTable(data) {
+            let wrapperTable = $$(`#configuration-currency-games-table`).getElementsByTagName('table')[0];
+            let body = document.createElement('tbody');
+            wrapperTable.appendChild(body);
+            hideAllRows(wrapperTable);
+            activeData = data;
+            for (let index in data.currencyGamesBet) {
+                let tr = document.createElement('tr');
+                let td = document.createElement('td');
+
+                td.className = 'collapsed';
+                tr.dataset.id = index;
+                tr.appendChild(td);
+                body.appendChild(tr);
+                td.innerHTML = data.currencyGamesBet[index].gameName;
+                let rouletteIndex = findRouletteGameOptionsIndex(data.currencyGamesBet[index].gameId);
+                td.onclick = () => {
+                    currencyUpdatePopup.show(data.currencyGamesBet[index].gameBetCurrencySteps, data.currencyGamesBet[index].gameName, index, data.currencyGamesBet[index].gameId, data.currencyGamesBet[index].gameType, rouletteIndex);
                 }
-            },
-            fail: function () {
-                removeLoader($$('#sidebar-configuration'));
             }
-        });
-    });
+        }
 
-    on('configuration/main/unloaded', function () {
-        hideModal();
-    });
-
-    on('configuration/show/modal', function (data) {
-        addLoader(data.caller);
-        trigger(`comm/configuration/${data.section}/get/single`, {
-            body: {
-                id: data.id
-            },
-            success: function (response) {
-                removeLoader(data.caller);
-                editMode = true;
-                openedId = response.result.action ? response.result.action.id :
-                    response.result.role ? response.result.role.id :
-                        response.result.userId;
-                showModal(data.section, response.result);
-            },
-            fail: function () {
-                removeLoader(data.caller);
+        function findRouletteGameOptionsIndex(id) {
+            for (let element in activeData.currencyRoulletteBet) {
+                if (activeData.currencyRoulletteBet[element].gameId === id) {
+                    return element;
+                }
             }
-        });
-    });
+        };
 
-    addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
-    deleteCurrencyButton.addEventListener('click', deleteCurrency);
-}();
+        function populateCurrencyDropdown(data) {
+            clearElement($$(`#configuration-currency-list`));
+            let currencyDropdown = dropdown.generate(data.result, `configuration-currency-list`, 'Select currency');
+            $$(`#configuration-currency-list-wrapper`).appendChild(currencyDropdown);
+            if (!data.result) $$(`#configuration-currency-list-wrapper`).style.display = 'none';
+
+            on('configuration-currency-list/selected', selectedCurrency);
+        };
+
+        const selectedCurrency = (value) => {
+            deleteCurrencyButton.classList.remove('hidden');
+            currencyIdSelected = value;
+            addLoader($$('#configuration-currency-list-wrapper'));
+            trigger('comm/currency/readCurrency', {
+                body: {
+                    id: value,
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        showCurrencyView(response.result);
+                    }
+                    trigger('message', response.responseCode);
+                    removeLoader($$('#configuration-currency-list-wrapper'));
+                },
+                fail: function (response) {
+                    removeLoader($$('#configuration-currency-list-wrapper'));
+                }
+            });
+        }
+
+        for (let cancelBtn of $$('.configuration-form-cancel')) {
+            cancelBtn.addEventListener('click', hideModal);
+        }
+
+        for (let section of sections) {
+            on(`configuration/fill/${section}`, function (data) {
+                createList(section, data);
+            });
+        }
+
+        // SAVE BUTTON
+        for (let button of $$('.configuration-form-save')) {
+            let data = {};
+            let list = [];
+            let section;
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                switch (button.dataset.section) {
+                    case 'actions':
+                        list = [];
+                        for (let td of $$('#configuration-form-actions').children[2].getElementsByTagName('td')) {
+                            list.push({ checked: td.children[0].checked, role: { id: td.children[0].dataset.id, name: td.children[1].innerText } });
+                        }
+                        data = { action: { id: openedId === '' ? 0 : openedId, name: $$('#configuration-action-name').value }, rolesList: list };
+                        section = 'actions';
+                        break;
+                    case 'roles':
+                        list = [];
+                        for (let td of $$('#configuration-form-roles').children[2].getElementsByTagName('td')) {
+                            list.push({ checked: td.children[0].checked, action: { id: td.children[0].dataset.id, name: td.children[1].innerText } });
+                        }
+                        data = { role: { id: openedId, name: $$('#configuration-role-name').value }, actionsList: list };
+                        section = 'roles';
+                        break;
+                    case 'users':
+                        if (passwordsMatch()) {
+                            data = {
+                                userId: openedId,
+                                name: $$('#configuration-user-name').value,
+                                userName: $$('#configuration-user-username').value,
+                                password: $$('#configuration-user-password').value,
+                                email: $$('#configuration-user-email').value,
+                                phoneNumber: $$('#configuration-user-phone').value,
+                                enabled: $$('#configuration-user-enabled').checked,
+                                roleId: $$('#configuration-user-role').getSelected(),
+                                portals: $$('#configuration-user-portals').getAll()
+                            };
+                        } else {
+                            trigger('message', message.codes.passwordsDontMatch);
+                        }
+                        section = 'users';
+                        break;
+                }
+
+                function wait() {
+                    $$(`#configuration-form-${section}`).classList.add('disabled');
+                    $$('#configuration-black-overlay').classList.add('disabled');
+                    addLoader(button);
+                }
+
+                function reset() {
+                    $$(`#configuration-form-${section}`).classList.remove('disabled');
+                    $$('#configuration-black-overlay').classList.remove('disabled');
+                    removeLoader(button);
+                }
+
+                wait();
+                log(`editMode: ${editMode}`);
+                log(data);
+
+                trigger(`comm/configuration/${section}/${editMode ? 'edit' : 'create'}`, {
+                    body: data,
+                    success: function (response) {
+                        reset();
+                        trigger('message', response.responseCode);
+                        removeLoader($$('#sidebar-configuration'));
+                        if (response.responseCode === message.codes.success) {
+                            trigger('configuration/main/loaded');
+                            hideModal();
+                        }
+                    },
+                    fail: function (response) {
+                        reset();
+                    }
+                });
+            });
+
+            function passwordsMatch() {
+                let password = $$('#configuration-user-password').value;
+                let password2 = $$('#configuration-user-repeat-password').value;
+                return !password && !password2 || password === password2;
+            }
+        }
+
+        // REMOVE BUTTON
+        for (let button of $$('.configuration-remove')) {
+            button.addEventListener('click', function () {
+                let section = button.dataset.section;
+
+                function wait() {
+                    $$(`#configuration-form-${section}`).classList.add('disabled');
+                    $$('#configuration-black-overlay').classList.add('disabled');
+                    addLoader(button);
+                }
+
+                function reset() {
+                    $$(`#configuration-form-${section}`).classList.remove('disabled');
+                    $$('#configuration-black-overlay').classList.remove('disabled');
+                    removeLoader(button);
+                }
+
+                wait();
+                trigger(`comm/configuration/${section}/remove/single`, {
+                    body: {
+                        id: openedId
+                    },
+                    success: function (response) {
+                        reset();
+                        trigger('message', response.responseCode);
+                        removeLoader($$('#sidebar-configuration'));
+                        if (response.responseCode === message.codes.success) {
+                            trigger('configuration/main/loaded');
+                            hideModal();
+                        }
+                    },
+                    fail: function (response) {
+                        reset();
+                    }
+                });
+            });
+        }
+
+        // ADD NEW BUTTON
+        for (let button of $$('.configuration-add-new')) {
+            button.addEventListener('click', function () {
+                openedId = '';
+                let data = {};
+                switch (button.dataset.section) {
+                    case 'actions':
+                        data.action = {};
+                        data.action.name = '';
+                        data.rolesList = roles;
+                        break;
+                    case 'roles':
+                        data.role = {};
+                        data.role.name = '';
+                        data.actionsList = actions;
+                        break;
+                    case 'users':
+                        data.email = '';
+                        data.name = '';
+                        data.password = null;
+                        data.phoneNumber = '';
+                        data.roleId = userParameters.roles[0] ? userParameters.roles[0].id : '';
+                        data.userName = '';
+                        break;
+                }
+                showModal(button.dataset.section, data)
+            });
+        }
+
+        function showNewCurrencyModal() {
+            $$('#configuration-currency-black-overlay').style.display = 'block';
+            configurationNewCurrencyForm.classList.add('show');
+            $$('#configuration-currency').children[0].style.overflow = 'hidden';
+        }
+
+        function hideNewCurrencyModal() {
+            $$('#configuration-currency-black-overlay').style.display = 'none';
+            configurationNewCurrencyForm.classList.remove('show');
+            $$('#configuration-currency').children[0].style.overflow = 'auto';
+        }
+
+
+        // SEARCH BUTTON
+        for (let button of $$('.configuration-search')) {
+            button.addEventListener('click', function () {
+                button.parentNode.classList.add('search');
+                button.parentNode.children[1].focus();
+            });
+        }
+
+        for (let input of $$('.caption-search')) {
+            let table = $$(`#configuration-${input.dataset.section}`).children[1];
+            input.addEventListener('input', function () {
+                search(table, input.value);
+            });
+            input.addEventListener('keyup', function (e) {
+                input.parentNode.classList[input.value !== '' ? 'add' : 'remove']('typed');
+                if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                    input.value = '';
+                    search(table, '');
+                    input.parentNode.classList.remove('search');
+                }
+            });
+            input.addEventListener('blur', function () {
+                // input.value = '';
+                // search(table, '');
+                input.parentNode.classList.remove('search');
+            });
+        }
+
+        function search(element, term) {
+            for (let row of element.getElementsByTagName('td')) {
+                if (row.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                    row.parentNode.style.display = 'table-row';
+                } else {
+                    row.parentNode.style.display = 'none';
+                }
+            }
+        }
+
+        function hideAllRows(element) {
+            for (let tableRow of element.getElementsByTagName('td')) {
+                tableRow.classList.add('collapsed');
+                tableRow.collapsed = true;
+            }
+        };
+
+        function removeTableData() {
+            let tbody = currencyTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+            if (tbody.length) {
+                tbody[0].remove();
+            }
+
+            tbody = jackpotTable.getElementsByTagName('table')[0].getElementsByTagName('tbody');
+            if (tbody.length) {
+                tbody[0].remove();
+            }
+        }
+
+        function closeAllPopups() {
+            newCurrencyRouletteOptions.hide();
+            newCurrencyGameBetStep.hide();
+            newCurrencyBetStep.hide();
+            newCurrencyMain.hide();
+
+            currencyJackpotModal.hide();
+            currencyUpdatePopup.hide();
+            currencyMainOptionModal.hide();
+        };
+
+        function parseAllExistingCurrenciesData(data) {
+            let result = [];
+            for (let index in data) {
+                let object = {
+                    name: data[index],
+                    id: index
+                };
+                result.push(object);
+            }
+            return result;
+        }
+
+        on('configuration/profile/loaded', function () {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
+        });
+
+        on('configuration/currency/loaded', function () {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
+            $$('#configuration-currency-list-wrapper').classList.remove('hidden');
+            deleteCurrencyButton.classList.add('hidden');
+            removeTableData();
+            hideCurrencyView();
+
+            addLoader($$('#sidebar-configuration'));
+            trigger('comm/currency/getCurrencies', {
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        actions = response.result;
+                        populateCurrencyDropdown(response);
+                    } else {
+                        trigger('message', response.responseCode);
+                    }
+                    removeLoader($$('#sidebar-configuration'));
+                },
+                fail: function () {
+                    removeLoader($$('#sidebar-configuration'));
+                }
+            });
+        });
+
+        on('configuration/currency/unloaded', function () {
+            closeAllPopups();
+        });
+
+        on('configuration/currency/loaded', function () {
+            closeAllPopups();
+        });
+
+        on('configuration/main/unloaded', function () {
+            hideModal();
+        });
+
+        // When configuration page is loaded
+        on('configuration/main/loaded', function () {
+            $$('#configuration-currency-navbar-buttons-wrapper').classList.add('hidden');
+            addLoader($$('#sidebar-configuration'));
+            let responses = 0;
+            let asyncRequests = 4;
+            for (let input of $$('.caption-search')) {
+                input.value = '';
+                input.parentNode.classList.remove('typed');
+            }
+            trigger('comm/configuration/actions/get', {
+                success: function (response) {
+                    responses++;
+                    if (responses === asyncRequests) {
+                        removeLoader($$('#sidebar-configuration'));
+                    }
+                    log(response);
+                    if (response.responseCode === message.codes.success) {
+                        actions = response.result;
+                        createList('actions', response.result);
+                    } else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function () {
+                    removeLoader($$('#sidebar-configuration'));
+                }
+            });
+
+            trigger('comm/configuration/roles/get', {
+                success: function (response) {
+                    responses++;
+                    if (responses === asyncRequests) {
+                        removeLoader($$('#sidebar-configuration'));
+                    }
+                    if (response.responseCode === message.codes.success) {
+                        roles = response.result;
+                        createList('roles', response.result);
+                    } else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function () {
+                    removeLoader($$('#sidebar-configuration'));
+                }
+            });
+
+            trigger('comm/configuration/users/get', {
+                success: function (response) {
+                    responses++;
+                    if (responses === asyncRequests) {
+                        removeLoader($$('#sidebar-configuration'));
+                    }
+                    if (response.responseCode === message.codes.success) {
+                        users = response.result;
+                        createList('users', response.result);
+                    } else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function () {
+                    removeLoader($$('#sidebar-configuration'));
+                }
+            });
+
+            trigger('comm/configuration/parameters/get', {
+                success: function (response) {
+                    responses++;
+                    if (responses === asyncRequests) {
+                        removeLoader($$('#sidebar-configuration'));
+                    }
+                    if (response.responseCode === message.codes.success) {
+                        userParameters = response.result;
+                        rolesJson = {};
+                        for (let role of response.result.roles) {
+                            rolesJson[role.id] = role.name;
+                        }
+                    } else {
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function () {
+                    removeLoader($$('#sidebar-configuration'));
+                }
+            });
+        });
+
+        on('configuration/main/unloaded', function () {
+            hideModal();
+        });
+
+        on('configuration/show/modal', function (data) {
+            addLoader(data.caller);
+            trigger(`comm/configuration/${data.section}/get/single`, {
+                body: {
+                    id: data.id
+                },
+                success: function (response) {
+                    removeLoader(data.caller);
+                    editMode = true;
+                    openedId = response.result.action ? response.result.action.id :
+                        response.result.role ? response.result.role.id :
+                            response.result.userId;
+                    showModal(data.section, response.result);
+                },
+                fail: function () {
+                    removeLoader(data.caller);
+                }
+            });
+        });
+
+        addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
+        deleteCurrencyButton.addEventListener('click', deleteCurrency);
+    }();
