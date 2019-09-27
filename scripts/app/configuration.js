@@ -121,7 +121,6 @@ let configuration = function () {
         currencyMainOptionWrapper.classList.add('hidden');
         currencyTableWrapper.classList.add('hidden');
         currencyJackpotOptionWrapper.classList.add('hidden');
-
     }
 
     function showCreateCurrencyView() {
@@ -510,6 +509,8 @@ let configuration = function () {
         };
 
         const closeNewCurrencyPopup = () => {
+            isImaginaryCurrencySelected = false;
+            updateNewCurrencyView();
             hideNewCurrencyModal();
             hide();
             newCurrencyData = {};
