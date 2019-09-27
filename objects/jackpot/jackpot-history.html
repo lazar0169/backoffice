@@ -1,14 +1,6 @@
 <div id="jackpot-history" class="page-content">
     <div class="page-content-wrapper">
-        <div class="configuration-section">
-
-
-            <div class="caption configuration-title" id="search-history-mobile-width">
-                <div class="caption-title">Search</div>
-                <input data-section="actions" type="text" class="caption-search" id="portals-history-search" placeholder="Search actions">
-                <button class="save configuration-search"><img src="images/search.png" alt="search"></button>
-            </div>
-
+        <div>
             <div class="jackpot-get-time" id="jackpot-get-history-area">
                 <div class="jackpot-time-legend">From Time: </div>
                 <fieldset> <input type="text" id="jackpot-first-period-time-span-from" class="datepicker" readonly="" aria-label="Use the arrow keys to pick a date">
@@ -16,10 +8,12 @@
                     <input type="text" id="jackpot-second-period--time-span-to" class="datepicker" readonly="">
                 </fieldset>
                 <button id="jackpot-get-history">GET</button>
-
+                <div class="caption" id="search-history-mobile-width">
+                    <input data-section="actions" type="text" class="caption-search" id="portals-history-search" placeholder="Search actions">
+                    <button class="save jackpot-search"><img src="images/search.png" alt="search"></button>
+                </div>
             </div>
-            <div class="jackpotsFrom" id="jackpotHistoryTable">
-            </div>
+            <div class="jackpotsFrom" id="jackpotHistoryTable"></div>
         </div>
     </div>
 </div>

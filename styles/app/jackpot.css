@@ -2,37 +2,72 @@
     display: flex;
     flex-wrap: wrap;
 }
-.jackpot-get-time{
+
+.jackpot-get-time {
     display: flex;
     align-items: center;
 }
-.jackpot-get-time>button{
+
+.jackpot-get-time>button {
     margin: 1%;
 }
-.jackpot-time-legend{
+
+.jackpot-time-legend {
     margin: 0.5em;
 }
-#configuration-jackpot > tbody{
+
+#configuration-jackpot>tbody {
     position: absolute;
 }
 
-#jackpotHistoryTable .cell{
+#jackpotHistoryTable .cell {
     display: block;
 }
-#activeJackpotTable{
+
+#activeJackpotTable {
     margin-top: 0.1%;
 }
-.jackpot-get-time #configuration-jackpot-operators-list-wrapper{
+
+.jackpot-get-time #configuration-jackpot-operators-list-wrapper {
     margin-right: 1%;
 }
-.configuration-section > #search-active-mobile-width,#search-history-mobile-width{
+
+#search-active-mobile-width,
+#search-history-mobile-width {
     display: none;
     color: white;
-    background-color: #313c4a;
+    background-color: transparent;
     border-bottom: none;
     height: 2.5em;
-    float: right;
+    margin-bottom: 10px;
 }
+
+#search-active-mobile-width button img,
+#search-history-mobile-width button img {
+    position: absolute;
+    height: 50%;
+}
+
+#search-history-mobile-width {
+    margin-bottom: 0;
+}
+
+#search-active-mobile-width button,
+#search-history-mobile-width button {
+    position: relative;
+}
+
+
+#search-active-mobile-width.search>.caption-search,
+#search-history-mobile-width.search>.caption-search {
+    display: block;
+}
+
+#search-active-mobile-width.search>.jackpot-search,
+#search-history-mobile-width.search>.jackpot-search {
+    display: none;
+}
+
 /* .configuration-section > #search-history-mobile-width
 {
     display: flex;
@@ -44,29 +79,30 @@
 } */
 
 /* mobile view */
-.mobile #jackpot-get-settings{
+.mobile #jackpot-get-settings {
     display: block;
     position: relative;
     width: 100%;
 }
 
-.mobile #jackpot-get-history{
+.mobile #jackpot-get-history {
     display: block;
-    
+
 }
 
-.mobile #hide-history-in-mobile{
+.mobile #hide-history-in-mobile {
     display: none
 }
 
-.mobile #search-history-mobile-width{
+.mobile #search-history-mobile-width {
     width: 100%;
 }
 
-.mobile #hide-active-in-mobile{
+.mobile #hide-active-in-mobile {
     display: none
 }
-.mobile #search-active-mobile-width{
-    width: 100%;
+
+.mobile #search-active-mobile-width {
     display: none;
+    width: 100%;
 }
