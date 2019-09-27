@@ -357,11 +357,14 @@ let configuration = function () {
                             currencyBetStep: parseFloat(response.result),
                         };
                         activeData.currencyGamesBet[index].gameBetCurrencySteps.push(newData);
+                        removeLoader(createCurrencyStepButton);
                     }
                     else {
+                        removeLoader(createCurrencyStepButton);
                         trigger('message', response.responseCode);
+                        
                     }
-                    removeLoader(createCurrencyStepButton);
+                    
                 },
                 fail: function (response) {
                     trigger('message', response.responseCode);
@@ -871,6 +874,10 @@ let configuration = function () {
 
         const addStepToGame = () => {
             let eurValue = $$('#configuration-new-currency-eur-value').value;
+            if(stepsToAdd.includes(eurValue)){
+                trigger('message', message.codes.badParameter)
+                return;
+            }
             if (eurValue) {
                 let tr = document.createElement('tr');
                 let eurValueTd = document.createElement('td');
@@ -1319,6 +1326,12 @@ let configuration = function () {
             let denomination = $$('#configuration-currency-form-denomination');
             let ratio = $$('#configuration-currency-form-ratio');
 
+            denomination.oninput = (e) => {
+                debugger
+                if (denomination.value <= 0) {
+                    denomination.value = '';
+                }
+            };
             const show = () => {
                 mainModal.classList.remove('hidden');
                 $$('#configuration-currency-black-overlay').style.display = 'block';
