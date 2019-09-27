@@ -3,6 +3,10 @@
     flex-wrap: wrap;
 }
 
+#configuration.page {
+    flex-direction: column;
+}
+
 .configuration-section {
     flex: 1;
     -webkit-box-sizing: border-box;
@@ -18,13 +22,6 @@
 
 .configuration-section table {
     width: 100%;
-}
-
-#configuration-black-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: none;
 }
 
 .disabled-user {
@@ -60,7 +57,7 @@
     display: none;
 }
 
-#configuration-currency-navbar-buttons-wrapper{
+#configuration-currency-navbar-buttons-wrapper {
     display: flex;
 }
 
@@ -380,27 +377,27 @@
     flex-direction: column;
 }
 
-#configuration-currency-list-wrapper{
+#configuration-currency-list-wrapper {
     display: flex;
     flex: 1;
     flex-wrap: wrap;
     left: 0;
 }
 
-#configuration-currency-option-wrapper{
+#configuration-currency-option-wrapper {
     display: flex;
     flex-wrap: wrap;
     flex: 80%;
     flex-direction: column;
     left: 0;
-    margin-left: 20%; 
+    margin-left: 20%;
 }
 
-#configuration-currency-option-wrapper.hidden{
+#configuration-currency-option-wrapper.hidden {
     display: none;
 }
 
-#configuration-currency-main-options{
+#configuration-currency-main-options {
     display: flex;
     flex: 1;
 }
@@ -465,7 +462,7 @@
     text-align: center;
 }
 
-#configuration-currency-games-table td div.table.hidden{
+#configuration-currency-games-table td div.table.hidden {
     display: none !important;
 }
 
@@ -519,7 +516,7 @@
     margin-left: 10em;
 }
 
-#configuration-currency-games-table caption ,
+#configuration-currency-games-table caption,
 #configuration-currency-default-jackpot-settings-list caption {
     justify-content: center;
     position: sticky;
@@ -531,18 +528,9 @@
     width: 25em;
 }
 
-/* FORM */ 
+/* FORM */
 
-#configuration-currency-black-overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: none;
-    top: 0;
-    left: 0;
-}
-
-#configuration-currency-form-main.hidden{
+#configuration-currency-form-main.hidden {
     display: none;
 }
 
@@ -562,13 +550,13 @@
     overflow: auto;
 }
 
-#configuration-currency-form-bet-group-table{
+#configuration-currency-form-bet-group-table {
     margin: 1em;
     overflow: auto;
     max-height: 16em;
 }
 
-#configuration-currency-form-bet-group-table>table{
+#configuration-currency-form-bet-group-table>table {
     width: 99% !important;
 }
 
@@ -707,15 +695,15 @@
     margin: 0.5em 0;
 }
 
-#configuration-currency-form-bet-group-table table{
+#configuration-currency-form-bet-group-table table {
     width: 100%;
 }
 
-#configuration-currency-form-bet-group-table caption{
+#configuration-currency-form-bet-group-table caption {
     display: table-caption;
 }
 
-#configuration-currency-form-create-step-wrapper{
+#configuration-currency-form-create-step-wrapper {
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
@@ -798,18 +786,18 @@
 }
 
 #label-for-configuration-new-currency-checkbox:before,
-#label-for-configuration-new-currency-checkbox::after{
+#label-for-configuration-new-currency-checkbox::after {
     display: none !important;
 }
 
-#configuration-currency-form-new-currency-inputs form{
+#configuration-currency-form-new-currency-inputs form {
     display: flex;
     justify-content: center;
 }
 
 /* END SWITCH */
 
-#configuration-currency-form-new-currency-main.hidden{
+#configuration-currency-form-new-currency-main.hidden {
     display: none;
 }
 
@@ -819,7 +807,7 @@
     align-self: center;
 }
 
-#configuration-new-currency-imaginary-wrapper{
+#configuration-new-currency-imaginary-wrapper {
     opacity: 0;
 }
 
@@ -874,7 +862,7 @@
     transform: translate3d(0, 0, 0);
 }
 
-#configuration-currency-form-new-currency-games-bet-step-back{
+#configuration-currency-form-new-currency-games-bet-step-back {
     margin-right: 2em;
     height: 2.5em;
     align-self: center;
@@ -926,7 +914,7 @@
     transform: translate3d(0, 0, 0);
 }
 
-#configuration-currency-form-new-currency-game-options-back{
+#configuration-currency-form-new-currency-game-options-back {
     margin-right: 2em;
     height: 2.5em;
     align-self: center;
@@ -999,7 +987,7 @@
     display: none !important;
 }
 
-#configuration-new-currency-form-create-step-wrapper{
+#configuration-new-currency-form-create-step-wrapper {
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
@@ -1068,7 +1056,7 @@
 
 /* JACKPOT FORM */
 
-#configuration-currency-form-jackpot-main.hidden{
+#configuration-currency-form-jackpot-main.hidden {
     display: none;
 }
 
@@ -1086,7 +1074,7 @@
     margin: auto;
 }
 
-#configuration-currency-jackpot-options-inputs *{
+#configuration-currency-jackpot-options-inputs * {
     margin-bottom: 0.5em;
 }
 
@@ -1114,7 +1102,7 @@
 
 /* DELETE FORM */
 
-#configuration-currency-form-main.hidden{
+#configuration-currency-form-main.hidden {
     display: none;
 }
 
@@ -1172,4 +1160,3 @@
 .mobile .configuration-profile-wrapper button {
     width: 100%;
 }
-

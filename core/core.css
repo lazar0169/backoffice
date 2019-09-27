@@ -318,6 +318,16 @@ pre {
     display: inline;
 }
 
+.black-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    background-color: #0000001a;
+}
+
 /* ================== MOBILE  ================== */
 
 .mobile label {
