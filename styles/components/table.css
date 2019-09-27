@@ -11,6 +11,23 @@
     margin: 0.1em 0;
 }
 
+.table>.search {
+    width: 100%;
+    position: relative;
+}
+
+.table>.search>input {
+    width: 100%;
+}
+
+.table>.search>.cancel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: transparent !important;
+}
+
 .first.cell {
     top: 0;
     left: 0;
@@ -268,4 +285,8 @@ tbody>tr>td:nth-child(1) {
 
 .mobile .remove-btn::before {
     height: 23px;
+}
+
+.mobile .search {
+    display: none;
 }

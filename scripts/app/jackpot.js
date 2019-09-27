@@ -7,8 +7,6 @@ let jackpot = function () {
     let currentHistoryTable;
     let historyTable;
     let activeTable;
-    let inputHistoryValue = $$('#portals-history-search');
-    let inputActiveValue = $$('#portals-active-search');
 
 
     function getActiveJackpotsTable() {
@@ -21,10 +19,11 @@ let jackpot = function () {
                         data: activeJackpotData,
                         dynamic: false,
                         sticky: true,
-                        stickyCol: true
+                        stickyCol: true,
+                        canSearch: true,
+                        perPage: 20
                     });
                     $$('#activeJackpotTable').appendChild(activeTable);
-                    $$('#search-active-mobile-width').style.display = 'flex';
 
                 } else {
                     trigger('message', response.responseCode);
@@ -174,20 +173,16 @@ let jackpot = function () {
     };
 
     function getJackpotHistoryTable() {
-
         trigger('comm/configuration/jackpot/activefromtime/get', {
             body: {
-
                 fromTime: jackpotHistoryFirstPeriodFrom,
                 toTime: jackpotHistorySecondPeriodFrom
-
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     if (isEmpty(response.result) === true) {
                         trigger('message', message.codes.noData);
                         $$('#jackpotHistoryTable').style.display = 'none';
-                        $$('#search-history-mobile-width').style.display = 'none';
                         return
                     }
                     jackpotHistoryDataTable = response.result;
@@ -198,11 +193,12 @@ let jackpot = function () {
                         id: 'jackpotHistoryTable',
                         dynamic: false,
                         sticky: true,
-                        stickyCol: true
+                        stickyCol: true,
+                        canSearch: true,
+                        perPage: 20
                     });
                     $$('#jackpotHistoryTable').style.display = 'block'
                     $$('#jackpotHistoryTable').appendChild(historyTable);
-                    $$('#search-history-mobile-width').style.display = 'flex';
                 } else {
                     trigger('message', response.responseCode);
                 }
@@ -215,95 +211,6 @@ let jackpot = function () {
 
     function isEmpty(obj) {
         return Object.keys(obj).length === 0;
-    }
-    inputHistoryValue.oninput = () => {
-        historyTable.update(search(currentHistoryTable, inputHistoryValue.value), true);
-
-    };
-    inputHistoryValue.onkeyup = (e) => {
-        if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-            inputHistoryValue.value = '';
-            historyTable.update(search(currentHistoryTable, inputHistoryValue.value), true);
-        }
-    };
-
-    inputActiveValue.oninput = () => {
-        activeTable.update(search(activeJackpotData, inputActiveValue.value), true);
-
-    };
-    inputActiveValue.onkeyup = (e) => {
-        if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-            inputActiveValue.value = '';
-            activeTable.update(search(activeJackpotData, inputActiveValue.value), true);
-        }
-    };
-
-    // SEARCH BUTTON
-    for (let button of $$('.jackpot-search')) {
-        button.addEventListener('click', function () {
-            button.parentNode.classList.add('search');
-            button.parentNode.children[0].focus();
-        });
-    }
-
-    // function historyJackpotFilter(inputField, table, tableToUpdate ) {
-    //     //let wrapperTable = $$('#jackpotHistoryTable');
-    //     let input = inputField;
-
-    //     input.oninput = () => {
-    //        // search(table, input.value);
-    //         tableToUpdate.update(search(table, input.value), true);
-    //         //search(wrapperTable, input.value,7);
-    //     };
-
-    //     input.onkeyup = (e) => {
-    //         if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
-    //             input.value = '';
-    //             //  search(wrapperTable, '',7);
-    //         }
-    //     };
-    // }
-    function search(elements, term) {
-        let res = [];
-
-        for (let el of elements) {
-            let columnKeys = Object.keys(el);
-            for (let key of columnKeys) {
-                if (String(el[`${key}`]).toLocaleLowerCase().includes((term.toLocaleLowerCase()))) {
-                    res.push(el);
-                    break;
-                }
-            }
-        }
-        return res;
-
-        //1
-        // for (let tableRow of element.getElementsByTagName('tr')) {
-        //     if (tableRow.outerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
-        //         tableRow.style.display = 'table-row';
-        //     } else {
-        //         tableRow.style.display = 'none';
-        //     }
-        // }
-
-
-        //2
-        //   let input = term;
-        //   let filter = input.toUpperCase();
-        //   let table = element;
-        //   let tr = table.getElementsByTagName("tr");
-
-        //   for (let i = 0; i < tr.length; i++) {
-        //     let td = tr[i].getElementsByTagName("td")[columnToSort];
-        //     if (td) {
-        //      let txtValue = td.textContent || td.innerText;
-        //       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        //         tr[i].style.display = "";
-        //       } else {
-        //         tr[i].style.display = "none";
-        //       }
-        //     }       
-        //   }
     }
 
     $$('#jackpot-get-settings-button').addEventListener('click', getPortalSettingsTable);
@@ -319,7 +226,6 @@ let jackpot = function () {
     });
 
     on('jackpot/active/loaded', function () {
-        $$('#search-active-mobile-width').style.display = 'none';
         addLoader($$('#sidebar-jackpot'));
         getActiveJackpotsTable();
     });
@@ -334,7 +240,6 @@ let jackpot = function () {
     });
 
     on('jackpot/history/loaded', function () {
-        $$('#search-history-mobile-width').style.display = 'none';
         $$('#jackpotHistoryTable').style.display = 'none'
     });
 

@@ -18,7 +18,7 @@ let table = function () {
             for (let table of element.getElementsByClassName('table')) {
                 let rowCount = table.props.perPage || table.props.rowCount;
                 if (rowCount > (isMobile() ? 8 : 14)) {
-                    table.children[0].style.height = '400px';
+                    table.children[1].style.height = '400px';
                 }
             }
         }
@@ -31,6 +31,7 @@ let table = function () {
         params.stickyCol = params.stickyCol || false;
         params.headHidden = params.headHidden || false;
         params.sum = params.sum || false;
+        params.canSearch = params.canSearch || false;
         params.perPage = params.perPage ? params.data.length < params.perPage ? params.data.length : params.perPage : params.data.length;
         params.page = params.page || 0;
         params.options = params.options || {};
@@ -44,21 +45,20 @@ let table = function () {
         let colsCount = Object.keys(params.data[0]).length;
         let tbody = document.createElement('div');
         let pagination = document.createElement('div');
+        let search = document.createElement('div');
         let gridTemplateColumns = '';
-        let gridTemplateRows = '';
         let numberOfRows = 0;
         for (let fr = 0; fr < colsCount; fr++) {
             gridTemplateColumns += '1fr ';
         }
         for (let fr = params.headHidden ? 1 : 0; fr < (params.perPage + 1 || params.data.length + 1); fr++) {
             numberOfRows++;
-            gridTemplateRows += '1fr ';
         }
         tbody.style.gridTemplateColumns = `${gridTemplateColumns}`;
-        // tbody.style.gridTemplateRows = `${gridTemplateRows}`;
         tbody.id = params.id;
         tbody.className = 'tbody';
         pagination.className = 'pagination';
+        search.className = 'search';
 
         let hiddenCols = {};
         let colIds = [];
@@ -70,9 +70,11 @@ let table = function () {
             id: params.id,
             body: tbody,
             pagination: pagination,
+            search: search,
             data: params.data,
+            originalData: params.data,
             colsCount: colsCount,
-            rowsCount: numberOfRows,
+            rowCount: numberOfRows,
             sum: params.sum,
             colIds: colIds,
             dynamic: params.dynamic,
@@ -80,17 +82,18 @@ let table = function () {
             stickyCol: params.stickyCol,
             options: params.options,
             perPage: params.perPage,
+            paginationPerPage: params.perPage,
             page: params.page,
             pageCount: Math.ceil(params.data.length / params.perPage),
             headers: [],
-            gridTemplateColumns: gridTemplateColumns,
-            gridTemplateRows: gridTemplateRows
+            gridTemplateColumns: gridTemplateColumns
         };
 
         t.onclick = function (e) {
             e.stopPropagation();
         };
 
+        t.appendChild(search);
         t.appendChild(tbody);
         t.appendChild(pagination);
 
@@ -102,23 +105,23 @@ let table = function () {
             return;
         };
 
-        t.update = function (data, reset = false) {
-            let table = t;
+        t.update = function (data, reset = false, overwrite = true) {
+            const table = t;
             if (data === undefined) {
                 data = table.props.data;
+                overwrite = false;
             }
-            table.pageCount = Math.ceil(data.length / table.props.perPage);
+            table.props.perPage = data.length < table.props.perPage ? data.length : table.props.paginationPerPage;
+            table.props.pageCount = Math.ceil(data.length / table.props.perPage);
             let gridTemplateRowsNew = '';
             for (let fr = 0; fr < (table.props.perPage + 1 || data.length + 1); fr++) {
                 gridTemplateRowsNew += '1fr ';
             }
-            // table.props.body.style.gridTemplateRows = `${gridTemplateRowsNew}`;
-            if (reset) setPage(0, table);
-            generateBody(data, table);
+            generateBody(data, table, reset, overwrite);
         };
 
         t.sortCol = function (col, order = 1) {
-            let table = t;
+            const table = t;
             order = convertToNumber(order);
             table.props.data.sort((a, b) => {
                 if (isNumber(a[col])) {
@@ -132,7 +135,7 @@ let table = function () {
         };
 
         t.goToPage = function (pageNumber) {
-            let table = t;
+            const table = t;
             if (pageNumber < table.props.pageCount) {
                 setPage(pageNumber, table);
                 table.update();
@@ -148,6 +151,23 @@ let table = function () {
             delete hiddenCols[id];
             t.onChange(hiddenCols[id]);
         };
+
+        t.search = function (term = '', col) {
+            const table = t;
+            const filtered = table.props.originalData.filter((row) => {
+                if (col) {
+                    return row[col].toString().toLowerCase().includes(term.toString().toLowerCase());
+                } else {
+                    for (let col of Object.keys(row)) {
+                        if (row[col].toString().toLowerCase().includes(term.toString().toLowerCase())) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+            table.update(filtered, true, false);
+        }
 
         for (let col = 0; col < colsCount; col++) {
             let colId = generateGuid();
@@ -200,16 +220,19 @@ let table = function () {
 
         generateBody(params.data, t);
         setPage(0, t);
-
-        function generateBody(data, table) {
+        if (params.canSearch) {
+            generateSearch(t);
+        }
+        function generateBody(data, table, reset, overwrite) {
             while (table.props.body.children.length > table.props.colsCount) {
                 table.props.body.children[table.props.body.children.length - 1].remove();
             }
-            generatePagination(table);
+            if (overwrite) { table.props.originalData = getCopy(data); }
             table.props.data = getCopy(data);
-            if (table.props.sum) {
-                data.push(table.props.sum);
-            }
+            generatePagination(table);
+            if (reset) { setPage(0, table); }
+            if (table.props.sum) { data.push(table.props.sum); }
+
             for (let row = table.props.page * table.props.perPage; row <= (table.props.page + 1) * table.props.perPage; row++) {
                 let rowId = generateGuid();
                 for (let col = 0; col < colsCount; col++) {
@@ -284,12 +307,36 @@ let table = function () {
             }
         }
 
+        function generateSearch(table) {
+            let searchField = document.createElement('input');
+            searchField.placeholder = 'Search table';
+            searchField.className = 'search-input';
+            searchField.addEventListener('keyup', (e) => {
+                if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                    searchField.value = '';
+                }
+                table.search(searchField.value);
+            });
+            let xButton = document.createElement('button');
+            xButton.className = 'cancel';
+            xButton.innerHTML = 'X';
+            xButton.addEventListener('click', () => {
+                table.props.search.children[0].value = '';
+                table.search(table.props.search.children[0].value.value);
+            })
+            table.props.search.appendChild(searchField);
+            table.props.search.appendChild(xButton);
+        }
+
         function setPage(page, table) {
             let pagination = table.getElementsByClassName('pagination')[0];
             for (let page of pagination.children) {
                 page.classList.remove('active');
             }
             if (table.props.pageCount > 1) {
+                if (table.props.pageCount <= page) {
+                    page = 0;
+                }
                 pagination.children[page].classList.add('active');
             }
             table.props.page = page;
