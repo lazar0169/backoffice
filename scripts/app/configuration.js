@@ -595,10 +595,11 @@ let configuration = function () {
 
         const hide = () => {
             newCurrencyBetStepModal.classList.remove('show');
+            searchBar.value = '';
         };
 
         const saveData = () => {
-
+            searchBar.value = '';
             trigger('comm/currency/createCurrency', {
                 body: newCurrencyData,
                 success: function (response) {
