@@ -223,7 +223,7 @@ let accounting = function () {
     };
 
     const populateReportsData = (data) => {
-        companyReportsData = data;
+        companyReportsData = getCopy(data);
         let operatorsList = [];
 
         for (let operatorId in data) {
@@ -253,7 +253,6 @@ let accounting = function () {
 
     const populateSpecificOperator = (id) => {
         let specificOperatorData = getCopy(companyReportsData[id]);
-
         // Prepare pdf report
         doc = new jsPDF('l', 'pt');
         doc.setFontSize(9);
