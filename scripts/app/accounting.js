@@ -155,7 +155,7 @@ let accounting = function () {
                 $$('#accounting-comapnies-reports-header').classList.add('hidden');
                 $$('#accounting-companies-pdf-download').classList.add('hidden');
                 $$('#accounting-companies-excel-download').classList.add('hidden');
-                
+
                 addLoader(companyGetOperatorsButton);
                 trigger('comm/accounting/companies/getOperators', {
                     body: {
@@ -262,31 +262,53 @@ let accounting = function () {
         doc.setFontSize(16);
         docPageCount = 0;
         companyPageReports.innerHTML = "";
+        let flag = 0;
 
-        companyPageReports.appendChild(generateHeadline(specificOperatorData.slotAccountingSum.gameName));
-        generateReport(specificOperatorData.slotAccounting, specificOperatorData.slotAccountingSum);
-        companyPageReports.appendChild(table.generate({ data: specificOperatorData.slotAccounting, id: '', sum: specificOperatorData.slotAccountingSum, dynamic: false, sticky: true }));
-        doc.addPage();
-        companyPageReports.appendChild(generateHeadline(specificOperatorData.rouletteAccountingSum.gameName));
-        generateReport(specificOperatorData.rouletteAccounting, specificOperatorData.rouletteAccountingSum);
-        companyPageReports.appendChild(table.generate({ data: specificOperatorData.rouletteAccounting, id: '', sum: specificOperatorData.rouletteAccountingSum, dynamic: false, sticky: true }));
-        doc.addPage();
-        companyPageReports.appendChild(generateHeadline(specificOperatorData.liveEuropeanRouletteAccountingSum.gameName));
-        generateReport(specificOperatorData.liveEuropeanRouletteAccounting, specificOperatorData.liveEuropeanRouletteAccountingSum);
-        companyPageReports.appendChild(table.generate({ data: specificOperatorData.liveEuropeanRouletteAccounting, id: '', sum: specificOperatorData.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
-        doc.addPage();
-        companyPageReports.appendChild(generateHeadline(specificOperatorData.tripleCrownRouletteAccountingSum.gameName));
-        generateReport(specificOperatorData.tripleCrownRouletteAccounting, specificOperatorData.tripleCrownRouletteAccountingSum);
-        companyPageReports.appendChild(table.generate({ data: specificOperatorData.tripleCrownRouletteAccounting, id: '', sum: specificOperatorData.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
-        doc.addPage();
-        companyPageReports.appendChild(generateHeadline(specificOperatorData.pokerAccountingSum.gameName));
-        generateReport(specificOperatorData.pokerAccounting, specificOperatorData.pokerAccountingSum);
-        companyPageReports.appendChild(table.generate({ data: specificOperatorData.pokerAccounting, id: '', sum: specificOperatorData.pokerAccountingSum, dynamic: false, sticky: true }));
-        doc.addPage();
-        companyPageReports.appendChild(document.createElement('hr'));
-        companyPageReports.appendChild(generateHeadline(specificOperatorData.operatorAccountingSum.gameName));
-        companyPageReports.appendChild(table.generate({ data: [specificOperatorData.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
+        if (specificOperatorData.slotAccounting.length > 0) {
+            companyPageReports.appendChild(generateHeadline(specificOperatorData.slotAccountingSum.gameName))
+            generateReport(specificOperatorData.slotAccounting, specificOperatorData.slotAccountingSum);
+            companyPageReports.appendChild(table.generate({ data: specificOperatorData.slotAccounting, id: '', sum: specificOperatorData.slotAccountingSum, dynamic: false, sticky: true }));
+            doc.addPage();
+            flag++;
+        };
+        if (specificOperatorData.rouletteAccounting.length) {
+            companyPageReports.appendChild(generateHeadline(specificOperatorData.rouletteAccountingSum.gameName));
+            generateReport(specificOperatorData.rouletteAccounting, specificOperatorData.rouletteAccountingSum);
+            companyPageReports.appendChild(table.generate({ data: specificOperatorData.rouletteAccounting, id: '', sum: specificOperatorData.rouletteAccountingSum, dynamic: false, sticky: true }));
+            doc.addPage();
+            flag++;
+        };
+        if (specificOperatorData.liveEuropeanRouletteAccounting.length) {
+            companyPageReports.appendChild(generateHeadline(specificOperatorData.liveEuropeanRouletteAccountingSum.gameName));
+            generateReport(specificOperatorData.liveEuropeanRouletteAccounting, specificOperatorData.liveEuropeanRouletteAccountingSum);
+            companyPageReports.appendChild(table.generate({ data: specificOperatorData.liveEuropeanRouletteAccounting, id: '', sum: specificOperatorData.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
+            doc.addPage();
+            flag++;
+        }
+        if (specificOperatorData.tripleCrownRouletteAccounting.length) {
+            companyPageReports.appendChild(generateHeadline(specificOperatorData.tripleCrownRouletteAccountingSum.gameName));
+            generateReport(specificOperatorData.tripleCrownRouletteAccounting, specificOperatorData.tripleCrownRouletteAccountingSum);
+            companyPageReports.appendChild(table.generate({ data: specificOperatorData.tripleCrownRouletteAccounting, id: '', sum: specificOperatorData.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
+            doc.addPage();
+            flag++;
+        }
+        if (specificOperatorData.pokerAccounting.length) {
+            companyPageReports.appendChild(generateHeadline(specificOperatorData.pokerAccountingSum.gameName));
+            generateReport(specificOperatorData.pokerAccounting, specificOperatorData.pokerAccountingSum);
+            companyPageReports.appendChild(table.generate({ data: specificOperatorData.pokerAccounting, id: '', sum: specificOperatorData.pokerAccountingSum, dynamic: false, sticky: true }));
+            doc.addPage();
+            flag++;
+        }
 
+        if (flag === 0) {
+            trigger('message', message.codes.noData);
+        }
+
+        else {
+            companyPageReports.appendChild(document.createElement('hr'));
+            companyPageReports.appendChild(generateHeadline(specificOperatorData.operatorAccountingSum.gameName));
+            companyPageReports.appendChild(table.generate({ data: [specificOperatorData.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
+        }
         table.preserveHeight(companyPageReports);
 
         // footer.classList.remove('hidden');
