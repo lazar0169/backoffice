@@ -432,6 +432,7 @@ let configuration = function () {
                 success: (response) => {
                     if (response.responseCode === message.codes.success) {
                         isImaginaryCurrencySelected = false;
+                        updateNewCurrencyView();
                         $$('#configuration-new-currency-checkbox').checked = false;
                         $$('#configuration-new-currency-imaginary-wrapper').classList.add('hidden');
                         populateAllExistingCurrenciesDropdown(response);
@@ -1907,7 +1908,6 @@ let configuration = function () {
     }
 
     function closeAllPopups() {
-        newCurrencyRouletteOptions.hide();
         newCurrencyGameBetStep.hide();
         newCurrencyBetStep.hide();
         newCurrencyMain.hide();
