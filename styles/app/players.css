@@ -1,103 +1,104 @@
 .players-flex-wrapper {
-    display: flex;
+  display: flex;
 }
 
 .players-flex-column-wrapper {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-
+#players-main-settings-wrapper .cell {
+  max-height: 1.4em;
+}
 .players-popup-flex-column-wrapper {
-    display: flex;
-    flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 }
 
 .players-flex-one-wrapper {
-    flex: 1;
-    height: 200px;
-    overflow-y: hidden;
+  flex: 1;
+  height: 200px;
+  overflow-y: hidden;
 }
 
 .players-aligin-center {
-    align-self: center;
+  align-self: center;
 }
 
 .players-form-title {
-    display: flex;
+  display: flex;
 }
 
 .players-form-wrapper {
-    position: relative;
-    width: 100%;
-    height: 50em;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 50em;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .players-form-wrapper h2 {
-    margin: 0.5em 0;
+  margin: 0.5em 0;
 }
 
 .players-form-cancel {
-    align-self: center;
-    transition: all 0.3s;
-    position: relative;
-    width: 3em;
-    height: 3em;
+  align-self: center;
+  transition: all 0.3s;
+  position: relative;
+  width: 3em;
+  height: 3em;
 }
 
 .players-form-cancel::after {
-    content: " ";
-    position: absolute;
-    background-color: #fff;
-    height: 1px;
-    width: 1.5em;
-    margin: auto;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    transform: rotate(45deg);
+  content: " ";
+  position: absolute;
+  background-color: #fff;
+  height: 1px;
+  width: 1.5em;
+  margin: auto;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transform: rotate(45deg);
 }
 
 .players-form-cancel::before {
-    content: " ";
-    position: absolute;
-    background-color: #fff;
-    width: 1px;
-    height: 1.5em;
-    margin: auto;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    transform: rotate(45deg);
+  content: " ";
+  position: absolute;
+  background-color: #fff;
+  width: 1px;
+  height: 1.5em;
+  margin: auto;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transform: rotate(45deg);
 }
 
 .players-form-cancel {
-    width: 3em;
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    cursor: pointer;
-    margin: 2px 2px 3px 0;
-    border-radius: 0.2em;
+  width: 3em;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin: 2px 2px 3px 0;
+  border-radius: 0.2em;
 }
 
 /* PLAYER TAB */
 
 #players-player .page-content-wrapper {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 
 #players-get-player.hidden,
@@ -106,34 +107,34 @@
 #players-player-data-wrapper.hidden,
 #players-player-periods-canvas-wrapper.hidden,
 #players-player-main-wrapper.hidden {
-    display: none;
+  display: none;
 }
 
 #players-player-main-wrapper {
-    width: 100%;
-    flex: 1;
+  width: 100%;
+  flex: 1;
 }
 
 #players-player-players-wrapper {
-    height: 70em;
+  height: 70em;
 }
 
 #players-player-players-wrapper.shrink {
-    width: 8%;
+  width: 8%;
 }
 
 #players-player-players-table-wrapper table {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #players-player-players-table-wrapper table tbody tr {
-    text-align: center;
+  text-align: center;
 }
 
 #players-player-players-search-wrapper,
 #players-player-players-table-wrapper {
-    margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 
 /* #players-player-data-summary-info-wrapper,
@@ -143,203 +144,203 @@
 } */
 
 #players-player-data-summary-flags-wrapper label {
-    margin-bottom: 0.2em;
+  margin-bottom: 0.2em;
 }
 
 #players-player-data-summary-section-wrapper button {
-    border-radius: 5em;
-    width: 90%;
-    margin: 1em;
+  border-radius: 5em;
+  width: 90%;
+  margin: 1em;
 }
 
 #players-player-operators-list-wrapper,
 #players-player-portals-list-wrapper {
-    padding-right: 1em;
+  padding-right: 1em;
 }
 
 #players-player-players-table-wrapper td {
-    width: 20em;
+  width: 20em;
 }
 
 #players-player-data-groups-and-dashboard-wrapper,
 #players-player-data-summary-wrapper,
 #players-player-data-periods-wrapper {
-    padding-right: 3em;
-    padding-top: 2em;
-    padding-left: 2em;
+  padding-right: 3em;
+  padding-top: 2em;
+  padding-left: 2em;
 }
 
 #players-player-data-groups-and-dashboard-wrapper {
-    width: 50%;
+  width: 50%;
 }
 
 #players-player-data-periods-wrapper {
-    width: 30%;
+  width: 30%;
 }
 
 #players-player-data-summary-wrapper {
-    width: 20%;
+  width: 20%;
 }
 
 #players-player-data-groups-wrapper {
-    overflow: auto;
-    max-height: 20em;
-    border-radius: 1em;
-    background: #313c4a;
+  overflow: auto;
+  max-height: 20em;
+  border-radius: 1em;
+  background: #313c4a;
 }
 
 #players-player-data-groups-wrapper div.players-flex-wrapper {
-    justify-content: space-evenly;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  justify-content: space-evenly;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 #players-player-data-groups-wrapper h3 {
-    margin-left: 1em;
+  margin-left: 1em;
 }
 
 .players-player-groups-checkbox-wrapper {
-    display: flex;
+  display: flex;
 }
 
 #players-player-data-groups-wrapper .players-player-groups-checkbox-wrapper {
-    margin-right: 1em;
+  margin-right: 1em;
 }
 
 #players-player-data-summary-wrapper {
-    background-color: #313c4a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 1em;
+  background-color: #313c4a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1em;
 }
 
 #players-player-data-summary-wrapper h3 {
-    margin: 0;
-    padding-left: 1em;
+  margin: 0;
+  padding-left: 1em;
 }
 
 #players-player-data-wrapper {
-    margin-left: 5em;
-    width: 92%;
+  margin-left: 5em;
+  width: 92%;
 }
 
 #players-player-data-flgas-wrapper {
-    align-self: center;
+  align-self: center;
 }
 
 #players-player-jackpot-main-wrapper,
 #players-player-transaction-table-wrapper,
 #players-player-criteria-main-wrapper {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 #players-player-transaction-get {
-    height: 2.5em;
-    margin-left: 2em;
+  height: 2.5em;
+  margin-left: 2em;
 }
 
 #playerTransactionData {
-    max-height: 36em;
+  max-height: 36em;
 }
 
 #players-player-unresolved-wins-main-wrapper,
 #players-player-unresolved-wins-specific-game-wrapper,
 #players-player-history-main-wrapper {
-    margin: 2em;
-    overflow: auto;
+  margin: 2em;
+  overflow: auto;
 }
 
 #players-player-unresolved-wins-main-wrapper caption,
 #players-player-history-main-wrapper caption {
-    position: sticky;
-    top: 0;
+  position: sticky;
+  top: 0;
 }
 
 #players-player-game-history-wrapper {
-    height: 100%;
+  height: 100%;
 }
 
 #players-player-game-history-options-wrapper {
-    height: 30%;
+  height: 30%;
 }
 
 #players-player-game-history-iframe-wrapper {
-    margin-top: 2em;
-    margin-bottom: 2em;
-    height: 78%;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  height: 78%;
 }
 
 #players-player-game-history-options-parameters-wrapper {
-    justify-content: space-evenly;
-    align-items: center;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 #players-player-game-history-vip-roulette-id {
-    margin-left: 2em;
+  margin-left: 2em;
 }
 
 #players-player-history-main-form h2,
 #players-player-unresolved-wins-main-form h2 {
-    margin-left: 1.5em;
+  margin-left: 1.5em;
 }
 
 #players-player-game-history-get {
-    height: 2.5em;
-    align-self: center;
-    margin-left: 2em;
+  height: 2.5em;
+  align-self: center;
+  margin-left: 2em;
 }
 
 #players-player-criteria-main-info-wrapper {
-    justify-content: space-evenly;
+  justify-content: space-evenly;
 }
 
 #players-player-game-history-roulette-id-wrapper.hidden {
-    display: none;
+  display: none;
 }
 
 #players-player-game-history-roulette-id-wrapper {
-    margin-left: 1em;
+  margin-left: 1em;
 }
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
 
 #players-get-main.hidden {
-    display: none;
+  display: none;
 }
 
 #players-get-main {
-    padding-right: 1em;
-    margin-bottom: 1em;
+  padding-right: 1em;
+  margin-bottom: 1em;
 }
 
 #players-form-popup-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1%;
 }
 
 #players-main-options-wrapper {
-    display: flex;
+  display: flex;
 }
 
 #players-main-settings-wrapper {
-    display: flex;
+  display: flex;
 }
 
 #players-main-settings-wrapper .players-flex-column-wrapper {
-    width: 50%;
-    margin-right: 1em;
+  width: 50%;
+  margin-right: 1em;
 }
 
 #players-main-operators-list-wrapper,
 #players-main-portals-list-wrapper {
-    padding-right: 1em;
-    margin-bottom: 1em;
+  padding-right: 1em;
+  margin-bottom: 1em;
 }
 
 .column {
-    flex: 50%;
-    margin-left: 0.5%;
+  flex: 50%;
+  margin-left: 0.5%;
 }
 
 #players-interesting-players-title,
@@ -348,11 +349,11 @@
 #players-largest-bets-title,
 #players-largest-wins-title,
 #players-winners-losers-title {
-    display: none;
+  display: none;
 }
 
 #players-main-title-id-player {
-    margin-left: 0.5em;
+  margin-left: 0.5em;
 }
 
 /*END PLAYERS TAB */
@@ -360,24 +361,24 @@
 /* PLAYER GROUP TAB */
 
 #players-main-options-wrapper {
-    display: flex;
+  display: flex;
 }
 
 #players-groups-operators-list-wrapper,
 #players-groups-portals-list-wrapper {
-    padding-right: 1em
+  padding-right: 1em;
 }
 
 #players-groups-main-wrapper {
-    height: 95%;
+  height: 95%;
 }
 
 #players-groups-groups-wrapper {
-    height: 95%;
+  height: 95%;
 }
 
 #players-groups-groups-wrapper.shrink {
-    width: 10.5%;
+  width: 10.5%;
 }
 
 #players-get-groups.hidden,
@@ -389,116 +390,116 @@
 #players-groups-suggested-players-search-wrapper.hidden,
 #players-groups-all-players-search-wrapper.hidden,
 #players-groups-suggested-players-list-wrapper.hidden {
-    display: none;
+  display: none;
 }
 
 #players-groups-period-canvas-wrapper,
 #players-player-periods-canvas-wrapper {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 #players-groups-groups-search-wrapper,
 #players-groups-groups-table-wrapper {
-    margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 
 #players-groups-groups-search,
 #players-player-players-search {
-    width: 100%;
+  width: 100%;
 }
 
 #players-groups-groups-remove-search,
 #players-groups-suggested-players-remove-search,
 #players-groups-all-players-remove-search,
 #players-player-players-remove-search {
-    background: transparent;
-    height: 2.35em;
-    padding: 0;
-    width: 1.5em;
-    border-radius: 2px;
-    margin-left: -1.8em;
+  background: transparent;
+  height: 2.35em;
+  padding: 0;
+  width: 1.5em;
+  border-radius: 2px;
+  margin-left: -1.8em;
 }
 
 #players-groups-groups-table-wrapper {
-    height: 95%;
-    margin-top: 0.5em;
+  height: 95%;
+  margin-top: 0.5em;
 }
 
 #players-groups-groups-table-wrapper table {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #players-groups-groups-table-wrapper tbody,
 #players-player-players-table-wrapper tbody {
-    overflow: auto;
-    max-height: 68em;
+  overflow: auto;
+  max-height: 68em;
 }
 
 #players-groups-dashboard-and-players-wrapper,
 #players-groups-players-wrapper,
 #players-groups-period-graphs-wrapper {
-    padding-top: 2em;
-    padding-right: 3em;
-    padding-left: 2em;
+  padding-top: 2em;
+  padding-right: 3em;
+  padding-left: 2em;
 }
 
 #players-groups-all-players-list-wrapper {
-    overflow: auto;
+  overflow: auto;
 }
 
 #players-groups-all-players-list-wrapper table {
-    width: 100%;
+  width: 100%;
 }
 
 #players-groups-all-players-list-wrapper caption,
 #players-groups-suggested-players-list-wrapper caption {
-    display: table-caption;
-    position: sticky;
-    top: 0;
-    z-index: 2;
+  display: table-caption;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 #players-groups-suggested-players-list-wrapper .caption-title {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 #groupsDashboardData {
-    max-height: 27em;
+  max-height: 27em;
 }
 
 #players-groups-suggested-players-list-wrapper {
-    height: 85%;
-    overflow: auto;
-    margin-top: 2em;
+  height: 85%;
+  overflow: auto;
+  margin-top: 2em;
 }
 
 #players-groups-suggested-players-filter-wrapper {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 #players-groups-all-players-search-wrapper {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 #players-groups-suggested-players-list-wrapper table {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 #players-groups-suggested-players-list-wrapper table caption {
-    display: table-caption;
+  display: table-caption;
 }
 
 #players-groups-save-changed-players-button {
-    width: 30%;
-    margin-top: 1em;
-    align-self: flex-end;
+  width: 30%;
+  margin-top: 1em;
+  align-self: flex-end;
 }
 
 .players-groups-players-container {
-    height: 50%;
-    margin: 1em;
+  height: 50%;
+  margin: 1em;
 }
 
 /* PLAYER GROUP FORM */
@@ -510,48 +511,48 @@
 #players-player-unresolved-wins-form,
 #players-player-history-form,
 #players-player-criteria-form {
-    position: fixed;
-    width: 55em;
-    height: 50em;
-    max-height: 100%;
-    align-self: center;
-    background-color: #434a5c;
-    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, -25%, 0);
-    opacity: 0;
-    pointer-events: none;
-    overflow: hidden;
-    transition: transform 0.3s, opacity 0.3s;
-    margin: auto;
-    bottom: 0;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 2;
+  position: fixed;
+  width: 55em;
+  height: 50em;
+  max-height: 100%;
+  align-self: center;
+  background-color: #434a5c;
+  box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+  transform: translate3d(0, -25%, 0);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: transform 0.3s, opacity 0.3s;
+  margin: auto;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 2;
 }
-#players-player-history-form{
-    position: fixed;
-    width: 63.5em;
-    height: 50em;
-    max-height: 100%;
-    align-self: center;
-    background-color: #434a5c;
-    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, -25%, 0);
-    opacity: 0;
-    pointer-events: none;
-    overflow: hidden;
-    transition: transform 0.3s, opacity 0.3s;
-    margin: auto;
-    bottom: 0;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 2;
+#players-player-history-form {
+  position: fixed;
+  width: 63.5em;
+  height: 50em;
+  max-height: 100%;
+  align-self: center;
+  background-color: #434a5c;
+  box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+  transform: translate3d(0, -25%, 0);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: transform 0.3s, opacity 0.3s;
+  margin: auto;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 2;
 }
 
 #players-groups-criteria-form.hidden {
-    display: none;
+  display: none;
 }
 
 #players-groups-form.show,
@@ -561,36 +562,36 @@
 #players-player-unresolved-wins-form.show,
 #players-player-history-form.show,
 #players-player-criteria-form.show {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-    pointer-events: all;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  pointer-events: all;
 }
 
 #players-groups-criteria-details-form,
 #players-player-unresolved-wins-specific-game-form,
 #players-player-game-history-form {
-    position: absolute;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    background-color: #434a5c;
-    transition: transform 0.5s, box-shadow 0.1s;
-    transform: translate3d(100%, 0, 0);
+  position: absolute;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  background-color: #434a5c;
+  transition: transform 0.5s, box-shadow 0.1s;
+  transform: translate3d(100%, 0, 0);
 }
 
 #players-groups-criteria-details-form.show,
 #players-player-unresolved-wins-specific-game-form.show,
 #players-player-game-history-form.show {
-    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, 0, 0);
+  box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+  transform: translate3d(0, 0, 0);
 }
 
 #players-groups-criteria-detailsinputs-wrapper,
 #players-groups-criteria-list-wrapper {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 #players-groups-criteria-list-wrapper {
-    height: 100%;
-    overflow: auto;
+  height: 100%;
+  overflow: auto;
 }
 
 /* END PLAYER GROUP FORM */

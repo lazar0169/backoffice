@@ -1822,6 +1822,7 @@ let players = function () {
                         dynamic: false,
                         sticky: true,
                         stickyCol: true,
+                        canSearch: true,
                         options: {
                             onClick: showPopUpInterestingPlayersTable
                         }
@@ -1842,6 +1843,7 @@ let players = function () {
                         dynamic: false,
                         sticky: true,
                         stickyCol: true,
+                        canSearch: true,
                         options: {
                             onClick: showPopUpLatestPlayersTable
                         }
@@ -1863,6 +1865,7 @@ let players = function () {
                         dynamic: false,
                         sticky: true,
                         stickyCol: true,
+                        canSearch: true,
                         options: {
                             onClick: showPopUpPlayersGroupsTable
                         }
@@ -1882,6 +1885,7 @@ let players = function () {
                         id: 'largestBetsData',
                         dynamic: false,
                         sticky: true,
+                        canSearch: true,
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#largestBets'));
@@ -1900,6 +1904,7 @@ let players = function () {
                         id: 'largestWinsData',
                         dynamic: false,
                         sticky: true,
+                        canSearch: true,
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#largestWins'));
@@ -1918,6 +1923,7 @@ let players = function () {
                         id: 'winnersAndLosersFromLast24HoursData',
                         dynamic: false,
                         sticky: true,
+                        canSearch: true,
                         stickyCol: true
                     }))
                     table.preserveHeight($$('#winnersAndLosersFromLast24Hours'));
