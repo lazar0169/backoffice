@@ -1794,7 +1794,7 @@ let players = function () {
         if (!$$('#players-main-portals-list').getSelected()) {
             $$('#players-main-settings-wrapper').style.display = 'none'
             trigger('message', message.codes.badParameter);
-            return
+            return;
         }
 
         addLoader(getPlayersButton);
@@ -1807,6 +1807,7 @@ let players = function () {
                 if (response.responseCode === message.codes.success) {
 
                     if (checkIfAllObjEmpty(response.result) === true) {
+                        removeLoader(getPlayersButton);
                         trigger('message', message.codes.noData);
                         $$('#players-main-settings-wrapper').style.display = 'none'
                         return
@@ -1927,7 +1928,8 @@ let players = function () {
                     } else {
                         $$(`#players-winners-losers-title`).style.display = 'block';
                     }
-                } else {
+                }
+                else {
                     trigger('message', response.responseCode);
                 }
                 removeLoader(getPlayersButton);
