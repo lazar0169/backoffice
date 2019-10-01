@@ -233,12 +233,12 @@ let players = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-
                     getOperators(response.result, tab);
+                    removeLoader($$(`#players-navbar-${tab}`));
                 } else {
+                    removeLoader($$(`#players-navbar-${tab}`));
                     trigger('message', response.responseCode);
                 }
-                removeLoader($$(`#players-navbar-${tab}`));
             },
             fail: function (response) {
                 trigger('message', response.responseCode);
@@ -1172,7 +1172,7 @@ let players = function () {
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        if(!response.result){
+                        if (!response.result) {
                             trigger('message', message.codes.noData);
                             return;
                         }
@@ -1260,7 +1260,7 @@ let players = function () {
         let cancelButton = $$('#players-player-transaction-main-form-cancel');
         let tableWrapper = $$('#players-player-transaction-table-wrapper');
         let getButton = $$('#players-player-transaction-get');
-      
+
         const show = () => {
             modal.classList.add('show');
             showPopup('player');
@@ -1546,10 +1546,12 @@ let players = function () {
         let backButton = $$('#players-player-game-history-form-back');
         let iframeWrapper = $$('#players-player-game-history-iframe-wrapper');
         let getButton = $$('#players-player-game-history-get');
+        let vipRouletteIdWrapper = $$('#players-player-game-history-roulette-id-wrapper');
         let historyDate = getToday();
         let gameId = undefined;
         let loaderElement = undefined;
         let vipRouletteId = 0;
+        let rouletteGameIds = [16, 22, 25, 26, 53, 56];
 
         const show = (id, element) => {
             gameId = id;
@@ -1557,7 +1559,13 @@ let players = function () {
             if (iframeWrapper.children.length > 0) {
                 iframeWrapper.children[0].remove();
             }
-            modal.classList.add('show');
+            vipRouletteIdWrapper.classList.add('hidden');
+            if (rouletteGameIds.includes(gameId)) {
+                populateVipRouletteDropdown();
+            }
+            else {
+                modal.classList.add('show');
+            }
         };
 
         const hide = () => {
@@ -1565,12 +1573,12 @@ let players = function () {
         };
 
         const getHistory = () => {
-            vipRouletteId = parseInt($$('#players-player-game-history-vip-roulette-id').value);
+            vipRouletteId = $$(`#players-player-game-history-roulette-id-list`) ? $$(`#players-player-game-history-roulette-id-list`).getSelected() || 0 : 0;
             if (isNaN(vipRouletteId)) {
                 trigger('message', message.codes.badParameter);
                 return;
             }
-            addLoader(loaderElement);
+
             let selectedDate = new Date(historyDate).toLocaleDateString();
             let selectedTime = new Date(historyDate).toLocaleTimeString();
             let offset = new Date(historyDate).getTimezoneOffset();
@@ -1609,7 +1617,33 @@ let players = function () {
                     else {
                         trigger('message', response.responseCode);
                     }
-                    removeLoader(loaderElement);
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+
+        const populateVipRouletteDropdown = () => {
+            addLoader(loaderElement);
+            trigger('comm/player/getRouletteIds', {
+                body: {
+                    id: gameId
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        clearElement($$(`#players-player-game-history-roulette-id-list`));
+                        let rouletteIdsDropdown = dropdown.generate(response.result, `players-player-game-history-roulette-id-list`, 'Select roulette id');
+                        vipRouletteIdWrapper.appendChild(rouletteIdsDropdown);
+                        if (!response.result) vipRouletteIdWrapper.style.display = 'none';
+                        vipRouletteIdWrapper.classList.remove('hidden');
+                        removeLoader(loaderElement);
+                        modal.classList.add('show');
+                    }
+                    else {
+                        removeLoader(loaderElement);
+                        trigger('message', response.responseCode);
+                    }
                 },
                 fail: function (response) {
                     removeLoader(loaderElement);
@@ -1644,7 +1678,7 @@ let players = function () {
         }
 
         $$(`#players-${tab}`).children[0].style.overflow = 'hidden';
-        $$('#players-player-data-periods-list-wrapper').style.pointerEvents= 'none';
+        $$('#players-player-data-periods-list-wrapper').style.pointerEvents = 'none';
     };
 
     const hidePopup = (tab) => {
@@ -1660,7 +1694,7 @@ let players = function () {
                 break;
         }
         $$(`#players-${tab}`).children[0].style.overflow = 'auto';
-        $$('#players-player-data-periods-list-wrapper').style.pointerEvents= 'auto';
+        $$('#players-player-data-periods-list-wrapper').style.pointerEvents = 'auto';
     };
 
     const parsePlayersMainData = (data, parameterYesterday, firstColName) => {

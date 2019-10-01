@@ -289,6 +289,13 @@
     justify-content: space-evenly;
 }
 
+#players-player-game-history-roulette-id-wrapper.hidden {
+    display: none;
+}
+
+#players-player-game-history-roulette-id-wrapper {
+    margin-left: 1em;
+}
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */

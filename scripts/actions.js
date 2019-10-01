@@ -127,6 +127,7 @@ const actions = Object.freeze({
     'comm/player/getUnresolvedWins': '/Player/GetPlayerUnresolvedWins',
     'comm/player/resolveUnresolvedWins': '/Player/ResolveWinForPlayerGameAndRound',
     'comm/player/getHistory': '/Player/GetPlayerHistory',
+    'comm/player/getRouletteIds': '/Player/GetLiveRouleteIdsForRouleteGame',
 
     //Player Groups
     'comm/playerGroups/get': '/PlayerGroup/get-player-groups',
