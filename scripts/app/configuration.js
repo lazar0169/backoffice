@@ -223,11 +223,11 @@ let configuration = function () {
                 $$('#configuration-currency-switch-form').classList.remove('hidden');
             }
         };
-        valueInputField.oninput = (e) => {
-            if (valueInputField.value <=0) {
-                trigger('message', message.codes.badParameter);
-            }
-        };
+        // valueInputField.oninput = (e) => {
+        //     if (valueInputField.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     }
+        // };
         const createBetGroupList = () => {
             let actions = $$(`#configuration-currency-form-bet-group-table`);
             if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
@@ -325,6 +325,10 @@ let configuration = function () {
 
         const saveAndUpdate = () => {
             let eur = $$('#configuration-currency-eur-value');
+            if (valueInputField.value <= 0) {
+                trigger('message', message.codes.badParameter);
+                return;
+            }
 
             if (minEuroBetStep > parseFloat(eur.value)) {
                 trigger('message', message.codes.badParameter);
@@ -423,19 +427,6 @@ let configuration = function () {
         let existingCurrencyList = $$('#configuration-currency-existing-currency-list');
         let realCurrencyList = $$('#configuration-currency-real-currency-list');
 
-
-        denomination.oninput = (e) => {
-          
-            if (denomination.value.includes("-") || denomination.value === "0") {
-                trigger('message', message.codes.badParameter);            }
-        };
-        betGroup.oninput = (e) => {
-           
-            if (betGroup.value <= 0) {
-                trigger('message', message.codes.badParameter);            }
-        };
-
-
         const show = () => {
             trigger('comm/currency/getExistingCurrencies', {
                 success: (response) => {
@@ -525,7 +516,9 @@ let configuration = function () {
         };
 
         const saveDataAndOpenNext = () => {
-            if (!denomination.value || !betGroup.value) {
+
+            if (!denomination.value || !betGroup.value
+                || denomination.value <= 0 || betGroup.value <= 0) {
                 trigger('message', message.codes.badParameter);
                 return;
             }
@@ -733,12 +726,11 @@ let configuration = function () {
             modal.classList.remove('show');
         };
 
-        gameOptionEuroValue.oninput = (e) => {
-            debugger
-            if (gameOptionEuroValue.value <= 0) {
-                trigger('message', message.codes.badParameter);   
-            }
-        };
+        // gameOptionEuroValue.oninput = (e) => {
+        //     if (gameOptionEuroValue.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     }
+        // };
         const showNewCurrencyGameStepModal = () => {
             if (gameType !== 0) {
                 $$('#configuration-new-currency-switch-form').classList.remove('hidden');
@@ -871,6 +863,9 @@ let configuration = function () {
         };
 
         const addStepToGame = () => {
+            if (gameOptionEuroValue.value <= 0) {
+                trigger('message', message.codes.badParameter);
+            }
             let eurValue = $$('#configuration-new-currency-eur-value').value;
             if (stepsToAdd.includes(eurValue)) {
                 trigger('message', message.codes.badParameter)
@@ -936,6 +931,10 @@ let configuration = function () {
         };
 
         const saveGameOptions = () => {
+            if (gameOptionEuroValue.value <= 0) {
+                trigger('message', message.codes.badParameter);
+                return;
+            }
             if (gameType !== 0) {
 
                 if (rouletteMaxBet.value === '' || rouletteMaxWin.value === '') {
@@ -1206,31 +1205,31 @@ let configuration = function () {
         let data = undefined;
 
 
-        currencyJackpotSettingsBetContribution.oninput = (e) => {
-            if (currencyJackpotSettingsBetContribution.value <= 0) {
-                trigger('message', message.codes.badParameter);
-            }
-        };
-        currencyJackpotSettingsMinBet.oninput = (e) => {
-            if (currencyJackpotSettingsMinBet.value <= 0) {
-                trigger('message', message.codes.badParameter);
-            }
-        };
-        currencyJackpotSettingsBaseValue.oninput = (e) => {
-            if (currencyJackpotSettingsBaseValue.value <= 0) {
-                trigger('message', message.codes.badParameter);
-            }
-        };
-        currencyJackpotSettingsMinValue.oninput = (e) => {
-            if (currencyJackpotSettingsMinValue.value <= 0) {
-                trigger('message', message.codes.badParameter);
-            }
-        };
-        currencyJackpotSettingsMaxValue.oninput = (e) => {
-            if (currencyJackpotSettingsMaxValue.value <= 0) {
-                trigger('message', message.codes.badParameter);
-            };
-        };
+        // currencyJackpotSettingsBetContribution.oninput = (e) => {
+        //     if (currencyJackpotSettingsBetContribution.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     }
+        // };
+        // currencyJackpotSettingsMinBet.oninput = (e) => {
+        //     if (currencyJackpotSettingsMinBet.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     }
+        // };
+        // currencyJackpotSettingsBaseValue.oninput = (e) => {
+        //     if (currencyJackpotSettingsBaseValue.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     }
+        // };
+        // currencyJackpotSettingsMinValue.oninput = (e) => {
+        //     if (currencyJackpotSettingsMinValue.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     }
+        // };
+        // currencyJackpotSettingsMaxValue.oninput = (e) => {
+        //     if (currencyJackpotSettingsMaxValue.value <= 0) {
+        //         trigger('message', message.codes.badParameter);
+        //     };
+        // };
 
         const show = (selectedRow) => {
             data = selectedRow;
@@ -1256,6 +1255,12 @@ let configuration = function () {
         };
 
         const updateData = () => {
+            if (currencyJackpotSettingsBetContribution.value <= 0 || currencyJackpotSettingsMinBet.value <= 0
+                || currencyJackpotSettingsBaseValue.value <= 0 || currencyJackpotSettingsMinValue.value <= 0
+                || currencyJackpotSettingsMaxValue.value <= 0) {
+                trigger('message', message.codes.badParameter);
+                return;
+            }
             if (parseFloat(currencyJackpotSettingsMaxValue.value) < parseFloat(currencyJackpotSettingsMinValue.value)) {
                 trigger('message', message.codes.badParameter);
                 return;
@@ -1311,10 +1316,7 @@ let configuration = function () {
         let denomination = $$('#configuration-currency-form-denomination');
         let ratio = $$('#configuration-currency-form-ratio');
 
-        denomination.oninput = (e) => {
-                    if (denomination.value.includes('-') || denomination.value === "0")
-                        trigger('message', message.codes.badParameter);
-        };
+
         const show = () => {
             mainModal.classList.remove('hidden');
             $$('#configuration-currency-black-overlay').style.display = 'block';
@@ -1334,6 +1336,10 @@ let configuration = function () {
         };
 
         const save = () => {
+            if (denomination.value <= 0) {
+                trigger('message', message.codes.badParameter);
+                return;
+            }
             trigger('comm/currency/updateMainOptions', {
                 body: {
                     id: currencyIdSelected,
