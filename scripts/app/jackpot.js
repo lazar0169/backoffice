@@ -8,7 +8,6 @@ let jackpot = function () {
     let historyTable;
     let activeTable;
 
-
     function getActiveJackpotsTable() {
         trigger('comm/configuration/jackpot/active/get', {
             success: function (response) {
@@ -43,14 +42,12 @@ let jackpot = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-
                     // Prevent operator change
                     if (roles.getRole() === 'Manager') {
                         response = {
                             responseCode: 1000
                         };
                     }
-
                     loadJackpotOperators(response);
                 } else {
                     trigger('message', response.responseCode);
@@ -113,6 +110,7 @@ let jackpot = function () {
     function getPortalSettingsTable() {
         addLoader($$('#jackpot-get-settings-button'));
         if (!$$('#configuration-jackpot-portals-list').getSelected()) {
+            removeLoader($$('#jackpot-get-settings-button'));
             trigger('message', message.codes.badParameter);
             return
         }
@@ -173,6 +171,7 @@ let jackpot = function () {
     };
 
     function getJackpotHistoryTable() {
+        $$('#jackpotHistoryTable').style.display = 'none';
         trigger('comm/configuration/jackpot/activefromtime/get', {
             body: {
                 fromTime: jackpotHistoryFirstPeriodFrom,

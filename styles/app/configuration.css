@@ -715,7 +715,9 @@
 /* END FORM*/
 
 /* NEW CURRENCY FORM */
-
+#configuration-currency-real-currency-list > .options-wrapper{
+    height: 11.7em;
+}
 .configuration-currency-form-new-currency-title {
     display: flex;
 }
