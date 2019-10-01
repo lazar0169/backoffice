@@ -866,6 +866,7 @@ let configuration = function () {
         const addStepToGame = () => {
             if (gameOptionEuroValue.value <= 0) {
                 trigger('message', message.codes.badParameter);
+                return;
             }
             let eurValue = $$('#configuration-new-currency-eur-value').value;
             if (stepsToAdd.includes(eurValue)) {
