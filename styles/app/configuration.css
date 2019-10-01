@@ -725,7 +725,9 @@
 .configuration-currency-form-new-currency-title>h2 {
     flex: 1;
 }
-
+.game-title{
+    padding-top: 0.5em;
+}
 /* SWITCH */
 
 .switch input {
