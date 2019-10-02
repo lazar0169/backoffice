@@ -1827,7 +1827,7 @@ let players = function () {
                             onClick: showPopUpInterestingPlayersTable
                         }
                     }))
-                    table.preserveHeight($$('#interestingPlayersTable'));
+                    // table.preserveHeight($$('#interestingPlayersTable'));
                     if (isEmpty(interestingPlayersData) === true) {
                         $$(`#players-interesting-players-title`).style.display = 'none';
 
@@ -1848,7 +1848,7 @@ let players = function () {
                             onClick: showPopUpLatestPlayersTable
                         }
                     }))
-                    table.preserveHeight($$('#latestPlayersTable'));
+                    // table.preserveHeight($$('#latestPlayersTable'));
                     if (isEmpty(latestPlayersData) === true) {
                         $$(`#players-latest-players-title`).style.display = 'none';
 
@@ -1870,7 +1870,7 @@ let players = function () {
                             onClick: showPopUpPlayersGroupsTable
                         }
                     }))
-                    table.preserveHeight($$('#PlayersGroupsTable'));
+                    // table.preserveHeight($$('#PlayersGroupsTable'));
                     if (isEmpty(playersGroupsData) === true) {
                         $$(`#players-players-groups-title`).style.display = 'none';
 
@@ -1888,7 +1888,7 @@ let players = function () {
                         canSearch: true,
                         stickyCol: true
                     }))
-                    table.preserveHeight($$('#largestBets'));
+                    // table.preserveHeight($$('#largestBets'));
 
 
                     if (isEmpty(largestBetsData) === true) {
@@ -1907,7 +1907,7 @@ let players = function () {
                         canSearch: true,
                         stickyCol: true
                     }))
-                    table.preserveHeight($$('#largestWins'));
+                    // table.preserveHeight($$('#largestWins'));
 
                     if (isEmpty(largestBetsData) === true) {
                         $$(`#players-largest-wins-title`).style.display = 'none';
@@ -1926,7 +1926,7 @@ let players = function () {
                         canSearch: true,
                         stickyCol: true
                     }))
-                    table.preserveHeight($$('#winnersAndLosersFromLast24Hours'));
+                    // table.preserveHeight($$('#winnersAndLosersFromLast24Hours'));
 
 
                     if (isEmpty(largestBetsData) === true) {

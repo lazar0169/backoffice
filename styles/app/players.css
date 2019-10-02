@@ -16,8 +16,6 @@
 
 .players-flex-one-wrapper {
   flex: 1;
-  height: 200px;
-  overflow-y: hidden;
 }
 
 .players-aligin-center {
@@ -302,7 +300,23 @@
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
-
+#interestingPlayersTable,
+#latestPlayersTable,
+#PlayersGroupsTable,
+#winnersAndLosersFromLast24Hours,
+#largestWins,
+#largestBets {
+  height: 22rem;
+  overflow: auto;
+}
+#interestingPlayersData,
+#latestPlayersData,
+#playersGroupsData,
+#largestBetsData,
+#largestWinsData,
+#winnersAndLosersFromLast24HoursData {
+  max-height: 26em;
+}
 #players-get-main.hidden {
   display: none;
 }
