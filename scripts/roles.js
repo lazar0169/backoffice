@@ -15,6 +15,7 @@ let roles = function () {
             '#accounting-reports-reduction',
             '#configuration-actions',
             '#configuration-roles',
+            '#configuration-navbar-currency',
         ],
         'Accounting': [
             '#sidebar-operators',
