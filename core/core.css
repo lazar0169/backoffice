@@ -51,6 +51,10 @@ body.mobile.landscape>div {
     background: #2a3440;
 }
 
+::-webkit-scrollbar-corner {
+    background: #4c5465;
+}
+
 .mobile {
     font-size: 4vw !important;
 }
