@@ -6,9 +6,6 @@
   display: flex;
   flex-direction: column;
 }
-#players-main-settings-wrapper .cell {
-  max-height: 1.4em;
-}
 .players-popup-flex-column-wrapper {
   display: flex;
   flex-direction: column;
@@ -300,6 +297,10 @@
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
+#players-main-settings-wrapper .cell {
+    max-height: 1.4em;
+  }
+
 #interestingPlayersTable,
 #latestPlayersTable,
 #PlayersGroupsTable,
@@ -517,9 +518,27 @@
 }
 
 /* PLAYER GROUP FORM */
-
+#players-main-form{
+    position: fixed;
+    width: 60em;
+    height: 50em;
+    max-height: 100%;
+    align-self: center;
+    background-color: #434a5c;
+    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.3s, opacity 0.3s;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
 #players-groups-form,
-#players-main-form,
 #players-player-jackpot-form,
 #players-player-transaction-form,
 #players-player-unresolved-wins-form,
