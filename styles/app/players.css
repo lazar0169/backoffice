@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .players-popup-flex-column-wrapper {
   display: flex;
   flex-direction: column;
@@ -546,6 +547,7 @@
     right: 0;
     z-index: 2;
 }
+
 #players-groups-form,
 #players-player-jackpot-form,
 #players-player-transaction-form,
@@ -570,6 +572,7 @@
   right: 0;
   z-index: 2;
 }
+
 #players-player-history-form {
   position: fixed;
   width: 64em;

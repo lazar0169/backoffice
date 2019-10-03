@@ -10,6 +10,8 @@ let responsive = function () {
 
     const mobileDisabledTab = [
         '#configuration-navbar-currency',
+        '#jackpot-navbar-settings',
+        '#jackpot-navbar-history',
     ];
 
     window.addEventListener('resize', function () {
