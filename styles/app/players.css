@@ -91,7 +91,15 @@
 }
 
 /* PLAYER TAB */
-
+#players-player-history-game-search-wrapper{
+    display: flex;
+    justify-content: center;
+}
+#players-player-history-game-remove-search{
+    height: 2em;
+    width: 2em;
+    align-self: center;
+}
 #players-player .page-content-wrapper {
   justify-content: flex-start;
 }
@@ -254,7 +262,7 @@
 }
 
 #players-player-game-history-options-wrapper {
-  height: 30%;
+  height: 8%;
 }
 
 #players-player-game-history-iframe-wrapper {
@@ -542,7 +550,6 @@
 #players-player-jackpot-form,
 #players-player-transaction-form,
 #players-player-unresolved-wins-form,
-#players-player-history-form,
 #players-player-criteria-form {
   position: fixed;
   width: 55em;
@@ -565,7 +572,7 @@
 }
 #players-player-history-form {
   position: fixed;
-  width: 63.5em;
+  width: 64em;
   height: 50em;
   max-height: 100%;
   align-self: center;

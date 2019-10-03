@@ -1483,6 +1483,38 @@ let players = function () {
         let modal = $$('#players-player-history-form');
         let cancelButton = $$('#players-player-history-main-form-cancel');
         let listWrapper = $$('#players-player-history-main-wrapper');
+        let gameSearchBar = $$('#players-player-history-game-search')
+        let gameSearchBarCancelButton = $$('#players-player-history-game-remove-search');
+        let searchBody = undefined;
+
+
+        const removeSearch = () => {
+            gameSearchBar.value = '';
+            searchGames('');
+        };
+
+        const searchGames = (term) => {
+            for (let tableRow of searchBody.getElementsByTagName('tr')) {
+                if (tableRow.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                    tableRow.style.display = 'table-row';
+                } else {
+                    tableRow.style.display = 'none';
+                }
+            }
+        };
+
+        gameSearchBarCancelButton.addEventListener('click', removeSearch);
+
+        gameSearchBar.addEventListener('input', () => {
+            searchGames(gameSearchBar.value);
+        });
+
+        gameSearchBar.addEventListener('keyup', (e) => {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                gameSearchBar.value = '';
+                searchGames('');
+            }
+        });
 
         const show = () => {
             getGames();
@@ -1491,9 +1523,11 @@ let players = function () {
         const hide = () => {
             modal.classList.remove('show');
             hidePopup('player');
+            gameSearchBar.value = '';
         };
 
         const getGames = () => {
+            gameSearchBar.value = '';
             addLoader(playerSummaryHistoryButton);
             trigger('comm/currency/getGames', {
                 success: function (response) {
@@ -1529,6 +1563,7 @@ let players = function () {
                 tr.appendChild(td);
                 body.appendChild(tr);
             }
+            searchBody = body;
             listWrapper.getElementsByTagName('table')[0].appendChild(body);
             listWrapper.classList.remove('hidden');
         };
@@ -1538,6 +1573,7 @@ let players = function () {
         return {
             show: show,
             hide: hide,
+            searchBody: searchBody,
         }
     }();
 
@@ -1551,7 +1587,7 @@ let players = function () {
         let gameId = undefined;
         let loaderElement = undefined;
         let vipRouletteId = 0;
-        let rouletteGameIds = [16, 22, 25, 26, 53, 56];
+        let rouletteGameIds = [22, 25, 26];
 
         const show = (id, element) => {
             gameId = id;
