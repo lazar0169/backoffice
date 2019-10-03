@@ -301,6 +301,8 @@ let accounting = function () {
 
         if (flag === 0) {
             $$('#accounting-comapnies-reports-header').classList.add('hidden');
+            $$('#accounting-companies-pdf-download').classList.add('hidden');
+            $$('#accounting-companies-excel-download').classList.add('hidden');
             removeLoader(companyGetReportsButton);
             trigger('message', message.codes.noData);
         }
