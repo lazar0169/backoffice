@@ -300,6 +300,8 @@ let accounting = function () {
         }
 
         if (flag === 0) {
+            $$('#accounting-comapnies-reports-header').classList.add('hidden');
+            removeLoader(companyGetReportsButton);
             trigger('message', message.codes.noData);
         }
 
