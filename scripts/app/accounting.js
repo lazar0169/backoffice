@@ -422,34 +422,68 @@ let accounting = function () {
                         // doc.text(20, 20, `Period: ${response.result.period}; Currency: ${response.result.casinoCurrency}; Operator: ${response.result.operatorName}; Bonus rate: ${data.bonusRate}%; Deduction: ${data.deduction}%; Reduction: ${data.reduction}`);
                         doc.setFontSize(16);
                         docPageCount = 0;
+                        let flag = 0;
 
-                        pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
-                        generateReport(response.result.slotAccounting, response.result.slotAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', sum: response.result.slotAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
-                        generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', sum: response.result.rouletteAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
-                        generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', sum: response.result.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
-                        generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', sum: response.result.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
-                        generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
-                        pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', sum: response.result.pokerAccountingSum, dynamic: false, sticky: true }));
-                        doc.addPage();
-                        pageReports.appendChild(document.createElement('hr'));
-                        pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
-                        pageReports.appendChild(table.generate({ data: [response.result.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
+                        if (response.result.slotAccounting.length > 0) {
+                            pageReports.appendChild(generateHeadline(response.result.slotAccountingSum.gameName));
+                            generateReport(response.result.slotAccounting, response.result.slotAccountingSum);
+                            pageReports.appendChild(table.generate({ data: response.result.slotAccounting, id: '', sum: response.result.slotAccountingSum, dynamic: false, sticky: true }));
+                            doc.addPage();
+                            flag++;
+                        };
+
+                        if (response.result.rouletteAccounting > 0) {
+                            pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
+                            generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
+                            pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', sum: response.result.rouletteAccountingSum, dynamic: false, sticky: true }));
+                            doc.addPage();
+                            flag++;
+                        }
+
+                        if (response.result.liveEuropeanRouletteAccounting > 0) {
+                            pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
+                            generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
+                            pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', sum: response.result.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
+                            doc.addPage();
+                            flag++;
+                        }
+
+                        if (response.result.tripleCrownRouletteAccounting > 0) {
+                            pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
+                            generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
+                            pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', sum: response.result.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
+                            doc.addPage();
+                            flag++;
+                        }
+
+                        if (response.result.pokerAccounting > 0) {
+                            pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
+                            generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
+                            pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', sum: response.result.pokerAccountingSum, dynamic: false, sticky: true }));
+                            doc.addPage();
+                            flag++;
+                        }
+                        if (flag === 0) {
+                            $$('#accounting-reports-header').classList.add('hidden');
+                            $$('#accounting-reports-download').classList.add('hidden');
+                            $$('#accounting-reports-download-excel').classList.add('hidden');
+                            removeLoader(companyGetReportsButton);
+                            trigger('message', message.codes.noData);
+
+                        }
+                        else {
+                            $$('#accounting-reports-header').classList.remove('hidden');
+                            $$('#accounting-reports-download').classList.remove('hidden');
+                            $$('#accounting-reports-download-excel').classList.remove('hidden');
+                            pageReports.appendChild(document.createElement('hr'));
+                            pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
+                            pageReports.appendChild(table.generate({ data: [response.result.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
+
+                        }
 
                         table.preserveHeight(pageReports);
 
-                        header.classList.remove('hidden');
+                        // header.classList.remove('hidden');
                         // footer.classList.remove('hidden');
 
                         $$('#accounting-reports-header-operator-value').innerHTML = response.result.operatorName;
@@ -466,8 +500,8 @@ let accounting = function () {
                         excelData.operatorAccounting = response.result;
 
                         // Enable download button
-                        $$('#accounting-reports-download').classList.remove('hidden');
-                        $$('#accounting-reports-download-excel').classList.remove('hidden');
+                        // $$('#accounting-reports-download').classList.remove('hidden');
+                        // $$('#accounting-reports-download-excel').classList.remove('hidden');
                     } else {
                         trigger('message', response.responseCode);
                     }
@@ -718,7 +752,9 @@ let accounting = function () {
         $$('#accounting-setup-black-overlay').style.display = 'none';
         $$('#accounting-setup-form').classList.remove('show');
         $$('#accounting-setup').children[0].style.overflow = 'auto';
-        selectedRow.classList.remove('hover');
+        if (selectedRow) {
+            selectedRow.classList.remove('hover');
+        }
         tax.hide();
         isModalOpened = false;
     }
