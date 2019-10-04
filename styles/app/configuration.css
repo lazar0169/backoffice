@@ -3,10 +3,6 @@
     flex-wrap: wrap;
 }
 
-#configuration.page {
-    flex-direction: column;
-}
-
 .configuration-section {
     flex: 1;
     -webkit-box-sizing: border-box;
