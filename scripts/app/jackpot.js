@@ -25,6 +25,7 @@ let jackpot = function () {
                     $$('#activeJackpotTable').appendChild(activeTable);
 
                 } else {
+                    removeLoader($$('#sidebar-jackpot'));
                     trigger('message', response.responseCode);
                 }
                 removeLoader($$('#sidebar-jackpot'));
