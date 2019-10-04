@@ -1575,12 +1575,15 @@ let configuration = function () {
         if (!currencyWithBetGroup.realCurrency) {
             isImaginaryCurrency = true;
             $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
-
+            $$('#configuration-currency-denomination-icon').classList.add('imaginary');
+            $$('#configuration-currency-denomination-icon').classList.remove('real');
             $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
             $$('#configuration-currency-ratio').value = currencyWithBetGroup.realImaginaryCurrencyRatio;
         }
         else {
             $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
+            $$('#configuration-currency-denomination-icon').classList.remove('imaginary');
+            $$('#configuration-currency-denomination-icon').classList.add('real');
             isImaginaryCurrency = false;
         }
         createTable(result);
