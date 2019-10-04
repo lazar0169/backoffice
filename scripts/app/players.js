@@ -12,7 +12,7 @@ let players = function () {
     let playerDataFlagInteresting = $$('#player-flag-interesting');
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
-    let playerDataFlagTest = $$('#player-flag-test');
+    // let playerDataFlagTest = $$('#player-flag-test');
     let playerSummaryJackpotButton = $$('#players-player-data-jackpot');
     let playerSummaryTransactionButton = $$('#players-player-data-transaction');
     let playerSummaryHistoryButton = $$('#players-player-data-history');
@@ -2030,7 +2030,7 @@ let players = function () {
     playerDataFlagInteresting.addEventListener('click', playerFlagChanged);
     playerDataFlagSuspicious.addEventListener('click', playerFlagChanged);
     playerDataFlagDisable.addEventListener('click', playerFlagChanged);
-    playerDataFlagTest.addEventListener('click', playerFlagChanged);
+    // playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
     getGroupsButton.addEventListener('click', getPlayerGroups);
     getPlayersButton.addEventListener('click', getPlayers);
