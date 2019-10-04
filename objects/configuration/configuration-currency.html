@@ -15,6 +15,7 @@
                 <fieldset>
                     <div class="legend">Denomination: </div>
                     <input type="number" id="configuration-currency-denomination" disabled>
+                    <span id="configuration-currency-denomination-icon" class="icon-12"></span>
                 </fieldset>
                 <fieldset>
                     <div class="legend">Bet group: </div>
@@ -28,6 +29,7 @@
                     <fieldset>
                         <div class="legend">Ratio: </div>
                         <input type="text" id="configuration-currency-ratio" disabled>
+                        <span id="configuration-currency-ratio-icon" class="icon-12"></span>
                     </fieldset>
                 </div>
             </div>
@@ -311,9 +313,11 @@
                     <button class="config configuration-form-cancel" id="configuration-currency-main-options-cancel"></button>
                 </div>
                 <div id="configuration-currency-main-options-inputs">
-                    <div class="legend">Denomination: </div>
-                    <input type="number" id="configuration-currency-form-denomination">
-                    <div id="configuration-currency-main-options-imaginary-wrapper" class="hidden">
+                    <div id="configuration-currency-main-options-denomination-wrapper">
+                        <div class="legend">Denomination: </div>
+                        <input type="number" id="configuration-currency-form-denomination">
+                    </div>
+                    <div id="configuration-currency-main-options-ratio-wrapper">
                         <div class="legend">Ratio: </div>
                         <input type="number" id="configuration-currency-form-ratio">
                     </div>

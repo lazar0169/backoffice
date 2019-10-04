@@ -413,6 +413,12 @@
     flex-direction: column;
 }
 
+#configuration-currency-denomination-icon, 
+#configuration-currency-ratio-icon {
+    float: right;
+    margin-top: 0.7em;
+}
+
 #configuration-currency-imaginary-wrapper {
     display: flex;
     flex-direction: column;
@@ -1095,7 +1101,8 @@
     margin: auto;
 }
 
-#configuration-currency-main-options-imaginary-wrapper.hidden {
+#configuration-currency-main-options-denomination-wrapper.hidden,
+#configuration-currency-main-options-ratio-wrapper.hidden {
     display: none;
 }
 

@@ -35,11 +35,17 @@ let configuration = function () {
         '1': 'Platinum',
         '3': 'Diamond'
     };
+    let iconsTypes = {
+        denomination: 1,
+        ratio: 2
+    };
 
     let currencyTable = $$(`#configuration-currency-games-table`);
     let jackpotTable = $$(`#configuration-currency-default-jackpot-settings-list`);
     let currencyTableWrapper = $$('#configuration-currency-games-table-wrapper');
     let currencyMainOptionWrapper = $$('#configuration-currency-main-options');
+    let denominationIcon = $$('#configuration-currency-denomination-icon');
+    let ratioIcon = $$('#configuration-currency-ratio-icon');
     let currencyJackpotOptionWrapper = $$('#configuration-currency-default-jackpot-settings-wrapper');
 
     //$$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
@@ -50,7 +56,9 @@ let configuration = function () {
     //     }
     // }
 
-    currencyMainOptionWrapper.addEventListener('click', () => currencyMainOptionModal.show());
+    // currencyMainOptionWrapper.addEventListener('click', () => currencyMainOptionModal.show());
+    denominationIcon.addEventListener('click', () => currencyMainOptionModal.show(iconsTypes.denomination));
+    ratioIcon.addEventListener('click', () => currencyMainOptionModal.show(iconsTypes.ratio));
     // $$('#configuration-black-overlay').addEventListener('click', hideModal);
     $$('#configuration-profile-save-password').addEventListener('click', function (e) {
         e.preventDefault();
@@ -1314,18 +1322,32 @@ let configuration = function () {
         let mainModal = $$('#configuration-currency-form-main-otpions');
         let saveButton = $$('#configuration-currency-main-options-save');
         let cancelButton = $$('#configuration-currency-main-options-cancel');
-        let imaginaryWrapper = $$('#configuration-currency-main-options-imaginary-wrapper');
+        const denominationWrapper = $$('#configuration-currency-main-options-denomination-wrapper');
+        const ratioWrapper = $$('#configuration-currency-main-options-ratio-wrapper');
         let denomination = $$('#configuration-currency-form-denomination');
         let ratio = $$('#configuration-currency-form-ratio');
+        let popupType = undefined;
 
 
-        const show = () => {
+        const show = (type) => {
             mainModal.classList.remove('hidden');
+            popupType = type;
             $$('#configuration-currency-black-overlay').style.display = 'block';
             $$('#configuration-currency').children[0].style.overflow = 'hidden';
             modal.classList.add('show');
-            if (isImaginaryCurrency) {
-                imaginaryWrapper.classList.remove('hidden');
+            if (iconsTypes.denomination !== type) {
+                denominationWrapper.classList.add('hidden');
+            }
+            else {
+                denominationWrapper.classList.remove('hidden');
+                denomination.value = $$('#configuration-currency-denomination').value;
+            }
+            if (iconsTypes.ratio !== type) {
+                ratioWrapper.classList.add('hidden');
+            }
+            else {
+                ratioWrapper.classList.remove('hidden');
+                ratio.value = $$('#configuration-currency-ratio').value;
             }
         };
 
@@ -1334,11 +1356,10 @@ let configuration = function () {
             $$('#configuration-currency-black-overlay').style.display = 'none';
             modal.classList.remove('show');
             $$('#configuration-currency').children[0].style.overflow = 'auto';
-            imaginaryWrapper.classList.add('hidden');
         };
 
         const save = () => {
-            if (denomination.value <= 0) {
+            if ( (iconsTypes.denomination === popupType && denomination.value <= 0) || (iconsTypes.ratio === popupType && ratio.value <= 0)) {
                 trigger('message', message.codes.badParameter);
                 return;
             }
@@ -1346,7 +1367,7 @@ let configuration = function () {
                 body: {
                     id: currencyIdSelected,
                     denomination: denomination.value,
-                    ratio: isImaginaryCurrency ? ratio.value : 0,
+                    ratio: isImaginaryCurrency ? ratio.value : 1,
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
