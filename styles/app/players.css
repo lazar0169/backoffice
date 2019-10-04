@@ -552,27 +552,7 @@
 #players-player-jackpot-form,
 #players-player-transaction-form,
 #players-player-unresolved-wins-form,
-#players-player-criteria-form {
-  position: fixed;
-  width: 55em;
-  height: 50em;
-  max-height: 100%;
-  align-self: center;
-  background-color: #434a5c;
-  box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-  transform: translate3d(0, -25%, 0);
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-  transition: transform 0.3s, opacity 0.3s;
-  margin: auto;
-  bottom: 0;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 2;
-}
-
+#players-player-criteria-form,
 #players-player-history-form {
   position: fixed;
   width: 64em;
@@ -593,7 +573,6 @@
   right: 0;
   z-index: 2;
 }
-
 #players-groups-criteria-form.hidden {
   display: none;
 }
