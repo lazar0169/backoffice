@@ -1667,12 +1667,17 @@ let configuration = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     showCurrencyView(response.result);
+                    removeLoader($$('#configuration-currency-list-wrapper'));
+                    trigger('message', response.responseCode);
                 }
-                removeLoader($$('#configuration-currency-list-wrapper'));
-                trigger('message', response.responseCode);
+                else {
+                    removeLoader($$('#configuration-currency-list-wrapper'));
+                    trigger('message', response.responseCode);
+                }
             },
             fail: function (response) {
                 removeLoader($$('#configuration-currency-list-wrapper'));
+                trigger('message', response.responseCode);
             }
         });
     }
