@@ -1668,8 +1668,8 @@ let configuration = function () {
                 if (response.responseCode === message.codes.success) {
                     showCurrencyView(response.result);
                 }
-                trigger('message', response.responseCode);
                 removeLoader($$('#configuration-currency-list-wrapper'));
+                trigger('message', response.responseCode);
             },
             fail: function (response) {
                 removeLoader($$('#configuration-currency-list-wrapper'));
