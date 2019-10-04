@@ -641,8 +641,8 @@
 #configuration-currency-form,
 #configuration-new-currency-form,
 #configuration-jackpot-form,
-#configuration-currency-main-otpions-form,
-#configuration-currency-delete-form {
+/* #configuration-currency-delete-form, */
+#configuration-currency-main-otpions-form {
     position: fixed;
     width: 35em;
     height: 35em;
@@ -662,15 +662,15 @@
     height: 24em !important;
 }
 
-#configuration-currency-delete-form {
+/* #configuration-currency-delete-form {
     height: 25em !important;
-}
+} */
 
 #configuration-currency-form.show,
 #configuration-new-currency-form.show,
 #configuration-jackpot-form.show,
-#configuration-currency-main-otpions-form.show,
-#configuration-currency-delete-form.show {
+/* #configuration-currency-delete-form.show, */
+#configuration-currency-main-otpions-form.show {
     transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: all;
@@ -1107,7 +1107,7 @@
 
 /* DELETE FORM */
 
-#configuration-currency-form-main.hidden {
+/* #configuration-currency-form-main.hidden {
     display: none;
 }
 
@@ -1128,7 +1128,7 @@
 #configuration-currency-delete-yes-button,
 #configuration-currency-delete-no-button {
     width: 20%;
-}
+} */
 
 /* END DELETE FORM */
 

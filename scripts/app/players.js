@@ -12,7 +12,7 @@ let players = function () {
     let playerDataFlagInteresting = $$('#player-flag-interesting');
     let playerDataFlagSuspicious = $$('#player-flag-suspicious');
     let playerDataFlagDisable = $$('#player-flag-disable');
-    let playerDataFlagTest = $$('#player-flag-test');
+    // let playerDataFlagTest = $$('#player-flag-test');
     let playerSummaryJackpotButton = $$('#players-player-data-jackpot');
     let playerSummaryTransactionButton = $$('#players-player-data-transaction');
     let playerSummaryHistoryButton = $$('#players-player-data-history');
@@ -69,7 +69,6 @@ let players = function () {
     });
 
     const showPlayerData = (data, playerId, name) => {
-        console.log(data);
         playerDataWrapper.classList.remove('hidden');
         playersSearchListWrapper.classList.add('shrink');
         playerIdSelected = playerId;
@@ -82,7 +81,6 @@ let players = function () {
     };
 
     const showGroupData = (data, id, element) => {
-        console.log(data);
         groupsDataWrapper.classList.remove('hidden');
         groupsSuggestedPlayerWrapper.classList.add('hidden');
         groupsSuggestedPlayersSearchWrapper.classList.add('hidden');
@@ -144,7 +142,9 @@ let players = function () {
             const checkboxInput = document.createElement('input');
             const checkboxLabel = document.createElement('label');
             const questionMark = document.createElement('h2');
-            row.classList.add('players-flex-wrapper');
+            if(!IS_SAFARI){
+                row.classList.add('players-flex-wrapper');
+            }
             row.style.justifyContent = 'space-between';
             groupName.innerHTML = group.name;
             checkboxInput.type = 'checkbox';
@@ -2030,7 +2030,7 @@ let players = function () {
     playerDataFlagInteresting.addEventListener('click', playerFlagChanged);
     playerDataFlagSuspicious.addEventListener('click', playerFlagChanged);
     playerDataFlagDisable.addEventListener('click', playerFlagChanged);
-    playerDataFlagTest.addEventListener('click', playerFlagChanged);
+    // playerDataFlagTest.addEventListener('click', playerFlagChanged);
     getPlayerButton.addEventListener('click', getPlayer);
     getGroupsButton.addEventListener('click', getPlayerGroups);
     getPlayersButton.addEventListener('click', getPlayers);
