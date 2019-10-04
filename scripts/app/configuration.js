@@ -42,6 +42,10 @@ let configuration = function () {
     let currencyMainOptionWrapper = $$('#configuration-currency-main-options');
     let currencyJackpotOptionWrapper = $$('#configuration-currency-default-jackpot-settings-wrapper');
 
+
+    if(IS_SAFARI){
+        currencyTable.style.overflowX = "hidden";
+    }
     //$$('#configuration-currency-black-overlay').addEventListener('click', hideActiveModal);
 
     // function hideActiveModal() {
