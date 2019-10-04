@@ -13,7 +13,7 @@ let configuration = function () {
     let isImaginaryCurrency = false;
     let isImaginaryCurrencySelected = false;
     let addNewCurrencyButton = $$('#configuration-add-new-currency-button');
-    let deleteCurrencyButton = $$('#configuration-delete-currency-button');
+    // let deleteCurrencyButton = $$('#configuration-delete-currency-button');
     let createCurrencyStepButton = $$('#configuration-currency-form-create-bet-group');
 
     //currency props
@@ -125,18 +125,18 @@ let configuration = function () {
 
     function showCreateCurrencyView() {
         hideCurrencyView();
-        deleteCurrencyButton.classList.add('hidden');
+        // deleteCurrencyButton.classList.add('hidden');
         startPopoupWizard();
     }
 
-    function deleteCurrency() {
-        if (!currencyIdSelected) {
-            trigger('message', message.codes.badParameter);
-            return;
-        }
+    // function deleteCurrency() {
+    //     if (!currencyIdSelected) {
+    //         trigger('message', message.codes.badParameter);
+    //         return;
+    //     }
 
-        currencyDeleteModal.show();
-    };
+    //     currencyDeleteModal.show();
+    // };
 
     function startPopoupWizard() {
         $$('#configuration-currency-form-main').classList.add('hidden');
@@ -1372,52 +1372,52 @@ let configuration = function () {
         }
     }();
 
-    let currencyDeleteModal = function () {
-        let modal = $$('#configuration-currency-delete-form');
-        let deleteModal = $$('#configuration-currency-form-delete-main');
-        let yesButton = $$('#configuration-currency-delete-yes-button');
-        let noButton = $$('#configuration-currency-delete-no-button');
+    // let currencyDeleteModal = function () {
+    //     let modal = $$('#configuration-currency-delete-form');
+    //     let deleteModal = $$('#configuration-currency-form-delete-main');
+    //     let yesButton = $$('#configuration-currency-delete-yes-button');
+    //     let noButton = $$('#configuration-currency-delete-no-button');
 
-        const show = () => {
-            deleteModal.classList.remove('hidden');
-            $$('#configuration-currency-black-overlay').style.display = 'block';
-            $$('#configuration-currency').children[0].style.overflow = 'hidden';
-            modal.classList.add('show');
-        };
+    //     const show = () => {
+    //         deleteModal.classList.remove('hidden');
+    //         $$('#configuration-currency-black-overlay').style.display = 'block';
+    //         $$('#configuration-currency').children[0].style.overflow = 'hidden';
+    //         modal.classList.add('show');
+    //     };
 
-        const hide = () => {
-            deleteModal.classList.add('hidden');
-            $$('#configuration-currency-black-overlay').style.display = 'none';
-            modal.classList.remove('show');
-            $$('#configuration-currency').children[0].style.overflow = 'auto';
-        };
+    //     const hide = () => {
+    //         deleteModal.classList.add('hidden');
+    //         $$('#configuration-currency-black-overlay').style.display = 'none';
+    //         modal.classList.remove('show');
+    //         $$('#configuration-currency').children[0].style.overflow = 'auto';
+    //     };
 
-        const removeCurrency = () => {
-            trigger('comm/currency/deleteCurrency', {
-                body: {
-                    id: currencyIdSelected
-                },
-                success: function (response) {
-                    if (response.responseCode === message.codes.success) {
-                        trigger('configuration/currency/loaded');
-                        hide();
-                    }
-                    trigger('message', response.responseCode);
-                },
-                fail: function (response) {
-                    trigger('message', response.responseCode);
-                }
-            })
-        };
+    //     const removeCurrency = () => {
+    //         trigger('comm/currency/deleteCurrency', {
+    //             body: {
+    //                 id: currencyIdSelected
+    //             },
+    //             success: function (response) {
+    //                 if (response.responseCode === message.codes.success) {
+    //                     trigger('configuration/currency/loaded');
+    //                     hide();
+    //                 }
+    //                 trigger('message', response.responseCode);
+    //             },
+    //             fail: function (response) {
+    //                 trigger('message', response.responseCode);
+    //             }
+    //         })
+    //     };
 
-        yesButton.addEventListener('click', removeCurrency);
-        noButton.addEventListener('click', hide);
+    //     yesButton.addEventListener('click', removeCurrency);
+    //     noButton.addEventListener('click', hide);
 
-        return {
-            show: show,
-            hide: hide
-        }
-    }();
+    //     return {
+    //         show: show,
+    //         hide: hide
+    //     }
+    // }();
 
     // Shows modal with details for individual selection
     function showModal(section, data) {
@@ -1657,7 +1657,7 @@ let configuration = function () {
     };
 
     const selectedCurrency = (value) => {
-        deleteCurrencyButton.classList.remove('hidden');
+        // deleteCurrencyButton.classList.remove('hidden');
         currencyIdSelected = value;
         addLoader($$('#configuration-currency-list-wrapper'));
         trigger('comm/currency/readCurrency', {
@@ -1667,9 +1667,12 @@ let configuration = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     showCurrencyView(response.result);
+                    removeLoader($$('#configuration-currency-list-wrapper'));
                 }
-                removeLoader($$('#configuration-currency-list-wrapper'));
-                trigger('message', response.responseCode);
+                else {
+                    removeLoader($$('#configuration-currency-list-wrapper'));
+                    trigger('message', response.responseCode);
+                }
             },
             fail: function (response) {
                 removeLoader($$('#configuration-currency-list-wrapper'));
@@ -1937,7 +1940,7 @@ let configuration = function () {
     on('configuration/currency/loaded', function () {
         $$('#configuration-currency-navbar-buttons-wrapper').classList.remove('hidden');
         $$('#configuration-currency-list-wrapper').classList.remove('hidden');
-        deleteCurrencyButton.classList.add('hidden');
+        // deleteCurrencyButton.classList.add('hidden');
         removeTableData();
         hideCurrencyView();
 
@@ -2082,5 +2085,5 @@ let configuration = function () {
     });
 
     addNewCurrencyButton.addEventListener('click', showCreateCurrencyView);
-    deleteCurrencyButton.addEventListener('click', deleteCurrency);
+    // deleteCurrencyButton.addEventListener('click', deleteCurrency);
 }();
