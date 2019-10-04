@@ -1676,6 +1676,7 @@ let configuration = function () {
             },
             fail: function (response) {
                 removeLoader($$('#configuration-currency-list-wrapper'));
+                trigger('message', response.responseCode);
             }
         });
     }
