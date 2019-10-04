@@ -1367,7 +1367,7 @@ let configuration = function () {
                 body: {
                     id: currencyIdSelected,
                     denomination: denomination.value,
-                    ratio: isImaginaryCurrency ? ratio.value : 1,
+                    ratio: $$('#configuration-currency-ratio').value ? ratio.value : 1,
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
