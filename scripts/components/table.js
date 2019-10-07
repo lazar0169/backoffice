@@ -40,6 +40,8 @@ let table = function () {
             console.error('Failed to generate table', params);
             let obj = document.createElement('template');
             return obj;
+        } else {
+            params.data = getCopy(params.data);
         }
 
         let colsCount = Object.keys(params.data[0]).length;
