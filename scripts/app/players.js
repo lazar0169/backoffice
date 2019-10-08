@@ -45,6 +45,8 @@ let players = function () {
     let getPlayersButton = $$('#players-get-main');
 
     let getGroupsButton = $$('#players-get-groups');
+    let createGroupsButton = $$('#players-create-groups');
+    let editGroupsButton = $$('#players-edit-groups');
     let groupsPlayersSaveChanged = $$('#players-groups-save-changed-players-button');
     let groupsGetSuggestedPlayersButton = $$('#players-groups-get-suggested-players-button');
     let groupsSearchListWrapper = $$('#players-groups-groups-wrapper');
@@ -59,6 +61,8 @@ let players = function () {
     let groupsBetGraph = graph.generate($$(`#player-groups-data-bet-graph-wrapper`).children[0], 'line');
     let groupsRoundsGraph = graph.generate($$(`#player-groups-data-rounds-graph-wrapper`).children[0], 'line');
     let searchTimeoutId = undefined;
+    let groupIdSelected = undefined;
+    let groupNameSelected = undefined;
 
     on('date/players-player-transaction-time-span-from', function (data) {
         playerTransactionFrom = data;
@@ -80,7 +84,9 @@ let players = function () {
         showPlayerSummaryData(data.info, data.totalStats, data.jackpots);
     };
 
-    const showGroupData = (data, id, element) => {
+    const showGroupData = (data, id, element, name) => {
+        groupNameSelected = name;
+        groupIdSelected = id;
         groupsDataWrapper.classList.remove('hidden');
         groupsSuggestedPlayerWrapper.classList.add('hidden');
         groupsSuggestedPlayersSearchWrapper.classList.add('hidden');
@@ -142,7 +148,7 @@ let players = function () {
             const checkboxInput = document.createElement('input');
             const checkboxLabel = document.createElement('label');
             const questionMark = document.createElement('h2');
-            if(!IS_SAFARI){
+            if (!IS_SAFARI) {
                 row.classList.add('players-flex-wrapper');
             }
             row.style.justifyContent = 'space-between';
@@ -279,15 +285,12 @@ let players = function () {
         playerSummaryHistoryButton.onclick = playerHistoryPopup.show;
     };
 
-    const showGroupsSuggestedPlayersData = (players, id) => {
-        createSuggestePlayersList(players, id);
-    };
-
     const showGroupsAllPlayersData = (players, id, element) => {
         groupsPlayersSaveChanged.onclick = () => {
             getGroupData(id, undefined, element);
         };
         groupsGetSuggestedPlayersButton.onclick = () => {
+            addLoader(groupsGetSuggestedPlayersButton);
             trigger('comm/playerGroups/getSuggestedGroups', {
                 body: {
                     id: id
@@ -295,12 +298,15 @@ let players = function () {
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
                         createSuggestePlayersList(response.result, id);
+                        removeLoader(groupsGetSuggestedPlayersButton);
                     }
                     else {
+                        removeLoader(groupsGetSuggestedPlayersButton);
                         trigger('message', response.responseCode);
                     }
                 },
                 fail: function (response) {
+                    removeLoader(groupsGetSuggestedPlayersButton);
                     trigger('message', response.responseCode);
                 }
             });
@@ -466,6 +472,13 @@ let players = function () {
         $$(`#players-${tab}-portals-list-wrapper`).appendChild(portalsDropdown);
         if (!data) $$(`#players-${tab}-portals-list-wrapper`).style.display = 'none';
         $$(`#players-get-${tab}`).classList.remove('hidden');
+
+        on(`players-${tab}-portals-list/selected`, function (value) {
+            if (tab === 'groups') {
+                createGroupsButton.classList.remove('hidden');
+            }
+            portalIdSelected = value;
+        });
     };
 
     const getPlayer = () => {
@@ -529,9 +542,11 @@ let players = function () {
                         trigger('message', message.codes.noData);
                         return;
                     }
+                    editGroupsButton.classList.add('hidden');
                     createList(response.result, `groups-groups`, getGroupData);
                     $$('#players-groups-main-wrapper').classList.remove('hidden');
                     groupsSearchListWrapper.classList.remove('shrink');
+                    portalIdSelected = portalId;
                 }
                 else {
                     trigger('message', response.responseCode);
@@ -554,14 +569,15 @@ let players = function () {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
                     showPlayerData(response.result, id, name);
+                    removeLoader(element);
                 } else {
+                    removeLoader(element);
                     trigger('message', response.responseCode);
                 }
-                removeLoader(element);
             },
             fail: function (response) {
-                trigger('message', response.responseCode);
                 removeLoader(element);
+                trigger('message', response.responseCode);
             }
         });
     };
@@ -574,15 +590,18 @@ let players = function () {
             },
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    showGroupData(response.result, id, element);
+                    showGroupData(response.result, id, element, name);
+                    editGroupsButton.classList.remove('hidden');
+                    removeLoader(element);
                 } else {
+                    removeLoader(element);
                     trigger('message', response.responseCode);
                 }
-                removeLoader(element);
+
             },
             fail: function (response) {
-                trigger('message', response.responseCode);
                 removeLoader(element);
+                trigger('message', response.responseCode);
             }
         });
     };
@@ -700,6 +719,73 @@ let players = function () {
         };
 
         backButton.addEventListener('click', hide);
+
+        return {
+            show: show,
+            hide: hide
+        }
+    }();
+
+
+    let createOrEditPlayerGroupPopup = function () {
+        const modal = $$('#players-groups-create-edit-form');
+        const cancelButton = $$('#players-groups-create-edit-main-form-cancel');
+        const nameInput = $$('#players-groups-create-edit-main-form-name');
+        let createOrEditButton = $$('#players-groups-create-edit-main-form-button');
+        let header = $$('#players-groups-create-edit-form-header');
+        let isCreateFlag = undefined;
+
+        const show = (isCreate) => {
+            isCreateFlag = isCreate;
+            if (isCreate) {
+                createOrEditButton.innerHTML = 'CREATE';
+                header.innerHTML = 'Create player group';
+                nameInput.value = '';
+            }
+            else {
+                createOrEditButton.innerHTML = 'EDIT';
+                header.innerHTML = 'Edit player group';
+                nameInput.value = groupNameSelected;
+            }
+            modal.classList.add('show');
+            showPopup('groups');
+        };
+
+        const hide = () => {
+            modal.classList.remove('show');
+            hidePopup('groups');
+        };
+
+        const createOrEdit = () => {
+            if(!nameInput) {
+                trigger('message', message.codes.badParameter);
+            }
+            addLoader(createOrEditButton);
+            trigger(`comm/playerGroups/${isCreateFlag ? 'create' : 'update'}Group`, {
+                body: {
+                    portalId: isCreateFlag ? portalIdSelected : undefined,
+                    name: nameInput.value,
+                    playerGroupId: isCreateFlag ? undefined : groupIdSelected,
+                },
+                success: function (response) {
+                    if (response.responseCode === message.codes.success) {
+                        removeLoader(createOrEditButton);
+                        createOrEditPlayerGroupPopup.hide();
+                        trigger('message', response.responseCode);
+                    } else {
+                        removeLoader(createOrEditButton);
+                        trigger('message', response.responseCode);
+                    }
+                },
+                fail: function (response) {
+                    removeLoader(createOrEditButton);
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+
+        cancelButton.addEventListener('click', hide);
+        createOrEditButton.addEventListener('click', createOrEdit);
 
         return {
             show: show,
@@ -1996,6 +2082,8 @@ let players = function () {
 
     on('players/groups/loaded', function () {
         getGroupsButton.classList.add('hidden');
+        createGroupsButton.classList.add('hidden');
+        editGroupsButton.classList.add('hidden');
         groupsSearchWrapper.classList.add('hidden');
         groupsListWrapper.classList.add('hidden');
         groupsDataWrapper.classList.add('hidden');
@@ -2003,6 +2091,12 @@ let players = function () {
         groupsSearchListWrapper.classList.remove('shrink');
         clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
+    });
+
+    on('players/groups/unloaded', function () {
+        suggestedPlayersPopup.hide();
+        criteriaPlayersPopup.hide();
+        createOrEditPlayerGroupPopup.hide();
     });
 
     on('players/player/loaded', function () {
@@ -2034,4 +2128,6 @@ let players = function () {
     getPlayerButton.addEventListener('click', getPlayer);
     getGroupsButton.addEventListener('click', getPlayerGroups);
     getPlayersButton.addEventListener('click', getPlayers);
+    createGroupsButton.addEventListener('click', () => createOrEditPlayerGroupPopup.show(true));
+    editGroupsButton.addEventListener('click', () => createOrEditPlayerGroupPopup.show(false));
 }();

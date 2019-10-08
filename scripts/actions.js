@@ -132,6 +132,8 @@ const actions = Object.freeze({
     //Player Groups
     'comm/playerGroups/get': '/PlayerGroup/get-player-groups',
     'comm/playerGroups/getGroup': '/PlayerGroup/read',
+    'comm/playerGroups/createGroup': '/PlayerGroup/create',
+    'comm/playerGroups/updateGroup': '/PlayerGroup/update',
     'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
     'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
     'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
