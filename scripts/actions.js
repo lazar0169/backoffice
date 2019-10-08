@@ -44,6 +44,7 @@ const actions = Object.freeze({
     'comm/statistic/games/summary/get': '/Statistics/GetGamesSummary',
     'comm/statistic/games/compered/get': '/Statistics/GetCompared',
     'comm/statistic/per/game/get': '/Statistics/GetPerGameSelection',
+    'comm/statistic/getExcel': '/Statistics/ToExcelStatistics',
 
     // Accounting
     'comm/accounting/operators/get': '/Accounting/GetOperators',

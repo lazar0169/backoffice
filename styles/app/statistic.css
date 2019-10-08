@@ -28,14 +28,18 @@
 #statistic-get-summary.hidden,
 #statistic-get-compared.hidden,
 #statistic-get-per-game.hidden,
-#statistic-get-games-summary.hidden {
+#statistic-get-games-summary.hidden,
+#statistic-games-summary-get-excel.hidden,
+#statistic-summary-get-excel.hidden {
     display: none !important;
 }
 
 #statistic-get-summary,
 #statistic-get-compared,
 #statistic-get-per-game,
-#statistic-get-games-summary {
+#statistic-get-games-summary,
+#statistic-games-summary-get-excel,
+#statistic-summary-get-excel {
     display: inline;
     padding: 0.25rem 1rem;
 }
@@ -93,7 +97,9 @@
 .mobile #statistic-get-summary,
 .mobile #statistic-get-compared,
 .mobile #statistic-get-per-game,
-.mobile #statistic-get-games-summary {
+.mobile #statistic-get-games-summary,
+.mobile #statistic-games-summary-get-excel,
+.mobile #statistic-summary-get-excel {
     padding: 0.85rem 1rem;
     width: 100%;
 }

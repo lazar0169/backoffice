@@ -1,8 +1,10 @@
 let statisticGamesSummary = function () {
     let selectedOperator;
+    let statisticsResult;
     let statisticFromDate = getToday();
     let statisticToDate = getToday();
     let gamesSummaryButton = $$('#statistic-get-games-summary');
+    let gamesSummaryExcelButton = $$('#statistic-games-summary-get-excel');
     let gamesSummaryTableWrapper = $$('#statistic-games-summary-table');
     let gamesSummaryHeader = $$('#statistic-games-summary-header');
     let gamesSummaryChartTotalBet = graph.generate($$('#statistic-games-summary-graphs').children[0], 'line');
@@ -41,6 +43,7 @@ let statisticGamesSummary = function () {
         gamesSummaryTableWrapper.innerHTML = '';
         gamesSummaryHeader.innerHTML = '';
         gamesSummaryButton.classList.add('hidden');
+        gamesSummaryExcelButton.classList.add('hidden');
         $$('#statistic-games-summary-graphs').classList.add('hidden');
         requested = false;
 
@@ -143,6 +146,7 @@ let statisticGamesSummary = function () {
             success: function (response) {
                 removeLoader(gamesSummaryButton);
                 if (response.responseCode === message.codes.success) {
+                    statisticsResult = response.result;
                     let summary = getCopy(response.result.gameStatisticsPerGame);
                     let summarySum = getCopy(response.result.gameStatisticsSum);
                     parseSummaryData(summarySum);
@@ -268,6 +272,7 @@ let statisticGamesSummary = function () {
                     gamesSummaryChartPayout.update();
 
                     $$('#statistic-games-summary-graphs').classList.remove('hidden');
+                    gamesSummaryExcelButton.classList.remove('hidden');
                     requested = true;
                 } else {
                     gamesSummaryHeader.style.display = 'none';
@@ -280,5 +285,23 @@ let statisticGamesSummary = function () {
         });
     }
 
+    function getStatisticExcel() {
+        trigger('comm/statistic/getExcel', {
+            body: {
+                statisticType: 1,
+                statisticResult: statisticsResult
+            },
+            success: function (response) {
+                if(response.responseCode !== message.codes.success){
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        })
+    }
+
     gamesSummaryButton.addEventListener('click', getStatistic);
+    gamesSummaryExcelButton.addEventListener('click', getStatisticExcel);
 }();

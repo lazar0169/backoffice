@@ -1,8 +1,10 @@
 let statisticSummary = function () {
     let selectedOperator;
+    let statisticsResult;
     let statisticFromDate = getToday();
     let statisticToDate = getToday();
     let summaryButton = $$('#statistic-get-summary');
+    let summaryExcelButton = $$('#statistic-summary-get-excel');
     let summaryTableWrapper = $$('#statistic-summary-table');
     let summaryHeader = $$('#statistic-summary-header');
     let summaryChartTotalBetWin = graph.generate($$('#statistic-summary-graphs').children[0], 'bar', 2);
@@ -41,6 +43,7 @@ let statisticSummary = function () {
         summaryHeader.innerHTML = '';
         summaryButton.classList.add('hidden');
         $$('#statistic-summary-graphs').classList.add('hidden');
+        summaryExcelButton.classList.add('hidden');
         requested = false;
 
         addLoader($$('#sidebar-statistic'));
@@ -136,6 +139,7 @@ let statisticSummary = function () {
             success: function (response) {
                 removeLoader(summaryButton);
                 if (response.responseCode === message.codes.success) {
+                    statisticsResult = response.result;
                     let summary = getCopy(response.result.statisticsPerDate);
                     summaryTableWrapper.appendChild(table.generate({
                         data: summary,
@@ -200,6 +204,7 @@ let statisticSummary = function () {
                     summaryChartPayout.update();
 
                     $$('#statistic-summary-graphs').classList.remove('hidden');
+                    summaryExcelButton.classList.remove('hidden');
                     requested = true;
                 } else {
                     summaryHeader.style.display = 'none';
@@ -212,5 +217,23 @@ let statisticSummary = function () {
         });
     }
 
+    function getStatisticExcel() {
+        trigger('comm/statistic/getExcel', {
+            body: {
+                statisticType: 0,
+                statisticResult: statisticsResult
+            },
+            success: function (response) {
+                if(response.responseCode !== message.codes.success){
+                    trigger('message', response.responseCode);
+                }
+            },
+            fail: function (response) {
+                trigger('message', response.responseCode);
+            }
+        })
+    }
+
     summaryButton.addEventListener('click', getStatistic);
+    summaryExcelButton.addEventListener('click', getStatisticExcel);
 }();
