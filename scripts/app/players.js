@@ -758,7 +758,7 @@ let players = function () {
         };
 
         const createOrEdit = () => {
-            if(!nameInput) {
+            if (!nameInput) {
                 trigger('message', message.codes.badParameter);
             }
             addLoader(createOrEditButton);
@@ -770,9 +770,7 @@ let players = function () {
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        if(!isCreateFlag){
-                            update
-                        }
+                        updateGroupListName(isCreateFlag, nameInput.value);
                         removeLoader(createOrEditButton);
                         createOrEditPlayerGroupPopup.hide();
                         trigger('message', response.responseCode);
@@ -786,6 +784,23 @@ let players = function () {
                     trigger('message', response.responseCode);
                 }
             });
+        };
+
+        const updateGroupListName = (flag, name) => {
+            if (!flag) {
+                let rows = $$(`#players-groups-groups-table-wrapper`).getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children;
+                for (let row of rows) {
+                    if (parseInt(row.dataset.id) === groupIdSelected) {
+                        row.children[0].innerHTML = `${name}`;
+                        break;
+                    }
+                }
+            }
+            else {
+                if (!groupsDataWrapper.classList.contains('hidden')) {
+                    getPlayerGroups();
+                }
+            }
         };
 
         cancelButton.addEventListener('click', hide);
