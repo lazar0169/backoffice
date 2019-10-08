@@ -432,7 +432,7 @@ let accounting = function () {
                             flag++;
                         };
 
-                        if (response.result.rouletteAccounting > 0) {
+                        if (response.result.rouletteAccounting.length > 0) {
                             pageReports.appendChild(generateHeadline(response.result.rouletteAccountingSum.gameName));
                             generateReport(response.result.rouletteAccounting, response.result.rouletteAccountingSum);
                             pageReports.appendChild(table.generate({ data: response.result.rouletteAccounting, id: '', sum: response.result.rouletteAccountingSum, dynamic: false, sticky: true }));
@@ -440,7 +440,7 @@ let accounting = function () {
                             flag++;
                         }
 
-                        if (response.result.liveEuropeanRouletteAccounting > 0) {
+                        if (response.result.liveEuropeanRouletteAccounting.length > 0) {
                             pageReports.appendChild(generateHeadline(response.result.liveEuropeanRouletteAccountingSum.gameName));
                             generateReport(response.result.liveEuropeanRouletteAccounting, response.result.liveEuropeanRouletteAccountingSum);
                             pageReports.appendChild(table.generate({ data: response.result.liveEuropeanRouletteAccounting, id: '', sum: response.result.liveEuropeanRouletteAccountingSum, dynamic: false, sticky: true }));
@@ -448,7 +448,7 @@ let accounting = function () {
                             flag++;
                         }
 
-                        if (response.result.tripleCrownRouletteAccounting > 0) {
+                        if (response.result.tripleCrownRouletteAccounting.length > 0) {
                             pageReports.appendChild(generateHeadline(response.result.tripleCrownRouletteAccountingSum.gameName));
                             generateReport(response.result.tripleCrownRouletteAccounting, response.result.tripleCrownRouletteAccountingSum);
                             pageReports.appendChild(table.generate({ data: response.result.tripleCrownRouletteAccounting, id: '', sum: response.result.tripleCrownRouletteAccountingSum, dynamic: false, sticky: true }));
@@ -456,7 +456,7 @@ let accounting = function () {
                             flag++;
                         }
 
-                        if (response.result.pokerAccounting > 0) {
+                        if (response.result.pokerAccounting.length > 0) {
                             pageReports.appendChild(generateHeadline(response.result.pokerAccountingSum.gameName));
                             generateReport(response.result.pokerAccounting, response.result.pokerAccountingSum);
                             pageReports.appendChild(table.generate({ data: response.result.pokerAccounting, id: '', sum: response.result.pokerAccountingSum, dynamic: false, sticky: true }));
