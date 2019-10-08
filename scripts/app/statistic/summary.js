@@ -224,8 +224,11 @@ let statisticSummary = function () {
                 statisticResult: statisticsResult
             },
             success: function (response) {
-                if(response.responseCode !== message.codes.success){
-                    trigger('message', response.responseCode);
+                if(response.responseCode === message.codes.success){
+                    saveBase64(`${response.result.name}.xlsx`, 'data:application/octet-stream;base64,' + response.result.data);
+                }
+                else {
+                    trigger('message', response.responseCode)
                 }
             },
             fail: function (response) {
