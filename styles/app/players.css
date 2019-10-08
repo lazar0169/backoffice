@@ -405,7 +405,14 @@
   width: 10.5%;
 }
 
+#players-create-groups,
+#players-edit-groups {
+  margin-left: 1em;
+}
+
 #players-get-groups.hidden,
+#players-create-groups.hidden,
+#players-edit-groups.hidden,
 #players-groups-groups-search-wrapper.hidden,
 #players-groups-groups-table-wrapper.hidden,
 #players-groups-data-wrapper.hidden,
@@ -549,6 +556,7 @@
 }
 
 #players-groups-form,
+#players-groups-create-edit-form,
 #players-player-jackpot-form,
 #players-player-transaction-form,
 #players-player-unresolved-wins-form,
@@ -573,11 +581,13 @@
   right: 0;
   z-index: 2;
 }
+
 #players-groups-criteria-form.hidden {
   display: none;
 }
 
 #players-groups-form.show,
+#players-groups-create-edit-form.show,
 #players-main-form.show,
 #players-player-jackpot-form.show,
 #players-player-transaction-form.show,
@@ -614,6 +624,21 @@
 #players-groups-criteria-list-wrapper {
   height: 100%;
   overflow: auto;
+}
+
+#players-groups-create-edit-main-form-inputs-wrapper {
+  align-items: center;
+  margin-top: 15em;
+  justify-content: center;
+}
+
+#players-groups-create-edit-main-form-name {
+  width: 70%;
+}
+
+#players-groups-create-edit-main-form-name,
+#players-groups-create-edit-main-form-button {
+  margin-left: 2em;
 }
 
 /* END PLAYER GROUP FORM */

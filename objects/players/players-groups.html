@@ -5,7 +5,7 @@
             <div id="players-groups-portals-list-wrapper"></div>
             <button id="players-get-groups" class="hidden">GET</button>
             <button id="players-create-groups" class="hidden save">ADD</button>
-            <button id="players-edit-groups" class="hidden">EDIT</button>
+            <button id="players-edit-groups" class="hidden config">EDIT</button>
         </div>
         <div id="players-groups-black-overlay" class="black-overlay"></div>
         <div id="players-groups-main-wrapper" class="players-flex-wrapper">
@@ -106,6 +106,19 @@
                     <input id="players-groups-criteria-group-value" type="number" disabled />
                     <div class="legend">Similarity: </div>
                     <input id="players-groups-criteria-similarity" type="number" disabled />
+                </div>
+            </div>
+        </div>
+        <div id="players-groups-create-edit-form">
+            <div class="players-form-wrapper" id="players-groups-create-edit-main-form">
+                <div class="players-form-title">
+                    <h2 id="players-groups-create-edit-form-header">Create group</h2>
+                    <button class="config players-form-cancel" id="players-groups-create-edit-main-form-cancel"></button>
+                </div>
+                <div id="players-groups-create-edit-main-form-inputs-wrapper" class="players-flex-wrapper">
+                    <div class="legend">Name: </div>
+                    <input id="players-groups-create-edit-main-form-name" type="text" placeholder="Group Name">
+                    <button id="players-groups-create-edit-main-form-button">CREATE</button>
                 </div>
             </div>
         </div>
