@@ -2,6 +2,7 @@ let players = function () {
     let playersGroupsBlackOverlay = $$('#players-groups-black-overlay');
     let playersMainBlackOveraly = $$('#players-main-black-overlay');
     let playersPlayerBlackOveraly = $$('#players-player-black-overlay');
+    let selectedListRow;
 
     let getPlayerButton = $$('#players-get-player');
     let playersSearchListWrapper = $$('#players-player-players-wrapper');
@@ -769,6 +770,9 @@ let players = function () {
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
+                        if(!isCreateFlag){
+                            update
+                        }
                         removeLoader(createOrEditButton);
                         createOrEditPlayerGroupPopup.hide();
                         trigger('message', response.responseCode);
@@ -953,7 +957,7 @@ let players = function () {
             let td = document.createElement('td');
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { callback(row.id, row.name, td) };
+            tr.onclick = function () { callback(row.id, row.name, td); td.style.color = '#dd9853'; selectedListRow ? selectedListRow.style.color = 'white' : undefined; selectedListRow = td; };
             tr.appendChild(td);
             body.appendChild(tr);
         }
