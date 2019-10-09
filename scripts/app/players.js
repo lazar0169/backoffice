@@ -792,6 +792,7 @@ let players = function () {
                 for (let row of rows) {
                     if (parseInt(row.dataset.id) === groupIdSelected) {
                         row.children[0].innerHTML = `${name}`;
+                        groupNameSelected = name;
                         break;
                     }
                 }
