@@ -802,6 +802,7 @@ let players = function () {
                     getPlayerGroups();
                 }
             }
+            getPlayerGroups();
         };
 
         cancelButton.addEventListener('click', hide);
