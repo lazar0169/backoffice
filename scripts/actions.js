@@ -14,6 +14,7 @@ const actions = Object.freeze({
     'comm/currency/deleteCurrencyBetStep': '/Currency/delete-game-bet',
     'comm/currency/updateCurrencyBetStep': '/Currency/update-game-bet',
     'comm/currency/updateRouletteBet': '/Currency/update-roullete-bet',
+    'comm/currency/addGameToCurrency': '/Currency/add-game-to-currency',
     'comm/currency/getGames': '/Currency/get-games',
     'comm/currency/getExistingCurrencies': '/Currency/get-existing-currency-codes',
     'comm/currency/getRealCurrencies': '/Currency/get-real-currencies',

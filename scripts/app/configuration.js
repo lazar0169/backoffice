@@ -854,12 +854,12 @@ let configuration = function () {
                 realCurrencyId: isImaginaryCurrencySelected ? realCurrencyList.getSelected() : 0,
                 realImaginaryCurrencyRatio: isImaginaryCurrencySelected ? ratio.value : 0
             };
-            console.log(newCurrencyData);
             // newCurrencyData.currencyRoulletteBetModel = {};
             // newCurrencyData.currencyRoulletteBetModel.currencyRoulletteBet = [];
             // newCurrencyData.currencyGameBetModel = {};
             // newCurrencyData.currencyGameBetModel.currencyGamesBet = [];
             // newCurrencyBetStep.show();
+            addLoader($$('#configuration-new-currency-form-main-save'));
             trigger('comm/currency/createCurrency', {
                 body: newCurrencyData,
                 success: function (response) {
@@ -870,13 +870,15 @@ let configuration = function () {
                                     populateCurrencyDropdown(secondResponse);
                                     hide();
                                     newCurrencyMain.hide();
+                                    removeLoader($$('#configuration-new-currency-form-main-save'));
                                 } else {
+                                    removeLoader($$('#configuration-new-currency-form-main-save'));
                                     trigger('message', secondResponse.responseCode);
                                 }
-                                removeLoader($$('#sidebar-configuration'));
                             },
-                            fail: function () {
-                                removeLoader($$('#sidebar-configuration'));
+                            fail: function (response) {
+                                removeLoader($$('#configuration-new-currency-form-main-save'));
+                                trigger('message', response.responseCode);
                             }
                         });
                     }
@@ -1991,8 +1993,38 @@ let configuration = function () {
             body.appendChild(tr);
             td.innerHTML = data.currencyGamesBet[index].gameName;
             let rouletteIndex = findRouletteGameOptionsIndex(data.currencyGamesBet[index].gameId);
-            td.onclick = () => {
-                currencyUpdatePopup.show(data.currencyGamesBet[index].gameBetCurrencySteps, data.currencyGamesBet[index].gameName, index, data.currencyGamesBet[index].gameId, data.currencyGamesBet[index].gameType, rouletteIndex);
+            if(data.currencyGamesBet[index].gameBetCurrencySteps){
+                td.onclick = () => {
+                    currencyUpdatePopup.show(data.currencyGamesBet[index].gameBetCurrencySteps, data.currencyGamesBet[index].gameName, index, data.currencyGamesBet[index].gameId, data.currencyGamesBet[index].gameType, rouletteIndex);
+                }
+            }
+            else {
+                td.innerHTML += '<span style="color: yellow;float: right; margin-right: 0.8em;">&#9888;</span>';
+                td.onclick = () => {
+                    addLoader(td);
+                    trigger('comm/currency/addGameToCurrency', {
+                        body: {
+                            currencyId: currencyIdSelected,
+                            gameId: activeData.currencyGamesBet[index].gameId
+                        },
+                        success: function (response) {
+                            if(response.responseCode === message.codes.success) {
+                                td.innerHTML = activeData.currencyGamesBet[index].gameName;
+                                activeData.currencyGamesBet[index] = response.result;
+                                currencyUpdatePopup.show(activeData.currencyGamesBet[index].gameBetCurrencySteps, activeData.currencyGamesBet[index].gameName, index, activeData.currencyGamesBet[index].gameId, activeData.currencyGamesBet[index].gameType, rouletteIndex);
+                                removeLoader(td);
+                            }
+                            else {
+                                removeLoader(td);
+                                trigger('message', response.responseCode);
+                            }
+                        },
+                        fail: function (response) {
+                            removeLoader(td);
+                            trigger('message', response.responseCode);
+                        }
+                    });
+                };
             }
         }
     }
