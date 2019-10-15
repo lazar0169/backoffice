@@ -1993,7 +1993,7 @@ let configuration = function () {
             body.appendChild(tr);
             td.innerHTML = data.currencyGamesBet[index].gameName;
             let rouletteIndex = findRouletteGameOptionsIndex(data.currencyGamesBet[index].gameId);
-            if(data.currencyGamesBet[index].gameBetCurrencySteps){
+            if (data.currencyGamesBet[index].gameBetCurrencySteps) {
                 td.onclick = () => {
                     currencyUpdatePopup.show(data.currencyGamesBet[index].gameBetCurrencySteps, data.currencyGamesBet[index].gameName, index, data.currencyGamesBet[index].gameId, data.currencyGamesBet[index].gameType, rouletteIndex);
                 }
@@ -2008,11 +2008,17 @@ let configuration = function () {
                             gameId: activeData.currencyGamesBet[index].gameId
                         },
                         success: function (response) {
-                            if(response.responseCode === message.codes.success) {
-                                td.innerHTML = activeData.currencyGamesBet[index].gameName;
-                                activeData.currencyGamesBet[index] = response.result;
-                                currencyUpdatePopup.show(activeData.currencyGamesBet[index].gameBetCurrencySteps, activeData.currencyGamesBet[index].gameName, index, activeData.currencyGamesBet[index].gameId, activeData.currencyGamesBet[index].gameType, rouletteIndex);
+                            if (response.responseCode === message.codes.success) {
                                 removeLoader(td);
+                                td.innerHTML = activeData.currencyGamesBet[index].gameName;
+                                activeData.currencyGamesBet[index] = response.result.currencyGamesBet;
+                                if (response.result.currencyRoulletteBet) {
+                                    activeData.currencyRoulletteBet.push(response.result.currencyRoulletteBet);
+                                    rouletteIndex = findRouletteGameOptionsIndex(activeData.currencyGamesBet[index].gameId);
+                                }
+                                td.onclick = () => {
+                                    currencyUpdatePopup.show(activeData.currencyGamesBet[index].gameBetCurrencySteps, activeData.currencyGamesBet[index].gameName, index, activeData.currencyGamesBet[index].gameId, activeData.currencyGamesBet[index].gameType, rouletteIndex);
+                                }
                             }
                             else {
                                 removeLoader(td);
