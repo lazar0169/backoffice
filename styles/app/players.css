@@ -383,7 +383,10 @@
 /*END PLAYERS TAB */
 
 /* PLAYER GROUP TAB */
-
+#players-groups-black-overlay{
+  top:0;
+  left: 0;
+}
 #players-main-options-wrapper {
   display: flex;
 }
@@ -398,7 +401,8 @@
 }
 
 #players-groups-groups-wrapper {
-  height: 95%;
+  position: relative;
+    width: 38%;
 }
 
 #players-groups-groups-wrapper.shrink {
@@ -454,10 +458,13 @@
 #players-groups-groups-table-wrapper {
   height: 95%;
   margin-top: 0.5em;
+  width: 100%;
+  overflow-y: auto;
 }
 
 #players-groups-groups-table-wrapper table {
-  display: flex;
+  /* display: flex; */
+  width: 100%;
   flex-direction: column;
 }
 
