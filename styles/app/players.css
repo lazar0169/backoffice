@@ -93,13 +93,13 @@
 
 /* PLAYER TAB */
 #players-player-history-game-search-wrapper{
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 #players-player-history-game-remove-search{
-    height: 2em;
-    width: 2em;
-    align-self: center;
+  height: 2em;
+  width: 2em;
+  align-self: center;
 }
 #players-player .page-content-wrapper {
   justify-content: flex-start;
@@ -307,8 +307,8 @@
 
 /* PLAYERS TAB */
 #players-main-settings-wrapper .cell {
-    max-height: 1.4em;
-  }
+  max-height: 1.4em;
+}
 
 #interestingPlayersTable,
 #latestPlayersTable,
@@ -477,6 +477,7 @@
 
 #players-groups-all-players-list-wrapper {
   overflow: auto;
+  flex: 0.8;
 }
 
 #players-groups-all-players-list-wrapper table {
@@ -511,6 +512,7 @@
 
 #players-groups-all-players-search-wrapper {
   margin-bottom: 1em;
+  flex: 0.1;
 }
 
 #players-groups-suggested-players-list-wrapper table {
@@ -526,6 +528,7 @@
   width: 30%;
   margin-top: 1em;
   align-self: flex-end;
+  flex: 0.1;
 }
 
 .players-groups-players-container {
@@ -534,25 +537,25 @@
 }
 
 /* PLAYER GROUP FORM */
-#players-main-form{
-    position: fixed;
-    width: 60em;
-    height: 50em;
-    max-height: 100%;
-    align-self: center;
-    background-color: #434a5c;
-    box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, -25%, 0);
-    opacity: 0;
-    pointer-events: none;
-    overflow: hidden;
-    transition: transform 0.3s, opacity 0.3s;
-    margin: auto;
-    bottom: 0;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 2;
+#players-main-form {
+  position: fixed;
+  width: 60em;
+  height: 50em;
+  max-height: 100%;
+  align-self: center;
+  background-color: #434a5c;
+  box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
+  transform: translate3d(0, -25%, 0);
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: transform 0.3s, opacity 0.3s;
+  margin: auto;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 2;
 }
 
 #players-groups-form,
