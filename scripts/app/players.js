@@ -748,17 +748,19 @@ let players = function () {
                 header.innerHTML = 'Edit player group';
                 nameInput.value = groupNameSelected;
             }
+            $$('#players-groups-black-overlay').style.display = 'block';
             modal.classList.add('show');
             showPopup('groups');
         };
 
         const hide = () => {
+            $$('#players-groups-black-overlay').style.display = 'none';
             modal.classList.remove('show');
             hidePopup('groups');
         };
 
         const createOrEdit = () => {
-            if (!nameInput) {
+            if (nameInput === '') {
                 trigger('message', message.codes.badParameter);
             }
             addLoader(createOrEditButton);
