@@ -552,6 +552,57 @@
     display: none;
 }
 
+#configuration-currency-roulette-options-legend-wrapper {
+    display: flex;
+    padding-bottom: 2em;
+}
+
+#configuration-currency-roulette-options-legend-wrapper .legend {
+    flex: 1;
+}
+
+#configuration-currency-roulette-options-inputs-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+#configuration-currency-roulette-options-inputs-min,
+#configuration-currency-roulette-options-inputs-max,
+#configuration-currency-roulette-options-inputs-legends {
+    display: flex;
+    flex-direction: column;
+}
+
+#configuration-currency-roulette-options-inputs-min,
+#configuration-currency-roulette-options-inputs-max {
+    width: 35%;
+}
+
+#configuration-currency-roulette-options-inputs-wrapper div {
+    padding-bottom: 1em;
+}
+
+#configuration-currency-form-roulette-options-save {
+    width: 90%
+}
+
+#configuration-currency-main-roulette-inputs {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#configuration-currency-main-roulette-type-one-inputs.hidden,
+#configuration-currency-main-roulette-type-two-inputs.hidden {
+    display: none;
+}
+
+#configuration-currency-main-roulette-update-button {
+    width: 70%;
+    margin: auto;
+    margin-top: 2em;
+}
+
 /* Form */
 
 .configuration-currency-form-title {
@@ -700,6 +751,8 @@
     height: 100%;
     top: 0;
     right: 0;
+    left: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
     padding: 1em;

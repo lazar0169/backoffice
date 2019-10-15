@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 <div id="configuration-currency-roulette-games-wrapper" class="hidden">
-                    <div id="configuration-currency-games-roulette-step-table-wrapper">
+                    <!-- <div id="configuration-currency-games-roulette-step-table-wrapper">
                         <div id="configuration-currency-games-roulette-step-table">
                             <table>
                                 <caption>
@@ -92,27 +92,62 @@
                                 </caption>
                             </table>
                         </div>
+                    </div> -->
+                    <div id="configuration-currency-roulette-options-legend-wrapper">
+                        <div class="legend">Play </div>
+                        <div class="legend">Min </div>
+                        <div class="legend">Max </div>
                     </div>
-                    <div id="configuration-currency-roulette-inputs">
+                    <div id="configuration-currency-roulette-options-inputs-wrapper">
+                        <div id="#configuration-currency-roulette-options-inputs-legends">
+                            <div class="legend">Straight: </div>
+                            <div class="legend">Split: </div>
+                            <div class="legend">Street: </div>
+                            <div class="legend">Square: </div>
+                            <div class="legend">Six Line: </div>
+                            <div class="legend">Column And Dozen: </div>
+                            <div class="legend">Chances: </div>
+                        </div>
+                        <div id="configuration-currency-roulette-options-inputs-min">
+                            <input type="number" id="configuration-currency-main-roulette-straight-min">
+                            <input type="number" id="configuration-currency-main-roulette-split-min">
+                            <input type="number" id="configuration-currency-main-roulette-street-min">
+                            <input type="number" id="configuration-currency-main-roulette-square-min">
+                            <input type="number" id="configuration-currency-main-roulette-six-line-min">
+                            <input type="number" id="configuration-currency-main-roulette-column-and-dozen-min">
+                            <input type="number" id="configuration-currency-main-roulette-chances-min">
+                        </div>
+                        <div id="configuration-currency-roulette-options-inputs-max">
+                            <input type="number" id="configuration-currency-main-roulette-straight-max">
+                            <input type="number" id="configuration-currency-main-roulette-split-max">
+                            <input type="number" id="configuration-currency-main-roulette-street-max">
+                            <input type="number" id="configuration-currency-main-roulette-square-max">
+                            <input type="number" id="configuration-currency-main-roulette-six-line-max">
+                            <input type="number" id="configuration-currency-main-roulette-column-and-dozen-max">
+                            <input type="number" id="configuration-currency-main-roulette-chances-max">
+                        </div>
+                    </div>
+                    <div id="configuration-currency-main-roulette-inputs">
                         <div id="configuration-currency-roulette-basic-inputs">
                             <div class="legend">Max Bet: </div>
-                            <input type="number" id="configuration-currency-roulette-max-bet" value="" placeholder="Max Bet" disabled>
+                            <input type="number" id="configuration-currency-main-roulette-max-bet" value="" placeholder="Max Bet">
                             <div class="legend">Max Win: </div>
-                            <input type="number" id="configuration-currency-roulette-max-win" value="" placeholder="Max Win" disabled>
+                            <input type="number" id="configuration-currency-main-roulette-max-win" value="" placeholder="Max Win">
                         </div>
-                        <div id="configuration-currency-roulette-type-one-inputs" class="hidden">
+                        <div id="configuration-currency-main-roulette-type-one-inputs" class="hidden">
                             <div class="legend">Triple Poker Max Bet: </div>
-                            <input type="number" id="configuration-currency-roulette-triple-poker-max-bet" value="" placeholder="Triple Poker Max Bet" disabled>
+                            <input type="number" id="configuration-currency-main-roulette-triple-poker-max-bet" value="" placeholder="Triple Poker Max Bet">
                             <div class="legend">Triple Poker Min Bet: </div>
-                            <input type="number" id="configuration-currency-roulette-triple-poker-min-bet" value="" placeholder="Triple Poker Min Bet" disabled>
+                            <input type="number" id="configuration-currency-main-roulette-triple-poker-min-bet" value="" placeholder="Triple Poker Min Bet">
                         </div>
-                        <div id="configuration-currency-roulette-type-two-inputs" class="hidden">
+                        <div id="configuration-currency-main-roulette-type-two-inputs" class="hidden">
                             <div class="legend">Double Zero Max Bet: </div>
-                            <input type="number" id="configuration-currency-roulette-double-zero-max-bet" value="" placeholder="Double Zero Max Be" disabled>
+                            <input type="number" id="configuration-currency-main-roulette-double-zero-max-bet" value="" placeholder="Double Zero Max Be">
                             <div class="legend">Double Zero Min Bet: </div>
-                            <input type="number" id="configuration-currency-roulette-double-zero-min-bet" value="" placeholder="Double Zero Min Bet" disabled>
+                            <input type="number" id="configuration-currency-main-roulette-double-zero-min-bet" value="" placeholder="Double Zero Min Bet">
                         </div>
                     </div>
+                    <button id="configuration-currency-main-roulette-update-button">UPDATE</button>
                 </div>
             </div>
         </div>
@@ -145,10 +180,12 @@
                     </div>
                 </div>
                 <div class="configuration-currency-form-new-currency-button-wrapper">
-                    <button id="configuration-new-currency-form-main-next">NEXT</button>
+                    <!-- <button id="configuration-new-currency-form-main-next">NEXT</button> -->
+                    <button id="configuration-new-currency-form-main-save">SAVE</button>
                 </div>
             </div>
-            <div class="configuration-currency-form-wrapper" id="configuration-currency-form-new-currency-games-bet-step">
+        </div>
+        <!-- <div class="configuration-currency-form-wrapper" id="configuration-currency-form-new-currency-games-bet-step">
                 <div class="configuration-currency-form-new-currency-title">
                     <h2>Games option</h2>
                     <button class="config" id="configuration-currency-form-new-currency-games-bet-step-back">&#9668; BACK</button>
@@ -280,7 +317,7 @@
                     <button id="configuration-new-currency-form-roulette-options-save" class="save">SAVE</button>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div id="configuration-jackpot-form">
             <div class="configuration-currency-form-wrapper" id="configuration-currency-form-jackpot-main">
                 <div class="configuration-currency-form-title">
