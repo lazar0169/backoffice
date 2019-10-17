@@ -299,68 +299,11 @@ let configuration = function () {
                     tdCurrStep.innerHTML += ` <img src="../images/delete-icon.png" id="${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}-delete" style="float: right;"/>`;
                     tdCurrStep.innerHTML += `<span class="icon-12" id="${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}-update" style="float: right; margin-top: 0.2em;"/>`;
                     $$(`#${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}-delete`).onclick = () => {
-                        trigger('comm/currency/deleteCurrencyBetStep', {
-                            body: {
-                                id: data[element].currencyGameBetId
-                            },
-                            success: function (response) {
-                                if (response.responseCode !== message.codes.success) {
-                                    trigger('message', response.responseCode);
-                                }
-                                else {
-                                    activeData.currencyGamesBet[index].gameBetCurrencySteps.splice(parseInt(element), 1);
-                                    tr.remove();
-                                }
-                            },
-                            fail: function (response) {
-                                trigger('message', response.responseCode);
-                            }
-                        });
+                        deleteBet(data[element].currencyGameBetId, tr);
                     };
 
                     $$(`#${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}-update`).onclick = () => {
-                        valueInputField.value = data[element].currencyBetStep;
-                        if (!editRowArrayFlags.hasOwnProperty(`${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}`)) {
-                            setAllToFalseEditFlags();
-                            editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}`] = true;
-                            changeButtonToEdit();
-                        }
-                        else {
-                            if (editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}`]) {
-                                editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}`] = false;
-                                changeButtonToSave();
-                            }
-                            else {
-                                setAllToFalseEditFlags();
-                                editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${data[element].currencyBetStep}`] = true;
-                                changeButtonToEdit();
-                            }
-                        }
-
-                        createCurrencyStepButton.onclick = () => {
-                            if (!valueInputField.value) {
-                                trigger('message', message.codes.badParameter);
-                                return;
-                            }
-                            trigger('comm/currency/updateCurrencyBetStep', {
-                                body: {
-                                    id: data[element].currencyGameBetId,
-                                    bet: valueInputField.value
-                                },
-                                success: function (response) {
-                                    changeButtonToSave();
-                                    valueInputField.value = '';
-                                    tdCurrStep.innerHTML = response.result.currencyBetStep + tdCurrStep.innerHTML.slice(tdCurrStep.innerHTML.indexOf(' '));
-                                    activeData.currencyGamesBet[index].gameBetCurrencySteps.push(response.result);
-                                    trigger('message', response.responseCode);
-                                },
-                                fail: function (response) {
-                                    changeButtonToSave();
-                                    valueInputField.value = '';
-                                    trigger('message', response.responseCode);
-                                }
-                            });
-                        }
+                        updateBet(data[element].currencyBetStep, data[element].currencyGameBetId, tdCurrStep, tr);
                     };
                 }
             }
@@ -379,7 +322,7 @@ let configuration = function () {
         const changeButtonToSave = () => {
             createCurrencyStepButton.onclick = saveAndUpdate;
             createCurrencyStepButton.innerHTML = 'CREATE STEP';
-            createCurrencyStepButton.value = "";
+            valueInputField.value = "";
             createCurrencyStepButton.classList.add('save');
         };
 
@@ -509,68 +452,11 @@ let configuration = function () {
                         tdCurrValue.innerHTML += ` <img src="../images/delete-icon.png" id="${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-delete" style="float: right;"/>`;
                         tdCurrValue.innerHTML += `<span class="icon-12" id="${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-update" style="float: right; margin-top: 0.2em;"/>`;
                         $$(`#${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-delete`).onclick = () => {
-                            trigger('comm/currency/deleteCurrencyBetStep', {
-                                body: {
-                                    id: response.result.currencyGameBetId
-                                },
-                                success: function (response) {
-                                    if (response.responseCode !== message.codes.success) {
-                                        trigger('message', response.responseCode);
-                                    }
-                                    else {
-                                        activeData.currencyGamesBet[index].gameBetCurrencySteps.splice(activeData.currencyGamesBet[index].gameBetCurrencySteps.length - 1, 1);
-                                        tr.remove();
-                                    }
-                                },
-                                fail: function (response) {
-                                    trigger('message', response.responseCode);
-                                }
-                            });
+                            deleteBet(response.result.currencyGameBetId, tr);
                         };
 
                         $$(`#${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-update`).onclick = () => {
-                            valueInputField.value = response.result.currencyBetStep;
-                            if (!editRowArrayFlags.hasOwnProperty(`${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}`)) {
-                                setAllToFalseEditFlags();
-                                editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}`] = true;
-                                changeButtonToEdit();
-                            }
-                            else {
-                                if (editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}`]) {
-                                    editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}`] = false;
-                                    changeButtonToSave();
-                                }
-                                else {
-                                    setAllToFalseEditFlags();
-                                    editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}`] = true;
-                                    changeButtonToEdit();
-                                }
-                            }
-
-                            createCurrencyStepButton.onclick = () => {
-                                if (!valueInputField.value) {
-                                    trigger('message', message.codes.badParameter);
-                                    return;
-                                }
-                                trigger('comm/currency/updateCurrencyBetStep', {
-                                    body: {
-                                        id: response.result.currencyGameBetId,
-                                        bet: valueInputField.value
-                                    },
-                                    success: function (response) {
-                                        changeButtonToSave();
-                                        valueInputField.value = '';
-                                        tdCurrValue.innerHTML = response.result.currencyBetStep + tdCurrValue.innerHTML.slice(tdCurrValue.innerHTML.indexOf(' '));
-                                        activeData.currencyGamesBet[index].gameBetCurrencySteps.push(response.result);
-                                        trigger('message', response.responseCode);
-                                    },
-                                    fail: function (response) {
-                                        changeButtonToSave();
-                                        valueInputField.value = '';
-                                        trigger('message', response.responseCode);
-                                    }
-                                });
-                            }
+                            updateBet(response.result.currencyBetStep, response.result.currencyGameBetId, tdCurrValue, tr);
                         };
 
                         let newData = {
@@ -592,6 +478,94 @@ let configuration = function () {
                     removeLoader(createCurrencyStepButton);
                 }
             });
+        };
+
+        const updateBet = (currencyBetStep, currencyGameBetId, tdCurrValue, tr) => {
+            valueInputField.value = currencyBetStep;
+            if (!editRowArrayFlags.hasOwnProperty(`${gameId}-${gameName}-${gameType}-${currencyBetStep}`)) {
+                setAllToFalseEditFlags();
+                editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${currencyBetStep}`] = true;
+                changeButtonToEdit();
+            }
+            else {
+                if (editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${currencyBetStep}`]) {
+                    editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${currencyBetStep}`] = false;
+                    changeButtonToSave();
+                }
+                else {
+                    setAllToFalseEditFlags();
+                    editRowArrayFlags[`${gameId}-${gameName}-${gameType}-${currencyBetStep}`] = true;
+                    changeButtonToEdit();
+                }
+            }
+
+            createCurrencyStepButton.onclick = () => {
+                if (!valueInputField.value) {
+                    trigger('message', message.codes.badParameter);
+                    return;
+                }
+                trigger('comm/currency/updateCurrencyBetStep', {
+                    body: {
+                        id: currencyGameBetId,
+                        bet: valueInputField.value
+                    },
+                    success: function (response) {
+                        if (response.responseCode === message.codes.success) {
+                            valueInputField.value = '';
+                            tdCurrValue.innerHTML = response.result.currencyBetStep;
+                            tdCurrValue.innerHTML += ` <img src="../images/delete-icon.png" id="${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-delete" style="float: right;"/>`;
+                            tdCurrValue.innerHTML += `<span class="icon-12" id="${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-update" style="float: right; margin-top: 0.2em;"/>`;
+                            $$(`#${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-delete`).onclick = () => {
+                                deleteBet(response.result.currencyGameBetId, tr);
+                            };
+
+                            $$(`#${gameId}-${gameName}-${gameType}-${response.result.currencyBetStep}-update`).onclick = () => {
+                                updateBet(response.result.currencyBetStep, response.result.currencyGameBetId, tdCurrValue, tr);
+                            };
+                            // activeData.currencyGamesBet[index].gameBetCurrencySteps.push(response.result);
+                            updateBetStep(activeData.currencyGamesBet[index].gameBetCurrencySteps, response.result)
+                            changeButtonToSave();
+                        }
+                        else {
+                            trigger('message', response.responseCode);
+                        }
+                    },
+                    fail: function (response) {
+                        changeButtonToSave();
+                        valueInputField.value = '';
+                        trigger('message', response.responseCode);
+                    }
+                });
+            }
+        };
+
+        const deleteBet = (currencyGameBetId, tr) => {
+            trigger('comm/currency/deleteCurrencyBetStep', {
+                body: {
+                    id: currencyGameBetId
+                },
+                success: function (response) {
+                    if (response.responseCode !== message.codes.success) {
+                        trigger('message', response.responseCode);
+                    }
+                    else {
+                        activeData.currencyGamesBet[index].gameBetCurrencySteps.splice(activeData.currencyGamesBet[index].gameBetCurrencySteps.length - 1, 1);
+                        tr.remove();
+                    }
+                },
+                fail: function (response) {
+                    trigger('message', response.responseCode);
+                }
+            });
+        };
+
+        const updateBetStep = (steps, data) => {
+            for (let element of steps) {
+                if (element.currencyGameBetId === data.currencyGameBetId) {
+                    element.currencyBetStep = data.currencyBetStep;
+                    break;
+                }
+            }
         };
 
         const switchToRoulett = () => {
@@ -1702,12 +1676,12 @@ let configuration = function () {
             trigger('comm/currency/updateMainOptions', {
                 body: {
                     id: currencyIdSelected,
-                    denomination: denomination.value,
+                    denomination: $$('#configuration-currency-denomination').value,
                     ratio: $$('#configuration-currency-ratio').value ? ratio.value : 1,
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        $$('#configuration-currency-denomination').value = denomination.value;
+                        $$('#configuration-currency-denomination').value = $$('#configuration-currency-denomination').value;
                         $$('#configuration-currency-ratio').value = ratio.value;
                         hide();
                     }
