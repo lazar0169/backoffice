@@ -1882,14 +1882,24 @@ let configuration = function () {
             isImaginaryCurrency = true;
             $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
             $$('#configuration-currency-denomination-icon').classList.add('imaginary');
-            $$('#configuration-currency-denomination-icon').classList.remove('real');
+            if(IS_SAFARI) {
+                $$('#configuration-currency-denomination-icon').classList.remove('real-safari');
+            }
+            else {
+                $$('#configuration-currency-denomination-icon').classList.remove('real');
+            }
             $$('#configuration-currency-real-currency-id').value = currencyWithBetGroup.realCurrencyCode;
             $$('#configuration-currency-ratio').value = currencyWithBetGroup.realImaginaryCurrencyRatio;
         }
         else {
             $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
             $$('#configuration-currency-denomination-icon').classList.remove('imaginary');
-            $$('#configuration-currency-denomination-icon').classList.add('real');
+            if(IS_SAFARI) {
+                $$('#configuration-currency-denomination-icon').classList.add('real-safari');
+            }
+            else {
+                $$('#configuration-currency-denomination-icon').classList.add('real');
+            }
             isImaginaryCurrency = false;
         }
         createTable(result);

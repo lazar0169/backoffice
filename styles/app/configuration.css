@@ -429,6 +429,12 @@
     position: fixed;
     margin-top: -1em;
     margin-left: 20em;
+
+}
+#configuration-currency-denomination-icon.real-safari {
+    position: fixed;
+    margin-top: 0.7em;
+    margin-left: 13em;
 }
 
 #configuration-currency-imaginary-wrapper {
