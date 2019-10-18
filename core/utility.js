@@ -195,7 +195,7 @@ function filterPeriod(element, period = 'custom') {
     let map = {
         'custom': [0, 1, 2, 3],
         'Today': [0],
-        'Yasterday': [0],
+        'Yesterday': [0],
         'LastThreeDays': [0, 1],
         'LastWeek': [1],
         'LastMonth': [1, 2],
