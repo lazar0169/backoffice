@@ -1685,6 +1685,7 @@ let configuration = function () {
                     if (response.responseCode === message.codes.success) {
                         $$('#configuration-currency-denomination').value = $$('#configuration-currency-denomination').value;
                         $$('#configuration-currency-ratio').value = ratio.value;
+                        createTable(response.result);
                         hide();
                     }
                     saveButton.disabled = false;
@@ -1968,6 +1969,15 @@ let configuration = function () {
 
     function createTable(data) {
         let wrapperTable = $$(`#configuration-currency-games-table`).getElementsByTagName('table')[0];
+        if(wrapperTable.children.length !== 0) {
+            wrapperTable.innerHTML = '';
+        }
+        let caption = document.createElement('caption');
+        let captionDiv = document.createElement('div');
+        captionDiv.classList.add('game-title');
+        captionDiv.innerHTML = 'Games';
+        wrapperTable.appendChild(caption);
+        caption.appendChild(captionDiv);
         let searchBar = $$('#configuration-currency-games-search');
         let searchBarCancelButton = $$('#configuration-currency-games-remove-search');
         let body = document.createElement('tbody');
