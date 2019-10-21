@@ -1673,6 +1673,8 @@ let configuration = function () {
                 trigger('message', message.codes.badParameter);
                 return;
             }
+            addLoader(saveButton);
+            saveButton.disabled = true;
             trigger('comm/currency/updateMainOptions', {
                 body: {
                     id: currencyIdSelected,
@@ -1685,10 +1687,13 @@ let configuration = function () {
                         $$('#configuration-currency-ratio').value = ratio.value;
                         hide();
                     }
+                    saveButton.disabled = false;
+                    removeLoader(saveButton);
                     trigger('message', response.responseCode);
-
                 },
                 fail: function (response) {
+                    saveButton.disabled = false;
+                    removeLoader(saveButton);
                     trigger('message', response.responseCode);
                 }
             });
