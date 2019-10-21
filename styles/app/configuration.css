@@ -414,25 +414,25 @@
 }
 
 #configuration-currency-denomination-icon.imaginary {
-    position: fixed;
+    position: absolute;
     margin-top: 0.7em;
     margin-left: 15em;
 } 
 
 #configuration-currency-ratio-icon.imaginary {
-    position: fixed;
+    position: absolute;
     margin-top: 0.6em;
     margin-left: 19em;
 }
 
 #configuration-currency-denomination-icon.real {
-    position: fixed;
+    position: absolute;
     margin-top: -1em;
     margin-left: 20em;
 
 }
 #configuration-currency-denomination-icon.real-safari {
-    position: fixed;
+    position: absolute;
     margin-top: 0.7em;
     margin-left: 13em;
 }
@@ -459,15 +459,27 @@
 }
 
 #configuration-currency-games-table-wrapper {
-    max-height: 15vh;
+    height: 19.5%;
     margin-bottom: 5em;
-    flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #configuration-currency-games-table {
     overflow: auto;
+    flex: 1;
+}
+
+#configuration-currency-games-search-wrapper {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+#configuration-currency-games-remove-search {
+    height: 2em;
+    width: 2em;
+    align-self: center;
 }
 
 #configuration-currency-games-table-wrapper.hidden {
@@ -525,10 +537,8 @@
 }
 
 #configuration-currency-default-jackpot-settings-wrapper {
-    max-height: 66%;
+    max-height: 10%;
     display: flex;
-    flex-direction: column;
-    flex: 1;
 }
 
 #configuration-currency-default-jackpot-settings-wrapper.hidden {
@@ -953,7 +963,7 @@
 
 #configuration-new-currency-games-search-wrapper {
     display: flex;
-    justify-content: center
+    justify-content: center;
 }
 
 #configuration-new-currency-games-remove-search {

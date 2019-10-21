@@ -1882,7 +1882,7 @@ let configuration = function () {
             isImaginaryCurrency = true;
             $$('#configuration-currency-imaginary-wrapper').classList.remove('hidden');
             $$('#configuration-currency-denomination-icon').classList.add('imaginary');
-            if(IS_SAFARI) {
+            if (IS_SAFARI) {
                 $$('#configuration-currency-denomination-icon').classList.remove('real-safari');
             }
             else {
@@ -1894,7 +1894,7 @@ let configuration = function () {
         else {
             $$('#configuration-currency-imaginary-wrapper').classList.add('hidden');
             $$('#configuration-currency-denomination-icon').classList.remove('imaginary');
-            if(IS_SAFARI) {
+            if (IS_SAFARI) {
                 $$('#configuration-currency-denomination-icon').classList.add('real-safari');
             }
             else {
@@ -1963,6 +1963,8 @@ let configuration = function () {
 
     function createTable(data) {
         let wrapperTable = $$(`#configuration-currency-games-table`).getElementsByTagName('table')[0];
+        let searchBar = $$('#configuration-currency-games-search');
+        let searchBarCancelButton = $$('#configuration-currency-games-remove-search');
         let body = document.createElement('tbody');
         wrapperTable.appendChild(body);
         hideAllRows(wrapperTable);
@@ -2017,6 +2019,36 @@ let configuration = function () {
                 };
             }
         }
+        
+        let searchBody = wrapperTable.getElementsByTagName('tbody')[0];
+
+        const searchGames = (term) => {
+            for (let tableRow of searchBody.getElementsByTagName('tr')) {
+                if (tableRow.innerText.toLocaleLowerCase().includes(term.toLocaleLowerCase())) {
+                    tableRow.style.display = 'table-row';
+                } else {
+                    tableRow.style.display = 'none';
+                }
+            }
+        };
+
+        const removeSearch = () => {
+            searchBar.value = '';
+            searchGames('');
+        };
+
+        searchBarCancelButton.addEventListener('click', removeSearch);
+
+        searchBar.addEventListener('input', () => {
+            searchGames(searchBar.value);
+        });
+
+        searchBar.addEventListener('keyup', (e) => {
+            if (e.keyCode === 27 || e.key === 'Escape' || e.code === 'Escape') {
+                searchBar.value = '';
+                searchGames('');
+            }
+        });
     }
 
     function findRouletteGameOptionsIndex(id) {
