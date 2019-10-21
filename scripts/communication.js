@@ -46,10 +46,15 @@ let comm = function () {
                 refreshToken: localStorage.getItem('refreshToken')
             },
             success: function (response) {
-                localStorage.setItem('accessToken', response.result.accessToken);
-                localStorage.setItem('refreshToken', response.result.refreshToken);
-                accessToken = response.result.accessToken;
-                get(action, callback, body);
+                if(response.responseCode === message.codes.success) {
+                    localStorage.setItem('accessToken', response.result.accessToken);
+                    localStorage.setItem('refreshToken', response.result.refreshToken);
+                    accessToken = response.result.accessToken;
+                    get(action, callback, body);
+                }
+                else {
+                    logOut();
+                }
             },
             fail: function () {
                 logOut();
