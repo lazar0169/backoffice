@@ -142,10 +142,12 @@ let dashboard = function () {
             if (latestPlayers.children[1]) latestPlayers.children[1].remove();
 
             if (dashboardData.topTenWinners[value].length === 0) {
-                topWinners.style.display = 'none';
+                topWinners.classList.add('hidden');
+                winnersTitle.style.display = 'none';
             }
             else {
-                topWinners.style.display = 'block';
+                topWinners.classList.remove('hidden');
+                winnersTitle.style.display = 'block';
                 topWinners.appendChild(table.generate({
                     data: dashboardData.topTenWinners[value],
                     id: '',
@@ -155,10 +157,12 @@ let dashboard = function () {
             }
 
             if (dashboardData.topTenLosers[value].length === 0) {
-                topLosers.style.display = 'none';
+                topLosers.classList.add('hidden');
+                losersTitle.style.display = 'none';
             }
             else {
-                topLosers.style.display = 'block';
+                topLosers.classList.remove('hidden');
+                losersTitle.style.display = 'block';
                 topLosers.appendChild(table.generate({
                     data: dashboardData.topTenLosers[value],
                     id: '',
@@ -168,10 +172,12 @@ let dashboard = function () {
             }
 
             if (dashboardData.latestNewPlayers[value].length === 0) {
-                latestPlayers.style.display = 'none';
+                latestPlayers.classList.add('hidden');
+                latestTitle.style.display = 'none';
             }
             else {
-                latestPlayers.style.display = 'block';
+                latestPlayers.classList.remove('hidden');
+                latestTitle.style.display = 'block';
                 latestPlayers.appendChild(table.generate({
                     data: dashboardData.latestNewPlayers[value],
                     id: '',
