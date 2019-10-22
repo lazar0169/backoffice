@@ -237,6 +237,24 @@ function isNumber(value) {
         || value.includes('%');
 }
 
+function isNumberWithPercentage(value) {
+    if(value[value.length-1] === '%'){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function isNumberWithPercentageAndHTML(value) {
+    if(value[value.length-1] === '>'){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 function getToday() {
     return new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
 }

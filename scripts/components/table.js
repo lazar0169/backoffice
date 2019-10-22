@@ -126,9 +126,16 @@ let table = function () {
             const table = t;
             order = convertToNumber(order);
             table.props.data.sort((a, b) => {
-                if (isNumber(a[col])) {
+                if (isNumberWithPercentage(a[col])) {                    
+                    return convertToNumber(a[col].slice(0, a[col].indexOf('%'))) > convertToNumber(b[col].slice(0, a[col].indexOf('%'))) ? order ? 1 : -1 : order ? -1 : 1;
+                }
+                else if (isNumberWithPercentageAndHTML(a[col])) {
+                    return convertToNumber(a[col].slice(0, a[col].indexOf('%') + 1)) > convertToNumber(b[col].slice(0, b[col].indexOf('%') + 1)) ? order ? 1 : -1 : order ? -1 : 1;
+                }
+                else if (isNumber(a[col])) {
                     return convertToNumber(a[col]) > convertToNumber(b[col]) ? order ? 1 : -1 : order ? -1 : 1;
-                } else {
+                }
+                else {
                     return a[col] > b[col] ? order ? 1 : -1 : order ? -1 : 1;
                 }
             });
