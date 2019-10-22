@@ -141,26 +141,45 @@ let dashboard = function () {
             if (topLosers.children[1]) topLosers.children[1].remove();
             if (latestPlayers.children[1]) latestPlayers.children[1].remove();
 
-            topWinners.appendChild(table.generate({
-                data: dashboardData.topTenWinners[value],
-                id: '',
-                dynamic: false,
-                sticky: true
-            }));
+            if (dashboardData.topTenWinners[value].length === 0) {
+                topWinners.style.display = 'none';
+            }
+            else {
+                topWinners.style.display = 'block';
+                topWinners.appendChild(table.generate({
+                    data: dashboardData.topTenWinners[value],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
+            }
 
-            topLosers.appendChild(table.generate({
-                data: dashboardData.topTenLosers[value],
-                id: '',
-                dynamic: false,
-                sticky: true
-            }));
+            if (dashboardData.topTenLosers[value].length === 0) {
+                topLosers.style.display = 'none';
+            }
+            else {
+                topLosers.style.display = 'block';
+                topLosers.appendChild(table.generate({
+                    data: dashboardData.topTenLosers[value],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
+            }
 
-            latestPlayers.appendChild(table.generate({
-                data: dashboardData.latestNewPlayers[value],
-                id: '',
-                dynamic: false,
-                sticky: true
-            }));
+            if (dashboardData.latestNewPlayers[value].length === 0) {
+                latestPlayers.style.display = 'none';
+            }
+            else {
+                latestPlayers.style.display = 'block';
+                latestPlayers.appendChild(table.generate({
+                    data: dashboardData.latestNewPlayers[value],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
+            }
+
 
             table.preserveHeight(playersWrapper);
         });
