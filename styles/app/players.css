@@ -92,11 +92,11 @@
 }
 
 /* PLAYER TAB */
-#players-player-history-game-search-wrapper{
+#players-player-history-game-search-wrapper {
   display: flex;
   justify-content: center;
 }
-#players-player-history-game-remove-search{
+#players-player-history-game-remove-search {
   height: 2em;
   width: 2em;
   align-self: center;
@@ -383,8 +383,8 @@
 /*END PLAYERS TAB */
 
 /* PLAYER GROUP TAB */
-#players-groups-black-overlay{
-  top:0;
+#players-groups-black-overlay {
+  top: 0;
   left: 0;
 }
 #players-main-options-wrapper {
@@ -402,7 +402,7 @@
 
 #players-groups-groups-wrapper {
   position: relative;
-    width: 38%;
+  /* width: 38%; */
 }
 
 #players-groups-groups-wrapper.shrink {
@@ -424,13 +424,20 @@
 #players-groups-main-wrapper.hidden,
 #players-groups-suggested-players-search-wrapper.hidden,
 #players-groups-all-players-search-wrapper.hidden,
-#players-groups-suggested-players-list-wrapper.hidden {
+#players-groups-suggested-players-list-wrapper.hidden,
+#players-groups-players-wrapper.hidden {
   display: none;
 }
 
 #players-groups-period-canvas-wrapper,
 #players-player-periods-canvas-wrapper {
   margin-top: 2em;
+}
+#player-groups-data-bet-graph-wrapper,
+#player-groups-data-rounds-graph-wrapper
+ {
+  float: left;
+  width: 50%;
 }
 
 #players-groups-groups-search-wrapper,
@@ -475,16 +482,23 @@
 }
 
 #players-groups-dashboard-and-players-wrapper,
-#players-groups-players-wrapper,
 #players-groups-period-graphs-wrapper {
   padding-top: 2em;
   padding-right: 3em;
   padding-left: 2em;
 }
 
+#players-groups-players-wrapper {
+  display: block;
+  padding-top: 2em;
+  /* padding-right: 3em; */
+  height: 50em;
+  width: 100%;
+}
+
 #players-groups-all-players-list-wrapper {
-  overflow: auto;
-  flex: 0.8;
+  overflow-x: hidden;
+    height: 23em;
 }
 
 #players-groups-all-players-list-wrapper table {
@@ -504,13 +518,14 @@
 }
 
 #groupsDashboardData {
-  max-height: 27em;
+  max-height: 21.8em;
 }
 
 #players-groups-suggested-players-list-wrapper {
-  height: 85%;
+  height: 71%;
   overflow: auto;
-  margin-top: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 #players-groups-suggested-players-filter-wrapper {
@@ -539,10 +554,22 @@
 }
 
 .players-groups-players-container {
-  height: 50%;
+  height: 15em;
   margin: 1em;
+  display: block;
+  float: left;
+  width: 48%;
 }
-
+#players-groups-data-wrapper {
+  flex-direction: column;
+}
+#players-groups-dashboard-and-players-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+#players-groups-dashboard-table-wrapper {
+  padding-right: 1em;
+}
 /* PLAYER GROUP FORM */
 #players-main-form {
   position: fixed;

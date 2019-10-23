@@ -50,6 +50,7 @@ let players = function () {
     let editGroupsButton = $$('#players-edit-groups');
     let groupsPlayersSaveChanged = $$('#players-groups-save-changed-players-button');
     let groupsGetSuggestedPlayersButton = $$('#players-groups-get-suggested-players-button');
+    let groupsPlayersSearchWrapper= $$('#players-groups-players-wrapper'); 
     let groupsSearchListWrapper = $$('#players-groups-groups-wrapper');
     let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
     let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
@@ -86,12 +87,13 @@ let players = function () {
     };
 
     const showGroupData = (data, id, element, name) => {
+        groupsPlayersSearchWrapper.classList.remove('hidden');
         groupNameSelected = name;
         groupIdSelected = id;
         groupsDataWrapper.classList.remove('hidden');
         groupsSuggestedPlayerWrapper.classList.add('hidden');
         groupsSuggestedPlayersSearchWrapper.classList.add('hidden');
-        groupsSearchListWrapper.classList.add('shrink');
+      //  groupsSearchListWrapper.classList.add('shrink');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `groups-data`, 1);
@@ -525,6 +527,7 @@ let players = function () {
         let portalId = $$('#players-groups-portals-list').getSelected();
         groupsDataWrapper.classList.add('hidden');
         groupsPeriodWrapper.classList.add('hidden');
+        groupsPlayersSearchWrapper.classList.add('hidden');
         $$('#players-groups-main-wrapper').classList.add('hidden');
 
         if (!portalId) {
@@ -546,7 +549,7 @@ let players = function () {
                     editGroupsButton.classList.add('hidden');
                     createList(response.result, `groups-groups`, getGroupData);
                     $$('#players-groups-main-wrapper').classList.remove('hidden');
-                    groupsSearchListWrapper.classList.remove('shrink');
+                  //  groupsSearchListWrapper.classList.remove('shrink');
                     portalIdSelected = portalId;
                 }
                 else {
@@ -898,6 +901,7 @@ let players = function () {
     const createSuggestePlayersList = (data, id) => {
         let actions = $$(`#players-groups-suggested-players-list-wrapper`);
         let serachBar = $$(`#players-groups-suggested-players-search-wrapper`);
+        let sugestedTable =  $$(`#players-groups-suggested-players-list-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
@@ -935,7 +939,9 @@ let players = function () {
             tr.appendChild(tdSimilarity);
             body.appendChild(tr);
             serachBar.classList.add('hidden');
+            sugestedTable.style.marginTop = '3em';
         } else {
+            sugestedTable.style.marginTop = '1em';
             serachBar.classList.remove('hidden');
         }
 
@@ -2111,7 +2117,9 @@ let players = function () {
         groupsListWrapper.classList.add('hidden');
         groupsDataWrapper.classList.add('hidden');
         groupsPeriodWrapper.classList.add('hidden');
-        groupsSearchListWrapper.classList.remove('shrink');
+        groupsPlayersSearchWrapper.classList.add('hidden');
+
+       // groupsSearchListWrapper.classList.remove('shrink');
         clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
     });
