@@ -276,6 +276,7 @@ let statisticGamesSummary = function () {
                     requested = true;
                 } else {
                     gamesSummaryHeader.style.display = 'none';
+                    gamesSummaryExcelButton.classList.add('hidden');
                     trigger('message', response.responseCode);
                 }
             },

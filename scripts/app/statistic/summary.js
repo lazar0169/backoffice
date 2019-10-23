@@ -208,6 +208,7 @@ let statisticSummary = function () {
                     requested = true;
                 } else {
                     summaryHeader.style.display = 'none';
+                    summaryExcelButton.classList.add('hidden');
                     trigger('message', response.responseCode);
                 }
             },
