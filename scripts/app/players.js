@@ -76,7 +76,7 @@ let players = function () {
 
     const showPlayerData = (data, playerId, name) => {
         playerDataWrapper.classList.remove('hidden');
-        playersSearchListWrapper.classList.add('shrink');
+        // playersSearchListWrapper.classList.add('shrink');
         playerIdSelected = playerId;
         playerNameSelected = name;
         showPlayerHeaderData(data.flags, data.onlineStatus);
@@ -509,7 +509,7 @@ let players = function () {
                     portalIdSelected = portalId;
                     createList(response.result, `player-players`, getPlayerData);
                     $$('#players-player-main-wrapper').classList.remove('hidden');
-                    playersSearchListWrapper.classList.remove('shrink');
+                    // playersSearchListWrapper.classList.remove('shrink');
                 }
                 else {
                     trigger('message', response.responseCode);
@@ -2137,7 +2137,7 @@ let players = function () {
         playersListWrapper.classList.add('hidden');
         playerDataWrapper.classList.add('hidden');
         playerPeriodWrapper.classList.add('hidden');
-        playersSearchListWrapper.classList.remove('shrink');
+        // playersSearchListWrapper.classList.remove('shrink');
         clearElement($$(`#players-player-portals-list`));
         clearPlayerFlags();
         afterLoad(`player`);
