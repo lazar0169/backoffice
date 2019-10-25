@@ -142,8 +142,20 @@ let dashboard = function () {
             if (latestPlayers.children[1]) latestPlayers.children[1].remove();
 
             if (dashboardData.topTenWinners[value].length === 0) {
-                topWinners.classList.add('hidden');
-                winnersTitle.style.display = 'none';
+                // topWinners.classList.add('hidden');
+                // winnersTitle.style.display = 'none';
+                topWinners.classList.remove('hidden');
+                winnersTitle.style.display = 'block';
+                topWinners.appendChild(table.generate({
+                    data: [{
+                        userFaziId: "-",
+                        userPortalId: "-",
+                        amount: "-",
+                    }],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
             }
             else {
                 topWinners.classList.remove('hidden');
@@ -157,8 +169,20 @@ let dashboard = function () {
             }
 
             if (dashboardData.topTenLosers[value].length === 0) {
-                topLosers.classList.add('hidden');
-                losersTitle.style.display = 'none';
+                // topLosers.classList.add('hidden');
+                // losersTitle.style.display = 'none';
+                topLosers.classList.remove('hidden');
+                losersTitle.style.display = 'block';
+                topLosers.appendChild(table.generate({
+                    data: [{
+                        userFaziId: "-",
+                        userPortalId: "-",
+                        amount: "-",
+                    }],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
             }
             else {
                 topLosers.classList.remove('hidden');
@@ -172,8 +196,20 @@ let dashboard = function () {
             }
 
             if (dashboardData.latestNewPlayers[value].length === 0) {
-                latestPlayers.classList.add('hidden');
-                latestTitle.style.display = 'none';
+                // latestPlayers.classList.add('hidden');
+                // latestTitle.style.display = 'none';
+                latestPlayers.classList.remove('hidden');
+                latestTitle.style.display = 'block';
+                latestPlayers.appendChild(table.generate({
+                    data: [{
+                        userFaziId: "-",
+                        userPortalId: "-",
+                        joinTime: "-",
+                    }],
+                    id: '',
+                    dynamic: false,
+                    sticky: true
+                }));
             }
             else {
                 latestPlayers.classList.remove('hidden');

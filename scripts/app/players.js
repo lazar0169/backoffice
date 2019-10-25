@@ -155,6 +155,7 @@ let players = function () {
                 row.classList.add('players-flex-wrapper');
             }
             row.style.justifyContent = 'space-between';
+            row.style.WebkitAlignItems = 'center';
             groupName.innerHTML = group.name;
             checkboxInput.type = 'checkbox';
             checkboxInput.checked = group.checked;
@@ -168,6 +169,12 @@ let players = function () {
             checkboxWrapper.appendChild(checkboxLabel);
             checkboxWrapper.appendChild(questionMark);
             checkboxWrapper.classList.add('players-player-groups-checkbox-wrapper');
+            if (IS_SAFARI) {
+                groupName.style.cssFloat = "left";
+                groupName.style.width = "50%";
+                checkboxWrapper.style.cssFloat = "right";
+                checkboxWrapper.style.width = "6%";
+            }
             row.appendChild(groupName);
             row.appendChild(checkboxWrapper);
             playerGroupsWrapper.appendChild(row);
@@ -982,7 +989,7 @@ let players = function () {
             let td = document.createElement('td');
             td.innerHTML = row.name;
             tr.dataset.id = row.id;
-            tr.onclick = function () { callback(row.id, row.name, td); td.style.color = '#dd9853'; selectedListRow ? selectedListRow.style.color = 'white' : undefined; selectedListRow = td; };
+            tr.onclick = function () { callback(row.id, row.name, td); td.style.color = '#dd9853'; selectedListRow ? selectedListRow.style.color = 'white' : '#dd9853'; selectedListRow = td; };
             tr.appendChild(td);
             body.appendChild(tr);
         }
