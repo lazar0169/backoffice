@@ -1678,13 +1678,13 @@ let configuration = function () {
             trigger('comm/currency/updateMainOptions', {
                 body: {
                     id: currencyIdSelected,
-                    denomination: $$('#configuration-currency-denomination').value,
-                    ratio: $$('#configuration-currency-ratio').value ? ratio.value : 1,
+                    denomination: popupType === 1 ? denomination.value : $$('#configuration-currency-denomination').value,
+                    ratio: $$('#configuration-currency-ratio').value ?  popupType === 2 ? ratio.value : $$('#configuration-currency-ratio').value : 1,
                 },
                 success: function (response) {
                     if (response.responseCode === message.codes.success) {
-                        $$('#configuration-currency-denomination').value = $$('#configuration-currency-denomination').value;
-                        $$('#configuration-currency-ratio').value = ratio.value;
+                        $$('#configuration-currency-denomination').value = response.result.currencyWithBetGroup.denomination;
+                        $$('#configuration-currency-ratio').value = response.result.currencyWithBetGroup.realImaginaryCurrencyRatio;
                         createTable(response.result);
                         hide();
                     }
