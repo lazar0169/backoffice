@@ -431,6 +431,7 @@
 #players-groups-black-overlay {
   top: 0;
   left: 0;
+  position: fixed;
 }
 #players-main-options-wrapper {
   display: flex;

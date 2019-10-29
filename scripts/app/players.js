@@ -297,7 +297,7 @@ let players = function () {
 
     const showGroupsAllPlayersData = (players, id, element) => {
         groupsPlayersSaveChanged.onclick = () => {
-            getGroupData(id, undefined, element);
+            getGroupData(id, element.textContent, element);
         };
         groupsGetSuggestedPlayersButton.onclick = () => {
             addLoader(groupsGetSuggestedPlayersButton);
