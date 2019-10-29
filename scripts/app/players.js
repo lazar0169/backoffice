@@ -979,7 +979,7 @@ let players = function () {
 
     const createList = (data, section, callback) => {
         let actions = $$(`#players-${section}-table-wrapper`);
-        let serachBar = $$(`#players-${section}-search-wrapper`);
+        let serachBar = $$(`#players-${section}-search-wrapper`); 
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }

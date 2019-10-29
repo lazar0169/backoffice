@@ -347,6 +347,10 @@
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
+#players-main-black-overlay{
+  z-index: 2;
+  top: 0;
+}
 #players-main-settings-wrapper .cell {
   max-height: 1.4em;
 }
