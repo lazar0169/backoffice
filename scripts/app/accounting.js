@@ -91,12 +91,18 @@ let accounting = function () {
         }
     }
 
-    function generateReport(data, sum) {
+    function generateReport(data, sum = undefined) {
         let array = getCopy(data);
-        let title = sum.gameName;
-        let newSum = getCopy(sum);
-        newSum[Object.keys(sum)[0]] = 'Sum';
-        array.push(newSum);
+        let title;
+        if(sum){
+            title = sum.gameName;
+            let newSum = getCopy(sum);
+            newSum[Object.keys(sum)[0]] = 'Sum';
+            array.push(newSum);
+        }
+        else {
+            title = data[0].gameName;
+        }
 
         let columns = [];
         for (let col of Object.keys(array[0])) {
@@ -310,7 +316,8 @@ let accounting = function () {
         else {
             companyPageReports.appendChild(document.createElement('hr'));
             companyPageReports.appendChild(generateHeadline(specificOperatorData.operatorAccountingSum.gameName));
-            companyPageReports.appendChild(table.generate({ data: [specificOperatorData.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
+            companyPageReports.appendChild(table.generate({ data: [specificOperatorData.operatorAccountingSum], id: '', dynamic: false, sticky: true }));     
+            generateReport([specificOperatorData.operatorAccountingSum]);
         }
         table.preserveHeight(companyPageReports);
 
@@ -478,7 +485,7 @@ let accounting = function () {
                             pageReports.appendChild(document.createElement('hr'));
                             pageReports.appendChild(generateHeadline(response.result.operatorAccountingSum.gameName));
                             pageReports.appendChild(table.generate({ data: [response.result.operatorAccountingSum], id: '', dynamic: false, sticky: true }));
-
+                            generateReport([response.result.operatorAccountingSum]);
                         }
 
                         table.preserveHeight(pageReports);
