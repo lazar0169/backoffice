@@ -556,6 +556,8 @@ let accounting = function () {
 
     // Creates operators list
     function createList(data) {
+        let input = $$('#accounting-setup-search');
+        input.value = '';
         let actions = $$(`#accounting-operators-table`);
         let serachBar = $$(`#accounting-setup-search-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
@@ -575,7 +577,6 @@ let accounting = function () {
         actions.classList.remove('hidden');
         serachBar.classList.remove('hidden');
 
-        let input = $$('#accounting-setup-search');
 
         input.oninput = () => {
             searchOperators(body, input.value);

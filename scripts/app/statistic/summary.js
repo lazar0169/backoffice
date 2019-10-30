@@ -169,7 +169,7 @@ let statisticSummary = function () {
                     let payoutData = [];
 
                     for (let row of response.result.statisticsPerDate) {
-                        labels.push(convertToNumber(row.period));
+                        labels.push(row.period);
                         totalBetData.push(convertToNumber(row.totalBet));
                         totalWinData.push(convertToNumber(row.totalWin));
                         roundsData.push(convertToNumber(row.rounds));
