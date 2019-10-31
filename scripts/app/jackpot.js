@@ -227,6 +227,7 @@ let jackpot = function () {
 
     on('jackpot/active/loaded', function () {
         addLoader($$('#sidebar-jackpot'));
+        $$('#activeJackpotTable').innerHTML = '';
         getActiveJackpotsTable();
     });
 
