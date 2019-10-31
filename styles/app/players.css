@@ -366,7 +366,7 @@
 #winnersAndLosersFromLast24Hours,
 #largestWins,
 #largestBets {
-  height: 22rem;
+  height: 16rem;
   overflow: auto;
 }
 #interestingPlayersData,
@@ -375,7 +375,7 @@
 #largestBetsData,
 #largestWinsData,
 #winnersAndLosersFromLast24HoursData {
-  max-height: 26em;
+  max-height: 19em;
 }
 #players-get-main.hidden {
   display: none;
@@ -417,14 +417,14 @@
   margin-left: 0.5%;
 }
 
-#players-interesting-players-title,
+/* #players-interesting-players-title,
 #players-latest-players-title,
 #players-players-groups-title,
 #players-largest-bets-title,
 #players-largest-wins-title,
 #players-winners-losers-title {
   display: none;
-}
+} */
 
 #players-main-title-id-player {
   margin-left: 0.5em;

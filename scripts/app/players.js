@@ -50,7 +50,7 @@ let players = function () {
     let editGroupsButton = $$('#players-edit-groups');
     let groupsPlayersSaveChanged = $$('#players-groups-save-changed-players-button');
     let groupsGetSuggestedPlayersButton = $$('#players-groups-get-suggested-players-button');
-    let groupsPlayersSearchWrapper= $$('#players-groups-players-wrapper'); 
+    let groupsPlayersSearchWrapper = $$('#players-groups-players-wrapper');
     let groupsSearchListWrapper = $$('#players-groups-groups-wrapper');
     let groupsSearchWrapper = $$('#players-groups-groups-search-wrapper');
     let groupsListWrapper = $$('#players-groups-groups-table-wrapper');
@@ -93,7 +93,7 @@ let players = function () {
         groupsDataWrapper.classList.remove('hidden');
         groupsSuggestedPlayerWrapper.classList.add('hidden');
         groupsSuggestedPlayersSearchWrapper.classList.add('hidden');
-      //  groupsSearchListWrapper.classList.add('shrink');
+        //  groupsSearchListWrapper.classList.add('shrink');
         showGroupsDashboardData(data.dashboard);
         showGroupsPlayersData(data.players);
         showPeriodData(data.avgBetPerHour, data.roundsPerHour, `groups-data`, 1);
@@ -556,7 +556,7 @@ let players = function () {
                     editGroupsButton.classList.add('hidden');
                     createList(response.result, `groups-groups`, getGroupData);
                     $$('#players-groups-main-wrapper').classList.remove('hidden');
-                  //  groupsSearchListWrapper.classList.remove('shrink');
+                    //  groupsSearchListWrapper.classList.remove('shrink');
                     portalIdSelected = portalId;
                 }
                 else {
@@ -908,7 +908,7 @@ let players = function () {
     const createSuggestePlayersList = (data, id) => {
         let actions = $$(`#players-groups-suggested-players-list-wrapper`);
         let serachBar = $$(`#players-groups-suggested-players-search-wrapper`);
-        let sugestedTable =  $$(`#players-groups-suggested-players-list-wrapper`);
+        let sugestedTable = $$(`#players-groups-suggested-players-list-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
@@ -979,7 +979,7 @@ let players = function () {
 
     const createList = (data, section, callback) => {
         let actions = $$(`#players-${section}-table-wrapper`);
-        let serachBar = $$(`#players-${section}-search-wrapper`); 
+        let serachBar = $$(`#players-${section}-search-wrapper`);
         if (actions.getElementsByTagName('table')[0].getElementsByTagName('tbody').length !== 0) {
             actions.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].remove();
         }
@@ -1945,10 +1945,45 @@ let players = function () {
     }
 
     const isEmpty = (obj) => {
-        return Object.keys(obj).length === 0;
+        return (Object.keys(obj).length === 0 || typeof (obj) === "undefined");
     }
 
     const getPlayers = () => {
+        let emptyDataInterestingLatestPlayers = [{
+            Player: "-",
+            Bet: "-",
+            Win: "-",
+            JackpotWin: "-",
+            GGR: "-",
+            Payout: "-",
+            Rounds: "-",
+            LargestSingleWin: "-"
+        }];
+        let emptyDataPlayersGroups = [{
+            PlayerGroup: "-",
+            Bet: "-",
+            Win: "-",
+            JackpotWin: "-",
+            TotalWin: "-",
+            GGR: "-",
+            Payout: "-",
+            Rounds: "-",
+            LargestSingleWin: "-"
+        }];
+        let emptyDataLargestBetsWins = [{
+            Player: "-",
+            Game: "-",
+            Amount: "-"
+        }];
+        let emptyDataWinnersLosers = [{
+            Player: "-",
+            Bet: "-",
+            Win: "-",
+            GGR: "-",
+            Rounds: "-",
+            AvgBet: "-"
+        }];
+
         if (!$$('#players-main-portals-list').getSelected()) {
             $$('#players-main-settings-wrapper').style.display = 'none'
             trigger('message', message.codes.badParameter);
@@ -1987,10 +2022,12 @@ let players = function () {
                     }))
                     // table.preserveHeight($$('#interestingPlayersTable'));
                     if (isEmpty(interestingPlayersData) === true) {
-                        $$(`#players-interesting-players-title`).style.display = 'none';
-
-                    } else {
-                        $$(`#players-interesting-players-title`).style.display = 'block';
+                        $$('#interestingPlayersTable').innerHTML = '';
+                        $$('#interestingPlayersTable').appendChild(table.generate({
+                            data: emptyDataInterestingLatestPlayers,
+                            id: 'interestingPlayersData',
+                            canSearch: true
+                        }))
                     }
 
                     latestPlayersData = response.result.latestPlayers;
@@ -2008,12 +2045,14 @@ let players = function () {
                     }))
                     // table.preserveHeight($$('#latestPlayersTable'));
                     if (isEmpty(latestPlayersData) === true) {
-                        $$(`#players-latest-players-title`).style.display = 'none';
+                        $$('#latestPlayersTable').innerHTML = '';
+                        $$('#latestPlayersTable').appendChild(table.generate({
+                            data: emptyDataInterestingLatestPlayers,
+                            id: 'latestPlayersData',
+                            canSearch: true,
 
-                    } else {
-                        $$(`#players-latest-players-title`).style.display = 'block';
+                        }))
                     }
-
 
                     playersGroupsData = response.result.playersGroups;
                     $$('#PlayersGroupsTable').innerHTML = '';
@@ -2030,10 +2069,12 @@ let players = function () {
                     }))
                     // table.preserveHeight($$('#PlayersGroupsTable'));
                     if (isEmpty(playersGroupsData) === true) {
-                        $$(`#players-players-groups-title`).style.display = 'none';
-
-                    } else {
-                        $$(`#players-players-groups-title`).style.display = 'block';
+                        $$('#PlayersGroupsTable').innerHTML = '';
+                        $$('#PlayersGroupsTable').appendChild(table.generate({
+                            data: emptyDataPlayersGroups,
+                            id: 'playersGroupsData',
+                            canSearch: true,
+                        }))
                     }
 
                     largestBetsData = response.result.largestBets;
@@ -2046,13 +2087,15 @@ let players = function () {
                         canSearch: true,
                         stickyCol: true
                     }))
-                    // table.preserveHeight($$('#largestBets'));
-
 
                     if (isEmpty(largestBetsData) === true) {
-                        $$(`#players-largest-bets-title`).style.display = 'none';
-                    } else {
-                        $$(`#players-largest-bets-title`).style.display = 'block';
+                        $$('#largestBets').innerHTML = '';
+                        $$('#largestBets').appendChild(table.generate({
+                            data: emptyDataLargestBetsWins,
+                            id: 'largestBetsData',
+                            canSearch: true,
+
+                        }))
                     }
 
                     largestWinsData = response.result.largestWins;
@@ -2068,9 +2111,12 @@ let players = function () {
                     // table.preserveHeight($$('#largestWins'));
 
                     if (isEmpty(largestBetsData) === true) {
-                        $$(`#players-largest-wins-title`).style.display = 'none';
-                    } else {
-                        $$(`#players-largest-wins-title`).style.display = 'block';
+                        $$('#largestWins').innerHTML = '';
+                        $$('#largestWins').appendChild(table.generate({
+                            data: emptyDataLargestBetsWins,
+                            id: 'largestWinsData',
+                            canSearch: true
+                        }))
                     }
 
 
@@ -2088,9 +2134,12 @@ let players = function () {
 
 
                     if (isEmpty(largestBetsData) === true) {
-                        $$(`#players-winners-losers-title`).style.display = 'none';
-                    } else {
-                        $$(`#players-winners-losers-title`).style.display = 'block';
+                        $$('#winnersAndLosersFromLast24Hours').innerHTML = '';
+                        $$('#winnersAndLosersFromLast24Hours').appendChild(table.generate({
+                            data: emptyDataWinnersLosers,
+                            id: 'winnersAndLosersFromLast24HoursData',
+                            canSearch: true
+                        }))
                     }
                 }
                 else {
@@ -2126,7 +2175,7 @@ let players = function () {
         groupsPeriodWrapper.classList.add('hidden');
         groupsPlayersSearchWrapper.classList.add('hidden');
 
-       // groupsSearchListWrapper.classList.remove('shrink');
+        // groupsSearchListWrapper.classList.remove('shrink');
         clearElement($$(`#players-groups-portals-list`));
         afterLoad('groups');
     });
