@@ -67,6 +67,13 @@
     width: 100%;
 }
 
+#total-portals-black-overlay,
+#portals-black-overlay,
+#players-black-overlay {
+    top: 0;
+    position: fixed;
+}
+
 #management-main-table.hidden,
 #management-players-table.hidden,
 #management-portals-table.hidden {
