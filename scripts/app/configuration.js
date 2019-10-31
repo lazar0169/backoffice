@@ -1969,6 +1969,9 @@ let configuration = function () {
 
     function createTable(data) {
         let wrapperTable = $$(`#configuration-currency-games-table`).getElementsByTagName('table')[0];
+        let searchBar = $$('#configuration-currency-games-search');
+        searchBar.value = '';
+
         if(wrapperTable.children.length !== 0) {
             wrapperTable.innerHTML = '';
         }
@@ -1978,7 +1981,6 @@ let configuration = function () {
         captionDiv.innerHTML = 'Games';
         wrapperTable.appendChild(caption);
         caption.appendChild(captionDiv);
-        let searchBar = $$('#configuration-currency-games-search');
         let searchBarCancelButton = $$('#configuration-currency-games-remove-search');
         let body = document.createElement('tbody');
         wrapperTable.appendChild(body);
