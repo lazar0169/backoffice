@@ -213,6 +213,11 @@
     box-shadow: 0 0 2.5em 0em rgba(0, 0, 0, 0.3);
     transform: translate3d(0, -25%, 0);
     opacity: 0;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     pointer-events: none;
     overflow: hidden;
     transition: transform 0.3s, opacity 0.3s;
