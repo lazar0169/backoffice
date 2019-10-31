@@ -347,6 +347,11 @@
 /* END PLAYER TAB */
 
 /* PLAYERS TAB */
+
+#players-main-black-overlay {
+  position: fixed;
+}
+
 #players-main-black-overlay{
   z-index: 2;
   top: 0;
@@ -615,6 +620,7 @@
 #players-groups-dashboard-table-wrapper {
   padding-right: 1em;
 }
+
 /* PLAYER GROUP FORM */
 #players-main-form {
   position: fixed;
