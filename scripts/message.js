@@ -59,7 +59,7 @@ const message = function () {
         909: 'You have successfuly created a new operator. Taxes for new operator can be configured in <pre style="color: greenyellow">ACCOUNTING &#8250; SETUP</pre> tab. <br><br><button>OK</button>',
         910: '<pre style="color: #50ff51;">&#9733; &#9733; &#9733;</pre> Welcome %s <pre style="color: #50ff51;">&#9733; &#9733; &#9733;</pre>',
         1000: 'Successful!',
-        1001: 'Please check you parameters.',
+        1001: 'Please check your parameters.',
         2001: 'User name does not exist! Please contact your administrator.',
         2002: 'Wrong password. If you have forgot password, please contact administrator for password reset.',
         2003: 'You have entered wrong PIN! Attempts left: %s. Contact administrator if you didn\'t recived mail with PIN.',
