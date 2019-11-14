@@ -237,7 +237,7 @@ let dashboard = function () {
         if (dashboardData.pieChart.length === 0) {
             $$('#dashboard-players-chart-title').style.display = 'none';
         } else {
-            $$('#dashboard-players-chart-title').style.display = 'none';
+            $$('#dashboard-players-chart-title').style.display = 'block';
         }
         for (let chart of dashboardData.pieChart) {
             labels.push(chart.portalName);
@@ -256,7 +256,9 @@ let dashboard = function () {
         chart.data.datasets[0].backgroundColor = colors;
         chart.data.labels = labels;
 
-        chart.data.hiddenSlices = hiddenSlices;
+        if (dashboardData.pieChart.length > 5) {
+            chart.data.hiddenSlices = hiddenSlices;
+        }
         // chart.options.legend.display = !isMobile()
         $$('#dashboard-chart-wrapper').style.display = isMobile() ? 'none' : 'block';
         chart.update();

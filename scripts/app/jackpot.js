@@ -115,13 +115,14 @@ let jackpot = function () {
             trigger('message', message.codes.badParameter);
             return
         }
+        
         trigger('comm/configuration/jackpot/portal/get', {
             body: {
                 id: $$('#configuration-jackpot-portals-list').getSelected(),
             },
             success: function (response) {
                 removeLoader($$('#jackpot-get-settings-button'));
-                if (response.responseCode === 1000 && !response.result.isEmpty()) {
+                if (response.responseCode === message.codes.success) {
                     if (isEmpty(response.result) === true) {
                         trigger('message', message.codes.noData);
                         $$('#jackpotPortalSettingsTable').style.display = 'none'
