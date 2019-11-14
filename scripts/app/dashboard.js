@@ -99,6 +99,7 @@ let dashboard = function () {
     });
 
     on('dashboard/players/loaded', function () {
+
         chart.options.isSlicesHidden = false;
         playersWrapper.innerHTML = '';
         filters.innerHTML = '';
@@ -232,6 +233,12 @@ let dashboard = function () {
         let labels = [];
         let values = [];
         let hiddenSlices = [5];
+
+        if (dashboardData.pieChart.length === 0) {
+            $$('#dashboard-players-chart-title').style.display = 'none';
+        } else {
+            $$('#dashboard-players-chart-title').style.display = 'none';
+        }
         for (let chart of dashboardData.pieChart) {
             labels.push(chart.portalName);
             values.push(chart.numberOfNewPlayers);
