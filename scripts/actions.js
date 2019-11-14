@@ -142,6 +142,7 @@ const actions = Object.freeze({
     'comm/playerGroups/getOperators': '/PlayerGroup/get-operators',
     'comm/playerGroups/getPortals': '/PlayerGroup/get-portals-of-operator',
     'comm/playerGroups/getCompleteGroup': '/PlayerGroup/get-complete-player-group',
+    'comm/playerGroups/getCompleteGroupChange': '/PlayerGroup/get-complete-player-group-on-change',
     'comm/playerGroups/getGroupsBySubstring': '/PlayerGroup/get-suggested-players-by-substring',
     'comm/playerGroups/addPlayer': '/PlayerGroup/add-player',
     'comm/playerGroups/removePlayer': '/PlayerGroup/delete-player',
