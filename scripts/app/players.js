@@ -297,7 +297,7 @@ let players = function () {
 
     const showGroupsAllPlayersData = (players, id, element) => {
         groupsPlayersSaveChanged.onclick = () => {
-            getGroupData(id, element.textContent, element);
+            getGroupData(id, element.textContent, element, true);
         };
         groupsGetSuggestedPlayersButton.onclick = () => {
             addLoader(groupsGetSuggestedPlayersButton);
@@ -593,9 +593,9 @@ let players = function () {
         });
     };
 
-    const getGroupData = (id, name, element) => {
+    const getGroupData = (id, name, element, refresh) => {
         addLoader(element);
-        trigger('comm/playerGroups/getCompleteGroup', {
+        trigger(refresh ? 'comm/playerGroups/getCompleteGroupChange' : 'comm/playerGroups/getCompleteGroup', {
             body: {
                 id: id
             },
