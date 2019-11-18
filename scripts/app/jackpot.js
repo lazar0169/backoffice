@@ -43,12 +43,6 @@ let jackpot = function () {
         trigger('comm/accounting/operators/get', {
             success: function (response) {
                 if (response.responseCode === message.codes.success) {
-                    // Prevent operator change
-                    if (roles.getRole() === 'Manager') {
-                        response = {
-                            responseCode: 1000
-                        };
-                    }
                     loadJackpotOperators(response);
                 } else {
                     trigger('message', response.responseCode);
