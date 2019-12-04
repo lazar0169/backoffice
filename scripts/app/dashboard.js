@@ -83,8 +83,14 @@ let dashboard = function () {
     on('dashboard/jackpots/loaded', function () {
         if (!dashboardData) return;
         jackpots.innerHTML = '';
+        let flagOne = 0;
+        let flagTwo = 0;
         for (let jackpot in dashboardData.jackpots.jackpots) {
-            if (dashboardData.jackpots.jackpots[jackpot].dashboardJackpots.length === 0) continue;
+            flagOne++;
+            if (dashboardData.jackpots.jackpots[jackpot].dashboardJackpots.length === 0) {
+                flagTwo++
+                continue;
+            };
             let header = document.createElement('h2');
             header.innerHTML = `${transformCamelToRegular(jackpot)} Jackpot`;
             jackpots.appendChild(header);
@@ -94,6 +100,9 @@ let dashboard = function () {
                 dynamic: false,
                 sticky: true
             }));
+        }
+        if(flagOne == flagTwo){
+            trigger('message', message.codes.noData);
         }
         table.preserveHeight(jackpots);
     });
