@@ -6,7 +6,8 @@ let comm = function () {
         accessToken = localStorage.getItem('accessToken');
         fetch(apiUrl + action, {
             method: 'POST',
-            credentials: 'include',
+            // 'omit' is used instead of 'include' to enable Origin: '*'
+            credentials: 'omit',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',

@@ -16,6 +16,7 @@ let roles = function () {
             '#configuration-actions',
             '#configuration-roles',
             '#configuration-navbar-currency',
+            '#sidebar-management'
         ],
         'Accounting': [
             '#sidebar-operators',
