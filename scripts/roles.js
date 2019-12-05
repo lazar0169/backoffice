@@ -22,6 +22,7 @@ let roles = function () {
             '#sidebar-operators',
             '#configuration-actions',
             '#configuration-roles',
+            '#configuration-currency'
         ]
     };
 
