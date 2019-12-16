@@ -136,6 +136,8 @@ const login = function () {
                 inputPin: $$('#login-pin').value
             },
             success: function (response) {
+                localStorage.setItem('accessToken', response.result.accessToken);
+                localStorage.setItem('refreshToken', response.result.refreshToken);
                 $$('#login-form').classList.remove('disabled');
                 removeLoader(pinBtn);
                 trigger('message', response.result ? response.responseCode : response.responseCode, response.result);

@@ -144,6 +144,22 @@ let players = function () {
 
     const showPlayerGroupsData = (data) => {
         playerGroupsWrapper.innerHTML = "";
+        if (data.length === 0) {
+            const row = document.createElement('div');
+            const groupName = document.createElement('h3');
+            row.style.justifyContent = 'space-between';
+            row.style.WebkitAlignItems = 'center';
+            groupName.innerHTML = '-';
+            if (!IS_SAFARI) {
+                row.classList.add('players-flex-wrapper');
+            } else {
+                groupName.style.cssFloat = "left";
+                groupName.style.width = "50%";
+            }
+            row.appendChild(groupName);
+            playerGroupsWrapper.appendChild(row);
+            return;
+        }
         for (let group of data) {
             const row = document.createElement('div');
             const groupName = document.createElement('h3');
